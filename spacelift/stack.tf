@@ -53,6 +53,4 @@ module "stack" {
     github_enterprise = {
         namespace = try(each.value.github_enterprise.namespace, null)
     }
-
-    depends_on = []
 }
