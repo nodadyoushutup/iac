@@ -3,7 +3,7 @@ data "spacelift_module" "stack" {
 }
 
 output "stack" {
-  value = spacelift_module.stack
+  value = data.spacelift_module.stack
 }
 
 # module "component" {
