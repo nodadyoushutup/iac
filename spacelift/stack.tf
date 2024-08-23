@@ -55,11 +55,14 @@ module "stack" {
     }
 
     depends_on = [
-        spacelift_module.spacelift_stack,
-        spacelift_module.spacelift_component,
-        spacelift_module.proxmox_virtual_machine,
-        spacelift_module.fortigate_vip,
-        spacelift_module.fortigate_policy,
-        spacelift_module.fortigate_port_forward,
-    ]
+    for mod in [
+      { module = spacelift_module.spacelift_stack, version = null },
+      { module = spacelift_module.spacelift_component, version = null },
+      { module = spacelift_module.proxmox_virtual_machine, version = local.proxmox_version },
+      { module = spacelift_module.fortigate_vip, version = local.fortigate_vip_version },
+      { module = spacelift_module.fortigate_policy, version = local.fortigate_policy_version },
+      { module = spacelift_module.fortigate_port_forward, version = local.fortigate_port_forward_version },
+    ] : mod.module
+    if mod.version != null
+  ]
 }
