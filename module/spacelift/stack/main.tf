@@ -9,12 +9,22 @@ resource "spacelift_stack" "stack" {
   labels              = var.labels
   project_root        = var.project_root
 
-  ## OPTIONAL (No Global)
+  ## OPTIONAL (NO GLOBAL)
   import_state = try(var.import_state, try(local.config.global.stack.import_state, null))
   import_state_file = try(var.import_state_file, try(local.config.global.stack.import_state_file, null))
   
   ## OPTIONAL ##
-  space_id = try(var.space_id, try(try(local.stack.space_id, local.config.stack.space_id), null))
+  # TODO: Break down these to formatted blocks to reduce line length
+  space_id = try(
+    var.space_id, 
+    try(
+      try(
+        local.stack.space_id, 
+        local.config.stack.space_id
+      ), 
+      null
+    )
+  )
   administrative = try(var.administrative, try(try(local.stack.administrative, local.config.stack.administrative), null))
   autodeploy = try(var.autodeploy, try(try(local.stack.autodeploy, local.config.stack.autodeploy), null))
   terraform_version = try(var.terraform_version, try(try(local.stack.terraform_version, local.config.stack.terraform_version), null))
@@ -28,7 +38,7 @@ resource "spacelift_stack" "stack" {
   terraform_smart_sanitization = try(var.terraform_smart_sanitization, try(try(local.stack.terraform_smart_sanitization, local.config.stack.terraform_smart_sanitization), null))
   terraform_workflow_tool = try(var.terraform_workflow_tool, try(try(local.stack.terraform_workflow_tool, local.config.stack.terraform_workflow_tool), null))
 
-  ## HOOKS ##
+  ## HOOK ##
   before_apply = try(var.before.apply, try(try(local.stack.before.apply, local.config.global.stack.before.apply), null))
   before_destroy = try(var.before.destroy, try(try(local.stack.before.destroy, local.config.global.stack.before.destroy), null))
   before_init = try(var.before.init, try(try(local.stack.before.init, local.config.global.stack.before.init), null))
@@ -41,11 +51,11 @@ resource "spacelift_stack" "stack" {
   after_plan = try(var.after.plan, try(try(local.stack.after.plan, local.config.global.stack.after.plan), null))
   after_run = try(var.after.run, try(try(local.stack.after.run, local.config.global.stack.after.run), null))
   
+  ## OBJECT ##
   dynamic "github_enterprise" {
-    # for_each = try(var.github_enterprise, null) != null ? [var.github_enterprise] : []
-    for_each = try(var.github_enterprise, null) != null ? [1] : []
+    for_each = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null)) != null ? [1] : []
     content {
-      namespace = try(var.github_enterprise, try(local.config.global.stack.github_enterprise, null))
+      namespace = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null))
     }
   }
 
