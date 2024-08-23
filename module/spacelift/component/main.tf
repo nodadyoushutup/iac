@@ -89,7 +89,7 @@ module "infra" {
         local.stack.infra.github_enterprise.namespace, 
         local.config.global.stack.github_enterprise.namespace
     ),
-    ""
+    null
     )
   }
   additional_project_globs = try(
