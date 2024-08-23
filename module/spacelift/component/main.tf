@@ -83,15 +83,17 @@ module "infra" {
       ), 
       null
   )
-  github_enterprise = { 
-    namespace = try(
-    try(
-        local.stack.infra.github_enterprise.namespace, 
-        local.config.global.stack.github_enterprise.namespace
-    ),
-    null
-    )
-  }
+  # github_enterprise = { 
+  #   namespace = try(
+  #   try(
+  #       local.stack.infra.github_enterprise.namespace, 
+  #       local.config.global.stack.github_enterprise.namespace
+  #   ),
+  #   null
+  #   )
+  # }
+  github_enterprise = try(local.stack.github_enterprise, {})
+  
   additional_project_globs = try(
       try(
         local.stack.infra.additional_project_globs, 
