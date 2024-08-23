@@ -5,13 +5,19 @@ module "infra" {
 
   # REQUIRED
   name = try(local.stack.infra.name, "${var.component}_infra")
-  repository = try(local.stack.infra.repository, var.component)
+  repository = try(
+    try(
+      local.stack.infra.repository, 
+      local.config.global.stack.repository
+    ), 
+    null
+  )
   branch = try(
-      try(
-        local.stack.infra.branch, 
-        local.config.global.stack.branch
-      ), 
-      null
+    try(
+      local.stack.infra.branch, 
+      local.config.global.stack.branch
+    ), 
+    null
   )
 
   # UNIQUE
@@ -27,7 +33,7 @@ module "infra" {
         local.stack.infra.project_root, 
         local.config.global.stack.project_root
       ), 
-      "infra"
+      "${var.component}/infra"
   )
   labels = try(
       try(
@@ -218,7 +224,13 @@ module "init" {
 
   # REQUIRED
   name = try(local.stack.init.name, "${var.component}_init")
-  repository = try(local.stack.init.repository, var.component)
+  repository = try(
+    try(
+      local.stack.init.repository, 
+      local.config.global.stack.repository
+    ), 
+    null
+  )
   branch = try(
       try(
         local.stack.init.branch, 
@@ -236,11 +248,11 @@ module "init" {
       "${var.component} initstructure"
   )
   project_root = try(
-      try(
-        local.stack.init.project_root, 
-        local.config.global.stack.project_root
-      ), 
-      "init"
+    try(
+      local.stack.infra.project_root, 
+      local.config.global.stack.project_root
+    ), 
+    "${var.component}/init"
   )
   labels = try(
       try(
@@ -431,7 +443,13 @@ module "config" {
 
   # REQUIRED
   name = try(local.stack.config.name, "${var.component}_config")
-  repository = try(local.stack.config.repository, var.component)
+  repository = try(
+    try(
+      local.stack.config.repository, 
+      local.config.global.stack.repository
+    ), 
+    null
+  )
   branch = try(
       try(
         local.stack.config.branch, 
@@ -449,11 +467,11 @@ module "config" {
       "${var.component} configstructure"
   )
   project_root = try(
-      try(
-        local.stack.config.project_root, 
-        local.config.global.stack.project_root
-      ), 
-      "config"
+    try(
+      local.stack.config.project_root, 
+      local.config.global.stack.project_root
+    ), 
+    "${var.component}/init"
   )
   labels = try(
       try(

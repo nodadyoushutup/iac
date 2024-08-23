@@ -7,6 +7,7 @@ variable "name" {
 variable "repository" {
   description = "Repository URL for the Spacelift stack."
   type        = string
+  default = "iac"
 }
 
 variable "branch" {
