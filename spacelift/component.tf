@@ -1,5 +1,5 @@
 data "spacelift_module" "stack" {
-  module_id = "stack"
+  module_id = "terraform-spacelift-stack"
 }
 
 output "stack" {
