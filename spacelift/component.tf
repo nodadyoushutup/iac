@@ -3,4 +3,5 @@ module "component" {
   for_each = { for component in local.config.component : component => component }
   
   component = each.value
+  repository = "nodad"
 }

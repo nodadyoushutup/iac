@@ -14,12 +14,12 @@ module "infra" {
   # )
   repository = try(
     var.repository, try(
-        try(
-            local.stack.infra.repository, 
-            local.config.global.stack.repository
-          ), 
-        null
-      ), 
+      try(
+          local.stack.infra.repository, 
+          local.config.global.stack.repository
+        ), 
+      null
+    ), 
     null
   )
   branch = try(
