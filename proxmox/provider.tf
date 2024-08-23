@@ -8,17 +8,17 @@ terraform {
   }
 }
 provider "proxmox" {
-  endpoint = local.provider.proxmox.endpoint
-  api_token = local.provider.proxmox.api_token
-  insecure  = local.provider.proxmox.insecure
+  endpoint = local.config.provider.proxmox.endpoint
+  api_token = local.config.provider.proxmox.api_token
+  insecure  = local.config.provider.proxmox.insecure
   ssh {
-    agent = local.provider.proxmox.ssh.agent
-    agent_socket = local.provider.proxmox.ssh.agent_socket
-    username = local.provider.proxmox.ssh.username
+    agent = local.config.provider.proxmox.ssh.agent
+    agent_socket = local.config.provider.proxmox.ssh.agent_socket
+    username = local.config.provider.proxmox.ssh.username
     private_key = file("/mnt/workspace/proxmox.pem")
     node {
-      name = local.provider.proxmox.ssh.node.name
-      address = local.provider.proxmox.ssh.node.address
+      name = local.config.provider.proxmox.ssh.node.name
+      address = local.config.provider.proxmox.ssh.node.address
     }
   }
 }

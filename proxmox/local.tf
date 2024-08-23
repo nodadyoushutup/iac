@@ -1,3 +1,3 @@
 locals {
-  provider = yamldecode(file("/mnt/workspace/provider.yaml"))
+  config = yamldecode(file("/mnt/workspace/config.yaml"))
 }
