@@ -64,3 +64,14 @@
 #     labels              = ["infra", "spacelift"]
 # }
 
+locals {
+  stack_exists = contains([for stack in data.spacelift_module.stack : stack], "stack")
+}
+
+resource "null_resource" "placeholder" {
+  count = local.stack_exists ? 0 : 1
+}
+
+output "stack_data" {
+  value = local.stack_exists ? data.spacelift_module.stack : {}
+}
