@@ -1,7 +1,7 @@
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name                = var.name
-  repository          = var.branch != null ? var.branch : try(local.config.global.stack.branch, null) != null  ? local.config.global.stack.branch : "iac"
+  repository          = var.repository != null ? var.repository : try(local.config.global.stack.repository, null) != null  ? local.config.global.stack.repository : "iac"
   branch              = var.branch != null ? var.branch : try(local.config.global.stack.branch, null) != null  ? local.config.global.stack.branch : "main"
 
   ## UNIQUE ##
