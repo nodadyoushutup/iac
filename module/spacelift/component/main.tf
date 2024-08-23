@@ -92,7 +92,7 @@ module "infra" {
   #   null
   #   )
   # }
-  github_enterprise = try(local.stack.github_enterprise, {})
+  github_enterprise = null
   
   additional_project_globs = try(
       try(
