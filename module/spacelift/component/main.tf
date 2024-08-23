@@ -92,7 +92,12 @@ module "infra" {
   #   null
   #   )
   # }, null)
-  github_enterprise = try(local.stack.infra.github_enterprise, try(local.config.global.stack.github_enterprise, null))
+  # github_enterprise = try(local.stack.infra.github_enterprise, try(local.config.global.stack.github_enterprise, null))
+  github_enterprise = try(
+    {
+      namespace = try(local.stack.infra.github_enterprise.namespace, try(local.config.global.stack.github_enterprise.namespace, null))
+    }, 
+    try(local.stack.infra.github_enterprise, try(local.config.global.stack.github_enterprise, null)))
   
   additional_project_globs = try(
       try(
