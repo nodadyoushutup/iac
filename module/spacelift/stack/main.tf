@@ -14,7 +14,7 @@ resource "spacelift_stack" "stack" {
   import_state_file = try(var.import_state_file, try(local.config.global.stack.import_state_file, null))
   
   ## OPTIONAL ##
-  space_id = try(var.space_id, try(local.config.global.stack.space_id, null))
+  space_id = try(var.space_id, try(try(local.stack.space_id, local.config.stack.space_id), null))
   administrative = try(var.administrative, try(local.config.global.stack.administrative, null))
   autodeploy = try(var.autodeploy, try(local.config.global.stack.autodeploy, null))
   terraform_version = try(var.terraform_version, try(local.config.global.stack.terraform_version, null))
