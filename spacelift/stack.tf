@@ -53,4 +53,13 @@ module "stack" {
     github_enterprise = {
         namespace = try(each.value.github_enterprise.namespace, null)
     }
+
+    depends_on = [
+        spacelift_module.spacelift_stack,
+        spacelift_module.spacelift_component,
+        spacelift_module.proxmox_virtual_machine,
+        spacelift_module.fortigate_vip,
+        spacelift_module.fortigate_policy,
+        spacelift_module.fortigate_port_forward,
+    ]
 }
