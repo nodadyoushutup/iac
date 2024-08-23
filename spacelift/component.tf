@@ -3,5 +3,4 @@ module "component" {
   for_each = { for component in local.config.component : component => component }
   
   component = each.value
-  github_enterprise = "nodadyoushutup2"
 }
