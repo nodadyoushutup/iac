@@ -75,7 +75,7 @@ variable "context_priority" {
 
 variable "github_enterprise" {
   description = "Configuration for GitHub Enterprise integration."
-  type        = string
+  type        = list(string)
   default     = null 
 }
 
