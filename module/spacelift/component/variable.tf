@@ -8,3 +8,9 @@ variable "github_enterprise" {
   description = "Github Enterprise account"
   default = null
 }
+
+variable "repository" {
+  description = "Repository URL for the Spacelift stack."
+  type        = string
+  default     = null
+}

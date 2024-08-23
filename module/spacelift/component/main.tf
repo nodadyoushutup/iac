@@ -5,11 +5,21 @@ module "infra" {
 
   # REQUIRED
   name = try(local.stack.infra.name, "${var.component}_infra")
+  # repository = try(
+  #   try(
+  #     local.stack.infra.repository, 
+  #     local.config.global.stack.repository
+  #   ), 
+  #   null
+  # )
   repository = try(
-    try(
-      local.stack.infra.repository, 
-      local.config.global.stack.repository
-    ), 
+    var.repository, try(
+        try(
+            local.stack.infra.repository, 
+            local.config.global.stack.repository
+          ), 
+        null
+      ), 
     null
   )
   branch = try(
