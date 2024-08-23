@@ -9,9 +9,9 @@ terraform {
 }
 
 provider "fortios" {
-    hostname = local.provider.fortigate.hostname
-    insecure = local.provider.fortigate.insecure
-    username = local.provider.fortigate.username
-    password = local.provider.fortigate.password
+    hostname = local.config.provider.fortigatehostname
+    insecure = local.config.provider.fortigateinsecure
+    username = local.config.provider.fortigateusername
+    password = local.config.provider.fortigatepassword
     cabundlefile  = "/mnt/workspace/Fortinet_CA_SSL.crt"
 }
