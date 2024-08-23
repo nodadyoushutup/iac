@@ -83,13 +83,7 @@ module "infra" {
     ), 
     null
   )
-  github_enterprise = try(var.github_enterprise, try(
-    try(
-      local.stack.infra.github_enterprise, 
-      local.config.global.stack.github_enterprise
-    ), 
-    null
-  ))
+  github_enterprise = try(try(var.github_enterprise, try(try(local.stack.infra.github_enterprise,local.config.global.stack.github_enterprise), null)), null)
   additional_project_globs = try(
     try(
       local.stack.infra.additional_project_globs, 
