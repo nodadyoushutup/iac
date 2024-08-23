@@ -44,7 +44,7 @@ resource "spacelift_stack" "stack" {
   dynamic "github_enterprise" {
     for_each = var.github_enterprise != null && var.github_enterprise != {} ? [var.github_enterprise] : []
     content {
-      namespace = github_enterprise.value.namespace
+      namespace = try(github_enterprise.value.namespace, null)
     }
   }
 
@@ -53,7 +53,7 @@ resource "spacelift_stack" "stack" {
       var.ansible != null && var.ansible != {} && (var.terraform_version == null || var.terraform_version == "")
     ) ? [var.ansible] : []
     content {
-      playbook = ansible.value.playbook
+      playbook = try(ansible.value.playbook, null)
     }
   }
 }
