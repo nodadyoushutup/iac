@@ -42,20 +42,20 @@ resource "spacelift_stack" "stack" {
   after_run = try(var.after.run, try(local.config.global.stack.after.run, null))
   
   dynamic "github_enterprise" {
-    for_each = var.github_enterprise != null && var.github_enterprise != {} ? [var.github_enterprise] : []
+    for_each = try(var.github_enterprise, null) != null && try(var.github_enterprise, {}) != {} ? [var.github_enterprise] : []
     content {
       namespace = try(github_enterprise.value.namespace, null)
     }
   }
 
-  dynamic "ansible" {
-    for_each = (
-      var.ansible != null && var.ansible != {} && (var.terraform_version == null || var.terraform_version == "")
-    ) ? [var.ansible] : []
-    content {
-      playbook = try(ansible.value.playbook, null)
-    }
-  }
+  # dynamic "ansible" {
+  #   for_each = (
+  #     var.ansible != null && var.ansible != {} && (var.terraform_version == null || var.terraform_version == "")
+  #   ) ? [var.ansible] : []
+  #   content {
+  #     playbook = try(ansible.value.playbook, null)
+  #   }
+  # }
 }
 
 resource "spacelift_context_attachment" "config" {

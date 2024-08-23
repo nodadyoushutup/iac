@@ -70,7 +70,7 @@ variable "github_enterprise" {
   type = object({
     namespace = optional(string, null)
   })
-  default = {}
+  default = null
 }
 
 variable "ansible" {
