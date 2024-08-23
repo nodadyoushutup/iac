@@ -42,9 +42,10 @@ resource "spacelift_stack" "stack" {
   after_run = try(var.after.run, try(local.config.global.stack.after.run, null))
   
   dynamic "github_enterprise" {
-    for_each = try(var.github_enterprise, null) != null ? [var.github_enterprise] : []
+    # for_each = try(var.github_enterprise, null) != null ? [var.github_enterprise] : []
+    for_each = try(var.github_enterprise, null) != null ? [1] : []
     content {
-      namespace = try(github_enterprise.value.namespace, null)
+      namespace = try(var.github_enterprise, try(local.config.global.stack.github_enterprise, null))
     }
   }
 

@@ -65,12 +65,18 @@ variable "context_priority" {
   default     = 100
 }
 
+# variable "github_enterprise" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type = object({
+#     namespace = string
+#   })
+#   default = null
+# }
+
 variable "github_enterprise" {
   description = "Configuration for GitHub Enterprise integration."
-  type = object({
-    namespace = string
-  })
-  default = null
+  type        = string
+  default     = null 
 }
 
 variable "ansible" {
