@@ -41,3 +41,6 @@ config.yml
 
 virtual_machine.yaml
 virtual_machine.yaml
+
+# DOCS
+doc/
