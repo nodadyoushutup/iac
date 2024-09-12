@@ -195,6 +195,13 @@ variable "after_perform" {
   default = null
 }
 
+variable "after_run" {
+  description = "After run hook"
+  type = list(string)
+  default = null
+}
+
+
 
 
 # variable "github_enterprise" {
