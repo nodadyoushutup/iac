@@ -215,12 +215,55 @@ resource "spacelift_stack" "stack" {
     ),
     null
   )
-  # after_init = var.after.init
-  # after_plan = var.after.plan
-  # after_apply = var.after.apply
-  # after_destroy = var.after.destroy
-  # after_perform = var.after.perform
-  # after_run = var.after.run
+  after_init = try(
+    coalesce(
+      try(var.after_init, null), 
+      try(local.stack.after_init, null), 
+      try(local.config.global.stack.after_init, null)
+    ),
+    null
+  )
+  after_plan = try(
+    coalesce(
+      try(var.after_plan, null), 
+      try(local.stack.after_plan, null), 
+      try(local.config.global.stack.after_plan, null)
+    ),
+    null
+  )
+  after_apply = try(
+    coalesce(
+      try(var.after_apply, null), 
+      try(local.stack.after_apply, null), 
+      try(local.config.global.stack.after_apply, null)
+    ),
+    null
+  )
+  after_destroy = try(
+    coalesce(
+      try(var.after_destroy, null), 
+      try(local.stack.after_destroy, null), 
+      try(local.config.global.stack.after_destroy, null)
+    ),
+    null
+  )
+  after_perform = try(
+    coalesce(
+      try(var.after_perform, null), 
+      try(local.stack.after_perform, null), 
+      try(local.config.global.stack.after_perform, null)
+    ),
+    null
+  )
+  after_run = try(
+    coalesce(
+      try(var.after_run, null), 
+      try(local.stack.after_run, null), 
+      try(local.config.global.stack.after_run, null)
+    ),
+    null
+  )
+
   
   ## OBJECT ##
   # dynamic "github_enterprise" {

@@ -165,25 +165,37 @@ variable "before_perform" {
   default = null
 }
 
-# variable "after" {
-#   description = "Hooks to run after various stages."
-#   type = object({
-#     apply    = optional(list(string), [])
-#     destroy  = optional(list(string), [])
-#     init     = optional(list(string), [])
-#     perform  = optional(list(string), [])
-#     plan     = optional(list(string), [])
-#     run      = optional(list(string), [])
-#   })
-#   default = {
-#     apply    = []
-#     destroy  = []
-#     init     = []
-#     perform  = []
-#     plan     = []
-#     run      = []
-#   }
-# }
+variable "after_init" {
+  description = "After init hook"
+  type = list(string)
+  default = null
+}
+
+variable "after_plan" {
+  description = "After plan hook"
+  type = list(string)
+  default = null
+}
+
+variable "after_apply" {
+  description = "After apply hook"
+  type = list(string)
+  default = null
+}
+
+variable "after_destroy" {
+  description = "After destroy hook"
+  type = list(string)
+  default = null
+}
+
+variable "after_perform" {
+  description = "After perform hook"
+  type = list(string)
+  default = null
+}
+
+
 
 # variable "github_enterprise" {
 #   description = "Configuration for GitHub Enterprise integration."
