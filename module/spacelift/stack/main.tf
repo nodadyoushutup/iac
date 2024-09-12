@@ -199,13 +199,27 @@ resource "spacelift_stack" "stack" {
     ),
     []
   )
-  before_destroy = var.before.destroy
-  before_perform = var.before.perform
+  before_destroy = try(
+    coalesce(
+      try(var.before.destroy, null), 
+      try(local.stack.before.destroy, null), 
+      try(local.config.global.stack.before.destroy, null)
+    ),
+    []
+  )
+  before_perform = try(
+    coalesce(
+      try(var.before.perform, null), 
+      try(local.stack.before.perform, null), 
+      try(local.config.global.stack.before.perform, null)
+    ),
+    []
+  )
+  after_init = var.after.init
+  after_plan = var.after.plan
   after_apply = var.after.apply
   after_destroy = var.after.destroy
-  after_init = var.after.init
   after_perform = var.after.perform
-  after_plan = var.after.plan
   after_run = var.after.run
   
   ## OBJECT ##
