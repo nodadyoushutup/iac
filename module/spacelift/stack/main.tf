@@ -42,11 +42,15 @@ resource "spacelift_stack" "stack" {
   after_run = var.after.run
   
   ## OBJECT ##
-  dynamic "github_enterprise" {
-    for_each = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null)) != null ? [1] : []
-    content {
-      namespace = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null))
-    }
+  # dynamic "github_enterprise" {
+  #   for_each = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null)) != null ? [1] : []
+  #   content {
+  #     namespace = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null))
+  #   }
+  # }
+
+  github_enterprise {
+    namespace = null
   }
 
   # dynamic "ansible" {

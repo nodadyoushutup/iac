@@ -73,11 +73,11 @@ variable "context_priority" {
 #   default = null
 # }
 
-variable "github_enterprise" {
-  description = "Configuration for GitHub Enterprise integration."
-  type        = string
-  default     = null 
-}
+# variable "github_enterprise" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type        = string
+#   default     = null 
+# }
 
 variable "ansible" {
   description = "Configuration for GitHub Enterprise integration."
