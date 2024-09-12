@@ -137,7 +137,7 @@ variable "terraform_workflow_tool" {
 # HOOKS
 variable "before_init" {
   description = "Before init hook"
-  type = [list(string)]
+  type = list(string)
   default = null
 }
 
