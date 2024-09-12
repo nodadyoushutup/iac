@@ -185,42 +185,42 @@ resource "spacelift_stack" "stack" {
   )
   before_plan = try(
     coalesce(
-      try(var.before.plan, null), 
-      try(local.stack.before.plan, null), 
-      try(local.config.global.stack.before.plan, null)
+      try(var.before_plan, null), 
+      try(local.stack.before_plan, null), 
+      try(local.config.global.stack.before_plan, null)
     ),
     null
   )
   before_apply = try(
     coalesce(
-      try(var.before.apply, null), 
-      try(local.stack.before.apply, null), 
-      try(local.config.global.stack.before.apply, null)
+      try(var.before_apply, null), 
+      try(local.stack.before_apply, null), 
+      try(local.config.global.stack.before_apply, null)
     ),
     null
   )
   before_destroy = try(
     coalesce(
-      try(var.before.destroy, null), 
-      try(local.stack.before.destroy, null), 
-      try(local.config.global.stack.before.destroy, null)
+      try(var.before_destroy, null), 
+      try(local.stack.before_destroy, null), 
+      try(local.config.global.stack.before_destroy, null)
     ),
     null
   )
   before_perform = try(
     coalesce(
-      try(var.before.perform, null), 
-      try(local.stack.before.perform, null), 
-      try(local.config.global.stack.before.perform, null)
+      try(var.before_perform, null), 
+      try(local.stack.before_perform, null), 
+      try(local.config.global.stack.before_perform, null)
     ),
     null
   )
-  after_init = var.after.init
-  after_plan = var.after.plan
-  after_apply = var.after.apply
-  after_destroy = var.after.destroy
-  after_perform = var.after.perform
-  after_run = var.after.run
+  # after_init = var.after.init
+  # after_plan = var.after.plan
+  # after_apply = var.after.apply
+  # after_destroy = var.after.destroy
+  # after_perform = var.after.perform
+  # after_run = var.after.run
   
   ## OBJECT ##
   # dynamic "github_enterprise" {

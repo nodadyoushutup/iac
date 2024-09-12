@@ -141,44 +141,49 @@ variable "before_init" {
   default = null
 }
 
-variable "before" {
-  description = "Hooks to run before various stages."
-  type = object({
-    init     = optional(list(string), [])
-    plan     = optional(list(string), [])
-    apply    = optional(list(string), [])
-    destroy  = optional(list(string), [])
-    perform  = optional(list(string), [])
-  })
-  # default = {
-  #   init     = []
-  #   plan     = []
-  #   apply    = []
-  #   destroy  = []
-  #   perform  = []
-  # }
+variable "before_plan" {
+  description = "Before plan hook"
+  type = list(string)
   default = null
 }
 
-variable "after" {
-  description = "Hooks to run after various stages."
-  type = object({
-    apply    = optional(list(string), [])
-    destroy  = optional(list(string), [])
-    init     = optional(list(string), [])
-    perform  = optional(list(string), [])
-    plan     = optional(list(string), [])
-    run      = optional(list(string), [])
-  })
-  default = {
-    apply    = []
-    destroy  = []
-    init     = []
-    perform  = []
-    plan     = []
-    run      = []
-  }
+variable "before_apply" {
+  description = "Before apply hook"
+  type = list(string)
+  default = null
 }
+
+variable "before_destroy" {
+  description = "Before destroy hook"
+  type = list(string)
+  default = null
+}
+
+variable "before_perform" {
+  description = "Before perform hook"
+  type = list(string)
+  default = null
+}
+
+# variable "after" {
+#   description = "Hooks to run after various stages."
+#   type = object({
+#     apply    = optional(list(string), [])
+#     destroy  = optional(list(string), [])
+#     init     = optional(list(string), [])
+#     perform  = optional(list(string), [])
+#     plan     = optional(list(string), [])
+#     run      = optional(list(string), [])
+#   })
+#   default = {
+#     apply    = []
+#     destroy  = []
+#     init     = []
+#     perform  = []
+#     plan     = []
+#     run      = []
+#   }
+# }
 
 # variable "github_enterprise" {
 #   description = "Configuration for GitHub Enterprise integration."
