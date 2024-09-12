@@ -49,5 +49,5 @@ module "stack" {
 }
 
 output "description" {
-  value = local.config.global.stack.description
+  value = local.stack.project_root
 }

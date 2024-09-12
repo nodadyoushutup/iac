@@ -23,7 +23,7 @@ resource "spacelift_stack" "stack" {
     ),
     []
   )
-  project_root= try(
+  project_root = try(
     coalesce(
       try(var.project_root, null), 
       try(local.stack.project_root, null), 
