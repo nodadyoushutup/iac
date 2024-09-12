@@ -1,3 +1,5 @@
+
+
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name                = var.name

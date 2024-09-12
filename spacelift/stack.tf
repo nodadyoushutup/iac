@@ -47,3 +47,7 @@ module "stack" {
     #     run = null
     # }
 }
+
+output "description" {
+  value = local.config.global.stack.description
+}
