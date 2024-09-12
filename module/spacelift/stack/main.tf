@@ -37,8 +37,22 @@ resource "spacelift_stack" "stack" {
   import_state_file = var.import_state_file
   
   ## OPTIONAL ##
-  repository= var.repository
-  branch = var.branch
+  repository = try(
+    coalesce(
+      try(var.repository, null), 
+      try(local.stack.repository, null), 
+      try(local.config.global.stack.repository, null)
+    ),
+    "iac"
+  )
+  branch = try(
+    coalesce(
+      try(var.branch, null), 
+      try(local.stack.branch, null), 
+      try(local.config.global.stack.branch, null)
+    ),
+    "main"
+  )
   space_id = var.space_id
   administrative = var.administrative
   autodeploy = var.autodeploy
