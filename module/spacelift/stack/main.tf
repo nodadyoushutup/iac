@@ -32,7 +32,7 @@ resource "spacelift_stack" "stack" {
   #   null
   # )
 
-  project_root = local.stack.project_root
+  project_root = local.config.global.stack.project_root
 
   ## OPTIONAL (NO GLOBAL)
   import_state = var.import_state
