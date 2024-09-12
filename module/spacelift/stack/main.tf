@@ -1,7 +1,7 @@
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name = var.name
-  
+
   ## OPTIONAL (FORCE DEFAULTS)
   repository = try(
     coalesce(
@@ -18,6 +18,14 @@ resource "spacelift_stack" "stack" {
       try(local.config.global.stack.branch, null)
     ),
     "main"
+  )
+  terraform_version = try(
+    coalesce(
+      try(var.terraform_version, null), 
+      try(local.stack.terraform_version, null), 
+      try(local.config.global.stack.terraform_version, null)
+    ),
+    "1.5.7"
   )
   
   ## OPTIONAL ##
@@ -61,19 +69,102 @@ resource "spacelift_stack" "stack" {
     ),
     null
   )
-  space_id = var.space_id
-  administrative = var.administrative
-  autodeploy = var.autodeploy
-  terraform_version = var.terraform_version
-  additional_project_globs = var.additional_project_globs
-  autoretry = var.autoretry
-  enable_local_preview = var.enable_local_preview
-  enable_well_known_secret_masking = var.enable_well_known_secret_masking
-  github_action_deploy = var.github_action_deploy
-  manage_state = var.manage_state
-  protect_from_deletion = var.protect_from_deletion
-  terraform_smart_sanitization = var.terraform_smart_sanitization
-  terraform_workflow_tool = var.terraform_workflow_tool
+  space_id = try(
+    coalesce(
+      try(var.space_id, null), 
+      try(local.stack.space_id, null), 
+      try(local.config.global.stack.space_id, null)
+    ),
+    null
+  )
+  administrative = try(
+    coalesce(
+      try(var.administrative, null), 
+      try(local.stack.administrative, null), 
+      try(local.config.global.stack.administrative, null)
+    ),
+    null
+  )
+  autodeploy = try(
+    coalesce(
+      try(var.autodeploy, null), 
+      try(local.stack.autodeploy, null), 
+      try(local.config.global.stack.autodeploy, null)
+    ),
+    null
+  )
+  additional_project_globs = try(
+    coalesce(
+      try(var.additional_project_globs, null), 
+      try(local.stack.additional_project_globs, null), 
+      try(local.config.global.stack.additional_project_globs, null)
+    ),
+    null
+  )
+  autoretry = try(
+    coalesce(
+      try(var.autoretry, null), 
+      try(local.stack.autoretry, null), 
+      try(local.config.global.stack.autoretry, null)
+    ),
+    null
+  )
+  enable_local_preview = try(
+    coalesce(
+      try(var.enable_local_preview, null), 
+      try(local.stack.enable_local_preview, null), 
+      try(local.config.global.stack.enable_local_preview, null)
+    ),
+    null
+  )
+  enable_well_known_secret_masking = try(
+    coalesce(
+      try(var.enable_well_known_secret_masking, null), 
+      try(local.stack.enable_well_known_secret_masking, null), 
+      try(local.config.global.stack.enable_well_known_secret_masking, null)
+    ),
+    null
+  )
+  github_action_deploy = try(
+    coalesce(
+      try(var.github_action_deploy, null), 
+      try(local.stack.github_action_deploy, null), 
+      try(local.config.global.stack.github_action_deploy, null)
+    ),
+    null
+  )
+  manage_state = try(
+    coalesce(
+      try(var.manage_state, null), 
+      try(local.stack.manage_state, null), 
+      try(local.config.global.stack.manage_state, null)
+    ),
+    null
+  )
+  protect_from_deletion = try(
+    coalesce(
+      try(var.protect_from_deletion, null), 
+      try(local.stack.protect_from_deletion, null), 
+      try(local.config.global.stack.protect_from_deletion, null)
+    ),
+    null
+  )
+  terraform_smart_sanitization = try(
+    coalesce(
+      try(var.terraform_smart_sanitization, null), 
+      try(local.stack.terraform_smart_sanitization, null), 
+      try(local.config.global.stack.terraform_smart_sanitization, null)
+    ),
+    null
+  )
+  terraform_workflow_tool = try(
+    coalesce(
+      try(var.terraform_workflow_tool, null), 
+      try(local.stack.terraform_workflow_tool, null), 
+      try(local.config.global.stack.terraform_workflow_tool, null)
+    ),
+    null
+  )
 
   ## HOOK ##
   before_apply = var.before.apply

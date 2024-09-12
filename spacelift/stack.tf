@@ -7,6 +7,7 @@ module "stack" {
     # ## OPTIONAL (FORCE DEFAULTS) ##
     # repository = "iac"
     # branch = "main"
+    # terraform_version = "1.5.7"
 
     # ## OPTIONAL ##
     # description = null
@@ -17,7 +18,6 @@ module "stack" {
     # space_id = "root"
     # administrative = false
     # autodeploy = true
-    # terraform_version = "1.5.7"
     # additional_project_globs = null
     # autoretry = false
     # enable_local_preview = false
