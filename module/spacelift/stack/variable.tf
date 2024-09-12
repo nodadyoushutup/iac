@@ -8,7 +8,7 @@ variable "name" {
 variable "project_root" {
   description = "Project root directory for the Spacelift stack."
   type        = string
-  default     = "/"
+  default     = null
 }
 
 variable "description" {
@@ -40,31 +40,31 @@ variable "import_state_file" {
 variable "repository" {
   description = "Repository URL for the Spacelift stack."
   type        = string
-  default = "iac"
+  default = null
 }
 
 variable "branch" {
   description = "Git branch to use for the stack."
   type= string
-  default= "main"
+  default= null
 }
 
 variable "space_id" {
   description = "ID of the space where the stack is created."
   type= string
-  default = "root"
+  default = null
 }
 
 variable "administrative" {
   description = "Flag to indicate if the stack has administrative permissions."
   type= bool
-  default= false
+  default= null
 }
 
 variable "autodeploy" {
   description = "Flag to enable automatic deployment for the stack."
   type= bool
-  default= false
+  default= null
 }
 
 
@@ -77,7 +77,7 @@ variable "terraform_version" {
 variable "context_priority" {
   description = "Priority of the context when attached to the stack."
   type        = number
-  default     = 100
+  default     = null
 }
 
 variable "additional_project_globs" {
@@ -89,49 +89,49 @@ variable "additional_project_globs" {
 variable "autoretry" {
   description = "Enable or disable masking of well-known secrets."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "enable_local_preview" {
   description = "Enable or disable local preview mode."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "enable_well_known_secret_masking" {
   description = "Enable or disable masking of well-known secrets."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "github_action_deploy" {
   description = "Enable or disable GitHub Action deployment."
   type        = bool
-  default     = true
+  default     = null
 }
 
 variable "manage_state" {
   description = "Enable or disable state management."
   type        = bool
-  default     = true
+  default     = null
 }
 
 variable "protect_from_deletion" {
   description = "Enable or disable protection from deletion."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "terraform_smart_sanitization" {
   description = "Enable or disable smart sanitization in Terraform."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "terraform_workflow_tool" {
   description = "Specify the workflow tool to use with Terraform."
   type        = string
-  default     = "TERRAFORM_FOSS"
+  default     = null
 }
 
 # HOOKS
@@ -145,14 +145,15 @@ variable "before" {
     plan     = optional(list(string), [])
     run      = optional(list(string), [])
   })
-  default = {
-    apply    = []
-    destroy  = []
-    init     = []
-    perform  = []
-    plan     = []
-    run      = []
-  }
+  # default = {
+  #   apply    = []
+  #   destroy  = []
+  #   init     = []
+  #   perform  = []
+  #   plan     = []
+  #   run      = []
+  # }
+  default = null
 }
 
 variable "after" {
@@ -165,14 +166,15 @@ variable "after" {
     plan     = optional(list(string), [])
     run      = optional(list(string), [])
   })
-  default = {
-    apply    = []
-    destroy  = []
-    init     = []
-    perform  = []
-    plan     = []
-    run      = []
-  }
+  # default = {
+  #   apply    = []
+  #   destroy  = []
+  #   init     = []
+  #   perform  = []
+  #   plan     = []
+  #   run      = []
+  # }
+  default = null
 }
 
 # variable "github_enterprise" {
