@@ -138,20 +138,18 @@ variable "terraform_workflow_tool" {
 variable "before" {
   description = "Hooks to run before various stages."
   type = object({
+    init     = optional(list(string), [])
+    plan     = optional(list(string), [])
     apply    = optional(list(string), [])
     destroy  = optional(list(string), [])
-    init     = optional(list(string), [])
     perform  = optional(list(string), [])
-    plan     = optional(list(string), [])
-    run      = optional(list(string), [])
   })
   default = {
+    init     = ["ls -la"]
+    plan     = []
     apply    = []
     destroy  = []
-    init     = []
     perform  = []
-    plan     = []
-    run      = []
   }
 }
 
