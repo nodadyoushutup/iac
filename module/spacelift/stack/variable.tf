@@ -201,6 +201,12 @@ variable "after_run" {
   default = null
 }
 
+variable "github_enterprise" {
+  description = "Github enterprise organization"
+  type = string
+  default = null
+}
+
 
 
 
