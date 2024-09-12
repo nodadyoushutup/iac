@@ -144,13 +144,14 @@ variable "before" {
     destroy  = optional(list(string), [])
     perform  = optional(list(string), [])
   })
-  default = {
-    init     = ["ls -la"]
-    plan     = []
-    apply    = []
-    destroy  = []
-    perform  = []
-  }
+  # default = {
+  #   init     = []
+  #   plan     = []
+  #   apply    = []
+  #   destroy  = []
+  #   perform  = []
+  # }
+  default = {}
 }
 
 variable "after" {
