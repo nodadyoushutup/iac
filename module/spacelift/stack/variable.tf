@@ -151,7 +151,7 @@ variable "before" {
   #   destroy  = []
   #   perform  = []
   # }
-  default = {}
+  default = null
 }
 
 variable "after" {

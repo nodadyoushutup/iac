@@ -167,13 +167,21 @@ resource "spacelift_stack" "stack" {
   )
 
   ## HOOK ##
+  # before_init = try(
+  #   concat(
+  #     try(var.before.init, []),
+  #     try(local.stack.before.init, []),
+  #     try(local.config.global.stack.before.init, [])
+  #   ),
+  #   []
+  # )
   before_init = try(
-    concat(
-      try(var.before.init, []),
-      try(local.stack.before.init, []),
-      try(local.config.global.stack.before.init, [])
+    coalesce(
+      try(var.before.plan, null), 
+      try(local.stack.before.plan, null), 
+      try(local.config.global.stack.before.plan, null)
     ),
-    []
+    null
   )
   before_plan = try(
     coalesce(
