@@ -102,8 +102,4 @@ module "stack" {
         plan = null
         run = null
     }
-
-    github_enterprise = {
-        namespace = null
-    }
 }
