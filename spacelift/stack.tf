@@ -5,9 +5,9 @@ module "stack" {
     name = "database"
 
     # ## UNIQUE ##
-    # project_root = null
     # description = null
     # labels = ["database"]
+    project_root = "database"
 
     # ## OPTIONAL (No Global)
     # import_state = null
