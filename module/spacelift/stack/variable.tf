@@ -4,6 +4,26 @@ variable "name" {
   type        = string
 }
 
+# UNIQUE
+variable "description" {
+  description = "Description of the Spacelift stack."
+  type        = string
+  default     = null
+}
+
+variable "labels" {
+  description = "List of labels to assign to the stack."
+  type        = list(string)
+  default     = []
+}
+
+variable "project_root" {
+  description = "Project root directory for the Spacelift stack."
+  type        = string
+  default     = "/"
+}
+
+# OPTIONAL
 variable "repository" {
   description = "Repository URL for the Spacelift stack."
   type        = string
@@ -16,7 +36,6 @@ variable "branch" {
   default= "main"
 }
 
-#OPTIONAL
 variable "space_id" {
   description = "ID of the space where the stack is created."
   type= string
@@ -35,17 +54,6 @@ variable "autodeploy" {
   default= false
 }
 
-variable "description" {
-  description = "Description of the Spacelift stack."
-  type        = string
-  default     = null
-}
-
-variable "project_root" {
-  description = "Project root directory for the Spacelift stack."
-  type        = string
-  default     = "/"
-}
 
 variable "terraform_version" {
   description = "Terraform version to use for the stack."
@@ -53,11 +61,7 @@ variable "terraform_version" {
   default     = null
 }
 
-variable "labels" {
-  description = "List of labels to assign to the stack."
-  type        = list(string)
-  default     = []
-}
+
 
 variable "context_priority" {
   description = "Priority of the context when attached to the stack."
@@ -79,13 +83,13 @@ variable "context_priority" {
 #   default     = null 
 # }
 
-variable "ansible" {
-  description = "Configuration for GitHub Enterprise integration."
-  type = object({
-    playbook = optional(string, null)
-  })
-  default = null
-}
+# variable "ansible" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type = object({
+#     playbook = optional(string, null)
+#   })
+#   default = null
+# }
 
 variable "additional_project_globs" {
   description = "Glob patterns to include additional projects."

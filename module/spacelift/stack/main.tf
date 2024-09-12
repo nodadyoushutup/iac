@@ -1,8 +1,6 @@
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name                = var.name
-  repository          = var.repository != null ? var.repository : try(local.config.global.stack.repository, null) != null  ? local.config.global.stack.repository : "iac"
-  branch              = var.branch != null ? var.branch : try(local.config.global.stack.branch, null) != null  ? local.config.global.stack.branch : "main"
 
   ## UNIQUE ##
   description         = var.description
@@ -14,6 +12,8 @@ resource "spacelift_stack" "stack" {
   import_state_file = var.import_state_file
   
   ## OPTIONAL ##
+  repository= var.repository
+  branch = var.branch
   space_id = var.space_id
   administrative = var.administrative
   autodeploy = var.autodeploy

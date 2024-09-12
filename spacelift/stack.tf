@@ -61,6 +61,7 @@ module "stack" {
     ## REQUIRED ##
     name        = "database"
     repository  = "iac"
+    branch      = "main"
 
     ## UNIQUE ##
     project_root        = "database"
