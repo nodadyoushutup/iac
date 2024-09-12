@@ -13,7 +13,7 @@ variable "repository" {
 variable "branch" {
   description = "Git branch to use for the stack."
   type= string
-  default= local.config.global.branch
+  default= "main"
 }
 
 #OPTIONAL
