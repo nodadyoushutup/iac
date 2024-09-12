@@ -5,6 +5,12 @@ variable "name" {
 }
 
 # UNIQUE
+variable "project_root" {
+  description = "Project root directory for the Spacelift stack."
+  type        = string
+  default     = "/"
+}
+
 variable "description" {
   description = "Description of the Spacelift stack."
   type        = string
@@ -17,10 +23,17 @@ variable "labels" {
   default     = []
 }
 
-variable "project_root" {
-  description = "Project root directory for the Spacelift stack."
+# OPTIONAL (NO GLOBAL)
+variable "import_state" {
+  description = "File path for the state to import (sensitive)."
   type        = string
-  default     = "/"
+  default     = null
+}
+
+variable "import_state_file" {
+  description = "File path for the state to import."
+  type        = string
+  default     = null
 }
 
 # OPTIONAL
@@ -61,35 +74,11 @@ variable "terraform_version" {
   default     = null
 }
 
-
-
 variable "context_priority" {
   description = "Priority of the context when attached to the stack."
   type        = number
   default     = 100
 }
-
-# variable "github_enterprise" {
-#   description = "Configuration for GitHub Enterprise integration."
-#   type = object({
-#     namespace = string
-#   })
-#   default = null
-# }
-
-# variable "github_enterprise" {
-#   description = "Configuration for GitHub Enterprise integration."
-#   type        = string
-#   default     = null 
-# }
-
-# variable "ansible" {
-#   description = "Configuration for GitHub Enterprise integration."
-#   type = object({
-#     playbook = optional(string, null)
-#   })
-#   default = null
-# }
 
 variable "additional_project_globs" {
   description = "Glob patterns to include additional projects."
@@ -119,18 +108,6 @@ variable "github_action_deploy" {
   description = "Enable or disable GitHub Action deployment."
   type        = bool
   default     = true
-}
-
-variable "import_state" {
-  description = "File path for the state to import (sensitive)."
-  type        = string
-  default     = null
-}
-
-variable "import_state_file" {
-  description = "File path for the state to import."
-  type        = string
-  default     = null
 }
 
 variable "manage_state" {
@@ -198,3 +175,24 @@ variable "after" {
   }
 }
 
+# variable "github_enterprise" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type = object({
+#     namespace = string
+#   })
+#   default = null
+# }
+
+# variable "github_enterprise" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type        = string
+#   default     = null 
+# }
+
+# variable "ansible" {
+#   description = "Configuration for GitHub Enterprise integration."
+#   type = object({
+#     playbook = optional(string, null)
+#   })
+#   default = null
+# }
