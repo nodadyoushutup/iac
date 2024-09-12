@@ -5,7 +5,7 @@ resource "spacelift_stack" "stack" {
   name                = var.name
 
   ## UNIQUE ##
-  description         = try(var.description, local.config.global.stack.description)
+  description         = try(var.description, "hello")
   labels              = try(var.labels, local.config.global.stack.labels)
   project_root        = try(var.project_root, local.config.global.stack.project_root)
 
