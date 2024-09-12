@@ -76,7 +76,7 @@ module "stack" {
     administrative = false
     autodeploy = true
     terraform_version = "1.5.7"
-    additional_project_globs = "database"
+    additional_project_globs = null
     autoretry = false
     enable_local_preview = false
     enable_well_known_secret_masking = false
