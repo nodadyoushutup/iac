@@ -5,8 +5,22 @@ resource "spacelift_stack" "stack" {
   name = var.name
 
   ## UNIQUE ##
-  description = try(coalesce(try(var.description, null), try(local.stack.description, null), try(local.config.global.stack.description, null)), null)
-  labels = try(coalesce(try(var.labels, null), try(local.stack.labels, null), try(local.config.global.stack.labels, null)), null)
+  description = try(
+    coalesce(
+      try(var.description, null), 
+      try(local.stack.description, null), 
+      try(local.config.global.stack.description, null)
+    ), 
+    null
+  )
+  labels = try(
+    concat(
+      try(var.labels, []),
+      try(local.stack.labels, []),
+      try(local.config.global.stack.labels, [])
+    ),
+    []
+  )
   project_root= try(coalesce(try(var.project_root, null), try(local.stack.project_root, null), try(local.config.global.stack.project_root, null)), null)
 
   ## OPTIONAL (NO GLOBAL)
