@@ -167,7 +167,14 @@ resource "spacelift_stack" "stack" {
   )
 
   ## HOOK ##
-  before_apply = var.before.apply
+  before_apply = try(
+    coalesce(
+      try(var.before.apply, null), 
+      try(local.stack.before.apply, null), 
+      try(local.config.global.stack.before.apply, null)
+    ),
+    null
+  )
   before_destroy = var.before.destroy
   before_init = var.before.init
   before_perform = var.before.perform
