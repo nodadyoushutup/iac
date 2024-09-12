@@ -145,15 +145,14 @@ variable "before" {
     plan     = optional(list(string), [])
     run      = optional(list(string), [])
   })
-  # default = {
-  #   apply    = []
-  #   destroy  = []
-  #   init     = []
-  #   perform  = []
-  #   plan     = []
-  #   run      = []
-  # }
-  default = null
+  default = {
+    apply    = []
+    destroy  = []
+    init     = []
+    perform  = []
+    plan     = []
+    run      = []
+  }
 }
 
 variable "after" {
@@ -166,15 +165,14 @@ variable "after" {
     plan     = optional(list(string), [])
     run      = optional(list(string), [])
   })
-  # default = {
-  #   apply    = []
-  #   destroy  = []
-  #   init     = []
-  #   perform  = []
-  #   plan     = []
-  #   run      = []
-  # }
-  default = null
+  default = {
+    apply    = []
+    destroy  = []
+    init     = []
+    perform  = []
+    plan     = []
+    run      = []
+  }
 }
 
 # variable "github_enterprise" {
