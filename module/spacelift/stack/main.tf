@@ -173,7 +173,7 @@ resource "spacelift_stack" "stack" {
       try(local.stack.before.init, null), 
       try(local.config.global.stack.before.init, null)
     ),
-    null
+    []
   )
   before_plan = try(
     coalesce(
@@ -181,7 +181,7 @@ resource "spacelift_stack" "stack" {
       try(local.stack.before.plan, null), 
       try(local.config.global.stack.before.plan, null)
     ),
-    null
+    []
   )
   before_apply = try(
     coalesce(
@@ -189,12 +189,10 @@ resource "spacelift_stack" "stack" {
       try(local.stack.before.apply, null), 
       try(local.config.global.stack.before.apply, null)
     ),
-    null
+    []
   )
   before_destroy = var.before.destroy
-  
   before_perform = var.before.perform
-  
   after_apply = var.after.apply
   after_destroy = var.after.destroy
   after_init = var.after.init
