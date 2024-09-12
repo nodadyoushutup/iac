@@ -33,7 +33,7 @@ variable "description" {
 variable "labels" {
   description = "List of labels to assign to the stack."
   type = list(string)
-  default = []
+  default = null
 }
 
 variable "import_state" {
@@ -83,7 +83,7 @@ variable "context_priority" {
 variable "additional_project_globs" {
   description = "Glob patterns to include additional projects."
   type = list(string)
-  default = []
+  default = null
 }
 
 variable "autoretry" {
@@ -135,6 +135,12 @@ variable "terraform_workflow_tool" {
 }
 
 # HOOKS
+variable "before_init" {
+  description = "Before init hook"
+  type = [list(string)]
+  default = null
+}
+
 variable "before" {
   description = "Hooks to run before various stages."
   type = object({

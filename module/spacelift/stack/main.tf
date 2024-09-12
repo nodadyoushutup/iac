@@ -177,9 +177,9 @@ resource "spacelift_stack" "stack" {
   # )
   before_init = try(
     coalesce(
-      try(var.before.plan, null), 
-      try(local.stack.before.plan, null), 
-      try(local.config.global.stack.before.plan, null)
+      try(var.before_init, null), 
+      try(local.stack.before_init, null), 
+      try(local.config.global.stack.before_init, null)
     ),
     null
   )
