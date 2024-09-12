@@ -168,10 +168,10 @@ resource "spacelift_stack" "stack" {
 
   ## HOOK ##
   before_init = try(
-    coalesce(
-      try(var.before.init, null), 
-      try(local.stack.before.init, null), 
-      try(local.config.global.stack.before.init, null)
+    concat(
+      try(var.before.init, []),
+      try(local.stack.before.init, []),
+      try(local.config.global.stack.before.init, [])
     ),
     []
   )
