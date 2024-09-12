@@ -1,7 +1,3 @@
-output "stack" {
-  value = local.stack.project_root
-}
-
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name = var.name
