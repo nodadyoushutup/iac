@@ -2,20 +2,18 @@ module "stack" {
     source  = "spacelift.io/nodadyoushutup/stack/spacelift"
 
     ## REQUIRED ##
-    name = "database"
+    name = "database"    
+    
+    # ## OPTIONAL (FORCE DEFAULTS) ##
+    # repository = "iac"
+    # branch = "main"
 
-    # ## UNIQUE ##
+    # ## OPTIONAL ##
     # description = null
     # labels = ["database"]
     # project_root = null
-
-    # ## OPTIONAL (No Global)
     # import_state = null
     # import_state_file = null
-
-    # ## OPTIONAL ##
-    # repository = "iac"
-    # branch = "main"
     # space_id = "root"
     # administrative = false
     # autodeploy = true

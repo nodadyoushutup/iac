@@ -1,8 +1,26 @@
 resource "spacelift_stack" "stack" {
   ## REQUIRED ##
   name = var.name
-
-  ## UNIQUE ##
+  
+  ## OPTIONAL (FORCE DEFAULTS)
+  repository = try(
+    coalesce(
+      try(var.repository, null), 
+      try(local.stack.repository, null), 
+      try(local.config.global.stack.repository, null)
+    ),
+    "iac"
+  )
+  branch = try(
+    coalesce(
+      try(var.branch, null), 
+      try(local.stack.branch, null), 
+      try(local.config.global.stack.branch, null)
+    ),
+    "main"
+  )
+  
+  ## OPTIONAL ##
   description = try(
     coalesce(
       try(var.description, null), 
@@ -27,27 +45,21 @@ resource "spacelift_stack" "stack" {
     ),
     null
   )
-
-  ## OPTIONAL (NO GLOBAL)
-  import_state = var.import_state
-  import_state_file = var.import_state_file
-  
-  ## OPTIONAL ##
-  repository = try(
+  import_state = try(
     coalesce(
-      try(var.repository, null), 
-      try(local.stack.repository, null), 
-      try(local.config.global.stack.repository, null)
+      try(var.import_state, null), 
+      try(local.stack.import_state, null), 
+      try(local.config.global.stack.import_state, null)
     ),
-    "iac"
+    null
   )
-  branch = try(
+  import_state_file = try(
     coalesce(
-      try(var.branch, null), 
-      try(local.stack.branch, null), 
-      try(local.config.global.stack.branch, null)
+      try(var.import_state_file, null), 
+      try(local.stack.import_state_file, null), 
+      try(local.config.global.stack.import_state_file, null)
     ),
-    "main"
+    null
   )
   space_id = var.space_id
   administrative = var.administrative

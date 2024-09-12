@@ -4,7 +4,20 @@ variable "name" {
   type = string
 }
 
-# UNIQUE
+# OPTIIONAL (FORCE DEAULTS)
+variable "repository" {
+  description = "Repository URL for the Spacelift stack."
+  type = string
+  default = null
+}
+
+variable "branch" {
+  description = "Git branch to use for the stack."
+  type = string
+  default = null
+}
+
+# OPTIONAL
 variable "project_root" {
   description = "Project root directory for the Spacelift stack."
   type = string
@@ -23,18 +36,19 @@ variable "labels" {
   default = []
 }
 
-# OPTIONAL
-variable "repository" {
-  description = "Repository URL for the Spacelift stack."
+variable "import_state" {
+  description = "File path for the state to import (sensitive)."
   type = string
   default = null
 }
 
-variable "branch" {
-  description = "Git branch to use for the stack."
+variable "import_state_file" {
+  description = "File path for the state to import."
   type = string
   default = null
 }
+
+
 
 variable "space_id" {
   description = "ID of the space where the stack is created."
@@ -53,7 +67,6 @@ variable "autodeploy" {
   type = bool
   default = null
 }
-
 
 variable "terraform_version" {
   description = "Terraform version to use for the stack."
@@ -117,19 +130,6 @@ variable "terraform_smart_sanitization" {
 
 variable "terraform_workflow_tool" {
   description = "Specify the workflow tool to use with Terraform."
-  type = string
-  default = null
-}
-
-# OPTIONAL (NO GLOBAL)
-variable "import_state" {
-  description = "File path for the state to import (sensitive)."
-  type = string
-  default = null
-}
-
-variable "import_state_file" {
-  description = "File path for the state to import."
   type = string
   default = null
 }
