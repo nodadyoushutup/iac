@@ -49,9 +49,9 @@ resource "spacelift_stack" "stack" {
   #   }
   # }
 
-  github_enterprise {
-    namespace = null
-  }
+  # github_enterprise {
+  #   namespace = null
+  # }
 
   # dynamic "ansible" {
   #   for_each = (
