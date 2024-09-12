@@ -7,7 +7,7 @@ module "stack" {
     # ## UNIQUE ##
     # description = null
     # labels = ["database"]
-    project_root = "database"
+    project_root = "monitoring"
 
     # ## OPTIONAL (No Global)
     # import_state = null
