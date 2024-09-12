@@ -10,54 +10,44 @@ resource "spacelift_stack" "stack" {
   project_root        = var.project_root
 
   ## OPTIONAL (NO GLOBAL)
-  import_state = try(var.import_state, try(local.config.global.stack.import_state, null))
-  import_state_file = try(var.import_state_file, try(local.config.global.stack.import_state_file, null))
+  import_state = var.import_state
+  import_state_file = var.import_state_file
   
   ## OPTIONAL ##
-  # TODO: Break down these to formatted blocks to reduce line length
-  space_id = try(
-    var.space_id, 
-    try(
-      try(
-        local.stack.space_id, 
-        local.config.stack.space_id
-      ), 
-      null
-    )
-  )
-  administrative = try(var.administrative, try(try(local.stack.administrative, local.config.stack.administrative), null))
-  autodeploy = try(var.autodeploy, try(try(local.stack.autodeploy, local.config.stack.autodeploy), null))
-  terraform_version = try(var.terraform_version, try(try(local.stack.terraform_version, local.config.stack.terraform_version), null))
-  additional_project_globs = try(var.additional_project_globs, try(try(local.stack.additional_project_globs, local.config.stack.additional_project_globs), null))
-  autoretry = try(var.autoretry, try(try(local.stack.autoretry, local.config.stack.autoretry), null))
-  enable_local_preview = try(var.enable_local_preview, try(try(local.stack.enable_local_preview, local.config.stack.enable_local_preview), null))
-  enable_well_known_secret_masking = try(var.enable_well_known_secret_masking, try(try(local.stack.enable_well_known_secret_masking, local.config.stack.enable_well_known_secret_masking), null))
-  github_action_deploy = try(var.github_action_deploy, try(try(local.stack.github_action_deploy, local.config.stack.github_action_deploy), null))
-  manage_state = try(var.manage_state, try(try(local.stack.manage_state, local.config.stack.manage_state), null))
-  protect_from_deletion = try(var.protect_from_deletion, try(try(local.stack.protect_from_deletion, local.config.stack.protect_from_deletion), null))
-  terraform_smart_sanitization = try(var.terraform_smart_sanitization, try(try(local.stack.terraform_smart_sanitization, local.config.stack.terraform_smart_sanitization), null))
-  terraform_workflow_tool = try(var.terraform_workflow_tool, try(try(local.stack.terraform_workflow_tool, local.config.stack.terraform_workflow_tool), null))
+  space_id = var.space_id
+  administrative = var.administrative
+  autodeploy = var.autodeploy
+  terraform_version = var.terraform_version
+  additional_project_globs = var.additional_project_globs
+  autoretry = var.autoretry
+  enable_local_preview = var.enable_local_preview
+  enable_well_known_secret_masking = var.enable_well_known_secret_masking
+  github_action_deploy = var.github_action_deploy
+  manage_state = var.manage_state
+  protect_from_deletion = var.protect_from_deletion
+  terraform_smart_sanitization = var.terraform_smart_sanitization
+  terraform_workflow_tool = var.terraform_workflow_tool
 
   ## HOOK ##
-  before_apply = try(var.before.apply, try(try(local.stack.before.apply, local.config.global.stack.before.apply), null))
-  before_destroy = try(var.before.destroy, try(try(local.stack.before.destroy, local.config.global.stack.before.destroy), null))
-  before_init = try(var.before.init, try(try(local.stack.before.init, local.config.global.stack.before.init), null))
-  before_perform = try(var.before.perform, try(try(local.stack.before.perform, local.config.global.stack.before.perform), null))
-  before_plan = try(var.before.plan, try(try(local.stack.before.plan, local.config.global.stack.before.plan), null))
-  after_apply = try(var.after.apply, try(try(local.stack.after.apply, local.config.global.stack.after.apply), null))
-  after_destroy = try(var.after.destroy, try(try(local.stack.after.destroy, local.config.global.stack.after.destroy), null))
-  after_init = try(var.after.init, try(try(local.stack.after.init, local.config.global.stack.after.init), null))
-  after_perform = try(var.after.perform, try(try(local.stack.after.perform, local.config.global.stack.after.perform), null))
-  after_plan = try(var.after.plan, try(try(local.stack.after.plan, local.config.global.stack.after.plan), null))
-  after_run = try(var.after.run, try(try(local.stack.after.run, local.config.global.stack.after.run), null))
+  before_apply = var.before.apply
+  before_destroy = var.before.destroy
+  before_init = var.before.init
+  before_perform = var.before.perform
+  before_plan = var.before.plan
+  after_apply = var.after.apply
+  after_destroy = var.after.destroy
+  after_init = var.after.init
+  after_perform = var.after.perform
+  after_plan = var.after.plan
+  after_run = var.after.run
   
   ## OBJECT ##
-  dynamic "github_enterprise" {
-    for_each = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null)) != null ? [1] : []
-    content {
-      namespace = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null))
-    }
-  }
+  # dynamic "github_enterprise" {
+  #   for_each = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null)) != null ? [1] : []
+  #   content {
+  #     namespace = try(var.github_enterprise, try(try(local.stack.github_enterprise, local.config.stack.github_enterprise), null))
+  #   }
+  # }
 
   # dynamic "ansible" {
   #   for_each = (
