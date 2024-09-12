@@ -3,9 +3,9 @@ resource "spacelift_stack" "stack" {
   name                = var.name
 
   ## UNIQUE ##
-  description         = var.description
-  labels              = var.labels
-  project_root        = var.project_root
+  description         = try(var.description, local.config.global.stack.description)
+  labels              = try(var.labels, local.config.global.stack.labels)
+  project_root        = try(var.project_root, local.config.global.stack.project_root)
 
   ## OPTIONAL (NO GLOBAL)
   import_state = var.import_state
