@@ -171,8 +171,8 @@ resource "spacelift_stack" "stack" {
       namespace = try(
         coalesce(
           try(var.github_enterprise, null), 
-          try(local.stack.github_enterprise, null), 
-          try(local.config.global.stack.github_enterprise, null)
+          try(var.stack.github_enterprise, null), 
+          try(var.config.global.stack.github_enterprise, null)
         ),
         null
       )
