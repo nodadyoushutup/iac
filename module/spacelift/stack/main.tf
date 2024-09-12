@@ -21,7 +21,14 @@ resource "spacelift_stack" "stack" {
     ),
     []
   )
-  project_root= try(coalesce(try(var.project_root, null), try(local.stack.project_root, null), try(local.config.global.stack.project_root, null)), null)
+  project_root= try(
+    coalesce(
+      try(var.project_root, null), 
+      try(local.stack.project_root, null), 
+      try(local.config.global.stack.project_root, null)
+    ),
+    null
+  )
 
   ## OPTIONAL (NO GLOBAL)
   import_state = var.import_state
