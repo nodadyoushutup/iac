@@ -165,15 +165,19 @@ resource "spacelift_stack" "stack" {
     ),
     null
   )
-  github_enterprise {
-    namespace = try(
-      coalesce(
-        try(var.github_enterprise, null), 
-        try(local.stack.github_enterprise, null), 
-        try(local.config.global.stack.github_enterprise, null)
-      ),
-      null
-    )
+  dynamic github_enterprise {
+    for_each = var.github_enterprise[*] || local.stack.github_enterprise[*] || local.config.global.stack.github_enterprise[*]
+    content {
+      namespace = try(
+        coalesce(
+          try(var.github_enterprise, null), 
+          try(local.stack.github_enterprise, null), 
+          try(local.config.global.stack.github_enterprise, null)
+        ),
+        null
+      )
+    }
+    
   }
   ## HOOK ##
   before_init = try(
