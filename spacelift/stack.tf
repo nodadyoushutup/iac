@@ -47,7 +47,3 @@ module "stack" {
     #     run = null
     # }
 }
-
-output "description" {
-  value = local.stack.project_root
-}
