@@ -1,0 +1,8 @@
+---
+- name: Init Docker
+  hosts: docker
+  become: true
+  roles:
+    - init_vm
+    - docker_install
+    - docker_run

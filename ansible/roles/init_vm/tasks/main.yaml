@@ -1,0 +1,33 @@
+---
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: "sudo"
+    append: yes
+
+- name: Wait until apt lock is released
+  shell: lsof -w /var/lib/apt/lists/lock | wc -l
+  register: lock
+  until: lock.stdout == "0"
+  retries: 12
+  delay: 10
+
+- name: Wait until apt lock_frontend is released
+  shell: lsof -w /var/lib/dpkg/lock-frontend | wc -l
+  register: lock_frontend
+  until: lock_frontend.stdout == "0"
+  retries: 12
+  delay: 10
+
+- name: Install necessary packages
+  apt:
+    name:
+      - nfs-common
+      - zip
+      - net-tools
+      - ca-certificates
+      - curl
+      - postgresql-client
+      - git
+    state: present
+    update_cache: yes
