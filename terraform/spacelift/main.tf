@@ -9,7 +9,7 @@ resource "spacelift_environment_variable" "tf_log" {
 
 ### ANSIBLE ###
 resource "spacelift_context" "ansible" {
-    description = "Ansible"
+    description = "Ansible hooks"
     name        = "ansible"
     before_init = [
         "/mnt/workspace/source/ansible/install.sh",
