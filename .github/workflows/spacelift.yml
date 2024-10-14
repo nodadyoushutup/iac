@@ -6,7 +6,7 @@ on:
 jobs:
   spacectl:
     runs-on: ubuntu-latest
-
+    environment: spacelift
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
