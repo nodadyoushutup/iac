@@ -11,7 +11,7 @@ jobs:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
 
-      - name: Deploy infrastructure
+      - name: Spacectl Command
         env:
           SPACELIFT_API_KEY_ENDPOINT: ${{ secrets.SPACELIFT_API_KEY_ENDPOINT }}
           SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
