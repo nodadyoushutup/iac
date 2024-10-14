@@ -12,7 +12,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
     order = "1"
   }
   cpu {
-    cores = 2
+    cores = 4
     type = "x86-64-v2-AES"
   }
   memory {
