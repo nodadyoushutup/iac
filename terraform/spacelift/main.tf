@@ -1,12 +1,24 @@
 ### ANSIBLE ###
+resource "null_resource" "private_key_fetch" {
+  provisioner "local-exec" {
+    command = "echo $PRIVATE_KEY > /tmp/private_key.txt"
+  }
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+data "local_file" "private_key" {
+  filename = "/tmp/private_key.txt"
+}
+
 resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 /mnt/workspace/proxmox.pem",
+        "chmod 600 ${data.local_file.private_key.content}",
     ]
 }
-
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
