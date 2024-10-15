@@ -1,7 +1,7 @@
 ### ANSIBLE ###
-resource "spacelift_context" "ansible_hooks" {
-    description = "Ansible hooks"
-    name        = "ansible_hooks"
+resource "spacelift_context" "ansible_hook" {
+    description = "Ansible hook"
+    name        = "ansible_hook"
     before_init = [
         "/mnt/workspace/source/ansible/install.sh",
         "source venv/bin/activate"
@@ -28,9 +28,9 @@ resource "spacelift_context_attachment" "docker_context_attachment_config" {
     priority   = 0
 }
 
-resource "spacelift_context_attachment" "docker_context_attachment_ansible" {
-    depends_on = [spacelift_stack.docker_stack, spacelift_context.ansible]
-    context_id = spacelift_context.ansible.id
+resource "spacelift_context_attachment" "docker_context_attachment_ansible_hook" {
+    depends_on = [spacelift_stack.docker_stack, spacelift_context.ansible_hook]
+    context_id = spacelift_context.ansible_hooks.id
     stack_id   = spacelift_stack.docker_stack.id
     priority   = 0
 }
