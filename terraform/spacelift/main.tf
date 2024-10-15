@@ -8,7 +8,7 @@ resource "spacelift_environment_variable" "tf_log" {
 }
 
 ### ANSIBLE ###
-resource "spacelift_context" "ansible" {
+resource "spacelift_context" "ansible2" {
     description = "Ansible hooks"
     name        = "ansible"
     before_init = [
@@ -18,7 +18,7 @@ resource "spacelift_context" "ansible" {
 }
 
 ### DOCKER ###
-resource "spacelift_stack" "docker_stack" {
+resource "spacelift_stack" "docker_stack2" {
     administrative = true
     autodeploy = true
     branch = "main"
@@ -37,16 +37,16 @@ resource "spacelift_stack" "docker_stack" {
 }
 
 resource "spacelift_context_attachment" "docker_context_attachment_config" {
-    depends_on = [spacelift_stack.docker_stack]
+    depends_on = [spacelift_stack.docker_stack2]
     context_id = data.spacelift_context.config.id
-    stack_id   = spacelift_stack.docker_stack.id
+    stack_id   = spacelift_stack.docker_stack2.id
     priority   = 0
 }
 
 resource "spacelift_context_attachment" "docker_context_attachment_ansible" {
-    depends_on = [spacelift_stack.docker_stack]
+    depends_on = [spacelift_stack.docker_stack2]
     context_id = spacelift_context.ansible.id
-    stack_id   = spacelift_stack.docker_stack.id
+    stack_id   = spacelift_stack.docker_stack2.id
     priority   = 0
 }
 
