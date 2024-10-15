@@ -50,6 +50,6 @@ resource "null_resource" "docker_ansible" {
     always_run = "${timestamp()}"
   }
   provisioner "local-exec" {
-    command = "ansible-playbook /mnt/workspace/source/ansible/docker/main.yaml"
+    command = "ansible-playbook /mnt/workspace/source/ansible/docker.yaml"
   }
 }
