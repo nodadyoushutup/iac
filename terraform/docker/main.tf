@@ -44,12 +44,12 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   }
 }
 
-# resource "null_resource" "docker_ansible" {
-#   depends_on = [proxmox_virtual_environment_vm.docker_vm]
-#   triggers = {
-#     always_run = "${timestamp()}"
-#   }
-#   provisioner "local-exec" {
-#     command = "ansible-playbook /mnt/workspace/source/ansible/docker.yaml"
-#   }
-# }
+resource "null_resource" "docker_ansible" {
+  depends_on = [proxmox_virtual_environment_vm.docker_vm]
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "ansible-playbook /mnt/workspace/source/ansible/docker.yaml"
+  }
+}
