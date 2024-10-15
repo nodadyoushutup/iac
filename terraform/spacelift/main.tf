@@ -31,7 +31,6 @@ resource "spacelift_stack" "docker_init_stack" {
     name = "docker_init"
     project_root = "ansible"
     repository = "iac"
-    terraform_version = "1.5.7"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
     ansible {
         playbook = "docker_init.yaml"
