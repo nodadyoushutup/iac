@@ -1,13 +1,3 @@
-### ANSIBLE ###
-# resource "spacelift_context" "ansible_hook" {
-#     description = "Ansible hook"
-#     name        = "ansible_hook"
-#     before_init = [
-#         "/mnt/workspace/source/ansible/install.sh",
-#         "source venv/bin/activate"
-#     ]
-# }
-
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
     # depends_on = [spacelift_context.ansible_hook]
@@ -37,6 +27,12 @@ resource "spacelift_stack" "docker_init_stack" {
     }
 }
 
+resource "spacelift_stack_dependency" "docker_infra_docker_init" {
+    depends_on = [ spacelift_stack.docker_infra_stack ]
+    stack_id            = spacelift_stack.docker_init_stack.id
+    depends_on_stack_id = spacelift_stack.docker_infra_stack.id
+}
+
 resource "spacelift_context_attachment" "docker_infra_context_attachment_config" {
     depends_on = [spacelift_stack.docker_infra_stack]
     context_id = data.spacelift_context.config.id
@@ -50,10 +46,3 @@ resource "spacelift_context_attachment" "docker_init_context_attachment_config" 
     stack_id   = spacelift_stack.docker_init_stack.id
     priority   = 0
 }
-
-# resource "spacelift_context_attachment" "docker_context_attachment_ansible_hook" {
-#     depends_on = [spacelift_stack.docker_infra_stack]
-#     context_id = spacelift_context.ansible_hook.id
-#     stack_id   = spacelift_stack.docker_infra_stack.id
-#     priority   = 0
-# }
