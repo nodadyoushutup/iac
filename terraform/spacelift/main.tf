@@ -43,9 +43,9 @@ resource "spacelift_context_attachment" "docker_context_attachment_config" {
     priority   = 0
 }
 
-resource "spacelift_context_attachment" "docker_context_attachment_ansible" {
+resource "spacelift_context_attachment" "docker_context_attachment_ansible2" {
     depends_on = [spacelift_stack.docker_stack2]
-    context_id = spacelift_context.ansible.id
+    context_id = spacelift_context.ansible2.id
     stack_id   = spacelift_stack.docker_stack2.id
     priority   = 0
 }
