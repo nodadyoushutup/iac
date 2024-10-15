@@ -23,7 +23,7 @@ resource "spacelift_stack" "docker_infra_stack" {
 }
 
 resource "spacelift_stack" "docker_init_stack" {
-    depends_on = [spacelift_stack.ansibldocker_infra_stack_hook]
+    depends_on = [spacelift_stack.docker_infra_stack]
     administrative = true
     autodeploy = true
     branch = "main"
