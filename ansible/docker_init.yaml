@@ -3,6 +3,7 @@
   hosts: docker
   gather_facts: no
   become: true
+  check_mode: no
   roles:
     - vm_init
     - docker_install
