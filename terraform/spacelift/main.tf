@@ -49,22 +49,3 @@ resource "spacelift_context_attachment" "docker_context_attachment_ansible" {
     stack_id   = spacelift_stack.docker_stack2.id
     priority   = 0
 }
-
-### TEST ###
-resource "spacelift_stack" "test_stack" {
-    administrative = true
-    autodeploy = true
-    branch = "main"
-    description = "test applications"
-    name = "test"
-    project_root = "terraform/test"
-    repository = "iac"
-    terraform_version = "1.5.7"
-}
-
-resource "spacelift_context_attachment" "config_test" {
-    depends_on = [spacelift_stack.test_stack]
-    context_id = data.spacelift_context.config.id
-    stack_id   = spacelift_stack.test_stack.id
-    priority   = 0
-}
