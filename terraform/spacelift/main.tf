@@ -10,7 +10,7 @@ resource "spacelift_environment_variable" "tf_log" {
 ### ANSIBLE ###
 resource "spacelift_context" "ansible2" {
     description = "Ansible hooks"
-    name        = "ansible"
+    name        = "ansible2"
     before_init = [
         "/mnt/workspace/source/ansible/install.sh",
         "source venv/bin/activate"
@@ -23,7 +23,7 @@ resource "spacelift_stack" "docker_stack2" {
     autodeploy = true
     branch = "main"
     description = "Docker applications"
-    name = "docker"
+    name = "docker2"
     project_root = "terraform/docker"
     repository = "iac"
     terraform_version = "1.5.7"
