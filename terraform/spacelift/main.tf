@@ -23,7 +23,7 @@ resource "spacelift_stack" "docker_stack2" {
     autodeploy = true
     branch = "main"
     description = "Docker applications"
-    name = "docker2"
+    name = "docker"
     project_root = "terraform/docker"
     repository = "iac"
     terraform_version = "1.5.7"
