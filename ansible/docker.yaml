@@ -4,6 +4,6 @@
   gather_facts: no
   become: true
   roles:
-    - init_vm
+    - vm_init
     - docker_install
     - docker_run
