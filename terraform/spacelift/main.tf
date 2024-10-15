@@ -56,3 +56,10 @@ resource "spacelift_context_attachment" "docker_init_context_attachment_config" 
     stack_id   = spacelift_stack.docker_init_stack.id
     priority   = 0
 }
+
+resource "spacelift_context_attachment" "docker_init_context_attachment_ansible_hook" {
+    depends_on = [spacelift_stack.docker_init_stack]
+    context_id = data.spacelift_context.ansible_hook.id
+    stack_id   = spacelift_stack.docker_init_stack.id
+    priority   = 0
+}
