@@ -6,4 +6,5 @@
   roles:
     - vm_init
     - docker_install
-    - docker_run
+    - docker_compose_down
+    - docker_compose_up
