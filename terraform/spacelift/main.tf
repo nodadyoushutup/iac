@@ -28,7 +28,7 @@ resource "spacelift_stack" "docker_init_stack" {
 }
 
 resource "spacelift_stack_dependency" "docker_infra_docker_init" {
-    depends_on = [ spacelift_stack.docker_infra_stack ]
+    depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
     stack_id            = spacelift_stack.docker_init_stack.id
     depends_on_stack_id = spacelift_stack.docker_infra_stack.id
 }
