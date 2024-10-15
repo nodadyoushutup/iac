@@ -10,6 +10,7 @@ resource "spacelift_context" "ansible_hook" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_stack" {
+    depends_on = [spacelift_context.ansible_hook]
     administrative = true
     autodeploy = true
     branch = "main"
@@ -29,7 +30,7 @@ resource "spacelift_context_attachment" "docker_context_attachment_config" {
 }
 
 resource "spacelift_context_attachment" "docker_context_attachment_ansible_hook" {
-    depends_on = [spacelift_stack.docker_stack, spacelift_context.ansible_hook]
+    depends_on = [spacelift_stack.docker_stack]
     context_id = spacelift_context.ansible_hooks.id
     stack_id   = spacelift_stack.docker_stack.id
     priority   = 0
