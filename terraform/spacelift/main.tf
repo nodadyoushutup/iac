@@ -1,13 +1,9 @@
-data "external" "private_key" {
-  program = ["bash", "-c", "echo {\"PRIVATE_KEY\": \"$PRIVATE_KEY\"}"]
-}
-
 ### ANSIBLE ###
 resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 ${data.external.private_key}",
+        "chmod 600 /mnt/workspace/proxmox.pem",
     ]
 }
 
