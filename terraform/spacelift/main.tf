@@ -3,7 +3,7 @@ resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 ${env(PRIVATE_KEY)}",
+        "chmod 600 ${PRIVATE_KEY}",
     ]
 }
 
