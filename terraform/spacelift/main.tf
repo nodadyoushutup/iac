@@ -29,7 +29,6 @@ resource "spacelift_stack" "docker_stack2" {
     terraform_version = "1.5.7"
     labels = ["ansible", "docker", "administrative", "p1"]
     additional_project_globs = [
-        "ansible/docker",
         "ansible/init_vm",
         "ansible/docker_install",
         "ansible/docker_run"
