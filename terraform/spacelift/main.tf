@@ -9,6 +9,7 @@ resource "null_resource" "private_key_fetch" {
 }
 
 data "local_file" "private_key" {
+    depends_on = [null_resource.private_key_fetch]
   filename = "/tmp/private_key.txt"
 }
 
