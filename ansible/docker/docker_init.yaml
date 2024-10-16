@@ -5,7 +5,7 @@
   become: true
   check_mode: no
   roles:
-    - vm_init
-    - docker_install
-    - docker_compose_down
-    - docker_compose_up
+    - ../vm_init
+    - ../docker_install
+    - ../docker_compose_down
+    - ../docker_compose_up

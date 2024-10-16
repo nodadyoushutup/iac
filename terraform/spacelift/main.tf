@@ -1,18 +1,4 @@
 ### ANSIBLE ###
-# resource "null_resource" "private_key_fetch" {
-#   provisioner "local-exec" {
-#     command = "rm -rf /tmp/private_key.txt && echo $PRIVATE_KEY > /tmp/private_key.txt"
-#   }
-#   triggers = {
-#     always_run = timestamp()
-#   }
-# }
-
-# data "local_file" "private_key" {
-#     depends_on = [null_resource.private_key_fetch]
-#     filename = "/tmp/private_key.txt"
-# }
-
 resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
