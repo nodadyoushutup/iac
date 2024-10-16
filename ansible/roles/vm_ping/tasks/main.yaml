@@ -7,3 +7,7 @@
   until: nc_result.rc == 0
   ignore_errors: true
   tags: check_ssh
+
+- name: Set SSH check result as a fact
+  set_fact:
+    ssh_check_success: "{{ nc_result.rc == 0 }}"
