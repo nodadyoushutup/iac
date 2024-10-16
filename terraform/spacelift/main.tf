@@ -31,9 +31,6 @@ resource "spacelift_stack" "docker_init_stack" {
     project_root = "ansible/stack/docker_init"
     repository = "iac"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
-    additional_project_globs = [
-        "../../role/apt_lock_check/**"
-    ]
     ansible {
         playbook = "main.yaml"
     }
