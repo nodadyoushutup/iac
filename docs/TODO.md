@@ -1,2 +1,3 @@
 - Fstab Ansible
 - cAdvisor / Grafana / Prometheus
+- GitHub init Ansible
