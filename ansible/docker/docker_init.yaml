@@ -5,7 +5,7 @@
   become: true
   check_mode: no
   roles:
-    - /mnt/workspace/source/ansible/roles/vm_init
-    - /mnt/workspace/source/ansible/roles/docker_install
-    - /mnt/workspace/source/ansible/roles/docker_compose_down
-    - /mnt/workspace/source/ansible/roles/docker_compose_up
+    - ./roles/vm_init
+    - ./roles/docker_install
+    - ./roles/docker_compose_down
+    - ./roles/docker_compose_up
