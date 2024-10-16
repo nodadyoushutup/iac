@@ -1,7 +1,7 @@
 ### ANSIBLE ###
 resource "null_resource" "private_key_fetch" {
   provisioner "local-exec" {
-    command = "echo $PRIVATE_KEY > /tmp/private_key.txt"
+    command = "rm -rf /tmp/private_key.txt && echo $PRIVATE_KEY > /tmp/private_key.txt"
   }
   triggers = {
     always_run = timestamp()
