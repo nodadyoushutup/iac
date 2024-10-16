@@ -1,7 +1,7 @@
 ---
 - name: Init Docker
   hosts: docker
-  gather_facts: no
+  gather_facts: true
   become: true
   check_mode: no
   roles:
