@@ -24,4 +24,4 @@
         - name: Start Docker Compose services
           include_role:
             name: ../roles/docker_compose_up
-      when: ping_result is succeeded
+      when: ping_result.rc == 0
