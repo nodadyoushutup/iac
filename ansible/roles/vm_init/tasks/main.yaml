@@ -1,5 +1,9 @@
 ---
-- import_tasks: ../apt_lock_check/tasks/main.yaml
+# - import_tasks: ../apt_lock_check/tasks/main.yaml
+
+- name: Run VM initialization role
+  include_role:
+    name: ../apt_lock_check
 
 - block:
     - name: Add user to sudo group
