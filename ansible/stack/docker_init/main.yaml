@@ -1,5 +1,5 @@
 ---
-# docker_init/main.yaml
+# docker_init.
 - name: Initialize Docker Environment
   hosts: docker
   gather_facts: no

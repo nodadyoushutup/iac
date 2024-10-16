@@ -1,5 +1,9 @@
 ---
 # apt_lock_check.
+- name: Set apt lock check fact to null
+  set_fact:
+    apt_lock_check_success: null
+
 - name: Wait until apt lock is released
   shell: lsof -w /var/lib/apt/lists/lock | wc -l
   register: lock
