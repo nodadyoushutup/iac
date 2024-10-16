@@ -3,7 +3,7 @@ resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "./before_init.sh",
+        ".././before_init.sh",
     ]
 }
 
