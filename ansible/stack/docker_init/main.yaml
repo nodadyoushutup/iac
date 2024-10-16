@@ -26,4 +26,4 @@
         - name: Start Docker-Compose Managed Services
           include_role:
             name: ../../role/docker_compose_up
-      when: ssh_check_success == true
+      when: vm_ping == true
