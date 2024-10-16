@@ -28,7 +28,7 @@ resource "spacelift_stack" "docker_init_stack" {
     branch = "main"
     description = "Docker initialization"
     name = "docker_init"
-    project_root = "ansible"
+    project_root = "ansible/docker"
     repository = "iac"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
     ansible {
