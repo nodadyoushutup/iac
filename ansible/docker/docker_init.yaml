@@ -4,8 +4,24 @@
   gather_facts: true
   become: true
   check_mode: no
+
   roles:
-    - ../roles/vm_init
-    - ../roles/docker_install
-    - ../roles/docker_compose_down
-    - ../roles/docker_compose_up
+    - role: ../roles/vm_ping
+      register: ping_result
+
+  tasks:
+    - name: Run if SSH check is successful
+      block:
+        - name: Run VM initialization role
+          include_role:
+            name: ../roles/vm_init
+        - name: Run Docker installation role
+          include_role:
+            name: ../roles/docker_install
+        - name: Stop Docker Compose services
+          include_role:
+            name: ../roles/docker_compose_down
+        - name: Start Docker Compose services
+          include_role:
+            name: ../roles/docker_compose_up
+      when: ping_result is succeeded

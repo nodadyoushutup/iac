@@ -1,0 +1,9 @@
+---
+- name: Check if SSH port is reachable on the target host using nc (netcat)
+  command: nc -zv {{ ansible_host }} {{ ansible_port }}
+  register: nc_result
+  retries: 16
+  delay: 20
+  until: nc_result.rc == 0
+  ignore_errors: true
+  tags: check_ssh
