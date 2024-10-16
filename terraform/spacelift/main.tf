@@ -28,11 +28,11 @@ resource "spacelift_stack" "docker_init_stack" {
     branch = "main"
     description = "Docker initialization"
     name = "docker_init"
-    project_root = "ansible/docker"
+    project_root = "ansible/stack/docker_init"
     repository = "iac"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
     ansible {
-        playbook = "docker_init.yaml"
+        playbook = "main.yaml"
     }
 }
 

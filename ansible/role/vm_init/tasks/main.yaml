@@ -3,7 +3,7 @@
 
 - name: Run VM initialization role
   include_role:
-    name: ../roles/apt_lock_check
+    name: ../../role/apt_lock_check
 
 - block:
     - name: Add user to sudo group
