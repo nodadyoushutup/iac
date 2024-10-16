@@ -5,11 +5,12 @@
   become: true
   check_mode: no
 
-  roles:
-    - role: ../roles/vm_ping
+  tasks:
+    - name: Check if SSH port is reachable using vm_ping role
+      include_role:
+        name: ../roles/vm_ping
       register: ping_result
 
-  tasks:
     - name: Run if SSH check is successful
       block:
         - name: Run VM initialization role
@@ -24,4 +25,4 @@
         - name: Start Docker Compose services
           include_role:
             name: ../roles/docker_compose_up
-      when: ping_result.rc == 0
+      when: ping_result.results[0].nc_result.rc == 0
