@@ -3,7 +3,7 @@ resource "spacelift_context" "ansible_hook" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "../.././before_init.sh",
+        "../.././before_init.sh"
     ]
 }
 
@@ -31,6 +31,9 @@ resource "spacelift_stack" "docker_init_stack" {
     project_root = "ansible/stack/docker_init"
     repository = "iac"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
+    additional_project_globs = [
+        "../../role/apt_lock_check"
+    ]
     ansible {
         playbook = "main.yaml"
     }
