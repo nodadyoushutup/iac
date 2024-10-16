@@ -14,7 +14,7 @@ data "local_file" "private_key" {
 }
 
 resource "spacelift_context" "ansible_hook" {
-    depends_on = [local_file.private_key]
+    depends_on = [data.local_file.private_key]
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
