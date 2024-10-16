@@ -1,0 +1,18 @@
+---
+- name: Wait until apt lock is released
+  shell: lsof -w /var/lib/apt/lists/lock | wc -l
+  register: lock
+  until: lock.stdout == "0"
+  retries: 18
+  delay: 10
+
+- name: Wait until apt lock_frontend is released
+  shell: lsof -w /var/lib/dpkg/lock-frontend | wc -l
+  register: lock_frontend
+  until: lock_frontend.stdout == "0"
+  retries: 18
+  delay: 10
+
+- name: Set apt lock check result as a fact
+  set_fact:
+    apt_lock_check_success: "{{ lock.stdout == '0' and lock_frontend.stdout == '0' }}"
