@@ -1,7 +1,5 @@
 ---
-# - import_tasks: ../apt_lock_check/tasks/main.yaml
-
-- name: Run VM initialization role
+- name: APT lock check
   include_role:
     name: ../../role/apt_lock_check
 

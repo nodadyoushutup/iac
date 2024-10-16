@@ -1,4 +1,8 @@
 ---
+- name: APT lock check
+  include_role:
+    name: ../../role/apt_lock_check
+
 - name: Uninstall unwanted packages 
   apt: 
     name: 
@@ -9,6 +13,7 @@
       - podman-docker 
     state: absent 
     lock_timeout: 120
+  when: apt_lock_check_success
 
 - name: Create the /etc/apt/keyrings directory with 0755 permissions
   file:
@@ -35,6 +40,10 @@
   apt: 
     update_cache: yes
 
+- name: APT lock check
+  include_role:
+    name: ../../role/apt_lock_check
+
 - name: Install Docker
   apt: 
     name: 
@@ -46,6 +55,7 @@
     state: present 
     update_cache: yes
     lock_timeout: 120
+  when: apt_lock_check_success
 
 - name: Ensure group "docker" exists with correct gid
   group:
