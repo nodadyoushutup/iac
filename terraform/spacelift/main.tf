@@ -34,7 +34,7 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
 }
 
 output "config" {
-  value = local.git_config_path
+  value = local.config
 }
 
 # ### DOCKER ###
