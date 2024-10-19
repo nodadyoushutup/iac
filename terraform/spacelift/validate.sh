@@ -17,13 +17,10 @@ echo $OUTPUT
 if echo "$OUTPUT" | grep -q "not a public key file"; then
   echo "+++++++++++++++++++++++++++++"
   echo $OUTPUT
-  echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
 elif echo "$OUTPUT" | grep -q "No such file or directory"; then
   echo "+++++++++++++++++++++++++++++"
   echo $OUTPUT
-  echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
 else
   echo "+++++++++++++++++++++++++++++"
   echo $OUTPUT
-  echo "{\"valid\": \"true\"}"
 fi
