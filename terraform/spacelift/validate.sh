@@ -1,11 +1,7 @@
 #!/bin/sh
-# Path to the YAML file (from the environment variable)
+
 PRIVATE_KEY_PATH="$1"
-
-# Extract the value of path.private_key using grep and awk
-# PRIVATE_KEY_PATH=$(grep 'private_key' "$YAML_FILE" | awk -F '*:*' '{print $2}' | sed 's/"//g' | tr -d ' ')
-
-# Run ssh-keygen and capture both stdout and stderr into a variable
+chmod 600 $PRIVATE_KEY_PATH
 OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
 la -la /mnt/workspace
