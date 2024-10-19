@@ -4,18 +4,18 @@ services:
     container_name: dozzle
     restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_SOCK}:/var/run/docker.sock
     ports:
-      - 8085:8080
+      - ${DOZZLE_PORT}
 
   uptime-kuma:
     image: louislam/uptime-kuma:latest
     container_name: uptime-kuma
     restart: unless-stopped
-    ports:
-     - 3001:3001
     volumes:
-      - ./uptime-kuma:/app/data
+      - ${UPTIME_KUMA_DATA}:/app/data
+    ports:
+     - ${UPTIME_KUMA_PORT}
   
   postgresql:
     image: postgres:latest
@@ -26,21 +26,21 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}
       
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     restart: unless-stopped
     volumes:
-      - ./nginx-proxy-manager:/data
-      - ./letsencrypt:/etc/letsencrypt
+      - ${NPM_DATA}:/data
+      - ${NPM_LETS_ENCRYPT}:/etc/letsencrypt
     ports:
-      - 80:80
-      - 443:443
-      - 81:81
+      - ${NPM_PORT_HTTP}
+      - ${NPM_PORT_HTTPS}
+      - ${NPM_PORT_ADMIN}
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
@@ -49,7 +49,7 @@ services:
     command:
       - --path.rootfs=/host
     ports:
-      - 9100:9100
+      - ${NODE_EXPORTER_PORT}
     volumes:
       - /:/host:ro,rslave
   
@@ -64,7 +64,7 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     ports:
-      - 8080:8080
+      - ${CADVISOR_PORT}
 
   prometheus:
     image: prom/prometheus:latest
@@ -72,10 +72,10 @@ services:
     restart: unless-stopped
     user: "root"
     volumes:
-      - ./prometheus_data:/prometheus
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${PROMTEHEUS_DATA}:/prometheus
+      - ${PROMETHEUS_CONFIG}:/etc/prometheus/prometheus.yml
     ports:
-      - 9090:9090
+      - ${PROMTEHEUS_PORT}
 
   grafana:
     image: grafana/grafana:latest
@@ -89,6 +89,6 @@ services:
       GF_AUTH_DISABLE_SIGNOUT_MENU: "true"
       GF_AUTH_DISABLE_LOGIN_FORM: "true"
     ports:
-     - 3000:3000
+     - ${GRAFANA_PORT}
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ${GRAFANA_DATYA}:/var/lib/grafana
