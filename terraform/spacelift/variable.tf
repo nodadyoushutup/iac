@@ -3,9 +3,3 @@ variable "CONFIG" {
   description = "Terraform config path"
   default = null
 }
-
-variable "TEST_ENV_VAR" {
-  type = string
-  description = "test"
-  default = "/mnt/workspace/config.yaml"
-}
