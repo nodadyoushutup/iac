@@ -138,7 +138,7 @@ resource "null_resource" "force_recreate" {
     }
 
     provisioner "local-exec" {
-        command = "echo 'Forcing recreation of Spacelift environment variable'"
+        command = "echo 'Forcing recreation of Spacelift environment variable' $TF_VAR_CONFIG"
     }
 
     # Using the null_resource to trigger recreation of spacelift_environment_variable
