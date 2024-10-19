@@ -6,5 +6,5 @@ locals {
 }
 
 output "config" {
-  value = local.config_path
+  value = local.config
 }
