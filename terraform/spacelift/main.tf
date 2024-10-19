@@ -58,15 +58,17 @@ resource "spacelift_context_attachment" "docker_init_context_attachment_ansible_
 }
 
 resource "spacelift_stack_dependency" "spacelift_docker_infra" {
-    depends_on = [data.spacelift_stack.spacelift, spacelift_stack.docker_infra_stack]
-    stack_id            = spacelift_stack.docker_infra_stack.id
-    depends_on_stack_id = data.spacelift_stack.spacelift.id
+  count = local.config.dependency_deploy ? 1 : 0
+  depends_on = [data.spacelift_stack.spacelift, spacelift_stack.docker_infra_stack]
+  stack_id            = spacelift_stack.docker_infra_stack.id
+  depends_on_stack_id = data.spacelift_stack.spacelift.id
 }
 
 resource "spacelift_stack_dependency" "docker_infra_docker_init" {
-    depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
-    stack_id            = spacelift_stack.docker_init_stack.id
-    depends_on_stack_id = spacelift_stack.docker_infra_stack.id
+  count = local.config.dependency_deploy ? 1 : 0
+  depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
+  stack_id            = spacelift_stack.docker_init_stack.id
+  depends_on_stack_id = spacelift_stack.docker_infra_stack.id
 }
 
 ### PROMETHEUS ###
@@ -100,6 +102,7 @@ resource "spacelift_context_attachment" "prometheus_init_context_attachment_ansi
 }
 
 resource "spacelift_stack_dependency" "docker_init_prometheus_init" {
+    count = local.config.dependency_deploy ? 1 : 0
     depends_on = [spacelift_stack.docker_init_stack, spacelift_stack.prometheus_init_stack]
     stack_id            = spacelift_stack.prometheus_init_stack.id
     depends_on_stack_id = spacelift_stack.docker_init_stack.id

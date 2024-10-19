@@ -16,7 +16,8 @@
           include_role:
             name: ../role/vm_init
 
-        # This will turn into a over migrate config role
+        # This will turn into a overall migrate config role
+        # to run all configuration migrations
         - name: Migrate Prometheus configuration
           include_role:
             name: ../role/prometheus_config
