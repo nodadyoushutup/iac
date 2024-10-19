@@ -124,27 +124,9 @@ resource "time_static" "example" {}
 
 ### TEST ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
-    depends_on = [ null_resource.force_recreate ]
     context_id  = "config" 
     name        = "TF_VAR_CONFIG" 
-    value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml") 
+    value       = var.CONFIG
     write_only  = false 
     description = "Test environment variable"
-}
-
-resource "null_resource" "force_recreate" {
-    triggers = {
-        always_run = timestamp() # Forces this null_resource to run every time
-    }
-
-    provisioner "local-exec" {
-        command = "echo 'Forcing recreation of Spacelift environment variable ${var.CONFIG}'" 
-    }
-
-    # Using the null_resource to trigger recreation of spacelift_environment_variable
-    
-}
-
-output "local_config_path" {
-  value = local.config_path
 }

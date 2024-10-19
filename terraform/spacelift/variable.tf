@@ -7,6 +7,5 @@ variable "CONFIG" {
 variable "TEST_ENV_VAR" {
   type = string
   description = "test"
-  # default = "/mnt/workspace/config.yaml"
-  default = null
+  default = "/mnt/workspace/config.yaml"
 }
