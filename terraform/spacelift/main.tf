@@ -88,7 +88,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     description = "Flag for environment initialization"
 }
 
-output "valid_check" {
+output "valid_check2" {
   value = data.external.private_key_validation.result["valid"]
 }
 
