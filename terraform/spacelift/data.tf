@@ -2,11 +2,9 @@ data "spacelift_stack" "spacelift" {
   stack_id = "spacelift"
 }
 
-data "spacelift_context" "config" {
-  context_id = "config"
+data "external" "private_key_validation" {
+    program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+    query = {trigger = random_id.trigger.hex}
+    depends_on = [random_id.trigger]
 }
 
-# data "spacelift_environment_variable" "private_key" {
-#   context_id = "config"
-#   name       = "PRIVATE_KEY"
-# }
