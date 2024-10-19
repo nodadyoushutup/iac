@@ -11,6 +11,6 @@ locals {
 }
 
 output "config" {
-  # value = local.config_path
-  value = "test"
+  value = local.config_path
+  # value = "test"
 }
