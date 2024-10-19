@@ -14,18 +14,19 @@ resource "spacelift_context" "ansible_hook_context" {
     ]
 }
 
-# ### ENVIRONMENT VARIABLES ###
-# resource "spacelift_environment_variable" "config_environment_variable" { 
-#     context_id  = "config" 
-#     name        = "TF_VAR_CONFIG" 
-#     value       = local.config_path
-#     write_only  = false 
-#     description = "Test environment variable"
-# }
+### ENVIRONMENT VARIABLES ###
+resource "spacelift_environment_variable" "config_environment_variable" { 
+    depends_on = [spacelift_context.config_context]
+    context_id  = spacelift_context.config_context.id
+    name        = "TF_VAR_CONFIG" 
+    value       = local.config_path
+    write_only  = false 
+    description = "Terraform configuration path"
+}
 
-# output "config" {
-#   value = local.config
-# }
+output "config" {
+  value = local.config
+}
 
 # ### DOCKER ###
 # resource "spacelift_stack" "docker_infra_stack" {
