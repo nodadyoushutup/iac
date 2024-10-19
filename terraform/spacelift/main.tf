@@ -91,7 +91,7 @@ output "valid_check" {
 
 resource "null_resource" "run_private_key_validation" {
   provisioner "local-exec" {
-    command = "${path.module}/private_key_validation.sh ${local.config.path.private_key}"
+    command = "${path.module}/validate.sh ${local.config.path.private_key}"
   }
 
   triggers = {
