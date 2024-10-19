@@ -129,6 +129,11 @@ resource "spacelift_environment_variable" "config_environment_variable" {
     description = "Test environment variable"
 }
 
+data "spacelift_environment_variable" "config_var" {
+  context_id = "config"
+  name = "TF_VAR_CONFIG"
+}
+
 output "test_env_var" {
-    value = var.CONFIG
+    value = data.spacelift_environment_variable.config_var
 }
