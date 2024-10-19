@@ -126,7 +126,7 @@ resource "time_static" "example" {}
 resource "spacelift_environment_variable" "config_environment_variable" { 
     context_id  = "config" 
     name        = "TF_VAR_CONFIG" 
-    value       = var.CONFIG
+    value       = try(var.CONFIG, "/mnt/workspace/config.yaml")
     write_only  = false 
     description = "Test environment variable"
 }
