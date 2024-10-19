@@ -11,14 +11,19 @@ PRIVATE_KEY_PATH=$(grep 'private_key' "$YAML_FILE" | awk -F '*:*' '{print $2}' |
 OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
 ls -la /mnt/workspace
+echo $OUTPUT
 
 # Check if the output contains the phrase "not a public key file"
 if echo "$OUTPUT" | grep -q "not a public key file"; then
-  echo "+++++++++++++++++++++++++++++" 
+  echo "+++++++++++++++++++++++++++++"
+  echo $OUTPUT
+  echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
+elif echo "$OUTPUT" | grep -q "No such file or directory"; then
+  echo "+++++++++++++++++++++++++++++"
   echo $OUTPUT
   echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
 else
-  echo "+++++++++++++++++++++++++++++" 
+  echo "+++++++++++++++++++++++++++++"
   echo $OUTPUT
-  echo "{\"valid\": \"true\"}" 
+  echo "{\"valid\": \"true\"}"
 fi
