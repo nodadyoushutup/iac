@@ -12,7 +12,7 @@
 
     - name: Docker Setup and Service Management
       block:
-        - name: Execute VM Initialization Tasks
+        - name: VM Initialization Tasks
           include_role:
             name: ../../role/vm_init
 
@@ -20,11 +20,16 @@
           include_role:
             name: ../../role/docker_install
 
-        - name: Stop Docker-Compose Managed Services
+        - name: Restart Docker Compose Managed Services
           include_role:
-            name: ../../role/docker_compose_down
+            name: ../../role/docker_compose
+          vars:
+            run_down: true
+            run_up: true
+            up_services: ""
+            down_services: ""
 
-        - name: Start Docker-Compose Managed Services
+        - name: Migrate Prometheus configuration
           include_role:
-            name: ../../role/docker_compose_up
+            name: ../../role/prometheus_config
       when: vm_ping == true

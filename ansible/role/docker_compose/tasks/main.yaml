@@ -1,0 +1,26 @@
+---
+- name: Ensure Docker service is running
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Run docker compose down
+  ansible.builtin.shell: |
+    export COMPOSE_FILE={{ compose_file }}
+    docker compose down {{ down_services | default('') }}
+  args:
+    executable: /bin/bash
+  environment:
+    COMPOSE_FILE: "{{ compose_file }}"
+  when: run_down
+
+- name: Run docker compose up
+  ansible.builtin.shell: |
+    export COMPOSE_FILE={{ compose_file }}
+    docker compose up -d {{ up_services | default('') }}
+  args:
+    executable: /bin/bash
+  environment:
+    COMPOSE_FILE: "{{ compose_file }}"
+  when: run_up

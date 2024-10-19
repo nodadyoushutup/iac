@@ -1,0 +1,6 @@
+---
+compose_file: "/home/{{ ansible_user }}/docker-compose.yaml"
+run_down: true
+run_up: true
+down_services: ""
+up_services: ""

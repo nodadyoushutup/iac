@@ -1,0 +1,17 @@
+---
+- name: Copy prometheus.yaml to the ansible user's home
+  copy:
+    src: "{{ lookup('env', 'PROMETHEUS_CONFIG') }}"
+    dest: /home/{{ ansible_user }}/prometheus.yaml
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Restart Docker Compose Managed Services
+  include_role:
+    name: ../../role/docker_compose
+  vars:
+    run_down: true
+    run_up: true
+    up_services: "prometheus"
+    down_services: "prometheus"
