@@ -14,5 +14,5 @@ output "var_config" {
 }
 
 output "local_config" {
-  value = local.config
+  value = local.config.dependency_deploy
 }
