@@ -1,0 +1,45 @@
+---
+dependency_deploy:
+  infra: false
+  init: false
+  config: false
+path:
+  git: /mnt/workspace/.gitconfig
+  prometheus: /mnt/workspace/prometheus.yaml
+  private_key: /mnt/workspace/id_rsa
+  ansible: /mnt/workspace/source/config/ansible.cfg
+  docker_compose: /mnt/workspace/source/config/docker-compose.yaml
+provider:
+  proxmox:
+    endpoint: 
+    insecure: 
+    username: 
+    password: 
+    ssh:
+      private_key: 
+      node:
+        address: 
+        name: 
+        port: 
+  fortigate:
+    hostname: 
+    insecure: 
+    username: 
+    password: 
+  postgresql:
+    host: 
+    port: 
+    database: 
+    username: 
+    password: 
+    sslmode: 
+    connect_timeout: 
+    clientcert:
+      cert: 
+      key: 
+virtual_machine:
+  username: 
+  password: 
+  keys: [
+    # 
+  ]
