@@ -3,11 +3,17 @@
 YAML_FILE="${TF_VAR_CONFIG}"
 
 # Extract the value of path.private_key using grep and awk
-PRIVATE_KEY_PATH=$(grep 'private_key' $YAML_FILE | awk -F ': *' '{print $2}' | sed 's/"//g' | tr -d ' ')
-# chmod 600 $PRIVATE_KEY_PATH
-# Check if the private key is valid
-if ssh-keygen -l -f $PRIVATE_KEY_PATH >/dev/null 2>&1; then
-  echo "{\"valid\": \"true\"}"  # Return true as a string
+PRIVATE_KEY_PATH=$(grep 'private_key' "$YAML_FILE" | awk -F ': *' '{print $2}' | sed 's/"//g' | tr -d ' ')
+
+# Debug: Print the extracted path for verification
+echo "Private key path extracted: $PRIVATE_KEY_PATH"
+
+# Run ssh-keygen and capture both stdout and stderr into a variable
+OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
+
+# Check if the output contains the phrase "not a public key file"
+if echo "$OUTPUT" | grep -q "not a public key file"; then
+  echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
 else
-  echo "{\"valid\": \"false\"}" # Return false as a string
+  echo "{\"valid\": \"true\"}"   # Return true if the file is valid
 fi
