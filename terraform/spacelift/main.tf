@@ -1,3 +1,11 @@
+### CONFIG ###
+resource "spacelift_context" "config_context" {
+    description = "Infrastructure as Code  Configuration"
+    name        = "config"
+    depends_on = [data.spacelift_stack.spacelift]
+}
+
+
 # ### ENVIRONMENT VARIABLES ###
 # resource "spacelift_environment_variable" "config_environment_variable" { 
 #     context_id  = "config" 
