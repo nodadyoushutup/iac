@@ -124,6 +124,7 @@ resource "time_static" "example" {}
 
 ### TEST ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
+    depends_on = [ null_resource.force_recreate ]
     context_id  = "config" 
     name        = "TF_VAR_CONFIG" 
     value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml") 
@@ -141,7 +142,7 @@ resource "null_resource" "force_recreate" {
     }
 
     # Using the null_resource to trigger recreation of spacelift_environment_variable
-    depends_on = [spacelift_environment_variable.config_environment_variable]
+    
 }
 
 output "local_config_path" {
