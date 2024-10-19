@@ -71,26 +71,24 @@ data "external" "private_key_validation" {
   depends_on = [random_id.trigger]
 }
 
-output "valid_check5" {
-  value = data.external.private_key_validation.result["valid"]
+resource "spacelift_environment_variable" "env_environment_variable" { 
+    depends_on = [
+        spacelift_context.config_context,
+        spacelift_mounted_file.config_mounted_file,
+        spacelift_mounted_file.private_keymounted_file,
+        spacelift_environment_variable.config_environment_variable,
+        spacelift_environment_variable.tf_log_environment_variable
+    ]
+    context_id  = spacelift_context.config_context.id
+    name        = "TF_VAR_ENV" 
+    value       = data.external.private_key_validation.result["valid"] == "true" ? true : false
+    write_only  = false 
+    description = "Flag for environment initialization"
 }
 
-
-# resource "spacelift_environment_variable" "env_environment_variable" { 
-#     depends_on = [
-#         spacelift_context.config_context,
-#         spacelift_mounted_file.config_mounted_file,
-#         spacelift_mounted_file.private_keymounted_file,
-#         spacelift_environment_variable.config_environment_variable,
-#         spacelift_environment_variable.tf_log_environment_variable
-#     ]
-#     context_id  = spacelift_context.config_context.id
-#     name        = "TF_VAR_ENV" 
-#     value       = data.external.private_key_validation.result["valid"] == "true" ? true : false
-#     write_only  = false 
-#     description = "Flag for environment initialization"
-# }
-
+output "valid_check" {
+  value = data.external.private_key_validation.result["valid"]
+}
 
 
 # ### DOCKER ###
