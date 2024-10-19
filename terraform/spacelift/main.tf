@@ -23,7 +23,7 @@ resource "spacelift_context" "ansible_hook_context" {
 
 ### ENVIRONMENT VARIABLES ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
-    depends_on = [spacelift_context.config_context]
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_CONFIG" 
     value       = local.config_path
@@ -32,7 +32,7 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 }
 
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
-    depends_on = [spacelift_context.config_context]
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
     name        = "TF_LOG" 
     value       = "debug"
