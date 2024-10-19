@@ -1,19 +1,3 @@
-### SCRIPT ###
-resource "random_id" "trigger" {
-    byte_length = 8
-}
-
-data "external" "private_key_validation" {
-    program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
-    query = {trigger = random_id.trigger.hex}
-    depends_on = [random_id.trigger]
-}
-
-output "valid_check" {
-  value = data.external.private_key_validation.result["valid"]
-}
-
-
 ### CONTEXT ###
 resource "spacelift_context" "config_context" {
     depends_on = [data.spacelift_stack.spacelift]
@@ -86,6 +70,21 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     value       = data.external.private_key_validation.result["valid"] == "true" ? local.env + 1 : local.env
     write_only  = false 
     description = "Flag for valid environment initialization"
+}
+
+### SCRIPT ###
+resource "random_id" "trigger" {
+    byte_length = 8
+}
+
+data "external" "private_key_validation" {
+    program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+    query = {trigger = random_id.trigger.hex}
+    depends_on = [random_id.trigger]
+}
+
+output "valid_check" {
+  value = data.external.private_key_validation.result["valid"]
 }
 
 
