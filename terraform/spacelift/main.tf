@@ -58,17 +58,17 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
 }
 
 resource "random_id" "trigger" {
-  byte_length = 8  # You can adjust the byte length if needed
+  byte_length = 8
 }
 
 data "external" "private_key_validation" {
   program = ["bash", "${path.module}/private_key_validation.sh", "/mnt/workspace/id_rsa"]
 
   query = {
-    trigger = random_id.trigger.hex  # Dummy trigger that forces reevaluation
+    trigger = random_id.trigger.hex 
   }
 
-  depends_on = [random_id.trigger]  # Ensure this data source runs after the random_id is generated
+  depends_on = [random_id.trigger]
 }
 
 output "valid_check" {
