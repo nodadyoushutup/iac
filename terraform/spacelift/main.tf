@@ -120,16 +120,26 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 #     depends_on_stack_id = spacelift_stack.docker_init_stack.id
 # }
 
+resource "time_static" "example" {}
+
 ### TEST ###
-resource "spacelift_environment_variable" "config_environment_variable" {
-    context_id  = "config"
-    name = "TF_VAR_CONFIG"
-    # value = var.CONFIG
-    value = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml")
-    write_only = false
+resource "spacelift_environment_variable" "config_environment_variable" { 
+    context_id  = "config" 
+    name        = "TF_VAR_CONFIG" 
+    value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml") 
+    write_only  = false 
     description = "Test environment variable"
 }
 
-output "local_config_path" {
-  value = local.config_path
+resource "null_resource" "force_recreate" {
+    triggers = {
+        always_run = timestamp() # Forces this null_resource to run every time
+    }
+
+    provisioner "local-exec" {
+        command = "echo 'Forcing recreation of Spacelift environment variable'"
+    }
+
+    # Using the null_resource to trigger recreation of spacelift_environment_variable
+    depends_on = [spacelift_environment_variable.config_environment_variable]
 }
