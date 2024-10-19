@@ -57,10 +57,23 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
     description = "Terraform log level"
 }
 
-data "external" "private_key_validation" {
-  program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+resource "random_id" "trigger" {
+  byte_length = 8  # You can adjust the byte length if needed
 }
 
+data "external" "private_key_validation" {
+  program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+
+  query = {
+    trigger = random_id.trigger.hex  # Dummy trigger that forces reevaluation
+  }
+
+  depends_on = [random_id.trigger]  # Ensure this data source runs after the random_id is generated
+}
+
+output "valid_check" {
+  value = data.external.private_key_validation
+}
 
 # resource "spacelift_environment_variable" "env_environment_variable" { 
 #     depends_on = [
