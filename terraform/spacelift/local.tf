@@ -6,5 +6,5 @@ locals {
 }
 
 output "config" {
-  value = local.config
+  value = yamldecode(file(local.config_path))
 }
