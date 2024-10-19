@@ -10,7 +10,7 @@ data "external" "private_key_validation" {
 }
 
 output "valid_check" {
-  value = local.config
+  value = data.external.private_key_validation.result["valid"]
 }
 
 
