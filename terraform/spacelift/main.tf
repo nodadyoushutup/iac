@@ -124,8 +124,8 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 resource "spacelift_environment_variable" "config_environment_variable" {
     context_id  = "config"
     name        = "TF_VAR_CONFIG"
-#   value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml")
-    value       = "/mnt/workspace/config.yaml"
+  value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml")
+    # value       = "/mnt/workspace/config.yaml"
     write_only  = false
     description = "Test environment variable"
 }
