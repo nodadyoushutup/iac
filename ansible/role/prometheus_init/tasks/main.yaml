@@ -6,12 +6,3 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'
-
-- name: Restart Docker Compose Managed Services
-  include_role:
-    name: ../../role/docker_compose
-  vars:
-    run_down: true
-    run_up: true
-    up_services: "prometheus"
-    down_services: "prometheus"

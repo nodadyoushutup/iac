@@ -6,7 +6,7 @@
   become: true
   check_mode: no
   tasks:
-    - name: Verify APT Lock Status
+    - name: Verify Ping Status
       include_role:
         name: ../../role/vm_ping
 
@@ -28,8 +28,4 @@
             run_up: true
             up_services: ""
             down_services: ""
-
-        - name: Migrate Prometheus configuration
-          include_role:
-            name: ../../role/prometheus_config
       when: vm_ping == true

@@ -1,0 +1,27 @@
+---
+# prometheus.
+- name: Initialize Prometheus
+  hosts: docker
+  gather_facts: no
+  become: true
+  check_mode: no
+  tasks:
+    - name: Verify Ping Status
+      include_role:
+        name: ../../role/vm_ping
+
+    - name: Initialize Prometheus
+      block:
+        - name: Migrate Prometheus configuration
+          include_role:
+            name: ../../role/prometheus_config
+        
+        - name: Restart Docker Compose Managed Services
+          include_role:
+            name: ../../role/docker_compose
+          vars:
+            run_down: true
+            run_up: true
+            up_services: "prometheus"
+            down_services: "prometheus"
+      when: vm_ping == true
