@@ -6,8 +6,8 @@ resource "spacelift_context" "config_context" {
 }
 
 resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
-    depends_on = [data.spacelift_stack.spacelift]
-    context_id = data.spacelift_context.config.id
+    depends_on = [spacelift_context.config_context]
+    context_id = spacelift_context.config_context.id
     stack_id   = data.spacelift_stack.spacelift.id
     priority   = 0
 }
