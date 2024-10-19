@@ -58,7 +58,7 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
 }
 
 data "external" "private_key_validation" {
-  program = ["bash", "${path.module}/scripts/private_key_validation.sh", local.config.path.private_key]
+  program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
 }
 
 
