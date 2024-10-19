@@ -57,19 +57,19 @@ resource "spacelift_context_attachment" "docker_init_context_attachment_ansible_
     priority   = 0
 }
 
-# resource "spacelift_stack_dependency" "spacelift_docker_infra" {
-#   count = local.config.dependency_deploy ? 1 : 0
-#   depends_on = [data.spacelift_stack.spacelift, spacelift_stack.docker_infra_stack]
-#   stack_id            = spacelift_stack.docker_infra_stack.id
-#   depends_on_stack_id = data.spacelift_stack.spacelift.id
-# }
+resource "spacelift_stack_dependency" "spacelift_docker_infra" {
+  count = local.config.dependency_deploy.infra ? 1 : 0
+  depends_on = [data.spacelift_stack.spacelift, spacelift_stack.docker_infra_stack]
+  stack_id            = spacelift_stack.docker_infra_stack.id
+  depends_on_stack_id = data.spacelift_stack.spacelift.id
+}
 
-# resource "spacelift_stack_dependency" "docker_infra_docker_init" {
-#   count = local.config.dependency_deploy ? 1 : 0
-#   depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
-#   stack_id            = spacelift_stack.docker_init_stack.id
-#   depends_on_stack_id = spacelift_stack.docker_infra_stack.id
-# }
+resource "spacelift_stack_dependency" "docker_infra_docker_init" {
+  count = local.config.dependency_deploy.init ? 1 : 0
+  depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
+  stack_id            = spacelift_stack.docker_init_stack.id
+  depends_on_stack_id = spacelift_stack.docker_infra_stack.id
+}
 
 ### PROMETHEUS ###
 resource "spacelift_stack" "prometheus_init_stack" {
