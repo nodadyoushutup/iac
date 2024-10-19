@@ -25,7 +25,7 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 }
 
 output "config" {
-  value = local.config
+  value = local.config_path
 }
 
 # ### DOCKER ###
