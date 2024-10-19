@@ -9,7 +9,7 @@ resource "spacelift_context" "ansible_hook_context" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
-    depends_on = [spacelift_context.ansible_hook_context_context]
+    depends_on = [spacelift_context.ansible_hook_context]
     administrative = true
     autodeploy = true
     branch = "main"
