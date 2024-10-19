@@ -9,7 +9,7 @@ resource "spacelift_context" "ansible_hook_context" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
-    depends_on = [spacelift_context.ansible_hook_context]
+    depends_on = [spacelift_context.ansible_hook_context_context]
     administrative = true
     autodeploy = true
     branch = "main"
@@ -51,8 +51,8 @@ resource "spacelift_context_attachment" "docker_init_config_context_attachment" 
 }
 
 resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
-    depends_on = [spacelift_stack.docker_init_stack, spacelift_context.ansible_hook]
-    context_id = spacelift_context.ansible_hook.id
+    depends_on = [spacelift_stack.docker_init_stack, spacelift_context.ansible_hook_context]
+    context_id = spacelift_context.ansible_hook_context.id
     stack_id   = spacelift_stack.docker_init_stack.id
     priority   = 0
 }
@@ -95,8 +95,8 @@ resource "spacelift_context_attachment" "prometheus_init_config_context_attachme
 }
 
 resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_attachment" {
-    depends_on = [spacelift_stack.prometheus_init_stack, spacelift_context.ansible_hook]
-    context_id = spacelift_context.ansible_hook.id
+    depends_on = [spacelift_stack.prometheus_init_stack, spacelift_context.ansible_hook_context]
+    context_id = spacelift_context.ansible_hook_context.id
     stack_id   = spacelift_stack.prometheus_init_stack.id
     priority   = 0
 }
