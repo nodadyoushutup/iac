@@ -143,3 +143,7 @@ resource "null_resource" "force_recreate" {
     # Using the null_resource to trigger recreation of spacelift_environment_variable
     depends_on = [spacelift_environment_variable.config_environment_variable]
 }
+
+output "local_config_path" {
+  value = local.config_path
+}
