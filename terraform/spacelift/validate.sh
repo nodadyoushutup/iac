@@ -1,19 +1,14 @@
 #!/bin/sh
 
 PRIVATE_KEY_PATH="$1"
-chmod 600 $PRIVATE_KEY_PATH
-OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
+chmod 600 "$PRIVATE_KEY_PATH"
 
-ls -la /mnt/workspace
+# Run ssh-keygen -y to check if the private key is valid by generating the public key
+OUTPUT=$(ssh-keygen -y -f "$PRIVATE_KEY_PATH" 2>&1)
 
-cat $PRIVATE_KEY_PATH
-
-echo $YAML_FILE
-echo $PRIVATE_KEY_PATH
-echo $OUTPUT
-
-if echo "$OUTPUT" | grep -q "(RSA)"; then
-  echo "{\"valid\": \"true\"}" 
+# Check if ssh-keygen failed
+if echo "$OUTPUT" | grep -q "load failed"; then
+  echo "{\"valid\": \"false\"}"  # Invalid private key
 else
-  echo "{\"valid\": \"false\"}" 
+  echo "{\"valid\": \"true\"}"   # Valid private key
 fi
