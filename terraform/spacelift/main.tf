@@ -123,14 +123,14 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 resource "time_static" "example" {}
 
 ### TEST ###
-# resource "spacelift_environment_variable" "config_environment_variable" { 
-#     context_id  = "config" 
-#     name        = "TF_VAR_CONFIG" 
-#     value       = var.CONFIG
-#     write_only  = false 
-#     description = "Test environment variable"
-# }
+resource "spacelift_environment_variable" "config_environment_variable" { 
+    context_id  = "config" 
+    name        = "TF_VAR_CONFIG" 
+    value       = var.CONFIG
+    write_only  = false 
+    description = "Test environment variable"
+}
 
-# output "config_path" {
-#   value = local.config_path
-# }
+output "config_path" {
+  value = local.config_path
+}
