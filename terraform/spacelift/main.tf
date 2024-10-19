@@ -112,7 +112,7 @@ resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_depende
 resource "spacelift_environment_variable" "test_env_var" {
   context_id  = "config"
   name        = "TF_VAR_TEST_ENV_VAR"
-  value       = try(var.TEST_ENV_VAR, "/project/spacelift/kubeconfig")
+  value       = try("/project/spacelift/kubeconfig")
   write_only  = false
   description = "Test environment variable"
 }
