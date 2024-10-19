@@ -8,21 +8,21 @@
   tasks:
     - name: Verify Ping Status
       include_role:
-        name: ../../role/vm_ping
+        name: ../role/vm_ping
 
     - name: Docker Setup and Service Management
       block:
         - name: VM Initialization Tasks
           include_role:
-            name: ../../role/vm_init
+            name: ../role/vm_init
 
         - name: Install or Update Docker
           include_role:
-            name: ../../role/docker_install
+            name: ../role/docker_install
 
         - name: Restart Docker Compose Managed Services
           include_role:
-            name: ../../role/docker_compose
+            name: ../role/docker_compose
           vars:
             run_down: true
             run_up: true
