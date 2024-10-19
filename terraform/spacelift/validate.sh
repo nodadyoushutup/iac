@@ -10,7 +10,7 @@ echo $OUTPUT
 
 # Check if ssh-keygen failed
 if echo "$OUTPUT" | grep -q "load failed"; then
-  echo "{\"valid\": \"false\"}"  # Invalid private key
+  echo "{\"valid\": \"false\"}"
 else
-  echo "{\"valid\": \"true\"}"   # Valid private key
+  echo "{\"valid\": \"true\"}"
 fi
