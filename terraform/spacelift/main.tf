@@ -1,32 +1,32 @@
-### CONTEXT ###
-resource "spacelift_context" "config_context" {
-    depends_on = [data.spacelift_stack.spacelift]
-    description = "Infrastructure as Code  Configuration"
-    name        = "config"
-}
+# ### CONTEXT ###
+# resource "spacelift_context" "config_context" {
+#     depends_on = [data.spacelift_stack.spacelift]
+#     description = "Infrastructure as Code  Configuration"
+#     name        = "config"
+# }
 
-resource "spacelift_context" "ansible_hook_context" {
-    depends_on = [data.spacelift_stack.spacelift]
-    description = "Ansible hook"
-    name        = "ansible_hook"
-    before_init = [
-        ".././before_init.sh"
-    ]
-}
+# resource "spacelift_context" "ansible_hook_context" {
+#     depends_on = [data.spacelift_stack.spacelift]
+#     description = "Ansible hook"
+#     name        = "ansible_hook"
+#     before_init = [
+#         ".././before_init.sh"
+#     ]
+# }
 
-### ENVIRONMENT VARIABLES ###
-resource "spacelift_environment_variable" "config_environment_variable" { 
-    depends_on = [spacelift_context.config_context]
-    context_id  = spacelift_context.config_context.id
-    name        = "TF_VAR_CONFIG" 
-    value       = local.config_path
-    write_only  = false 
-    description = "Terraform configuration path"
-}
+# ### ENVIRONMENT VARIABLES ###
+# resource "spacelift_environment_variable" "config_environment_variable" { 
+#     depends_on = [spacelift_context.config_context]
+#     context_id  = spacelift_context.config_context.id
+#     name        = "TF_VAR_CONFIG" 
+#     value       = local.config_path
+#     write_only  = false 
+#     description = "Terraform configuration path"
+# }
 
-output "config" {
-  value = local.config_path
-}
+# output "config" {
+#   value = local.config_path
+# }
 
 # ### DOCKER ###
 # resource "spacelift_stack" "docker_infra_stack" {

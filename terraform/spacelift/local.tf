@@ -9,3 +9,7 @@ locals {
   )
   config = try(yamldecode(file(local.config_path)), {})
 }
+
+output "config" {
+  value = local.config_path
+}
