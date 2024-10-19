@@ -5,6 +5,13 @@ resource "spacelift_context" "config_context" {
     name        = "config"
 }
 
+resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
+    depends_on = [data.spacelift_stack.spacelift]
+    context_id = data.spacelift_context.config.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
+
 resource "spacelift_context" "ansible_hook_context" {
     depends_on = [data.spacelift_stack.spacelift]
     description = "Ansible hook"
@@ -13,6 +20,8 @@ resource "spacelift_context" "ansible_hook_context" {
         ".././before_init.sh"
     ]
 }
+
+
 
 ### ENVIRONMENT VARIABLES ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
