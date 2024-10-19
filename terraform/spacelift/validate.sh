@@ -9,10 +9,8 @@ PRIVATE_KEY_PATH=$(grep 'private_key' "$YAML_FILE" | awk -F ':' '{print $2}' | s
 OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
 # Check if the output contains the phrase "not a public key file"
-if echo "$OUTPUT" | grep -q "not a public key file"; then
-  echo "{\"valid\": \"false\"}" 
-elif echo "$OUTPUT" | grep -q "No such file or directory"; then
-  echo "{\"valid\": \"false\"}" 
-else
+if echo "$OUTPUT" | grep -q "(RSA)"; then
   echo "{\"valid\": \"true\"}" 
+else
+  echo "{\"valid\": \"false\"}" 
 fi
