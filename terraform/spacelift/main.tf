@@ -81,9 +81,9 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     ]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_ENV" 
-    value       = data.external.private_key_validation.result["valid"] == "true" ? true : false
+    value       = data.external.private_key_validation.result["valid"] == "true" ? local.valid_env + 1 : 0
     write_only  = false 
-    description = "Flag for environment initialization"
+    description = "Flag for valid environment initialization"
 }
 
 output "valid_check" {

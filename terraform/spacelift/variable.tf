@@ -9,3 +9,9 @@ variable "GIT_CONFIG" {
   description = "Git configuration"
   default = null
 }
+
+variable "ENV" {
+  type = string
+  description = "Environment configuration"
+  default = null
+}
