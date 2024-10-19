@@ -3,6 +3,15 @@
 #     byte_length = 8
 # }
 
+
+# data "external" "private_key_validation" {
+#     program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+#     query = {trigger = random_id.trigger.hex}
+#     depends_on = [random_id.trigger]
+# }
+
+
+
 # ### CONTEXT ###
 # resource "spacelift_context" "config_context" {
 #     depends_on = [data.spacelift_stack.spacelift]
