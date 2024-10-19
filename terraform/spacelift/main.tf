@@ -1,10 +1,18 @@
-### CONFIG ###
+### CONTEXT ###
 resource "spacelift_context" "config_context" {
+    depends_on = [data.spacelift_stack.spacelift]
     description = "Infrastructure as Code  Configuration"
     name        = "config"
-    depends_on = [data.spacelift_stack.spacelift]
 }
 
+resource "spacelift_context" "ansible_hook_context" {
+    depends_on = [data.spacelift_stack.spacelift]
+    description = "Ansible hook"
+    name        = "ansible_hook"
+    before_init = [
+        ".././before_init.sh"
+    ]
+}
 
 # ### ENVIRONMENT VARIABLES ###
 # resource "spacelift_environment_variable" "config_environment_variable" { 
@@ -17,15 +25,6 @@ resource "spacelift_context" "config_context" {
 
 # output "config" {
 #   value = local.config
-# }
-
-# ### ANSIBLE ###
-# resource "spacelift_context" "ansible_hook_context" {
-#     description = "Ansible hook"
-#     name        = "ansible_hook"
-#     before_init = [
-#         ".././before_init.sh"
-#     ]
 # }
 
 # ### DOCKER ###
