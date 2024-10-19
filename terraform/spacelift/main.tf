@@ -24,13 +24,13 @@ resource "spacelift_environment_variable" "config_environment_variable" {
     description = "Terraform configuration path"
 }
 
-resource "spacelift_environment_variable" "git_config_environment_variable" { 
-    depends_on = [spacelift_environment_variable.config_environment_variable]
+resource "spacelift_environment_variable" "tf_log_environment_variable" { 
+    depends_on = [spacelift_context.config_context]
     context_id  = spacelift_context.config_context.id
-    name        = "TF_VAR_GIT_CONFIG" 
-    value       = local.git_config_path
+    name        = "TF_LOG" 
+    value       = "debug"
     write_only  = false 
-    description = "Terraform configuration path"
+    description = "Terraform log level"
 }
 
 output "config" {
