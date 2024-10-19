@@ -65,7 +65,7 @@ resource "spacelift_stack_dependency" "docker_infra_docker_init" {
 
 ### PROMETHEUS ###
 resource "spacelift_stack" "prometheus_init_stack" {
-    depends_on = [spacelift_stack.prometheus_infra_stack]
+    depends_on = [spacelift_stack.docker_init_stack]
     administrative = true
     autodeploy = true
     branch = "main"
