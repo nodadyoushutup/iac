@@ -7,5 +7,5 @@ locals {
 }
 
 output "config" {
-  value = 
+  value = local.config
 }
