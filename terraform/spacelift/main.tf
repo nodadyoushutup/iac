@@ -50,9 +50,6 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     write_only = false
 }
 
-output "config" {
-  value = local.config
-}
 
 # ### DOCKER ###
 # resource "spacelift_stack" "docker_infra_stack" {
