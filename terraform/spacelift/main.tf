@@ -1,11 +1,11 @@
 ### ANSIBLE ###
-# resource "spacelift_context" "ansible_hook_context" {
-#     description = "Ansible hook"
-#     name        = "ansible_hook"
-#     before_init = [
-#         ".././before_init.sh"
-#     ]
-# }
+resource "spacelift_context" "ansible_hook_context" {
+    description = "Ansible hook"
+    name        = "ansible_hook"
+    before_init = [
+        ".././before_init.sh"
+    ]
+}
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
