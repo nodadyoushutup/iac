@@ -10,7 +10,9 @@ OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
 # Check if the output contains the phrase "not a public key file"
 if echo "$OUTPUT" | grep -q "(RSA)"; then
+  echo $OUTPUT
   echo "{\"valid\": \"true\"}" 
 else
+  echo $OUTPUT
   echo "{\"valid\": \"false\"}" 
 fi
