@@ -39,6 +39,7 @@ resource "spacelift_mounted_file" "config_mounted_file" {
     context_id = spacelift_context.config_context.id
     relative_path = "config.yaml"
     content = local.config_base64
+    write_only = false
 }
 
 output "config" {
