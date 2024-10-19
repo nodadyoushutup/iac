@@ -132,5 +132,5 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 }
 
 output "config_path" {
-  value = .local.config_path
+  value = local.config_path
 }
