@@ -59,14 +59,22 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
   count = local.config.dependency_deploy.infra ? 1 : 0
-  depends_on = [data.spacelift_stack.spacelift, spacelift_stack.docker_infra_stack]
+  depends_on = [
+        data.spacelift_stack.spacelift, 
+        spacelift_stack.docker_infra_stack,
+        spacelift_environment_variable.config_environment_variable
+    ]
   stack_id            = spacelift_stack.docker_infra_stack.id
   depends_on_stack_id = data.spacelift_stack.spacelift.id
 }
 
 resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
   count = local.config.dependency_deploy.init ? 1 : 0
-  depends_on = [spacelift_stack.docker_infra_stack, spacelift_stack.docker_init_stack]
+  depends_on = [
+        spacelift_stack.docker_infra_stack, 
+        spacelift_stack.docker_init_stack,
+        spacelift_environment_variable.config_environment_variable
+    ]
   stack_id            = spacelift_stack.docker_init_stack.id
   depends_on_stack_id = spacelift_stack.docker_infra_stack.id
 }
@@ -103,7 +111,11 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 
 resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_dependency" {
     count = local.config.dependency_deploy.init ? 1 : 0
-    depends_on = [spacelift_stack.docker_init_stack, spacelift_stack.prometheus_init_stack]
+    depends_on = [
+        spacelift_stack.docker_init_stack, 
+        spacelift_stack.prometheus_init_stack,
+        spacelift_environment_variable.config_environment_variable
+    ]
     stack_id            = spacelift_stack.prometheus_init_stack.id
     depends_on_stack_id = spacelift_stack.docker_init_stack.id
 }
