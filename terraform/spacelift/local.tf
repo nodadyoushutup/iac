@@ -8,11 +8,3 @@ locals {
   )
   config = try(yamldecode(file(local.config_path)), {})
 }
-
-output "var_config" {
-  value = var.CONFIG
-}
-
-output "local_config" {
-  value = local.config.dependency_deploy
-}
