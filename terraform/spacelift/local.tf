@@ -5,6 +5,6 @@ locals {
   private_key_base64 = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/config/default_id_rsa"))
 }
 
-output "config" {
-  value = yamldecode(file(local.config_path))
-}
+# output "config" {
+#   value = yamldecode(file(local.config_path))
+# }
