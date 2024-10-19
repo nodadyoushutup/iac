@@ -6,6 +6,8 @@ OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
 ls -la /mnt/workspace
 
+cat $PRIVATE_KEY_PATH
+
 echo $YAML_FILE
 echo $PRIVATE_KEY_PATH
 echo $OUTPUT
