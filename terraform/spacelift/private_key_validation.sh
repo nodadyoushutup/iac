@@ -12,5 +12,5 @@ OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 if echo "$OUTPUT" | grep -q "not a public key file"; then
   echo "{\"valid\": \"false\"}"  # Return false if the file is not a public key
 else
-  echo "{\"valid\": \"true\"}"   # Return true if the file is valid
+  echo "{\"valid\": \"${OUTPUT}\"}"   # Return true if the file is valid
 fi
