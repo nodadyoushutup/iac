@@ -5,9 +5,6 @@ YAML_FILE="${TF_VAR_CONFIG}"
 # Extract the value of path.private_key using grep and awk
 PRIVATE_KEY_PATH=$(grep 'private_key' "$YAML_FILE" | awk -F ': *' '{print $2}' | sed 's/"//g' | tr -d ' ')
 
-# Debug: Print the extracted path for verification
-echo "Private key path extracted: $PRIVATE_KEY_PATH"
-
 # Run ssh-keygen and capture both stdout and stderr into a variable
 OUTPUT=$(ssh-keygen -l -f "$PRIVATE_KEY_PATH" 2>&1)
 
