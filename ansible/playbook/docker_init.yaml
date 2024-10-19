@@ -16,6 +16,11 @@
           include_role:
             name: ../role/vm_init
 
+        # This will turn into a over migrate config role
+        - name: Migrate Prometheus configuration
+          include_role:
+            name: ../role/prometheus_config
+
         - name: Install or Update Docker
           include_role:
             name: ../role/docker_install
