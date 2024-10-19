@@ -71,9 +71,7 @@ data "external" "private_key_validation" {
   depends_on = [random_id.trigger]
 }
 
-output "valid_check" {
-  value = data.external.private_key_validation
-}
+
 
 resource "spacelift_environment_variable" "env_environment_variable" { 
     depends_on = [
@@ -88,6 +86,10 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     value       = data.external.private_key_validation.result["valid"] == "true" ? true : false
     write_only  = false 
     description = "Flag for environment initialization"
+}
+
+output "valid_check" {
+  value = data.external.private_key_validation.result["valid"]
 }
 
 
