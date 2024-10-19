@@ -129,12 +129,6 @@ resource "spacelift_environment_variable" "config_environment_variable" {
     description = "Test environment variable"
 }
 
-data "spacelift_environment_variable" "config_var" {
-  context_id = "config"
-  name = "TF_VAR_CONFIG"
-}
-
-output "test_env_var" {
-    value = data.spacelift_environment_variable.config_var
-    sensitive = false
+output "local_config_path" {
+  value = local.config_path
 }
