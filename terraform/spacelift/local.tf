@@ -1,3 +1,7 @@
+output "config" {
+  value = var.config
+}
+
 locals {
   config = try(
     var.config,
