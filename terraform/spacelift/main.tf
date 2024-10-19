@@ -33,6 +33,14 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
     description = "Terraform log level"
 }
 
+### MOUNTED FILE ###
+resource "spacelift_mounted_file" "config_mounted_file" {
+    depends_on = [spacelift_context.config_context]
+    context_id    = spacelift_context.config_context.id
+    relative_path = "config.yaml"
+    content       = filebase64(local.config_path)
+}
+
 output "config" {
   value = local.config
 }
