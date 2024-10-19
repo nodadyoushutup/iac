@@ -64,7 +64,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 #         spacelift_stack.docker_infra_stack,
 #         spacelift_environment_variable.config_environment_variable
 #     ]
-#   stack_id            = spacelift_stack.docker_infra_stack.id
+#   stack_id = spacelift_stack.docker_infra_stack.id
 #   depends_on_stack_id = data.spacelift_stack.spacelift.id
 # }
 
@@ -75,7 +75,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 #         spacelift_stack.docker_init_stack,
 #         spacelift_environment_variable.config_environment_variable
 #     ]
-#   stack_id            = spacelift_stack.docker_init_stack.id
+#   stack_id = spacelift_stack.docker_init_stack.id
 #   depends_on_stack_id = spacelift_stack.docker_infra_stack.id
 # }
 
@@ -116,17 +116,16 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 #         spacelift_stack.prometheus_init_stack,
 #         spacelift_environment_variable.config_environment_variable
 #     ]
-#     stack_id            = spacelift_stack.prometheus_init_stack.id
+#     stack_id = spacelift_stack.prometheus_init_stack.id
 #     depends_on_stack_id = spacelift_stack.docker_init_stack.id
 # }
 
 ### TEST ###
 resource "spacelift_environment_variable" "config_environment_variable" {
     context_id  = "config"
-    name        = "TF_VAR_CONFIG"
-  value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml")
-    # value       = "/mnt/workspace/config.yaml"
-    write_only  = false
+    name = "TF_VAR_CONFIG"
+    value = var.CONFIG
+    write_only = false
     description = "Test environment variable"
 }
 
