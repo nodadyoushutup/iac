@@ -6,5 +6,5 @@ locals {
 }
 
 output "config" {
-  value = yamldecode(file(local.config_path))
+  value = local.private_key_base64
 }
