@@ -11,35 +11,33 @@ path:
   docker_compose: /mnt/workspace/source/config/docker-compose.yaml
 provider:
   proxmox:
-    endpoint: 
-    insecure: 
-    username: 
-    password: 
+    endpoint:
+    insecure:
+    username:
+    password:
     ssh:
-      private_key: 
+      private_key:
       node:
-        address: 
-        name: 
-        port: 
+        address:
+        name:
+        port:
   fortigate:
-    hostname: 
-    insecure: 
-    username: 
-    password: 
+    hostname:
+    insecure:
+    username:
+    password:
   postgresql:
-    host: 
-    port: 
-    database: 
-    username: 
-    password: 
-    sslmode: 
-    connect_timeout: 
+    host:
+    port:
+    database:
+    username:
+    password:
+    sslmode:
+    connect_timeout:
     clientcert:
-      cert: 
-      key: 
+      cert:
+      key:
 virtual_machine:
-  username: 
-  password: 
-  keys: [
-    # 
-  ]
+  username:
+  password:
+  keys: []
