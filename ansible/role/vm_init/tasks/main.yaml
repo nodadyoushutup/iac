@@ -1,8 +1,8 @@
 ---
 - name: Copy .gitconfig to the ansible user's home
   copy:
-    src: "{{ lookup('env', 'GIT_CONFIG') }}"
-    dest: /home/{{ ansible_user }}/prometheus.yaml
+    src: "{{ lookup('env', 'TF_VAR_GIT_CONFIG') }}"
+    dest: /home/{{ ansible_user }}/.gitconfig.yaml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'

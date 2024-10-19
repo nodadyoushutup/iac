@@ -1,5 +1,11 @@
 variable "CONFIG" {
   type = string
-  description = "Terraform config path"
+  description = "Terraform configuration path"
+  default = null
+}
+
+variable "GIT_CONFIG" {
+  type = string
+  description = "Git configuration"
   default = null
 }

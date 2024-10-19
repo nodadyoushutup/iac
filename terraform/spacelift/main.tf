@@ -24,8 +24,17 @@ resource "spacelift_environment_variable" "config_environment_variable" {
     description = "Terraform configuration path"
 }
 
+resource "spacelift_environment_variable" "git_config_environment_variable" { 
+    depends_on = [spacelift_environment_variable.config_environment_variable]
+    context_id  = spacelift_context.config_context.id
+    name        = "TF_VAR_GIT_CONFIG" 
+    value       = local.git_config_path
+    write_only  = false 
+    description = "Terraform configuration path"
+}
+
 output "config" {
-  value = local.config_path
+  value = local.git_config_path
 }
 
 # ### DOCKER ###
