@@ -130,3 +130,7 @@ resource "spacelift_environment_variable" "config_environment_variable" {
     write_only  = false 
     description = "Test environment variable"
 }
+
+output "config_path" {
+  value = .local.config_path
+}
