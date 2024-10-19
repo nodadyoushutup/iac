@@ -109,14 +109,14 @@ resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_depende
 }
 
 ### TEST ###
-resource "spacelift_environment_variable" "test_env_var" {
+resource "spacelift_environment_variable" "config_environment_variable" {
   context_id  = "config"
-  name        = "TF_VAR_TEST_ENV_VAR"
-  value       = try(var.TEST_ENV_VAR != "" ? var.TEST_ENV_VAR : null, "/newpath")
+  name        = "TF_VAR_CONFIG"
+  value       = try(var.CONFIG != "" ? var.CONFIG : null, "/mnt/workspace/config.yaml")
   write_only  = false
   description = "Test environment variable"
 }
 
 output "test_env_var" {
-  value = var.TEST_ENV_VAR
+  value = var.CONFIG
 }
