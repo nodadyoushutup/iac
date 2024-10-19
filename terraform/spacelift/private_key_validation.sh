@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Path to the YAML file (from the environment variable)
 YAML_FILE="${TF_VAR_CONFIG}"
 
