@@ -62,7 +62,7 @@ resource "random_id" "trigger" {
 }
 
 data "external" "private_key_validation" {
-  program = ["bash", "${path.module}/private_key_validation.sh", local.config.path.private_key]
+  program = ["bash", "${path.module}/private_key_validation.sh", "/mnt/workspace/id_rsa"]
 
   query = {
     trigger = random_id.trigger.hex  # Dummy trigger that forces reevaluation
