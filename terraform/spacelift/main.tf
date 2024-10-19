@@ -136,4 +136,5 @@ data "spacelift_environment_variable" "config_var" {
 
 output "test_env_var" {
     value = data.spacelift_environment_variable.config_var
+    sensitive = false
 }
