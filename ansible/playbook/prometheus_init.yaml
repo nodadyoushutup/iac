@@ -1,5 +1,5 @@
 ---
-# prometheus.
+# prometheus_init.
 - name: Initialize Prometheus
   hosts: docker
   gather_facts: no
