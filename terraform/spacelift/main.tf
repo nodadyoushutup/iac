@@ -118,20 +118,20 @@ resource "spacelift_stack" "docker_infra_stack" {
     labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
 }
 
-# resource "spacelift_stack" "docker_init_stack" {
-#     depends_on = [spacelift_stack.docker_infra_stack]
-#     administrative = true
-#     autodeploy = true
-#     branch = "main"
-#     description = "Docker initialization"
-#     name = "docker_init"
-#     project_root = "ansible/playbook"
-#     repository = "iac"
-#     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
-#     ansible {
-#         playbook = "docker_init.yaml"
-#     }
-# }
+resource "spacelift_stack" "docker_init_stack" {
+    depends_on = [spacelift_stack.docker_infra_stack]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Docker initialization"
+    name = "docker_init"
+    project_root = "ansible/playbook"
+    repository = "iac"
+    labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
+    ansible {
+        playbook = "docker_init.yaml"
+    }
+}
 
 # resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
 #     depends_on = [spacelift_stack.docker_infra_stack]
