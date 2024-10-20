@@ -4,9 +4,9 @@ dependency_deploy:
   init: false
   config: false
 path:
+  private_key: /mnt/workspace/id_rsa
   gitconfig: /mnt/workspace/.gitconfig
   prometheus: /mnt/workspace/prometheus.yaml
-  private_key: /mnt/workspace/id_rsa
   ansible: /mnt/workspace/source/config/ansible.cfg
   docker_compose: /mnt/workspace/source/config/docker-compose.yaml
 provider:
