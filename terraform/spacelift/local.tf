@@ -5,6 +5,7 @@ locals {
     path = {
       private_key     = "/mnt/workspace/source/default/id_rsa"
       inventory       = "/mnt/workspace/source/default/inventory"
+      env             = "/mnt/workspace/source/default/.env"
       gitconfig       = "/mnt/workspace/source/config/.gitconfig"
       ansible         = "/mnt/workspace/source/config/ansible.cfg"
       prometheus      = "/mnt/workspace/source/config/prometheus.yaml"
@@ -15,5 +16,6 @@ locals {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
     private_key = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
     inventory = try(filebase64(local.config.path.inventory), filebase64("/mnt/workspace/source/default/inventory"))
+    env = try(filebase64(local.config.path.env), filebase64("/mnt/workspace/source/default/.env"))
   }
 }

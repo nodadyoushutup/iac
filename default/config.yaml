@@ -6,6 +6,7 @@ dependency_deploy:
 path:
   private_key: /mnt/workspace/id_rsa
   inventory: /mnt/workspace/inventory
+  env: /mnt/workspace/env
   gitconfig: /mnt/workspace/source/config/.gitconfig
   ansible: /mnt/workspace/source/config/ansible.cfg
   docker_compose: /mnt/workspace/source/config/docker-compose.yaml

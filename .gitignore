@@ -45,7 +45,7 @@ virtual_machine.yaml
 config/id_rsa
 config/inventory
 Dockerfile
-*.env
+config/.env
 _old
 config/** */
 ignore/
