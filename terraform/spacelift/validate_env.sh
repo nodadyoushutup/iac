@@ -24,7 +24,7 @@ fi
 
 # Check the value of PRIVATE_KEY_VALID and echo the result for the private key
 if [ "$PRIVATE_KEY_VALID" = "true" && "$GITCONFIG_VALID" = "true"]; then
-  echo "{\"private_key_valid\": \"true\"}"
+  echo "{\"valid\": \"true\"}"
 else
-  echo "{\"private_key_valid\": \"false\"}"
+  echo "{\"valid\": \"false\"}"
 fi
