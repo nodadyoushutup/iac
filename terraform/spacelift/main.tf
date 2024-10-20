@@ -46,6 +46,14 @@ resource "spacelift_mounted_file" "gitconfig_keymounted_file" {
     write_only = false
 }
 
+resource "spacelift_mounted_file" "inventory_keymounted_file" {
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id = spacelift_context.config_context.id
+    relative_path = ".inventory"
+    content = local.base64.inventory
+    write_only = false
+}
+
 ### ENVIRONMENT VARIABLES ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
