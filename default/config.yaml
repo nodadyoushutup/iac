@@ -28,7 +28,7 @@ provider:
     insecure:
     username:
     password:
-  postgresql:
+  postgres:
     host:
     port:
     database:
