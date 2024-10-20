@@ -94,7 +94,13 @@ resource "random_id" "trigger" {
 }
 
 data "external" "validate_env" {
-    program = ["bash", "${path.module}/validate_env.sh", local.config.path.private_key, local.config.path.gitconfig]
+    program = [
+        "bash", 
+        "${path.module}/validate_env.sh", 
+        local.config.path.private_key, 
+        local.config.path.gitconfig, 
+        local.config.path.inventory
+    ]
     query = {trigger = random_id.trigger.hex}
     depends_on = [random_id.trigger]
 }
