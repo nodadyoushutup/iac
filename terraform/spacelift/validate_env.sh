@@ -1,5 +1,4 @@
 #!/bin/sh
-
 PRIVATE_KEY_PATH="$1"
 GITCONFIG_PATH="$2"
 
@@ -19,7 +18,7 @@ if [ -f "$GITCONFIG_PATH" ]; then
   fi
 fi
 
-if [ "$PRIVATE_KEY_VALID" = "true" && "$GITCONFIG_VALID" = "true" ]; then
+if [ "$PRIVATE_KEY_VALID" = "true" ] && [ "$GITCONFIG_VALID" = "true" ]; then
   echo "{\"valid\": \"true\"}"
 else
   echo "{\"valid\": \"false\"}"
