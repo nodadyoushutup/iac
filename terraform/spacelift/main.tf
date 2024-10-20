@@ -159,7 +159,7 @@ resource "spacelift_context_attachment" "docker_init_config_context_attachment" 
 resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.docker_init_stacks, 
+        spacelift_stack.docker_init_stack, 
         spacelift_context.ansible_hook_context,
     ]
     context_id = spacelift_context.ansible_hook_context.id
