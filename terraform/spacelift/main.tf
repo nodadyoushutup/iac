@@ -120,6 +120,7 @@ resource "spacelift_stack" "docker_infra_stack" {
 
 resource "spacelift_stack" "docker_init_stack" {
     depends_on = [spacelift_stack.docker_infra_stack]
+    count = local.env > 0 ? 1 : 0
     administrative = true
     autodeploy = true
     branch = "main"
