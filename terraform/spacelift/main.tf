@@ -102,11 +102,11 @@ output "valid_check" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_environment_variable.env_environment_variable,
         spacelift_context.ansible_hook_context
     ]
-    count = local.env > 0 ? 1 : 0
     administrative = true
     autodeploy = true
     branch = "main"
@@ -119,8 +119,8 @@ resource "spacelift_stack" "docker_infra_stack" {
 }
 
 resource "spacelift_stack" "docker_init_stack" {
-    depends_on = [spacelift_stack.docker_infra_stack]
     count = local.env > 0 ? 1 : 0
+    depends_on = [spacelift_stack.docker_infra_stack]
     administrative = true
     autodeploy = true
     branch = "main"
