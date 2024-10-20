@@ -1,4 +1,5 @@
 #!/bin/sh
+
 PRIVATE_KEY_PATH="$1"
 GITCONFIG_PATH="$2"
 
