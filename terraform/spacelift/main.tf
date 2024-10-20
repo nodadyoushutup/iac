@@ -137,7 +137,7 @@ resource "spacelift_stack" "docker_init_stack" {
 resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.docker_infra_stack[count.index],
+        spacelift_stack.docker_infra_stack,
         spacelift_context.config_context
     ]
     context_id = spacelift_context.config_context.id
@@ -148,7 +148,7 @@ resource "spacelift_context_attachment" "docker_infra_config_context_attachment"
 resource "spacelift_context_attachment" "docker_init_config_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.docker_init_stack[count.index],
+        spacelift_stack.docker_init_stack,
         spacelift_context.config_context
     ]
     context_id = spacelift_context.config_context.id
@@ -159,7 +159,7 @@ resource "spacelift_context_attachment" "docker_init_config_context_attachment" 
 resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.docker_init_stack[count.index], 
+        spacelift_stack.docker_init_stacks, 
         spacelift_context.ansible_hook_context,
     ]
     context_id = spacelift_context.ansible_hook_context.id
