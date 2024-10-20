@@ -91,7 +91,7 @@ data "external" "validate_env" {
     depends_on = [random_id.trigger]
 }
 
-output "valid_check2" {
+output "valid_check3" {
   value = data.external.validate_env.result["valid"]
 }
 
