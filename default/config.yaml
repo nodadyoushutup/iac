@@ -5,11 +5,11 @@ dependency_deploy:
   config: false
 path:
   private_key: /mnt/workspace/id_rsa
-  gitconfig: /mnt/workspace/source/config/.gitconfig
-  prometheus: /mnt/workspace/prometheus.yaml
-  ansible: /mnt/workspace/source/config/ansible.cfg
   inventory: /mnt/workspace/inventory
+  gitconfig: /mnt/workspace/source/config/.gitconfig
+  ansible: /mnt/workspace/source/config/ansible.cfg
   docker_compose: /mnt/workspace/source/config/docker-compose.yaml
+  prometheus: /mnt/workspace/source/config/prometheus.yaml
 provider:
   proxmox:
     endpoint:
