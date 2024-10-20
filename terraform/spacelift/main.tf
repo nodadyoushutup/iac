@@ -38,6 +38,14 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     write_only = false
 }
 
+resource "spacelift_mounted_file" "gitconfig_keymounted_file" {
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id = spacelift_context.config_context.id
+    relative_path = ".gitconfig"
+    content = local.gitconfig_base64
+    write_only = false
+}
+
 ### ENVIRONMENT VARIABLES ###
 resource "spacelift_environment_variable" "config_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
@@ -67,7 +75,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     ]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_ENV" 
-    value       = data.external.private_key_validation.result["valid"] == "true" ? local.env + 1 : local.env
+    value       = data.external.validate_env.result["valid"] == "true" ? local.env + 1 : local.env
     write_only  = false 
     description = "Flag for valid environment initialization"
 }
@@ -78,7 +86,7 @@ resource "random_id" "trigger" {
 }
 
 output "valid_check" {
-  value = data.external.private_key_validation.result["valid"]
+  value = data.external.validate_env.result["valid"]
 }
 
 
