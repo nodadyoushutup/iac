@@ -17,7 +17,7 @@ fi
 
 # Check for the gitconfig file validity (simple check for existence and basic format)
 if [ -f "$GITCONFIG_PATH" ]; then
-  if grep -qE "^\s*name\s*=\s*\S+"; then
+  if cat $GITCONFIG_PATH | grep -qE "^\s*name\s*=\s*\S+"; then
     GITCONFIG_VALID="true"
   fi
 fi
