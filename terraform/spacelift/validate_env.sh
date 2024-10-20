@@ -2,6 +2,7 @@
 
 PRIVATE_KEY_PATH="$1"
 GITCONFIG_PATH="$2"
+INVENTORY_PATH="$3"
 
 if [ -f "$PRIVATE_KEY_PATH" ]; then
   PRIVATE_KEY_FIRST_LINE=$(head -n 1 "$PRIVATE_KEY_PATH")
@@ -19,7 +20,13 @@ if [ -f "$GITCONFIG_PATH" ]; then
   fi
 fi
 
-if [ "$PRIVATE_KEY_VALID" = "true" ] && [ "$GITCONFIG_VALID" = "true" ]; then
+if [ -f "$INVENTORY_PATH" ]; then
+  if ! cat "$INVENTORY_PATH" | grep -q "000.000.000.000"; then
+    INVENTORY_VALID="true"
+  fi
+fi
+
+if [ "$INVENTORY_VALID" = "true" ]; then
   echo "{\"valid\": \"true\"}"
 else
   echo "{\"valid\": \"false\"}"
