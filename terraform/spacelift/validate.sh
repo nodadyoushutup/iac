@@ -14,7 +14,7 @@ if [ -f "$PRIVATE_KEY_PATH" ]; then
 fi
 
 if [ -f "$GITCONFIG_PATH" ]; then
-  if cat "$GITCONFIG_PATH" | grep -qE "^\s*name\s*=\s*\S+" && cat "$GITCONFIG_PATH" | grep -qE "^\s*email\s*=\s*\S+"; then
+  if cat $GITCONFIG_PATH | grep -qE "^\s*name\s*=\s*\S+" && cat $GITCONFIG_PATH | grep -qE "^\s*email\s*=\s*\S+"; then
     GITCONFIG_VALID="true"
   fi
 fi
