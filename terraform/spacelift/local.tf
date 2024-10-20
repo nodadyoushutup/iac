@@ -10,7 +10,9 @@ locals {
     }
   })
   env = try(var.ENV != null && var.ENV != "" && var.ENV > 0 ? var.ENV : 0, 0)
-  config_base64 = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
-  private_key_base64 = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
-  gitconfig_base64 = try(filebase64(local.config.path.gitconfig), filebase64("/mnt/workspace/source/default/.gitconfig"))
+  base64 = {
+    config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
+    private_key = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
+    gitconfig = try(filebase64(local.config.path.gitconfig), filebase64("/mnt/workspace/source/default/.gitconfig"))
+  }
 }
