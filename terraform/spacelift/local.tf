@@ -7,6 +7,7 @@ locals {
       gitconfig = "/mnt/workspace/source/default/.gitconfig"
       prometheus = "/mnt/workspace/prometheus.yaml"
       ansible = "/mnt/workspace/source/config/ansible.cfg"
+      inventory = "/mnt/workspace/inventory"
       docker_compose = "/mnt/workspace/source/config/docker-compose.yaml"
     }
   })
@@ -14,5 +15,6 @@ locals {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
     private_key = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
     gitconfig = try(filebase64(local.config.path.gitconfig), filebase64("/mnt/workspace/source/default/.gitconfig"))
+    inventory = try(filebase64(local.config.path.inventory), filebase64("/mnt/workspace/source/default/inventory"))
   }
 }

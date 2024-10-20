@@ -8,6 +8,7 @@ path:
   gitconfig: /mnt/workspace/.gitconfig
   prometheus: /mnt/workspace/prometheus.yaml
   ansible: /mnt/workspace/source/config/ansible.cfg
+  inventory: /mnt/workspace/inventory
   docker_compose: /mnt/workspace/source/config/docker-compose.yaml
 provider:
   proxmox:

@@ -43,7 +43,7 @@ virtual_machine.yaml
 virtual_machine.yaml
 
 config/id_rsa
-inventory
+config/inventory
 Dockerfile
 *.env
 _old
