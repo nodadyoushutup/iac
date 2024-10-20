@@ -12,7 +12,7 @@ provider "proxmox" {
   username = local.config.provider.proxmox.username
   password = local.config.provider.proxmox.password
   ssh {
-    private_key = file(local.config.provider.proxmox.ssh.private_key)
+    private_key = file(local.config.path.private_key)
     node {
       name = local.config.provider.proxmox.ssh.node.name
       address = local.config.provider.proxmox.ssh.node.address
