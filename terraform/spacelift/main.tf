@@ -173,7 +173,7 @@ resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" 
         data.spacelift_stack.spacelift, 
         spacelift_stack.docker_infra_stack,
     ]
-    stack_id = spacelift_stack.docker_infra_stack.id
+    stack_id = spacelift_stack.docker_infra_stack[count.index].id
     depends_on_stack_id = data.spacelift_stack.spacelift.id
 }
 
