@@ -95,37 +95,28 @@ resource "random_id" "trigger" {
     byte_length = 8
 }
 
-data "external" "validate_env" {
-    program = [
-        "bash", 
-        "${path.module}/validate_env.sh", 
-        local.config.path.private_key, 
-        local.config.path.gitconfig, 
-        local.config.path.inventory,
-        local.config.path.env
-    ]
-    query = {trigger = random_id.trigger.hex}
-    depends_on = [random_id.trigger]
-}
-
 output "valid_check" {
   value = data.external.validate_env.result["valid"]
 }
 
 
-# ### DOCKER ###
-# resource "spacelift_stack" "docker_infra_stack" {
-#     depends_on = [spacelift_context.ansible_hook_context]
-#     administrative = true
-#     autodeploy = true
-#     branch = "main"
-#     description = "Docker applications"
-#     name = "docker_infra"
-#     project_root = "terraform/docker"
-#     repository = "iac"
-#     terraform_version = "1.5.7"
-#     labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
-# }
+### DOCKER ###
+resource "spacelift_stack" "docker_infra_stack" {
+    depends_on = [
+        spacelift_environment_variable.env_environment_variable,
+        spacelift_context.ansible_hook_context
+    ]
+    count = local.env > 0 ? 1 : 0
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Docker applications"
+    name = "docker_infra"
+    project_root = "terraform/docker"
+    repository = "iac"
+    terraform_version = "1.5.7"
+    labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
+}
 
 # resource "spacelift_stack" "docker_init_stack" {
 #     depends_on = [spacelift_stack.docker_infra_stack]
