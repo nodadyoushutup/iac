@@ -19,7 +19,7 @@ if [ -f "$GITCONFIG_PATH" ]; then
   fi
 fi
 
-if ["$GITCONFIG_VALID" = "true"]; then
+if [ "$GITCONFIG_VALID" = "true" ];
   echo "{\"valid\": \"true\"}"
 else
   echo "{\"valid\": \"false\"}"
