@@ -17,13 +17,13 @@ fi
 
 # Check for the gitconfig file validity (simple check for existence and basic format)
 if [ -f "$GITCONFIG_PATH" ]; then
-  if cat $GITCONFIG_PATH | grep -qE "^\s*name\s*=\s*\S+"; then
+  if cat "$GITCONFIG_PATH" | grep -qE "^\s*name\s*=\s*\S+" && cat "$GITCONFIG_PATH" | grep -qE "^\s*email\s*=\s*\S+"; then
     GITCONFIG_VALID="true"
   fi
 fi
 
 # Check the value of PRIVATE_KEY_VALID and echo the result for the private key
-if [ "$PRIVATE_KEY_VALID" = "true" && "$GITCONFIG_VALID" = "true"]; then
+if ["$PRIVATE_KEY_VALID" = "true" && "$GITCONFIG_VALID" = "true"]; then
   echo "{\"valid\": \"true\"}"
 else
   echo "{\"valid\": \"false\"}"
