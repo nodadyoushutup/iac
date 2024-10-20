@@ -2,9 +2,9 @@ locals {
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
     path = {
-      gitconfig = "/mnt/workspace/.gitconfig"
+      private_key = "/mnt/workspace/source/default/id_rsa"
+      gitconfig = "/mnt/workspace/source/default/.gitconfig"
       prometheus = "/mnt/workspace/prometheus.yaml"
-      private_key = "/mnt/workspace/source/config/default_id_rsa"
       ansible = "/mnt/workspace/source/config/ansible.cfg"
       docker_compose = "/mnt/workspace/source/config/docker-compose.yaml"
     }
