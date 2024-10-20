@@ -5,7 +5,7 @@ dependency_deploy:
   config: false
 path:
   private_key: /mnt/workspace/id_rsa
-  gitconfig: /mnt/workspace/.gitconfig
+  gitconfig: /mnt/workspace/source/config/.gitconfig
   prometheus: /mnt/workspace/prometheus.yaml
   ansible: /mnt/workspace/source/config/ansible.cfg
   inventory: /mnt/workspace/inventory
