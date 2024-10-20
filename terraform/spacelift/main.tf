@@ -34,7 +34,7 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id = spacelift_context.config_context.id
     relative_path = "id_rsa"
-    content = local.local.base64.private_key
+    content = local.base64.private_key
     write_only = false
 }
 
