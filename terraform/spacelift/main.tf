@@ -86,7 +86,7 @@ resource "random_id" "trigger" {
 }
 
 data "external" "validate_env" {
-    program = ["bash", "/mnt/workspace/source/script/validate_env.sh", local.config.path.private_key, local.config.path.gitconfig]
+    program = ["bash", "/mnt/workspace/source/terraform/spacelift/validate_env.sh", local.config.path.private_key, local.config.path.gitconfig]
     query = {trigger = random_id.trigger.hex}
     depends_on = [random_id.trigger]
 }
