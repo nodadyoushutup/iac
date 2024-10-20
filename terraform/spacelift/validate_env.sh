@@ -26,7 +26,7 @@ if [ -f "$INVENTORY_PATH" ]; then
   fi
 fi
 
-if [ "$INVENTORY_VALID" = "true" ]; then
+if [ "$PRIVATE_KEY_VALID" = "true" ] && [ "$GITCONFIG_VALID" = "true" ] && [ "$INVENTORY_VALID" = "true" ]; then
   echo "{\"valid\": \"true\"}"
 else
   echo "{\"valid\": \"false\"}"
