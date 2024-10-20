@@ -36,8 +36,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-config*.yaml
-config.*yml
+config/config*.yaml
+config/config.*yml
 
 virtual_machine.yaml
 virtual_machine.yaml
