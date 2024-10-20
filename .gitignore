@@ -42,7 +42,7 @@ config/config.*yml
 virtual_machine.yaml
 virtual_machine.yaml
 
-id_rsa
+config/id_rsa
 inventory
 Dockerfile
 *.env
