@@ -23,15 +23,8 @@ if [ -f "$GITCONFIG_PATH" ]; then
 fi
 
 # Check the value of PRIVATE_KEY_VALID and echo the result for the private key
-if [ "$PRIVATE_KEY_VALID" = "true" ]; then
+if [ "$PRIVATE_KEY_VALID" = "true" && "$GITCONFIG_VALID" = "true"]; then
   echo "{\"private_key_valid\": \"true\"}"
 else
   echo "{\"private_key_valid\": \"false\"}"
-fi
-
-# Check the value of GITCONFIG_VALID and echo the result for the gitconfig
-if [ "$GITCONFIG_VALID" = "true" ]; then
-  echo "{\"gitconfig_valid\": \"true\"}"
-else
-  echo "{\"gitconfig_valid\": \"false\"}"
 fi
