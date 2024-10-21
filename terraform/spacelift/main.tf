@@ -197,6 +197,17 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   }
 }
 
+resource "local_file" "example" {
+  filename = "${path.module}/output.txt"
+  content  = <<EOT
+This is the content I want to define in the file.
+It will be written when Terraform applies.
+EOT
+}
+
+output "file_path" {
+  value = local_file.example.filename
+}
 
 
 # ### PROMETHEUS ###
