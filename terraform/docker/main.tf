@@ -29,13 +29,16 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
         address = "192.168.1.101/24"
         gateway = "192.168.1.1"
       }
+      ipv4 {
+        address = "dchp"
+        gateway = "192.168.1.1"
+      }
     }
-    # user_account {
-    #   keys = try(local.config.virtual_machine.keys, [])
-    #   password = try(local.config.virtual_machine.password, "ubuntu")
-    #   username = try(local.config.virtual_machine.username, "ubuntu")
-    # }
-    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+    user_account {
+      keys = try(local.config.virtual_machine.keys, [])
+      password = try(local.config.virtual_machine.password, "ubuntu")
+      username = try(local.config.virtual_machine.username, "ubuntu")
+    }
   }
   network_device {
     bridge = "vmbr0"
