@@ -189,7 +189,7 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
 
 resource "local_file" "example" {
   filename = "/mnt/workspace/example.yaml"
-  content  = file("/mnt/workspace/example.yaml")
+  content  = try(file("/mnt/workspace/example.yaml"), "<<-EOF EOF")
 }
 
 # ### PROMETHEUS ###
