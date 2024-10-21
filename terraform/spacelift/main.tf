@@ -168,7 +168,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 }
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
-    count = local.config.dependency_deploy.infra ? 1 : 0
+    count = local.config.dependency_deploy.docker.infra ? 1 : 0
     depends_on = [
         data.spacelift_stack.spacelift, 
         spacelift_stack.docker_infra_stack,
@@ -178,7 +178,7 @@ resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" 
 }
 
 resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
-  count = local.config.dependency_deploy.init ? 1 : 0
+  count = local.config.dependency_deploy.docker.init ? 1 : 0
   depends_on = [
         spacelift_stack.docker_infra_stack, 
         spacelift_stack.docker_init_stack,

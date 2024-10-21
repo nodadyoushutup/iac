@@ -1,8 +1,8 @@
 ---
 dependency_deploy:
-  infra: false
-  init: false
-  config: false
+  docker:
+    infra: true
+    init: true
 path:
   private_key: /mnt/workspace/id_rsa
   inventory: /mnt/workspace/inventory
