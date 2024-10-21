@@ -197,29 +197,6 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   }
 }
 
-resource "proxmox_virtual_environment_file" "cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-
-  source_raw {
-    data = <<-EOF
-    #cloud-config
-    users:
-      - default
-      - name: ubuntu
-        passwd: $6$rounds=4096$W751Z3MXqKAvnmCY$O50d8egG1BRqPLeA6fXL4J/3Bqp.iOk9u7Ai7bwbpz/4YRpPSkXjygOPKQDfr.JRSUjVu27btvxHoj0mVGsGY0
-        groups:
-          - sudo
-        shell: /bin/bash
-        ssh_authorized_keys: []
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    EOF
-
-    file_name = "cloud-config.yaml"
-  }
-}
-
 # ### PROMETHEUS ###
 # resource "spacelift_stack" "prometheus_init_stack" {
 #     depends_on = [spacelift_stack.docker_init_stack]
