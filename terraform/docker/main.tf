@@ -1,13 +1,3 @@
-resource "proxmox_virtual_environment_file" "cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-  source_raw {
-    data = file("/mnt/workspace/cloud-init.yaml")
-    file_name = "cloud-config.yaml"
-  }
-}
-
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   name = "docker"
   description = "docker"

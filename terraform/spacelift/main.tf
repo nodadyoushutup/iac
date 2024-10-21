@@ -187,6 +187,16 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
   depends_on_stack_id = spacelift_stack.docker_infra_stack[count.index].id
 }
 
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+  source_raw {
+    data = file("/mnt/workspace/cloud-init.yaml")
+    file_name = "cloud-config.yaml"
+  }
+}
+
 
 
 # ### PROMETHEUS ###
