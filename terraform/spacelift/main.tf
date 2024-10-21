@@ -187,6 +187,8 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
   depends_on_stack_id = spacelift_stack.docker_infra_stack[count.index].id
 }
 
+
+
 # ### PROMETHEUS ###
 # resource "spacelift_stack" "prometheus_init_stack" {
 #     depends_on = [spacelift_stack.docker_init_stack]
