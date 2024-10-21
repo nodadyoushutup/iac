@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
     #   password = try(local.config.virtual_machine.password, "ubuntu")
     #   username = try(local.config.virtual_machine.username, "ubuntu")
     # }
-    user_data_file_id = "/mnt/workspace/source/cloud-init.yaml"
+    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
   }
   network_device {
     bridge = "vmbr0"
