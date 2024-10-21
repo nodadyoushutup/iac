@@ -197,18 +197,28 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   }
 }
 
-resource "local_file" "example" {
-  filename = "${path.module}/output.txt"
-  content  = <<EOT
-This is the content I want to define in the file.
-It will be written when Terraform applies.
-EOT
-}
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
 
-output "file_path" {
-  value = local_file.example.filename
-}
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    users:
+      - default
+      - name: ubuntu
+        passwd: $6$rounds=4096$W751Z3MXqKAvnmCY$O50d8egG1BRqPLeA6fXL4J/3Bqp.iOk9u7Ai7bwbpz/4YRpPSkXjygOPKQDfr.JRSUjVu27btvxHoj0mVGsGY0
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys: []
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    EOF
 
+    file_name = "cloud-config.yaml"
+  }
+}
 
 # ### PROMETHEUS ###
 # resource "spacelift_stack" "prometheus_init_stack" {
