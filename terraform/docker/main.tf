@@ -29,7 +29,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
         address = "192.168.1.101/24"
         gateway = "192.168.1.1"
       }
-      ipv4 {
+      ipv6 {
         address = "dchp"
         gateway = "192.168.1.1"
       }
