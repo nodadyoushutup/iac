@@ -43,3 +43,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
     type = "l26"
   }
 }
+
+output "file_metadata" {
+  value = data.local_file.config_file.content
+}
