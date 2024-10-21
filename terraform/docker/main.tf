@@ -44,6 +44,24 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   }
 }
 
-output "file_metadata" {
-  value = data.local_file.config_file.content
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    users:
+      - default
+      - name: ubuntu
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys: []
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    EOF
+
+    file_name = "cloud-config.yaml"
+  }
 }
