@@ -188,7 +188,7 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
 }
 
 resource "local_file" "example" {
-  filename = "${path.module}/config2.yaml"
+  filename = "/mnt/workspace/config2.yaml"
   content  = file("/mnt/workspace/config.yaml")
 }
 
