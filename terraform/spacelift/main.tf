@@ -17,7 +17,8 @@ resource "spacelift_context" "ansible_hook_context" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 ${local.config.path.private_key}"
+        "chmod 600 ${local.config.path.private_key}",
+        "ls -la /mnt/workspace"
     ]
 }
 
