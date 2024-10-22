@@ -50,17 +50,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
   node_name    = "pve"
 
   source_raw {
-    data = <<-EOF
-    #cloud-config
-    users:
-      - default
-      - name: ubuntu
-        groups:
-          - sudo
-        shell: /bin/bash
-        ssh_authorized_keys: []
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    EOF
+    data = local.cloud_config
 
     file_name = "cloud-config.yaml"
   }

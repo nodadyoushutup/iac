@@ -11,4 +11,5 @@ locals {
       docker_compose  = "/mnt/workspace/source/config/docker-compose.yaml"
     }
   })
+  cloud_config = try(file("/mnt/workspace/cloud_config.yaml"), "<<-EOF EOF")
 }
