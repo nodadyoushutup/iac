@@ -4,8 +4,8 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   node_name    = try(local.config.provider.proxmox.ssh.node.name)
   source_raw {
     data = <<-EOF
-    ${local.cloud_config}
-    EOF
+${local.cloud_config}
+EOF
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
