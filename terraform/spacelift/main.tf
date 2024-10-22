@@ -119,92 +119,92 @@ output "valid_check" {
 }
 
 
-# ### DOCKER ###
-# resource "spacelift_stack" "docker_infra_stack" {
-#     count = local.env > 0 ? 1 : 0
-#     depends_on = [
-#         spacelift_environment_variable.env_environment_variable,
-#         spacelift_context.ansible_hook_context
-#     ]
-#     administrative = true
-#     autodeploy = true
-#     branch = "main"
-#     description = "Docker applications"
-#     name = "docker_infra"
-#     project_root = "terraform/docker"
-#     repository = "iac"
-#     terraform_version = "1.5.7"
-#     labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
-# }
+### DOCKER ###
+resource "spacelift_stack" "docker_infra_stack" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_environment_variable.env_environment_variable,
+        spacelift_context.ansible_hook_context
+    ]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Docker applications"
+    name = "docker_infra"
+    project_root = "terraform/docker"
+    repository = "iac"
+    terraform_version = "1.5.7"
+    labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
+}
 
-# resource "spacelift_stack" "docker_init_stack" {
-#     count = local.env > 0 ? 1 : 0
-#     depends_on = [spacelift_stack.docker_infra_stack]
-#     administrative = true
-#     autodeploy = true
-#     branch = "main"
-#     description = "Docker initialization"
-#     name = "docker_init"
-#     project_root = "ansible/playbook"
-#     repository = "iac"
-#     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
-#     ansible {
-#         playbook = "docker_init.yaml"
-#     }
-# }
+resource "spacelift_stack" "docker_init_stack" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [spacelift_stack.docker_infra_stack]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Docker initialization"
+    name = "docker_init"
+    project_root = "ansible/playbook"
+    repository = "iac"
+    labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
+    ansible {
+        playbook = "docker_init.yaml"
+    }
+}
 
-# resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
-#     count = local.env > 0 ? 1 : 0
-#     depends_on = [
-#         spacelift_stack.docker_infra_stack,
-#         spacelift_context.config_context
-#     ]
-#     context_id = spacelift_context.config_context.id
-#     stack_id = spacelift_stack.docker_infra_stack[count.index].id
-#     priority = 0
-# }
+resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.docker_infra_stack,
+        spacelift_context.config_context
+    ]
+    context_id = spacelift_context.config_context.id
+    stack_id = spacelift_stack.docker_infra_stack[count.index].id
+    priority = 0
+}
 
-# resource "spacelift_context_attachment" "docker_init_config_context_attachment" {
-#     count = local.env > 0 ? 1 : 0
-#     depends_on = [
-#         spacelift_stack.docker_init_stack,
-#         spacelift_context.config_context
-#     ]
-#     context_id = spacelift_context.config_context.id
-#     stack_id   = spacelift_stack.docker_init_stack[count.index].id
-#     priority   = 0
-# }
+resource "spacelift_context_attachment" "docker_init_config_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.docker_init_stack,
+        spacelift_context.config_context
+    ]
+    context_id = spacelift_context.config_context.id
+    stack_id   = spacelift_stack.docker_init_stack[count.index].id
+    priority   = 0
+}
 
-# resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
-#     count = local.env > 0 ? 1 : 0
-#     depends_on = [
-#         spacelift_stack.docker_init_stack, 
-#         spacelift_context.ansible_hook_context,
-#     ]
-#     context_id = spacelift_context.ansible_hook_context.id
-#     stack_id   = spacelift_stack.docker_init_stack[count.index].id
-#     priority   = 0
-# }
+resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.docker_init_stack, 
+        spacelift_context.ansible_hook_context,
+    ]
+    context_id = spacelift_context.ansible_hook_context.id
+    stack_id   = spacelift_stack.docker_init_stack[count.index].id
+    priority   = 0
+}
 
-# resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
-#     count = local.env > 0 && local.config.dependency_deploy.docker.infra ? 1 : 0
-#     depends_on = [
-#         data.spacelift_stack.spacelift, 
-#         spacelift_stack.docker_infra_stack,
-#     ]
-#     stack_id = spacelift_stack.docker_infra_stack[count.index].id
-#     depends_on_stack_id = data.spacelift_stack.spacelift.id
-# }
+resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
+    count = local.env > 0 && local.config.dependency_deploy.docker.infra ? 1 : 0
+    depends_on = [
+        data.spacelift_stack.spacelift, 
+        spacelift_stack.docker_infra_stack,
+    ]
+    stack_id = spacelift_stack.docker_infra_stack[count.index].id
+    depends_on_stack_id = data.spacelift_stack.spacelift.id
+}
 
-# resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
-#   count = local.env > 0 && local.config.dependency_deploy.docker.init ? 1 : 0
-#   depends_on = [
-#         spacelift_stack.docker_infra_stack, 
-#         spacelift_stack.docker_init_stack,
-#     ]
-#   stack_id = spacelift_stack.docker_init_stack[count.index].id
-#   depends_on_stack_id = spacelift_stack.docker_infra_stack[count.index].id
-# }
+resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
+  count = local.env > 0 && local.config.dependency_deploy.docker.init ? 1 : 0
+  depends_on = [
+        spacelift_stack.docker_infra_stack, 
+        spacelift_stack.docker_init_stack,
+    ]
+  stack_id = spacelift_stack.docker_init_stack[count.index].id
+  depends_on_stack_id = spacelift_stack.docker_infra_stack[count.index].id
+}
 
 
 
