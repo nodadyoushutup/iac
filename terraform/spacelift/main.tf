@@ -17,8 +17,7 @@ resource "spacelift_context" "ansible_hook_context" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 ${local.config.path.private_key}",
-        "ls -la /mnt/workspace"
+        "chmod 600 ${local.config.path.private_key}"
     ]
 }
 
@@ -36,7 +35,7 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     context_id = spacelift_context.config_context.id
     relative_path = "id_rsa"
     content = local.base64.private_key
-    write_only = false
+    write_only = true
 }
 
 resource "spacelift_mounted_file" "inventory_keymounted_file" {
