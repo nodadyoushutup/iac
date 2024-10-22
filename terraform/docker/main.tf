@@ -11,16 +11,18 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.docker_cloud_config]
   name = "docker"
+  vm_id = 101
   description = "docker"
   tags = ["terraform", "ubuntu", "docker"]
   node_name = try(local.config.provider.proxmox.ssh.node.name)
-  vm_id = 101
   agent {
     enabled = false
   }
   stop_on_destroy = true
   startup {
-    order = "1"
+    order = 1
+    up_delay = 0
+    down_delay = 0
   }
   cpu {
     cores = 4
@@ -33,20 +35,16 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
     datastore_id = try(local.config.virtual_machine.datastore_id.disk)
     file_id = try(concat([local.config.virtual_machine.datastore_id.iso, ":", local.config.virtual_machine.file_id]))
     interface = "scsi0"
+    size = 100
   }
   initialization {
     ip_config {
       ipv4 {
-        address = "192.168.1.101/24"
-        gateway = "192.168.1.1"
+        address = try(local.config.virtual_machine.address)
+        gateway = try(local.config.virtual_machine.gateway)
       }
-    }
-    # user_account {
-    #   keys = try(local.config.virtual_machine.keys, [])
-    #   password = try(local.config.virtual_machine.password, "ubuntu")
-    #   username = try(local.config.virtual_machine.username, "ubuntu")
-    # }
     user_data_file_id = proxmox_virtual_environment_file.docker_cloud_config.id
+    }
   }
   network_device {
     bridge = "vmbr0"
