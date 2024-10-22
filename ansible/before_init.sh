@@ -1,3 +1,3 @@
 #!/bin/sh
 
-chmod 600 $PRIVATE_KEY
+# chmod 600 $PRIVATE_KEY
