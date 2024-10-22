@@ -8,9 +8,9 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   }
 }
 
-# output "cloud_config" {
-#   value = local.cloud_config
-# }
+output "cloud_config" {
+  value = local.cloud_config
+}
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.docker_cloud_config]
