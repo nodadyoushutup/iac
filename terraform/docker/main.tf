@@ -16,8 +16,12 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_i
   overwrite_unmanaged = true
 }
 
+data "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
+  id = "local:iso/jammy-server-cloudimg-amd64.img"
+}
+
 output "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
-  value = proxmox_virtual_environment_download_file.ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file.id
+  value = data.proxmox_virtual_environment_download_file.ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file.id
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
