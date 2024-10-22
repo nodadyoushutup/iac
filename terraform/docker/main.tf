@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   node_name    = "pve"
   source_raw {
     data = local.cloud_config
-    file_name = "cloud-config.yaml"
+    file_name = "docker-cloud-config.yaml"
   }
 }
 
