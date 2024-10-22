@@ -10,6 +10,10 @@ EOF
   }
 }
 
+output "cloud_config" {
+  value = proxmox_virtual_environment_file.source_raw.data
+}
+
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.docker_cloud_config]
   name = "docker"
