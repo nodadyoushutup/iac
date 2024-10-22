@@ -6,8 +6,8 @@ locals {
   config = try(yamldecode(file(local.config_path)), {
     dependency_deploy = {
       docker = {
-        infra = true
-        init = true
+        infra = false
+        init = false
       }
     }
     path = {
