@@ -1,5 +1,0 @@
-- Create more validation scripts
-    - Config
-    - Docker compose
-    - Prometheus
-    - Ansible config

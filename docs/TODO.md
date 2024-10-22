@@ -1,3 +1,8 @@
 - Fstab Ansible
 - cAdvisor / Grafana / Prometheus
 - GitHub init Ansible
+- Create more validation scripts
+    - Config
+    - Docker compose
+    - Prometheus
+    - Ansible config
