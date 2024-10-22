@@ -10,7 +10,7 @@ path:
     inventory: /mnt/workspace/inventory
   docker:
     compose: /mnt/workspace/source/config/docker-compose.yaml
-    env: /mnt/workspace/env
+    env: /mnt/workspace/.env
   gitconfig: /mnt/workspace/source/config/.gitconfig
   prometheus: /mnt/workspace/source/config/prometheus.yaml
 provider:
