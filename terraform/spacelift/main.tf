@@ -70,7 +70,7 @@ resource "spacelift_environment_variable" "ansible_config_environment_variable" 
     name        = "ANSIBLE_CONFIG" 
     value       = local.ansible_config_path
     write_only  = false 
-    description = "Terraform configuration path"
+    description = "Ansible configuration path"
 }
 
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
