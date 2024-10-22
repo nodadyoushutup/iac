@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.cloud_config]
   name = "docker"
   vm_id = 101
-  description = "docker"
+  description = "Docker applications"
   tags = ["terraform", "ubuntu", "docker"]
   node_name = try(local.config.provider.proxmox.ssh.node.name)
   agent {
