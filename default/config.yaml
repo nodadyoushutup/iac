@@ -5,12 +5,13 @@ dependency_deploy:
     init: true
 path:
   private_key: /mnt/workspace/id_rsa
-  cloud_config: /mnt/workspace/cloud_config.yaml
-  inventory: /mnt/workspace/inventory
-  env: /mnt/workspace/.env
+  ansible:
+    config: /mnt/workspace/source/config/ansible.cfg
+    inventory: /mnt/workspace/inventory
+  docker:
+    compose: /mnt/workspace/source/config/docker-compose.yaml
+    env: /mnt/workspace/env
   gitconfig: /mnt/workspace/source/config/.gitconfig
-  ansible: /mnt/workspace/source/config/ansible.cfg
-  docker_compose: /mnt/workspace/source/config/docker-compose.yaml
   prometheus: /mnt/workspace/source/config/prometheus.yaml
 provider:
   proxmox:
