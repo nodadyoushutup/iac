@@ -15,3 +15,9 @@ variable "ANSIBLE_CONFIG" {
   description = "Ansible configuration path"
   default = null
 }
+
+variable "PRIVATE_KEY" {
+  type = string
+  description = "SSH private key path"
+  default = null
+}

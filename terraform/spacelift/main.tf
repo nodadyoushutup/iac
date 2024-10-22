@@ -16,9 +16,9 @@ resource "spacelift_context" "ansible_hook_context" {
     depends_on = [data.spacelift_stack.spacelift]
     description = "Ansible hook"
     name        = "ansible_hook"
-    # before_init = [
-    #     ".././before_init.sh"
-    # ]
+    before_init = [
+        ".././before_init.sh"
+    ]
 }
 
 ### MOUNTED FILE ###
@@ -71,6 +71,15 @@ resource "spacelift_environment_variable" "ansible_config_environment_variable" 
     value       = local.ansible_config_path
     write_only  = false 
     description = "Ansible configuration path"
+}
+
+resource "spacelift_environment_variable" "private_key_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "PRIVATE_KEY" 
+    value       = local.private_key
+    write_only  = false 
+    description = "SSH private Key"
 }
 
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 

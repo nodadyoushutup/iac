@@ -1,6 +1,7 @@
 locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV > 0 ? var.ENV : 0, 0)
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
+  private_key = try(var.PRIVATE_KEY != null && var.PRIVATE_KEY != "" ? var.PRIVATE_KEY : "/mnt/workspace/id_rsa")
   ansible_config_path = try(var.ANSIBLE_CONFIG != null && var.ANSIBLE_CONFIG != "" ? var.ANSIBLE_CONFIG : "/mnt/workspace/source/config/ansible.cfg")
   config = try(yamldecode(file(local.config_path)), {
     path = {
