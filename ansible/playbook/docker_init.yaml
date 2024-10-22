@@ -1,28 +1,28 @@
 ---
 # docker_init.
-# - name: Initialize Docker Environment
-#   hosts: docker
-#   gather_facts: no
-#   become: true
-#   check_mode: no
-#   tasks:
-#     - name: Verify Ping Status
-#       include_role:
-#         name: ../role/vm_ping
+- name: Initialize Docker Environment
+  hosts: docker
+  gather_facts: no
+  become: true
+  check_mode: no
+  tasks:
+    - name: Verify Ping Status
+      include_role:
+        name: ../role/vm_ping
 
-#     - name: Docker Setup and Service Management
-#       block:
-#         - name: VM Initialization Tasks
-#           include_role:
-#             name: ../role/vm_init
+    # - name: Docker Setup and Service Management
+    #   block:
+    #     - name: VM Initialization Tasks
+    #       include_role:
+    #         name: ../role/vm_init
 
-#         # This will turn into a overall migrate config role
-#         # to run all configuration migrations
-#         - name: Migrate Prometheus configuration
-#           include_role:
-#             name: ../role/prometheus_config
+    #     # This will turn into a overall migrate config role
+    #     # to run all configuration migrations
+    #     - name: Migrate Prometheus configuration
+    #       include_role:
+    #         name: ../role/prometheus_config
 
-#         - name: Install or Update Docker
-#           include_role:
-#             name: ../role/docker_install
-#       when: vm_ping == true
+    #     - name: Install or Update Docker
+    #       include_role:
+    #         name: ../role/docker_install
+    #   when: vm_ping == true
