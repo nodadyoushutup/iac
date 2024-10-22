@@ -74,8 +74,8 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 }
 
 resource "spacelift_environment_variable" "ansible_verbosity_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_verbosity_context_attachment]
-    context_id  = spacelift_context.ansible_verbosity_context.id
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
     name        = "ANSIBLE_VERBOSITY" 
     value       = 0
     write_only  = false 
