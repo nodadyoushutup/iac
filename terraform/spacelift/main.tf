@@ -42,7 +42,7 @@ resource "spacelift_mounted_file" "inventory_keymounted_file" {
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id = spacelift_context.config_context.id
     relative_path = "inventory"
-    content = local.base64.ansible_inventory
+    content = local.base64.ansible.inventory
     write_only = false
 }
 
@@ -50,7 +50,7 @@ resource "spacelift_mounted_file" "env_keymounted_file" {
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id = spacelift_context.config_context.id
     relative_path = ".env"
-    content = local.base64.docker_env
+    content = local.base64.docker.env
     write_only = false
 }
 
