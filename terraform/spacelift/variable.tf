@@ -7,7 +7,7 @@ variable "CONFIG" {
 variable "ENV" {
   type = string
   description = "Environment configuration"
-  default = null
+  default = 0
 }
 
 variable "ANSIBLE_CONFIG" {
