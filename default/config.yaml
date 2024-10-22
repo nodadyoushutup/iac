@@ -41,8 +41,9 @@ provider:
       cert:
       key:
 virtual_machine:
-  cloud_config_datastore_id: "local"
-  datastore_id: "local-lvm"
-  username: ubuntu
-  password: ubuntu
+  datastore_id:
+    iso: local
+    cloud_config: local
+    disk: local-lvm
+  file_id: jammy-server-cloudimg-amd64.img
   keys: []

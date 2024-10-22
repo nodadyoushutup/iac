@@ -1,27 +1,11 @@
 resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
+  datastore_id = try(local.config.virtual_machine.datastore_id.cloud_config)
+  node_name    = try(local.config.provider.proxmox.ssh.node.name)
   source_raw {
     data = local.cloud_config
     file_name = "docker-cloud-config.yaml"
   }
-}
-
-resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
-  content_type = "iso"
-  datastore_id = "local"
-  node_name    = "pve"
-  url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
-  overwrite_unmanaged = true
-}
-
-data "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
-  id = "local:iso/jammy-server-cloudimg-amd64.img"
-}
-
-output "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
-  value = data.proxmox_virtual_environment_download_file.ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file.id
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
@@ -29,7 +13,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   name = "docker"
   description = "docker"
   tags = ["terraform", "ubuntu", "docker"]
-  node_name = "pve"
+  node_name = try(local.config.provider.proxmox.ssh.node.name)
   vm_id = 101
   agent {
     enabled = false
@@ -47,7 +31,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   }
   disk {
     datastore_id = "local-lvm"
-    file_id = "local:iso/jammy-server-cloudimg-amd64.img"
+    file_id = try(concat([local.config.virtual_machine.datastore_id.iso, ":", local.config.virtual_machine.file_id]))
     interface = "scsi0"
   }
   initialization {
