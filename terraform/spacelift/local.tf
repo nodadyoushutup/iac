@@ -4,6 +4,12 @@ locals {
   private_key = try(var.PRIVATE_KEY != null && var.PRIVATE_KEY != "" ? var.PRIVATE_KEY : "/mnt/workspace/id_rsa")
   ansible_config_path = try(var.ANSIBLE_CONFIG != null && var.ANSIBLE_CONFIG != "" ? var.ANSIBLE_CONFIG : "/mnt/workspace/source/config/ansible.cfg")
   config = try(yamldecode(file(local.config_path)), {
+    dependency_deploy = {
+      docker = {
+        infra = true
+        init = true
+      }
+    }
     path = {
       private_key     = "/mnt/workspace/source/default/id_rsa"
       inventory       = "/mnt/workspace/source/default/inventory"
