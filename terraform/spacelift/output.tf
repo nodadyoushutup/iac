@@ -7,7 +7,7 @@ output "validate_gitconfig" {
 }
 
 output "validate_ansible_inventory" {
-  value = data.external.validate_ansible_inventory.result["valid"] == local.env_msg.valid.ansible.inventory : local.env_msg.invalid.ansible.inventory
+  value = data.external.validate_ansible_inventory.result["valid"] == "true" ? local.env_msg.valid.ansible.inventory : local.env_msg.invalid.ansible.inventory
 }
 
 output "validate_docker_env" {
