@@ -1,5 +1,4 @@
 resource "proxmox_virtual_environment_vm" "docker_vm" {
-  depends_on = [proxmox_virtual_environment_file.cloud_config]
   name = "docker"
   vm_id = 101
   description = "Docker applications"
