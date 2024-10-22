@@ -6,19 +6,6 @@ resource "random_id" "validate_env_trigger" {
     byte_length = 8
 }
 
-data "external" "validate_env" {
-    program = [
-        "bash", 
-        "${path.module}/script/validate_env.sh", 
-        local.config.path.private_key, 
-        local.config.path.gitconfig, 
-        local.config.path.ansible.inventory,
-        local.config.path.docker.env
-    ]
-    query = {trigger = random_id.validate_env_trigger.hex}
-    depends_on = [random_id.validate_env_trigger]
-}
-
 data "external" "validate_private_key" {
     program = [
         "bash", 
@@ -42,7 +29,7 @@ data "external" "validate_gitconfig" {
 data "external" "validate_ansible_inventory" {
     program = [
         "bash", 
-        "${path.module}/script/validate_inventory.sh", 
+        "${path.module}/script/validate_ansible_inventory.sh", 
         local.config.path.ansible.inventory
     ]
     query = {trigger = random_id.validate_env_trigger.hex}
@@ -52,7 +39,7 @@ data "external" "validate_ansible_inventory" {
 data "external" "validate_docker_env" {
     program = [
         "bash", 
-        "${path.module}/script/validate_env.sh", 
+        "${path.module}/script/validate_docker_env.sh", 
         local.config.path.docker.env
     ]
     query = {trigger = random_id.validate_env_trigger.hex}
