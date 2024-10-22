@@ -1,21 +1,29 @@
-resource "proxmox_virtual_environment_file" "docker_cloud_config" {
+resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
-  datastore_id = try(local.config.virtual_machine.datastore_id.cloud_config)
-  node_name    = try(local.config.provider.proxmox.ssh.node.name)
+  datastore_id = "local"
+  node_name    = "pve"
+
   source_raw {
     data = <<-EOF
     #cloud-config
-      users:
-        - default
-        - name: ubuntu
-          passwd: $6$rounds=4096$T8DMtimvQVZEyTGr$I3wHi8.0NxA938poCUOqtqcJQbAt335MfHF.lpS8Fdwfnt45vH5goXxPQ.RXBGef2yegKPero/PFYvKOmJWeS1
-          groups:
-            - sudo
-          shell: /bin/bash
-          ssh_authorized_keys: []
-          sudo: ALL=(ALL) NOPASSWD:ALL
+    users:
+      - default
+      - name: ubuntu
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys: []
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    runcmd:
+        - apt update
+        - apt install -y qemu-guest-agent net-tools
+        - timedatectl set-timezone America/Toronto
+        - systemctl enable qemu-guest-agent
+        - systemctl start qemu-guest-agent
+        - echo "done" > /tmp/cloud-config.done
     EOF
-    file_name = "docker-cloud-config.yaml"
+
+    file_name = "cloud-config.yaml"
   }
 }
 
@@ -59,7 +67,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
         gateway = try(local.config.virtual_machine.docker.gateway)
       }
     }
-    user_data_file_id = proxmox_virtual_environment_file.docker_cloud_config.id
+    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
   }
   network_device {
     bridge = "vmbr0"
