@@ -8,6 +8,15 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   }
 }
 
+resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image" {
+  content_type = "iso"
+  datastore_id = "local"
+  node_name    = "pve"
+  url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+  overwrite_unmanaged = true
+}
+
+
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.docker_cloud_config]
   name = "docker"
