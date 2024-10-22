@@ -6,6 +6,8 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
     data = <<-EOF
 ${local.cloud_config}
 EOF
+    file_name = "docker-cloud-config.yaml"
+  }
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
