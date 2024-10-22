@@ -98,7 +98,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
         # spacelift_mounted_file.private_keymounted_file,
         # spacelift_mounted_file.env_keymounted_file,
         # spacelift_mounted_file.private_keymounted_file,
-        spacelift_environment_variable.config_environment_variable,
+        # spacelift_environment_variable.config_environment_variable,
         # spacelift_environment_variable.tf_log_environment_variable
     ]
     context_id  = spacelift_context.config_context.id
@@ -113,18 +113,18 @@ resource "spacelift_environment_variable" "env_environment_variable" {
 #     byte_length = 8
 # }
 
-# data "external" "validate_env" {
-#     program = [
-#         "bash", 
-#         "${path.module}/validate_env.sh", 
-#         local.config.path.private_key, 
-#         local.config.path.gitconfig, 
-#         local.config.path.inventory,
-#         local.config.path.env
-#     ]
-#     query = {trigger = random_id.trigger.hex}
-#     depends_on = [random_id.trigger]
-# }
+data "external" "validate_env" {
+    program = [
+        "bash", 
+        "${path.module}/validate_env.sh", 
+        local.config.path.private_key, 
+        local.config.path.gitconfig, 
+        local.config.path.inventory,
+        local.config.path.env
+    ]
+    query = {trigger = random_id.trigger.hex}
+    depends_on = [random_id.trigger]
+}
 
 # output "valid_check" {
 #   value = data.external.validate_env.result["valid"]
