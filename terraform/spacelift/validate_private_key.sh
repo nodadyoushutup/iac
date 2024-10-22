@@ -1,7 +1,6 @@
 #!/bin/sh
 
 PRIVATE_KEY_PATH="$1"
-GITCONFIG_PATH="$2"
 
 if [ -f "$PRIVATE_KEY_PATH" ]; then
   PRIVATE_KEY_FIRST_LINE=$(head -n 1 "$PRIVATE_KEY_PATH")
@@ -13,12 +12,8 @@ if [ -f "$PRIVATE_KEY_PATH" ]; then
   fi
 fi
 
-if [ -f "$GITCONFIG_PATH" ]; then
-  if cat $GITCONFIG_PATH | grep -qE "^\s*name\s*=\s*\S+" && cat $GITCONFIG_PATH | grep -qE "^\s*email\s*=\s*\S+"; then
-    GITCONFIG_VALID="true"
-  fi
+if [ "$PRIVATE_KEY_VALID" = "true" ]; then
+  echo "{\"valid\": \"true\"}"
+else
+  echo "{\"valid\": \"false\"}"
 fi
-
-echo $PRIVATE_KEY_VALID
-echo $GITCONFIG_VALID
-echo $GITCONFIG_PATH

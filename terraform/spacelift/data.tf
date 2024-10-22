@@ -18,3 +18,13 @@ data "external" "validate_env" {
     query = {trigger = random_id.validate_env_trigger.hex}
     depends_on = [random_id.validate_env_trigger]
 }
+
+data "external" "validate_private_key" {
+    program = [
+        "bash", 
+        "${path.module}/validate_private_key.sh", 
+        local.config.path.private_key
+    ]
+    query = {trigger = random_id.validate_env_trigger.hex}
+    depends_on = [random_id.validate_env_trigger]
+}
