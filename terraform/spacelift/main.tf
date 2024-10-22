@@ -1,16 +1,16 @@
 # ### CONTEXT ###
-# resource "spacelift_context" "config_context" {
-#     depends_on = [data.spacelift_stack.spacelift]
-#     description = "Infrastructure as Code  Configuration"
-#     name        = "config"
-# }
+resource "spacelift_context" "config_context" {
+    depends_on = [data.spacelift_stack.spacelift]
+    description = "Infrastructure as Code  Configuration"
+    name        = "config"
+}
 
-# resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
-#     depends_on = [spacelift_context.config_context]
-#     context_id = spacelift_context.config_context.id
-#     stack_id   = data.spacelift_stack.spacelift.id
-#     priority   = 0
-# }
+resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
+    depends_on = [spacelift_context.config_context]
+    context_id = spacelift_context.config_context.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
 
 # resource "spacelift_context" "ansible_hook_context" {
 #     depends_on = [data.spacelift_stack.spacelift]
@@ -91,22 +91,22 @@
 #     description = "Terraform log level"
 # }
 
-# resource "spacelift_environment_variable" "env_environment_variable" { 
-#     depends_on = [
-#         spacelift_context.config_context,
-#         spacelift_mounted_file.config_mounted_file,
-#         spacelift_mounted_file.private_keymounted_file,
-#         spacelift_mounted_file.env_keymounted_file,
-#         spacelift_mounted_file.private_keymounted_file,
-#         spacelift_environment_variable.config_environment_variable,
-#         spacelift_environment_variable.tf_log_environment_variable
-#     ]
-#     context_id  = spacelift_context.config_context.id
-#     name        = "TF_VAR_ENV" 
-#     value       = data.external.validate_env.result["valid"] == "true" ? local.env > 0 + 1 : local.env > 0
-#     write_only  = false 
-#     description = "Flag for valid environment initialization"
-# }
+resource "spacelift_environment_variable" "env_environment_variable" { 
+    depends_on = [
+        spacelift_context.config_context,
+        spacelift_mounted_file.config_mounted_file,
+        spacelift_mounted_file.private_keymounted_file,
+        spacelift_mounted_file.env_keymounted_file,
+        spacelift_mounted_file.private_keymounted_file,
+        spacelift_environment_variable.config_environment_variable,
+        spacelift_environment_variable.tf_log_environment_variable
+    ]
+    context_id  = spacelift_context.config_context.id
+    name        = "TF_VAR_ENV" 
+    value       = data.external.validate_env.result["valid"] == "true" ? local.env > 0 + 1 : local.env > 0
+    write_only  = false 
+    description = "Flag for valid environment initialization"
+}
 
 # ### SCRIPT ###
 # resource "random_id" "trigger" {
