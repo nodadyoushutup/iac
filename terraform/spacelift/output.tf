@@ -9,3 +9,7 @@ output "validate_private_key" {
 output "validate_gitconfig" {
   value = data.external.validate_gitconfig.result["valid"] == "true" ? "Gitconfig is valid" : "Gitconfig is not valid"
 }
+
+output "validate_inventory" {
+  value = data.external.validate_inventory.result["valid"] == "true" ? "Inventory is valid" : "Inventory is not valid"
+}
