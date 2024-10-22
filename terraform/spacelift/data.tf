@@ -12,8 +12,8 @@ data "external" "validate_env" {
         "${path.module}/validate_env.sh", 
         local.config.path.private_key, 
         local.config.path.gitconfig, 
-        local.config.path.inventory,
-        local.config.path.env
+        local.config.path.ansible.inventory,
+        local.config.path.docker.env
     ]
     query = {trigger = random_id.trigger.hex}
     depends_on = [random_id.trigger]
