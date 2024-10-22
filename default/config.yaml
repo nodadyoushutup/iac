@@ -41,6 +41,8 @@ provider:
       cert:
       key:
 virtual_machine:
-  username:
-  password:
+  cloud_config_datastore_id: "local"
+  datastore_id: "local-lvm"
+  username: ubuntu
+  password: ubuntu
   keys: []

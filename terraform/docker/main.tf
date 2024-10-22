@@ -1,3 +1,13 @@
+resource "proxmox_virtual_environment_file" "docker_cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+  source_raw {
+    data = local.cloud_config
+    file_name = "cloud-config.yaml"
+  }
+}
+
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   name = "docker"
   description = "docker"
@@ -44,12 +54,3 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   }
 }
 
-resource "proxmox_virtual_environment_file" "docker_cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
-  source_raw {
-    data = local.cloud_config
-    file_name = "cloud-config.yaml"
-  }
-}
