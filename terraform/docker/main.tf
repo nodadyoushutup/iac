@@ -11,7 +11,7 @@ EOF
 }
 
 output "cloud_config" {
-  value = proxmox_virtual_environment_file.source_raw.data
+  value = local.cloud_config_debug
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
