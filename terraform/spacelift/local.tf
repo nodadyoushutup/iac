@@ -19,5 +19,8 @@ locals {
     cloud_config = try(filebase64(local.config.path.cloud_config), filebase64("/mnt/workspace/source/default/cloud_config.yaml"))
     inventory = try(filebase64(local.config.path.inventory), filebase64("/mnt/workspace/source/default/inventory"))
     env = try(filebase64(local.config.path.env), filebase64("/mnt/workspace/source/default/.env"))
+    ansible = try(filebase64(local.config.path.ansible), filebase64("/mnt/workspace/source/config/ansible.cfg"))
+    docker_compose = try(filebase64(local.config.path.docker_compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
+    prometheus = try(filebase64(local.config.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
   }
 }
