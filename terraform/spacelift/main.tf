@@ -109,16 +109,6 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     description = "Flag for valid environment initialization"
 }
 
-# ### SCRIPT ###
-resource "random_id" "trigger" {
-    byte_length = 8
-}
-
-output "valid_check" {
-  value = data.external.validate_env.result["valid"] == "true" ? "Environment configuration is valid" : "Environment configuration is not valid"
-}
-
-
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
     count = local.env > 0 ? 1 : 0
