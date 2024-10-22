@@ -3,15 +3,13 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   datastore_id = try(local.config.virtual_machine.datastore_id.cloud_config)
   node_name    = try(local.config.provider.proxmox.ssh.node.name)
   source_raw {
-    data = <<-EOF
-${local.cloud_config}
-EOF
+    data = local.cloud_config
     file_name = "docker-cloud-config.yaml"
   }
 }
 
 output "cloud_config" {
-  value = local.cloud_config_debug
+  value = local.cloud_config
 }
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
