@@ -10,6 +10,10 @@ output "validate_gitconfig" {
   value = data.external.validate_gitconfig.result["valid"] == "true" ? "Gitconfig is valid" : "Gitconfig is not valid"
 }
 
-output "validate_inventory" {
-  value = data.external.validate_inventory.result["valid"] == "true" ? "Inventory is valid" : "Inventory is not valid"
+output "validate_ansible_inventory" {
+  value = data.external.validate_inventory.result["valid"] == "true" ? "Ansible inventory is valid" : "Ansible inventory is not valid"
+}
+
+output "validate_docker_env" {
+  value = data.external.validate_env.result["valid"] == "true" ? "Docker env is valid" : "Docker env is not valid"
 }

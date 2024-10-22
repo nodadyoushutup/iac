@@ -39,11 +39,21 @@ data "external" "validate_gitconfig" {
     depends_on = [random_id.validate_env_trigger]
 }
 
-data "external" "validate_inventory" {
+data "external" "validate_ansible_inventory" {
     program = [
         "bash", 
         "${path.module}/validate_inventory.sh", 
         local.config.path.ansible.inventory
+    ]
+    query = {trigger = random_id.validate_env_trigger.hex}
+    depends_on = [random_id.validate_env_trigger]
+}
+
+data "external" "validate_docker_env" {
+    program = [
+        "bash", 
+        "${path.module}/validate_env.sh", 
+        local.config.path.docker.env
     ]
     query = {trigger = random_id.validate_env_trigger.hex}
     depends_on = [random_id.validate_env_trigger]
