@@ -73,13 +73,31 @@ resource "spacelift_environment_variable" "ansible_config_environment_variable" 
     description = "Ansible configuration path"
 }
 
-resource "spacelift_environment_variable" "private_key_environment_variable" { 
+resource "spacelift_environment_variable" "ansible_private_key_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
-    name        = "PRIVATE_KEY" 
+    name        = "ANSIBLE_PRIVATE_KEY_FILE" 
     value       = local.private_key
     write_only  = false 
-    description = "SSH private Key"
+    description = "Ansible SSH private Key"
+}
+
+resource "spacelift_environment_variable" "ansible_private_key_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_PRIVATE_KEY_FILE" 
+    value       = local.private_key
+    write_only  = false 
+    description = "Ansible SSH private Key"
+}
+
+resource "spacelift_environment_variable" "ansible_remote_user_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_REMOTE_USER" 
+    value       = local.config.virtual_machine.username
+    write_only  = false 
+    description = "Ansible SSH private Key"
 }
 
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
