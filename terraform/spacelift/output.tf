@@ -11,9 +11,9 @@ output "validate_gitconfig" {
 }
 
 output "validate_ansible_inventory" {
-  value = data.external.validate_inventory.result["valid"] == "true" ? "Ansible inventory is valid" : "Ansible inventory is not valid"
+  value = data.external.validate_ansible_inventory.result["valid"] == "true" ? "Ansible inventory is valid" : "Ansible inventory is not valid"
 }
 
 output "validate_docker_env" {
-  value = data.external.validate_env.result["valid"] == "true" ? "Docker env is valid" : "Docker env is not valid"
+  value = data.external.validate_docker_env.result["valid"] == "true" ? "Docker env is valid" : "Docker env is not valid"
 }
