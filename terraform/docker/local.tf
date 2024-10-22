@@ -3,6 +3,7 @@ locals {
   config = try(yamldecode(file(local.config_path)), {
     path = {
       private_key     = "/mnt/workspace/source/default/id_rsa"
+      cloud_config    = "/mnt/workspace/source/default/cloud_config.yaml"
       inventory       = "/mnt/workspace/source/default/inventory"
       env             = "/mnt/workspace/source/default/.env"
       gitconfig       = "/mnt/workspace/source/config/.gitconfig"
@@ -11,5 +12,4 @@ locals {
       docker_compose  = "/mnt/workspace/source/config/docker-compose.yaml"
     }
   })
-  cloud_config = try(file("/mnt/workspace/cloud_config.yaml"), "<<-EOF EOF")
 }

@@ -38,6 +38,14 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     write_only = false
 }
 
+resource "spacelift_mounted_file" "cloud_config_keymounted_file" {
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id = spacelift_context.config_context.id
+    relative_path = "cloud_config.yaml"
+    content = local.base64.cloud_config
+    write_only = false
+}
+
 resource "spacelift_mounted_file" "inventory_keymounted_file" {
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id = spacelift_context.config_context.id

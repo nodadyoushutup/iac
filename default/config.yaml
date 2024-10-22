@@ -5,6 +5,7 @@ dependency_deploy:
     init: true
 path:
   private_key: /mnt/workspace/id_rsa
+  cloud_config: /mnt/workspace/cloud_config.yaml
   inventory: /mnt/workspace/inventory
   env: /mnt/workspace/.env
   gitconfig: /mnt/workspace/source/config/.gitconfig

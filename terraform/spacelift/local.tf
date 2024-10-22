@@ -4,6 +4,7 @@ locals {
   config = try(yamldecode(file(local.config_path)), {
     path = {
       private_key     = "/mnt/workspace/source/default/id_rsa"
+      cloud_config    = "/mnt/workspace/source/default/cloud_config.yaml"
       inventory       = "/mnt/workspace/source/default/inventory"
       env             = "/mnt/workspace/source/default/.env"
       gitconfig       = "/mnt/workspace/source/config/.gitconfig"
@@ -15,6 +16,7 @@ locals {
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
     private_key = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
+    cloud_config = try(filebase64(local.config.path.cloud_config), filebase64("/mnt/workspace/source/default/cloud_config.yaml"))
     inventory = try(filebase64(local.config.path.inventory), filebase64("/mnt/workspace/source/default/inventory"))
     env = try(filebase64(local.config.path.env), filebase64("/mnt/workspace/source/default/.env"))
   }
