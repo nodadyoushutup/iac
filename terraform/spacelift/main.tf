@@ -66,7 +66,7 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 
 resource "spacelift_environment_variable" "ansible_config_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
-    context_id  = spacelift_context.ansible_config_context.id
+    context_id  = spacelift_context.spacelift_config_context_attachment.id
     name        = "ANSIBLE_CONFIG" 
     value       = local.ansible_config_path
     write_only  = false 
