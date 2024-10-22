@@ -5,23 +5,23 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 
   source_raw {
     data = <<-EOF
-    #cloud-config
-    users:
-      - default
-      - name: ubuntu
-        groups:
-          - sudo
-        shell: /bin/bash
-        ssh_authorized_keys: []
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    runcmd:
-        - apt update
-        - apt install -y qemu-guest-agent net-tools
-        - timedatectl set-timezone America/Toronto
-        - systemctl enable qemu-guest-agent
-        - systemctl start qemu-guest-agent
-        - echo "done" > /tmp/cloud-config.done
-    EOF
+#cloud-config
+users:
+  - default
+  - name: ubuntu
+    groups:
+      - sudo
+    shell: /bin/bash
+    ssh_authorized_keys: []
+    sudo: ALL=(ALL) NOPASSWD:ALL
+runcmd:
+    - apt update
+    - apt install -y qemu-guest-agent net-tools
+    - timedatectl set-timezone America/Toronto
+    - systemctl enable qemu-guest-agent
+    - systemctl start qemu-guest-agent
+    - echo "done" > /tmp/cloud-config.done
+EOF
 
     file_name = "cloud-config.yaml"
   }
@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   tags = ["terraform", "ubuntu", "docker"]
   node_name = try(local.config.provider.proxmox.ssh.node.name)
   agent {
-    enabled = true
+    enabled = false
   }
   stop_on_destroy = true
   startup {
