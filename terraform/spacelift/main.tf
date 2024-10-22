@@ -120,7 +120,7 @@ output "valid_check" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
-    count = local.env > 0 ? 1 : 0
+    count = local.env ? 1 : 0
     depends_on = [
         spacelift_environment_variable.env_environment_variable,
         spacelift_context.ansible_hook_context
@@ -137,7 +137,7 @@ resource "spacelift_stack" "docker_infra_stack" {
 }
 
 resource "spacelift_stack" "docker_init_stack" {
-    count = local.env > 0 ? 1 : 0
+    count = local.env ? 1 : 0
     depends_on = [spacelift_stack.docker_infra_stack]
     administrative = true
     autodeploy = true
@@ -153,7 +153,7 @@ resource "spacelift_stack" "docker_init_stack" {
 }
 
 resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
-    count = local.env > 0 ? 1 : 0
+    count = local.env ? 1 : 0
     depends_on = [
         spacelift_stack.docker_infra_stack,
         spacelift_context.config_context
@@ -164,7 +164,7 @@ resource "spacelift_context_attachment" "docker_infra_config_context_attachment"
 }
 
 resource "spacelift_context_attachment" "docker_init_config_context_attachment" {
-    count = local.env > 0 ? 1 : 0
+    count = local.env ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack,
         spacelift_context.config_context
@@ -175,7 +175,7 @@ resource "spacelift_context_attachment" "docker_init_config_context_attachment" 
 }
 
 resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
-    count = local.env > 0 ? 1 : 0
+    count = local.env ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
         spacelift_context.ansible_hook_context,
@@ -186,7 +186,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 }
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
-    count = local.config.dependency_deploy.docker.infra ? 1 : 0
+    count = local.env && local.config.dependency_deploy.docker.infra ? 1 : 0
     depends_on = [
         data.spacelift_stack.spacelift, 
         spacelift_stack.docker_infra_stack,
@@ -196,7 +196,7 @@ resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" 
 }
 
 resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
-  count = local.config.dependency_deploy.docker.init ? 1 : 0
+  count = local.env && local.config.dependency_deploy.docker.init ? 1 : 0
   depends_on = [
         spacelift_stack.docker_infra_stack, 
         spacelift_stack.docker_init_stack,
@@ -205,24 +205,14 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
   depends_on_stack_id = spacelift_stack.docker_infra_stack[count.index].id
 }
 
-# # Step 1: Define the data source to read config.yaml
-# data "local_file" "config_file" {
-#   filename = "/mnt/workspace/config.yaml"
-# }
 
-# # Step 2: Use the data source in the resource for content
-# resource "local_file" "example" {
-#   filename = "/mnt/workspace/example.yaml"
-#   content  = try(data.local_file.config_file.content, "<<-EOF EOF")
-# }
 
-# # Step 3: Create an output with the filename and content
-# output "file_metadata" {
-#   value = {
-#     filename = local_file.example.filename
-#     content  = try(data.local_file.config_file.content, "<<-EOF EOF")
-#   }
-# }
+
+
+
+
+
+
 # ### PROMETHEUS ###
 # resource "spacelift_stack" "prometheus_init_stack" {
 #     depends_on = [spacelift_stack.docker_init_stack]
