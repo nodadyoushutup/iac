@@ -1,5 +1,9 @@
 locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
+  env_msg = {
+    valid = "Environment configuration is valid"
+    invalid = "Environment configuration is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+  }
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   private_key = try(var.PRIVATE_KEY != null && var.PRIVATE_KEY != "" ? var.PRIVATE_KEY : "/mnt/workspace/id_rsa")
   ansible_config_path = try(var.ANSIBLE_CONFIG != null && var.ANSIBLE_CONFIG != "" ? var.ANSIBLE_CONFIG : "/mnt/workspace/source/config/ansible.cfg")
@@ -29,8 +33,4 @@ locals {
     docker_compose = try(filebase64(local.config.path.docker_compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
     prometheus = try(filebase64(local.config.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
   }
-}
-
-output "env" {
-  value = local.env
 }

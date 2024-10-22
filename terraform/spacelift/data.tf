@@ -18,7 +18,3 @@ data "external" "validate_env" {
     query = {trigger = random_id.trigger.hex}
     depends_on = [random_id.trigger]
 }
-
-output "valid_check" {
-  value = data.external.validate_env.result["valid"] == "true" ? "Environment configuration is valid" : "Environment configuration is not valid"
-}
