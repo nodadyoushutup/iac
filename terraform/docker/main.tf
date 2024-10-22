@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   tags = ["terraform", "ubuntu", "docker"]
   node_name = try(local.config.provider.proxmox.ssh.node.name)
   agent {
-    enabled = false
+    enabled = true
   }
   stop_on_destroy = true
   startup {
