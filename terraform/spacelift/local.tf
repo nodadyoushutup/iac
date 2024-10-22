@@ -30,3 +30,7 @@ locals {
     prometheus = try(filebase64(local.config.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
   }
 }
+
+output "env" {
+  value = local.env
+}
