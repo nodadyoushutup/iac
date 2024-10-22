@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   }
 }
 
-output "cloud_config" {
+output "cloud_config2" {
   value = local.cloud_config
 }
 
