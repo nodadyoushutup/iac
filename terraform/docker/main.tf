@@ -1,35 +1,32 @@
-# resource "proxmox_virtual_environment_file" "cloud_config" {
-#   content_type = "snippets"
-#   datastore_id = "local"
-#   node_name    = "pve"
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
 
-#   source_raw {
-#     data = <<-EOF
-#     #cloud-config
-#     users:
-#       - default
-#       - name: ubuntu
-#         groups:
-#           - sudo
-#         shell: /bin/bash
-#         ssh_authorized_keys: []
-#         sudo: ALL=(ALL) NOPASSWD:ALL
-#     runcmd:
-#         - apt update
-#         - apt install -y qemu-guest-agent net-tools
-#         - timedatectl set-timezone America/Toronto
-#         - systemctl enable qemu-guest-agent
-#         - systemctl start qemu-guest-agent
-#         - echo "done" > /tmp/cloud-config.done
-#     EOF
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    users:
+      - default
+      - name: ubuntu
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys: []
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    runcmd:
+        - apt update
+        - apt install -y qemu-guest-agent net-tools
+        - timedatectl set-timezone America/Toronto
+        - systemctl enable qemu-guest-agent
+        - systemctl start qemu-guest-agent
+        - echo "done" > /tmp/cloud-config.done
+    EOF
 
-#     file_name = "cloud-config.yaml"
-#   }
-# }
+    file_name = "cloud-config.yaml"
+  }
+}
 
-# output "cloud_config" {
-#   value = local.cloud_config
-# }
 
 # resource "proxmox_virtual_environment_vm" "docker_vm" {
 #   depends_on = [proxmox_virtual_environment_file.cloud_config]
