@@ -5,7 +5,7 @@ variable "CONFIG" {
 }
 
 variable "ENV" {
-  type = string
+  type = number
   description = "Environment configuration"
   default = 0
 }
