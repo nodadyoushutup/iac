@@ -1,6 +1,7 @@
 #!/bin/sh
 
 PRIVATE_KEY_PATH="$1"
+PRIVATE_KEY_VALID="false"
 
 if [ -f "$PRIVATE_KEY_PATH" ]; then
   PRIVATE_KEY_FIRST_LINE=$(head -n 1 "$PRIVATE_KEY_PATH")
