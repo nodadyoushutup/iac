@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_file" "docker_cloud_config" {
   }
 }
 
-resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image" {
+resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
   content_type = "iso"
   datastore_id = "local"
   node_name    = "pve"
@@ -16,6 +16,9 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_jammy_22_04_cloud_i
   overwrite_unmanaged = true
 }
 
+output "ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file" {
+  value = proxmox_virtual_environment_download_file.ubuntu_jammy_22_04_cloud_image_virtual_environment_download_file.id
+}
 
 resource "proxmox_virtual_environment_vm" "docker_vm" {
   depends_on = [proxmox_virtual_environment_file.docker_cloud_config]
