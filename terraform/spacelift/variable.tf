@@ -9,3 +9,9 @@ variable "ENV" {
   description = "Environment configuration"
   default = null
 }
+
+variable "ANSIBLE_CONFIG" {
+  type = string
+  description = "Ansible configuration path"
+  default = null
+}
