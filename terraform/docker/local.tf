@@ -3,3 +3,7 @@ locals {
   config = try(yamldecode(file(local.config_path)), {})
   cloud_config = try(file("/mnt/workspace/cloud_config.yaml"), "<<-EOF EOF")
 }
+
+output "cloud_config" {
+  value = file("/mnt/workspace/cloud_config.yaml")
+}
