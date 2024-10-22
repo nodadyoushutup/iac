@@ -40,8 +40,8 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   initialization {
     ip_config {
       ipv4 {
-        address = try(local.config.virtual_machine.address)
-        gateway = try(local.config.virtual_machine.gateway)
+        address = try(local.config.virtual_machine.docker.address)
+        gateway = try(local.config.virtual_machine.docker.gateway)
       }
     }
     user_data_file_id = proxmox_virtual_environment_file.docker_cloud_config.id
