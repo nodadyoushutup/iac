@@ -2,7 +2,7 @@ data "spacelift_stack" "spacelift" {
   stack_id = "spacelift"
 }
 
-resource "random_id" "trigger" {
+resource "random_id" "validate_env_trigger" {
     byte_length = 8
 }
 
@@ -15,6 +15,6 @@ data "external" "validate_env" {
         local.config.path.ansible.inventory,
         local.config.path.docker.env
     ]
-    query = {trigger = random_id.trigger.hex}
-    depends_on = [random_id.trigger]
+    query = {trigger = random_id.validate_env_trigger.hex}
+    depends_on = [random_id.validate_env_trigger]
 }
