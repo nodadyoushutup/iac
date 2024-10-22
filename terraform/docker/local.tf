@@ -2,7 +2,16 @@ locals {
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {})
   cloud_config = <<-EOF
-${trimspace(file("/mnt/workspace/cloud_config.yaml"))}
-EOF
+  #cloud-config
+      users:
+        - default
+        - name: ubuntu
+          passwd: $6$rounds=4096$T8DMtimvQVZEyTGr$I3wHi8.0NxA938poCUOqtqcJQbAt335MfHF.lpS8Fdwfnt45vH5goXxPQ.RXBGef2yegKPero/PFYvKOmJWeS1
+          groups:
+            - sudo
+          shell: /bin/bash
+          ssh_authorized_keys: []
+          sudo: ALL=(ALL) NOPASSWD:ALL
+  EOF
 }
 
