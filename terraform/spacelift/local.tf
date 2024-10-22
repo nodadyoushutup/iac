@@ -13,17 +13,17 @@ locals {
       }
     }
     path = {
-      private_key     = "/mnt/workspace/source/default/id_rsa"
-      ansible         = {
+      private_key = "/mnt/workspace/source/default/id_rsa"
+      ansible = {
         config = "/mnt/workspace/source/config/ansible.cfg"
         inventory = "/mnt/workspace/source/default/inventory"
       }
-      docker          = {
+      docker = {
         compose = "/mnt/workspace/source/config/docker-compose.yaml"
         env = "/mnt/workspace/source/default/.env"
       }
-      gitconfig       = "/mnt/workspace/source/config/.gitconfig"
-      prometheus      = "/mnt/workspace/source/config/prometheus.yml"
+      gitconfig = "/mnt/workspace/source/config/.gitconfig"
+      prometheus = "/mnt/workspace/source/config/prometheus.yml"
     }
   })
   base64 = {
