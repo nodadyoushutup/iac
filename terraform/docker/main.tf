@@ -43,8 +43,8 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
         address = try(local.config.virtual_machine.address)
         gateway = try(local.config.virtual_machine.gateway)
       }
-    user_data_file_id = proxmox_virtual_environment_file.docker_cloud_config.id
     }
+    user_data_file_id = proxmox_virtual_environment_file.docker_cloud_config.id
   }
   network_device {
     bridge = "vmbr0"
