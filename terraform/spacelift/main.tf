@@ -17,7 +17,6 @@ resource "spacelift_context" "ansible_hook_context" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        # ".././before_init.sh"
         "chmod 600 ${local.config.path.private_key}"
     ]
 }
