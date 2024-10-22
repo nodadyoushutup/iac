@@ -30,6 +30,7 @@
           - git
           - python3
           - python3-pip
+          - whois
         state: present
         update_cache: yes
   when: apt_lock_check_success
