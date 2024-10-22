@@ -109,9 +109,9 @@ resource "spacelift_environment_variable" "env_environment_variable" {
 }
 
 # ### SCRIPT ###
-# resource "random_id" "trigger" {
-#     byte_length = 8
-# }
+resource "random_id" "trigger" {
+    byte_length = 8
+}
 
 data "external" "validate_env" {
     program = [
@@ -126,9 +126,9 @@ data "external" "validate_env" {
     depends_on = [random_id.trigger]
 }
 
-# output "valid_check" {
-#   value = data.external.validate_env.result["valid"]
-# }
+output "valid_check" {
+  value = data.external.validate_env.result["valid"]
+}
 
 
 # ### DOCKER ###
