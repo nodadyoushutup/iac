@@ -1,8 +1,26 @@
 locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
-    valid = "Environment configuration is valid"
-    invalid = "Environment configuration is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+    valid = {
+      ansible = {
+        inventory = "Ansible inventory is valid"
+      }
+      docker = {
+        env = "Docker env is valid"
+      }
+      gitconfig = "Gitconfig is valid"
+      private_key = "Private key is valid"
+    }
+    invalid = {
+      ansible = {
+        inventory = "Ansible inventory is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+      }
+      docker = {
+        env = "Docker env not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+      }
+      gitconfig = "Gitconfig is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+      private_key = "Private key is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
+    }
   }
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
