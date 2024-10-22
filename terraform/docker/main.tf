@@ -33,7 +33,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   }
   disk {
     datastore_id = try(local.config.virtual_machine.datastore_id.disk)
-    file_id = try(concat([local.config.virtual_machine.datastore_id.iso, ":", local.config.virtual_machine.file_id]))
+    file_id = "${local.config.virtual_machine.datastore_id.iso}:${local.config.virtual_machine.file_id}"
     interface = "scsi0"
     size = 100
   }
