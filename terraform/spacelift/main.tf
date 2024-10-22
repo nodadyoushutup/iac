@@ -103,7 +103,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     ]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_ENV" 
-    value       = data.external.validate_env.result["valid"] == "true" ? local.env + 1 : local.env
+    value       = data.external.validate_env.result["valid"] == "true" ? local.env > 0 + 1 : local.env > 0
     write_only  = false 
     description = "Flag for valid environment initialization"
 }
@@ -120,7 +120,7 @@ output "valid_check" {
 
 ### DOCKER ###
 resource "spacelift_stack" "docker_infra_stack" {
-    count = local.env ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_environment_variable.env_environment_variable,
         spacelift_context.ansible_hook_context
@@ -137,7 +137,7 @@ resource "spacelift_stack" "docker_infra_stack" {
 }
 
 resource "spacelift_stack" "docker_init_stack" {
-    count = local.env ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [spacelift_stack.docker_infra_stack]
     administrative = true
     autodeploy = true
@@ -153,7 +153,7 @@ resource "spacelift_stack" "docker_init_stack" {
 }
 
 resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
-    count = local.env ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_stack.docker_infra_stack,
         spacelift_context.config_context
@@ -164,7 +164,7 @@ resource "spacelift_context_attachment" "docker_infra_config_context_attachment"
 }
 
 resource "spacelift_context_attachment" "docker_init_config_context_attachment" {
-    count = local.env ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack,
         spacelift_context.config_context
@@ -175,7 +175,7 @@ resource "spacelift_context_attachment" "docker_init_config_context_attachment" 
 }
 
 resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attachment" {
-    count = local.env ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
         spacelift_context.ansible_hook_context,
@@ -186,7 +186,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 }
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
-    count = local.env && local.config.dependency_deploy.docker.infra ? 1 : 0
+    count = local.env > 0 && local.config.dependency_deploy.docker.infra ? 1 : 0
     depends_on = [
         data.spacelift_stack.spacelift, 
         spacelift_stack.docker_infra_stack,
@@ -196,7 +196,7 @@ resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" 
 }
 
 resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
-  count = local.env && local.config.dependency_deploy.docker.init ? 1 : 0
+  count = local.env > 0 && local.config.dependency_deploy.docker.init ? 1 : 0
   depends_on = [
         spacelift_stack.docker_infra_stack, 
         spacelift_stack.docker_init_stack,
