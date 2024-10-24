@@ -11,11 +11,15 @@
         name: ../role/vm_ping
 
     - name: Load configuration
-      include_vars:
-        file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
-        name: config
-      delegate_to: localhost
-      run_once: true
+      include_role:
+        name: ../role/load_config
+
+    # - name: Load configuration
+    #   include_vars:
+    #     file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
+    #     name: config
+    #   delegate_to: localhost
+    #   run_once: true
 
     - name: Docker Setup and Service Management
       block:
@@ -32,4 +36,4 @@
     #     - name: Install or Update Docker
     #       include_role:
     #         name: ../role/docker_install
-    #   when: vm_ping == true
+      when: vm_ping == true
