@@ -4,6 +4,12 @@
     file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
     name: config
 
+- name: Add user to sudo group
+  user:
+    name: "{{ ansible_user }}"
+    groups: "sudo"
+    append: yes
+
 - name: Copy .gitconfig to the ansible user's home
   copy:
     src: "{{ config.path.gitconfig }}"
@@ -17,26 +23,21 @@
     name: ../../role/apt_lock_check
 
 - block:
-    - name: Add user to sudo group
-      ansible.builtin.user:
-        name: "{{ ansible_user }}"
-        groups: "sudo"
-        append: yes
-
-    - name: Install necessary packages
-      apt:
-        name:
-          - nfs-common
-          - zip
-          - net-tools
-          - ca-certificates
-          - curl
-          - postgresql-client
-          - git
-          - python3
-          - python3-pip
-          - whois
-        state: present
-        update_cache: yes
+  - name: Install necessary packages
+    apt:
+      name:
+        - nfs-common
+        - zip
+        - net-tools
+        - ca-certificates
+        - curl
+        - postgresql-client
+        - git
+        - python3
+        - python3-pip
+        - whois
+      state: present
+      update_cache: yes
+      # more later
   when: apt_lock_check_success
   name: "Add user and install packages only after apt lock is cleared"
