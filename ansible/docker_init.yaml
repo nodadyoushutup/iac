@@ -6,13 +6,13 @@
   become: true
   check_mode: no
   tasks:
-    - name: Ping VM
-      include_role:
-        name: role/vm_ping
-
     - name: Load configuration
       include_role:
         name: role/load_config
+
+    - name: Ping VM
+      include_role:
+        name: role/vm_ping
 
     - name: Docker Setup and Service Management
       block:
