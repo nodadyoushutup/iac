@@ -23,12 +23,4 @@
         - name: Install or Update Docker
           include_role:
             name: role/docker_install
-
-    #     # This will turn into a overall migrate config role
-    #     # to run all configuration migrations
-    #     - name: Migrate Prometheus configuration
-    #       include_role:
-    #         name: role/prometheus_config
-
-
       when: vm_ping == true
