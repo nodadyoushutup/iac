@@ -14,18 +14,15 @@
       include_role:
         name: ../role/load_config
 
-    # - name: Load configuration
-    #   include_vars:
-    #     file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
-    #     name: config
-    #   delegate_to: localhost
-    #   run_once: true
-
     - name: Docker Setup and Service Management
       block:
         - name: VM Initialization Tasks
           include_role:
             name: ../role/vm_init
+
+        - name: Install or Update Docker
+          include_role:
+            name: ../role/docker_install
 
     #     # This will turn into a overall migrate config role
     #     # to run all configuration migrations
@@ -33,7 +30,5 @@
     #       include_role:
     #         name: ../role/prometheus_config
 
-    #     - name: Install or Update Docker
-    #       include_role:
-    #         name: ../role/docker_install
+
       when: vm_ping == true
