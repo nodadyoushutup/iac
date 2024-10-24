@@ -1,8 +1,10 @@
-- Fstab Ansible
 - cAdvisor / Grafana / Prometheus
-- GitHub init Ansible
 - Create more validation scripts
     - Config
     - Docker compose
     - Prometheus
     - Ansible config
+- VM Init
+    - nlimit / hard limit / soft limit
+    - GitHub init
+    - Fstab

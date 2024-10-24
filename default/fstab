@@ -1,0 +1,4 @@
+LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
+LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
+
+192.168.1.100:/mnt/epool/media /mnt/epool/media nfs defaults 0 0
