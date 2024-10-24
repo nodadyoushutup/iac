@@ -15,7 +15,7 @@
 
 - name: APT lock check
   include_role:
-    name: ../../role/apt_lock_check
+    name: ../role/apt_lock_check
 
 - block:
   - name: Install necessary packages
