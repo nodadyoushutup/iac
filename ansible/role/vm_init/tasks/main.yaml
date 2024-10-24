@@ -7,7 +7,7 @@
 - name: Copy .gitconfig to the ansible user's home
   copy:
     src: "{{ config.path.gitconfig }}"
-    dest: /home/{{ ansible_user }}/.gitconfig.yaml
+    dest: /home/{{ ansible_user }}/.gitconfig
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: '0644'
