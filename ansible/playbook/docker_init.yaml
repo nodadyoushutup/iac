@@ -6,9 +6,16 @@
   become: true
   check_mode: no
   tasks:
-    - name: Verify Ping Status
+    - name: Ping VM
       include_role:
         name: ../role/vm_ping
+
+    - name: Load configuration
+      include_vars:
+        file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
+        name: config
+      delegate_to: localhost
+      run_once: true
 
     - name: Docker Setup and Service Management
       block:
