@@ -1,7 +1,12 @@
 ---
+- name: Load configuration
+  include_vars:
+    file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
+    name: config
+
 - name: Copy .gitconfig to the ansible user's home
   copy:
-    src: "{{ lookup('env', 'TF_VAR_GIT_CONFIG') }}"
+    src: "{{ config.path.gitconfig }}"
     dest: /home/{{ ansible_user }}/.gitconfig.yaml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
