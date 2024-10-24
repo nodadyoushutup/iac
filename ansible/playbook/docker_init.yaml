@@ -10,11 +10,11 @@
       include_role:
         name: ../role/vm_ping
 
-    # - name: Docker Setup and Service Management
-    #   block:
-    #     - name: VM Initialization Tasks
-    #       include_role:
-    #         name: ../role/vm_init
+    - name: Docker Setup and Service Management
+      block:
+        - name: VM Initialization Tasks
+          include_role:
+            name: ../role/vm_init
 
     #     # This will turn into a overall migrate config role
     #     # to run all configuration migrations
