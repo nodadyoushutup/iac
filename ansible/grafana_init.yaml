@@ -1,0 +1,27 @@
+---
+# grafana_init.
+- name: Initialize Grafana
+  hosts: docker
+  gather_facts: no
+  become: true
+  check_mode: no
+  tasks:
+    - name: Load configuration
+      include_role:
+        name: role/load_config
+
+    - name: Ping VM
+      include_role:
+        name: role/vm_ping
+
+    - name: Initialize Grafana
+      block:
+        - name: Restart Docker Compose Managed Services
+          include_role:
+            name: role/docker_compose
+          vars:
+            run_down: true
+            run_up: true
+            up_services: "grafana prometheus"
+            down_services: "grafana prometheus"
+      when: vm_ping == true

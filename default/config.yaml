@@ -5,6 +5,9 @@ dependency_deploy:
     init: true
   prometheus:
     init: true
+  grafana:
+    init: true
+    config: true
 path:
   private_key: /mnt/workspace/id_rsa
   ansible:

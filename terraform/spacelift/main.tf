@@ -291,3 +291,58 @@ resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_depende
     stack_id = spacelift_stack.prometheus_init_stack[count.index].id
     depends_on_stack_id = spacelift_stack.docker_init_stack[count.index].id
 }
+
+### GRAFANA ###
+resource "spacelift_stack" "grafana_init_stack" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [spacelift_stack.docker_init_stack]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Grafana initialization"
+    name = "grafana_init"
+    project_root = "ansible"
+    repository = "iac"
+    labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
+    additional_project_globs = [
+        "role/docker_compose",
+        "role/load_config",
+        "role/vm_init",
+        "role/vm_ping"
+    ]
+    ansible {
+        playbook = "grafana_init.yaml"
+    }
+}
+
+resource "spacelift_context_attachment" "grafana_init_config_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.grafana_init_stack,
+        spacelift_context.config_context
+    ]
+    context_id = spacelift_context.config_context.id
+    stack_id   = spacelift_stack.grafana_init_stack[count.index].id
+    priority   = 0
+}
+
+resource "spacelift_context_attachment" "grafana_init_ansible_hook_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.grafana_init_stack, 
+        spacelift_context.ansible_hook_context
+    ]
+    context_id = spacelift_context.ansible_hook_context.id
+    stack_id   = spacelift_stack.grafana_init_stack[count.index].id
+    priority   = 0
+}
+
+resource "spacelift_stack_dependency" "grafana_init_prometheus_init_stack_dependency" {
+    count = local.env > 0 && local.config.dependency_deploy.grafana.init ? 1 : 0
+    depends_on = [
+        spacelift_stack.docker_init_stack, 
+        spacelift_stack.prometheus_init_stack,
+    ]
+    stack_id = spacelift_stack.grafana_init_stack[count.index].id
+    depends_on_stack_id = spacelift_stack.prometheus_init_stack[count.index].id
+}
