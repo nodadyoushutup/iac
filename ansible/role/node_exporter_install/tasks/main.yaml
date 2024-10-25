@@ -17,7 +17,7 @@
 
 - name: Download node_exporter binary
   ansible.builtin.get_url:
-    url: "https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    url: "https://github.com/prometheus/node_exporter/releases/download/{{ node_exporter_version | regex_replace('^v', '') }}/node_exporter-{{ node_exporter_version | regex_replace('^v', '') }}.linux-amd64.tar.gz"
     dest: /tmp/node_exporter.tar.gz
 
 - name: Extract node_exporter
