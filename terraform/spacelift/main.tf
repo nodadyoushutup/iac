@@ -260,7 +260,7 @@ resource "spacelift_context_attachment" "prometheus_init_config_context_attachme
         spacelift_context.config_context
     ]
     context_id = spacelift_context.config_context.id
-    stack_id   = spacelift_stack.prometheus_init_stack.id
+    stack_id   = spacelift_stack.prometheus_init_stack[count.index].id
     priority   = 0
 }
 
@@ -271,7 +271,7 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
         spacelift_context.ansible_hook_context
     ]
     context_id = spacelift_context.ansible_hook_context.id
-    stack_id   = spacelift_stack.prometheus_init_stack.id
+    stack_id   = spacelift_stack.prometheus_init_stack[count.index].id
     priority   = 0
 }
 
@@ -281,6 +281,6 @@ resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_depende
         spacelift_stack.docker_init_stack, 
         spacelift_stack.prometheus_init_stack,
     ]
-    stack_id = spacelift_stack.prometheus_init_stack.id
-    depends_on_stack_id = spacelift_stack.docker_init_stack.id
+    stack_id = spacelift_stack.prometheus_init_stack[count.index].id
+    depends_on_stack_id = spacelift_stack.docker_init_stack[count.index].id
 }
