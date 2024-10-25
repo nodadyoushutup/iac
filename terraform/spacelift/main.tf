@@ -248,6 +248,13 @@ resource "spacelift_stack" "prometheus_init_stack" {
     project_root = "ansible"
     repository = "iac"
     labels = ["ansible", "init", "prometheus", "administrative", "p1", "p1b"]
+    additional_project_globs = [
+        "role/docker_compose",
+        "role/load_config",
+        "role/prometheus",
+        "role/vm_init",
+        "role/vm_ping"
+    ]
     ansible {
         playbook = "prometheus_init.yaml"
     }
