@@ -3,6 +3,8 @@ dependency_deploy:
   docker:
     infra: true
     init: true
+  prometheus:
+    init: true
 path:
   private_key: /mnt/workspace/id_rsa
   ansible:

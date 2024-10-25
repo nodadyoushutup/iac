@@ -6,7 +6,11 @@
   become: true
   check_mode: no
   tasks:
-    - name: Verify Ping Status
+    - name: Load configuration
+      include_role:
+        name: role/load_config
+
+    - name: Ping VM
       include_role:
         name: role/vm_ping
 
