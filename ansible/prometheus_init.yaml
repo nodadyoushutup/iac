@@ -26,6 +26,6 @@
           vars:
             run_down: true
             run_up: true
-            up_services: "prometheus"
-            down_services: "prometheus"
+            up_services: "cadvisor prometheus"
+            down_services: "cadvisor prometheus"
       when: vm_ping == true
