@@ -14,7 +14,7 @@ path:
     compose: /mnt/workspace/source/config/docker-compose.yaml
     env: /mnt/workspace/.env
   gitconfig: /mnt/workspace/source/config/.gitconfig
-  prometheus: /mnt/workspace/source/config/prometheus.yaml
+  prometheus: /mnt/workspace/source/config/prometheus.yml
 provider:
   proxmox:
     endpoint:
