@@ -43,11 +43,33 @@
     mode: '0644'
   when: not docker_key.stat.mode == '0644'
 
+# - name: Set up Docker APT repository
+#   shell: |
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#   args:
+#     executable: /bin/bash
+
+- name: Check if Docker APT repository list file exists
+  stat:
+    path: /etc/apt/sources.list.d/docker.list
+  register: docker_repo_list
+
+- name: Get the expected Docker APT repository entry
+  set_fact:
+    expected_docker_repo: |
+      deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "{{ ansible_distribution_release }}") stable
+
+- name: Read current Docker APT repository list file
+  command: cat /etc/apt/sources.list.d/docker.list
+  register: current_docker_repo
+  when: docker_repo_list.stat.exists
+
 - name: Set up Docker APT repository
   shell: |
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    echo "{{ expected_docker_repo }}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   args:
     executable: /bin/bash
+  when: docker_repo_list.stat.exists == false or current_docker_repo.stdout != expected_docker_repo
 
 - name: Update packages
   apt: 
