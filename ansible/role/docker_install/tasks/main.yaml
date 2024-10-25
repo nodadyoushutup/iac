@@ -20,6 +20,7 @@
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
+    creates: /etc/apt/keyrings
 
 - name: Download Docker GPG key using curl
   command:
