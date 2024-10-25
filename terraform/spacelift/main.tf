@@ -244,7 +244,7 @@ resource "spacelift_stack" "prometheus_init_stack" {
     autodeploy = true
     branch = "main"
     description = "Prometheus initialization"
-    name = "Prometheus_init"
+    name = "prometheus_init"
     project_root = "ansible"
     repository = "iac"
     labels = ["ansible", "init", "prometheus", "administrative", "p1", "p1b"]
