@@ -39,5 +39,5 @@
 
 - name: Node exporter
   include_role:
-    name: ../role/node_exporter_install
+    name: ../role/node_exporter
 

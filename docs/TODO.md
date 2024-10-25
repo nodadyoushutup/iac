@@ -8,3 +8,4 @@
     - nlimit / hard limit / soft limit
     - GitHub init
     - Fstab
+- Jinja2 templates for config files?
