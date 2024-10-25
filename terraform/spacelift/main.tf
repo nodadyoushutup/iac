@@ -174,6 +174,7 @@ resource "spacelift_stack" "docker_init_stack" {
         "role/docker_compose",
         "role/docker_install",
         "role/load_config",
+        "role/node_exporter_install",
         "role/vm_init",
         "role/vm_ping"
     ]
