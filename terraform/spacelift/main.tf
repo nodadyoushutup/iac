@@ -172,7 +172,7 @@ resource "spacelift_stack" "docker_init_stack" {
     additional_project_globs = [
         "role/apt_lock_check",
         "role/docker_compose",
-        "role/docker_install",
+        "role/docker",
         "role/load_config",
         "role/node_exporter",
         "role/vm_init",

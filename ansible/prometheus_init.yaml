@@ -14,7 +14,7 @@
       block:
         - name: Migrate Prometheus configuration
           include_role:
-            name: role/prometheus_config
+            name: role/prometheus
         
         - name: Restart Docker Compose Managed Services
           include_role:

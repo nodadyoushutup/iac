@@ -1,7 +1,7 @@
 ---
 - name: Copy prometheus.yaml to the ansible user's home
   copy:
-    src: "{{ lookup('env', 'PROMETHEUS_CONFIG') }}"
+    src: "{{ config.path.prometheus }}"
     dest: /home/{{ ansible_user }}/prometheus.yaml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

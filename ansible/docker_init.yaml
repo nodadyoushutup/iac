@@ -22,5 +22,5 @@
 
         - name: Install or Update Docker
           include_role:
-            name: role/docker_install
+            name: role/docker
       when: vm_ping == true
