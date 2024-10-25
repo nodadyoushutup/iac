@@ -15,12 +15,17 @@
     lock_timeout: 120
   when: apt_lock_check_success
 
-- name: Create the /etc/apt/keyrings directory with 0755 permissions
+- name: Check if /etc/apt/keyrings directory exists
+  stat:
+    path: /etc/apt/keyrings
+  register: keyring_dir
+
+- name: Create the /etc/apt/keyrings directory
   file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
-    creates: /etc/apt/keyrings
+  when: not keyring_dir.stat.exists
 
 - name: Download Docker GPG key using curl
   command:
