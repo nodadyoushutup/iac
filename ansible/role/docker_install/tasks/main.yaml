@@ -14,62 +14,27 @@
     state: absent 
     lock_timeout: 120
   when: apt_lock_check_success
-
-- name: Check if /etc/apt/keyrings directory exists
-  stat:
-    path: /etc/apt/keyrings
-  register: keyring_dir
-
+  
 - name: Create the /etc/apt/keyrings directory
   file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
-  when: not keyring_dir.stat.exists
-
-- name: Check if /etc/apt/keyrings/docker.asc file exists
-  stat:
-    path: /etc/apt/keyrings/docker.asc
-  register: docker_key
 
 - name: Download Docker GPG key using curl
   command:
     cmd: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
-  when: not docker_key.stat.exists
 
 - name: Set read permission for all users on the Docker GPG key
   file:
     path: /etc/apt/keyrings/docker.asc
     mode: '0644'
-  when: not docker_key.stat.mode == '0644'
-
-# - name: Set up Docker APT repository
-#   shell: |
-#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#   args:
-#     executable: /bin/bash
-
-- name: Check if Docker APT repository list file exists
-  stat:
-    path: /etc/apt/sources.list.d/docker.list
-  register: docker_repo_list
-
-- name: Get the expected Docker APT repository entry
-  set_fact:
-    expected_docker_repo: |
-      deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable
-
-- name: Read current Docker APT repository list file
-  command: cat /etc/apt/sources.list.d/docker.list
-  register: current_docker_repo
-  when: docker_repo_list.stat.exists
 
 - name: Set up Docker APT repository
   shell: |
-    echo "{{ expected_docker_repo }}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   args:
     executable: /bin/bash
-  when: not docker_repo_list.stat.exists or current_docker_repo.stdout != expected_docker_repo
 
 - name: Update packages
   apt: 

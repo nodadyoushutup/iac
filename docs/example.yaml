@@ -1,0 +1,37 @@
+---
+- name: Check if /etc/apt/keyrings directory exists
+  stat:
+    path: /etc/apt/keyrings
+  register: keyring_dir
+
+---
+
+- name: Check if /etc/apt/keyrings/docker.asc file exists
+  stat:
+    path: /etc/apt/keyrings/docker.asc
+  register: docker_key
+
+---
+
+- name: Check if Docker APT repository list file exists
+  stat:
+    path: /etc/apt/sources.list.d/docker.list
+  register: docker_repo_list
+
+- name: Get the expected Docker APT repository entry
+  set_fact:
+    expected_docker_repo: |
+      deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable
+
+- name: Read current Docker APT repository list file
+  command: cat /etc/apt/sources.list.d/docker.list
+  register: current_docker_repo
+  when: docker_repo_list.stat.exists
+
+- name: Set up Docker APT repository
+  shell: |
+    echo "{{ expected_docker_repo }}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  args:
+    executable: /bin/bash
+  when: not docker_repo_list.stat.exists or current_docker_repo.stdout != expected_docker_repo
+
