@@ -69,7 +69,7 @@
     echo "{{ expected_docker_repo }}" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   args:
     executable: /bin/bash
-  when: docker_repo_list.stat.exists == false or current_docker_repo.stdout != expected_docker_repo
+  when: not docker_repo_list.stat.exists or not current_docker_repo.stdout == expected_docker_repo
 
 - name: Update packages
   apt: 
