@@ -36,3 +36,8 @@
       # more later
   when: apt_lock_check_success
   name: "Add user and install packages only after apt lock is cleared"
+
+- name: Node exporter
+  include_role:
+    name: ../role/node_exporter_install
+
