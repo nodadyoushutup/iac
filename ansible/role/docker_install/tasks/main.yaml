@@ -30,17 +30,18 @@
 - name: Check if /etc/apt/keyrings/docker.asc file exists
   stat:
     path: /etc/apt/keyrings/docker.asc
-  register: docker_asc
+  register: docker_key
 
 - name: Download Docker GPG key using curl
   command:
     cmd: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
-  when: not docker_asc.stat.exists
+  when: not docker_key.stat.exists
 
 - name: Set read permission for all users on the Docker GPG key
   file:
     path: /etc/apt/keyrings/docker.asc
     mode: '0644'
+  when: not docker_key.stat.mode == '0644'
 
 - name: Set up Docker APT repository
   shell: |
