@@ -20,6 +20,10 @@
           include_role:
             name: role/vm_init
 
+        - name: Migrate Prometheus configuration
+          include_role:
+            name: role/prometheus
+
         - name: Install or Update Docker
           include_role:
             name: role/docker
