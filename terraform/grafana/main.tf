@@ -18,10 +18,17 @@ resource "grafana_data_source" "prometheus" {
   # })
 }
 
-data "grafana_folders" "test" {
-#
+resource "grafana_folder" "node_exporter" {
+  title = "Node Exporter"
+  uid   = "node-exporter"
 }
 
-output "grafana_folders" {
-  value = data.grafana_folders.test
+resource "grafana_dashboard" "node_exporter_full" {
+  folder      = grafana_folder.node_exporter.id
+  config_json = <<EOD
+{
+  "title": "Node Exporter Full",
+  "uid": "node-exporter-full"
+}
+EOD
 }
