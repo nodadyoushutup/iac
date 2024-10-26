@@ -23,12 +23,8 @@
   check_mode: no
   tasks:
     - name: Load Configuration
-      hosts: localhost
-      gather_facts: no
-      tasks:
-        - name: Load configuration
-          include_role:
-            name: role/load_config
+      include_role:
+        name: role/load_config
 
     - name: Ping VM
       include_role:
