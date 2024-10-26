@@ -8,6 +8,14 @@ dependency_deploy:
   grafana:
     init: true
     config: true
+gitconfig:
+  user: 
+  email: 
+ansible:
+  host:
+    docker:
+      - ansible_host: 
+        ansible_port: 
 path:
   private_key: /mnt/workspace/id_rsa
   ansible:

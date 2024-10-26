@@ -1,7 +1,18 @@
 ---
 # docker_init
+- name: Add Docker Hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Add docker hosts from config
+      add_host:
+        ansible_host: "{{ item.ansible_host }}"
+        ansible_port: "{{ item.ansible_port }}"
+      loop: "{{ config.ansible.host.docker }}"
+      register: added_hosts
+      
 - name: Initialize Docker Environment
-  hosts: docker
+  hosts: added_hosts
   gather_facts: no
   become: true
   check_mode: no
