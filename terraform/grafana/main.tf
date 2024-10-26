@@ -29,3 +29,7 @@ resource "grafana_dashboard" "docker" {
 resource "grafana_dashboard" "prometheus" {
     config_json = file("./dashboard/prometheus.json")
 }
+
+resource "grafana_dashboard" "exportarr" {
+    config_json = file("./dashboard/exportarr.json")
+}
