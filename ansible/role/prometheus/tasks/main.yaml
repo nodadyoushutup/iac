@@ -1,7 +1,7 @@
 ---
 - name: Copy prometheus config to the ansible user's home
   copy:
-    src: "{{ config.path.prometheus }}"
+    src: "{{ config.spacelift.path.prometheus }}"
     dest: /home/{{ ansible_user }}/prometheus.yml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

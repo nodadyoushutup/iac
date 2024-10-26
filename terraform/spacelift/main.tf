@@ -17,7 +17,7 @@ resource "spacelift_context" "ansible_hook_context" {
     description = "Ansible hook"
     name        = "ansible_hook"
     before_init = [
-        "chmod 600 ${local.config.path.private_key}"
+        "chmod 600 ${local.config.spacelift.path.private_key}"
     ]
 }
 
@@ -86,7 +86,7 @@ resource "spacelift_environment_variable" "ansible_private_key_environment_varia
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
     name        = "ANSIBLE_PRIVATE_KEY_FILE" 
-    value       = local.config.path.private_key
+    value       = local.config.spacelift.path.private_key
     write_only  = false 
     description = "Ansible SSH private Key"
 }
@@ -95,7 +95,7 @@ resource "spacelift_environment_variable" "ansible_config_environment_variable" 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
     name        = "ANSIBLE_CONFIG" 
-    value       = local.config.path.ansible.config
+    value       = local.config.spacelift.path.ansible.config
     write_only  = false 
     description = "Ansible configuration path"
 }
@@ -113,7 +113,7 @@ resource "spacelift_environment_variable" "ansible_inventory_environment_variabl
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id  = spacelift_context.config_context.id
     name        = "ANSIBLE_INVENTORY" 
-    value       = local.config.path.ansible.inventory
+    value       = local.config.spacelift.path.ansible.inventory
     write_only  = false 
     description = "Ansible inventory path"
 }
@@ -218,7 +218,7 @@ resource "spacelift_context_attachment" "docker_init_ansible_hook_context_attach
 }
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
-    count = local.env > 0 && local.config.dependency_deploy.docker.infra ? 1 : 0
+    count = local.env > 0 && local.config.spacelift.dependency_deploy.docker.infra ? 1 : 0
     depends_on = [
         data.spacelift_stack.spacelift, 
         spacelift_stack.docker_infra_stack,
@@ -228,7 +228,7 @@ resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" 
 }
 
 resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency" {
-  count = local.env > 0 && local.config.dependency_deploy.docker.init ? 1 : 0
+  count = local.env > 0 && local.config.spacelift.dependency_deploy.docker.init ? 1 : 0
   depends_on = [
         spacelift_stack.docker_infra_stack, 
         spacelift_stack.docker_init_stack,
@@ -284,7 +284,7 @@ resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_at
 }
 
 resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_dependency" {
-    count = local.env > 0 && local.config.dependency_deploy.prometheus.init ? 1 : 0
+    count = local.env > 0 && local.config.spacelift.dependency_deploy.prometheus.init ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
         spacelift_stack.prometheus_init_stack,
@@ -366,7 +366,7 @@ resource "spacelift_context_attachment" "grafana_init_ansible_hook_context_attac
 }
 
 resource "spacelift_stack_dependency" "grafana_init_prometheus_init_stack_dependency" {
-    count = local.env > 0 && local.config.dependency_deploy.grafana.init ? 1 : 0
+    count = local.env > 0 && local.config.spacelift.dependency_deploy.grafana.init ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
         spacelift_stack.prometheus_init_stack,

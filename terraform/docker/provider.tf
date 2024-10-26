@@ -7,16 +7,16 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint = local.config.provider.proxmox.endpoint
-  insecure  = local.config.provider.proxmox.insecure
-  username = local.config.provider.proxmox.username
-  password = local.config.provider.proxmox.password
+  endpoint = local.config.spacelift.provider.proxmox.endpoint
+  insecure  = local.config.spacelift.provider.proxmox.insecure
+  username = local.config.spacelift.provider.proxmox.username
+  password = local.config.spacelift.provider.proxmox.password
   ssh {
-    private_key = file(local.config.path.private_key)
+    private_key = file(local.config.spacelift.path.private_key)
     node {
-      name = local.config.provider.proxmox.ssh.node.name
-      address = local.config.provider.proxmox.ssh.node.address
-      port = local.config.provider.proxmox.ssh.node.port
+      name = local.config.spacelift.provider.proxmox.ssh.node.name
+      address = local.config.spacelift.provider.proxmox.ssh.node.address
+      port = local.config.spacelift.provider.proxmox.ssh.node.port
     }
   }
 }

@@ -3,7 +3,7 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
   vm_id = 101
   description = "Docker applications"
   tags = ["terraform", "ubuntu", "docker"]
-  node_name = try(local.config.provider.proxmox.ssh.node.name)
+  node_name = try(local.config.spacelift.provider.proxmox.ssh.node.name)
   agent {
     enabled = false
   }

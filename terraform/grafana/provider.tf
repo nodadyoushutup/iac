@@ -7,6 +7,6 @@ terraform {
 }
 
 provider "grafana" {
-    url  = local.config.provider.grafana.url
-    auth = local.config.provider.grafana.auth
+    url  = local.config.spacelift.provider.grafana.url
+    auth = local.config.spacelift.provider.grafana.auth
 }

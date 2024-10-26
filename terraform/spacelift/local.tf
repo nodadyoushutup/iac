@@ -46,15 +46,15 @@ locals {
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
-    private_key = try(filebase64(local.config.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
+    private_key = try(filebase64(local.config.spacelift.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
     ansible = {
-      config = try(filebase64(local.config.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
-      inventory = try(filebase64(local.config.path.ansible.inventory), filebase64("/mnt/workspace/source/default/inventory"))
+      config = try(filebase64(local.config.spacelift.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
+      inventory = try(filebase64(local.config.spacelift.path.ansible.inventory), filebase64("/mnt/workspace/source/default/inventory"))
     }
     docker = {
-      env = try(filebase64(local.config.path.docker.env), filebase64("/mnt/workspace/source/default/.env"))
-      compose = try(filebase64(local.config.path.docker.compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
+      env = try(filebase64(local.config.spacelift.path.docker.env), filebase64("/mnt/workspace/source/default/.env"))
+      compose = try(filebase64(local.config.spacelift.path.docker.compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
     }
-    prometheus = try(filebase64(local.config.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
+    prometheus = try(filebase64(local.config.spacelift.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
   }
 }

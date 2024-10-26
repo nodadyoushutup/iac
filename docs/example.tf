@@ -1,6 +1,6 @@
 resource "null_resource" "run_private_key_validation" {
   provisioner "local-exec" {
-    command = "${path.module}/validate.sh ${local.config.path.private_key}"
+    command = "${path.module}/validate.sh ${local.config.spacelift.path.private_key}"
   }
 
   triggers = {
