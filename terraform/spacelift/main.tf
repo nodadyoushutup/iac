@@ -327,6 +327,9 @@ resource "spacelift_stack" "grafana_config_stack" {
     project_root = "terraform/grafana"
     repository = "iac"
     labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
+    additional_project_globs = [
+        "dashboard/**",
+    ]
 }
 
 resource "spacelift_context_attachment" "grafana_init_config_context_attachment" {
