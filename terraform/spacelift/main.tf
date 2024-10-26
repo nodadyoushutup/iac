@@ -316,6 +316,19 @@ resource "spacelift_stack" "grafana_init_stack" {
     }
 }
 
+resource "spacelift_stack" "grafana_config_stack" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [spacelift_stack.grafana_init_stack]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Grafana configuration"
+    name = "grafana_config"
+    project_root = "terraform/grafana"
+    repository = "iac"
+    labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
+}
+
 resource "spacelift_context_attachment" "grafana_init_config_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
