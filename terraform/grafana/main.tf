@@ -25,10 +25,5 @@ resource "grafana_folder" "node_exporter" {
 
 resource "grafana_dashboard" "node_exporter_full" {
   folder      = grafana_folder.node_exporter.id
-  config_json = <<EOD
-{
-  "title": "Node Exporter Full",
-  "uid": "node-exporter-full"
-}
-EOD
+  config_json = file("./node_exporter_full.json")
 }
