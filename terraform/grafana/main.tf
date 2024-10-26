@@ -18,6 +18,10 @@ resource "grafana_data_source" "prometheus" {
   # })
 }
 
-resource "grafana_dashboard" "node_exporter_full" {
-    config_json = file("./dashboard/node_exporter_full.json")
+resource "grafana_dashboard" "node_exporter" {
+    config_json = file("./dashboard/node_exporter.json")
+}
+
+resource "grafana_dashboard" "docker" {
+    config_json = file("./dashboard/docker.json")
 }
