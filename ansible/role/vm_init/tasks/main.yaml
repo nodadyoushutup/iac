@@ -5,13 +5,9 @@
     groups: "sudo"
     append: yes
 
-- name: Copy .gitconfig to the ansible user's home
-  copy:
-    src: "{{ config.path.gitconfig }}"
-    dest: /home/{{ ansible_user }}/.gitconfig
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0644'
+- name: Copy .gitconfig
+  include_role:
+    name: ../role/gitconfig
 
 - name: APT lock check
   include_role:
