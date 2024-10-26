@@ -1,17 +1,17 @@
 ---
 # docker_init
-- name: Load Configuration
-  hosts: localhost
-  gather_facts: no
-  tasks:
-    - name: Load configuration
-      include_role:
-        name: role/load_config
-
 - name: Add Docker Hosts
   hosts: localhost
   gather_facts: no
   tasks:
+    - name: Load Configuration
+      hosts: localhost
+      gather_facts: no
+      tasks:
+        - name: Load configuration
+          include_role:
+            name: role/load_config
+
     - name: Add docker hosts from config
       add_host:
         name: "{{ item.ansible_host }}:{{ item.ansible_port }}"
@@ -26,6 +26,14 @@
   become: true
   check_mode: no
   tasks:
+    - name: Load Configuration
+      hosts: localhost
+      gather_facts: no
+      tasks:
+        - name: Load configuration
+          include_role:
+            name: role/load_config
+            
     - name: Ping VM
       include_role:
         name: role/vm_ping
