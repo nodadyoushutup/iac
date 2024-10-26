@@ -238,14 +238,14 @@ resource "spacelift_stack_dependency" "docker_init_docker_infra_stack_dependency
 }
 
 ### PROMETHEUS ###
-resource "spacelift_stack" "prometheus_init_stack" {
+resource "spacelift_stack" "collector_init_stack" {
     count = local.env > 0 ? 1 : 0
     depends_on = [spacelift_stack.docker_init_stack]
     administrative = true
     autodeploy = true
     branch = "main"
     description = "Prometheus initialization"
-    name = "prometheus_init"
+    name = "collector_init"
     project_root = "ansible"
     repository = "iac"
     labels = ["ansible", "init", "prometheus", "administrative", "p1", "p1b"]
@@ -257,39 +257,39 @@ resource "spacelift_stack" "prometheus_init_stack" {
         "role/vm_ping"
     ]
     ansible {
-        playbook = "prometheus_init.yaml"
+        playbook = "collector_init.yaml"
     }
 }
 
-resource "spacelift_context_attachment" "prometheus_init_config_context_attachment" {
+resource "spacelift_context_attachment" "collector_init_config_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.prometheus_init_stack,
+        spacelift_stack.collector_init_stack,
         spacelift_context.config_context
     ]
     context_id = spacelift_context.config_context.id
-    stack_id   = spacelift_stack.prometheus_init_stack[count.index].id
+    stack_id   = spacelift_stack.collector_init_stack[count.index].id
     priority   = 0
 }
 
-resource "spacelift_context_attachment" "prometheus_init_ansible_hook_context_attachment" {
+resource "spacelift_context_attachment" "collector_init_ansible_hook_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_stack.prometheus_init_stack, 
+        spacelift_stack.collector_init_stack, 
         spacelift_context.ansible_hook_context
     ]
     context_id = spacelift_context.ansible_hook_context.id
-    stack_id   = spacelift_stack.prometheus_init_stack[count.index].id
+    stack_id   = spacelift_stack.collector_init_stack[count.index].id
     priority   = 0
 }
 
-resource "spacelift_stack_dependency" "prometheus_init_docker_init_stack_dependency" {
+resource "spacelift_stack_dependency" "collector_init_docker_init_stack_dependency" {
     count = local.env > 0 && local.config.spacelift.dependency_deploy.prometheus.init ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
-        spacelift_stack.prometheus_init_stack,
+        spacelift_stack.collector_init_stack,
     ]
-    stack_id = spacelift_stack.prometheus_init_stack[count.index].id
+    stack_id = spacelift_stack.collector_init_stack[count.index].id
     depends_on_stack_id = spacelift_stack.docker_init_stack[count.index].id
 }
 
@@ -365,12 +365,12 @@ resource "spacelift_context_attachment" "grafana_init_ansible_hook_context_attac
     priority   = 0
 }
 
-resource "spacelift_stack_dependency" "grafana_init_prometheus_init_stack_dependency" {
+resource "spacelift_stack_dependency" "grafana_init_collector_init_stack_dependency" {
     count = local.env > 0 && local.config.spacelift.dependency_deploy.grafana.init ? 1 : 0
     depends_on = [
         spacelift_stack.docker_init_stack, 
-        spacelift_stack.prometheus_init_stack,
+        spacelift_stack.collector_init_stack,
     ]
     stack_id = spacelift_stack.grafana_init_stack[count.index].id
-    depends_on_stack_id = spacelift_stack.prometheus_init_stack[count.index].id
+    depends_on_stack_id = spacelift_stack.collector_init_stack[count.index].id
 }

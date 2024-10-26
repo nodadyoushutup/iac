@@ -1,6 +1,6 @@
 ---
-# prometheus_init.
-- name: Initialize Prometheus
+# collector_init.
+- name: Initialize Collectors
   hosts: docker
   gather_facts: no
   become: true
@@ -26,6 +26,6 @@
           vars:
             run_down: true
             run_up: true
-            up_services: "cadvisor prometheus"
-            down_services: "prometheus"
+            up_services: "prometheus cadvisor exportarr-sonarr"
+            down_services: "prometheus cadvisor exportarr-sonarr"
       when: vm_ping == true

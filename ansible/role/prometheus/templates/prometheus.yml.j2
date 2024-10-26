@@ -14,3 +14,7 @@ scrape_configs:
   - job_name: cadvisor
     static_configs:
       - targets: ["192.168.1.101:8080"]
+
+  - job_name: exportarr
+    static_configs:
+      - targets: ["192.168.1.101:9707"]
