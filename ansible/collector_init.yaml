@@ -14,7 +14,7 @@
       include_role:
         name: role/vm_ping
 
-    - name: Initialize Prometheus
+    - name: Initialize Collectors
       block:
         - name: Migrate Prometheus configuration
           include_role:
