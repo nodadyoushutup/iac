@@ -24,6 +24,6 @@ resource "grafana_folder" "node_exporter" {
 }
 
 resource "grafana_dashboard" "node_exporter_full" {
-  folder      = grafana_folder.node_exporter.id
-  config_json = file("./node_exporter_full.json")
+#   folder      = grafana_folder.node_exporter.id
+  config_json = file("./dashboard/node_exporter_full.json")
 }
