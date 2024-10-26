@@ -1,16 +1,3 @@
-terraform {
-    required_providers {
-        grafana = {
-            source = "grafana/grafana"
-        }
-    }
-}
-
-provider "grafana" {
-    url  = local.config.provider.grafana.url
-    auth = local.config.provider.grafana.auth
-}
-
 resource "grafana_data_source" "prometheus" {
     name = "prometheus"
     type = "prometheus"
@@ -29,4 +16,12 @@ resource "grafana_data_source" "prometheus" {
   # secure_json_data_encoded = jsonencode({
   #   basicAuthPassword = "password"
   # })
+}
+
+data "grafana_folders" "test" {
+#
+}
+
+output "grafana_folders" {
+  value = data.grafana_folders.test
 }
