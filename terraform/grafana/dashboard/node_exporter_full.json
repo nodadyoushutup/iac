@@ -23469,6 +23469,10 @@
           "type": "query"
         },
         {
+          "current": {
+            "text": "192.168.1.101:9100",
+            "value": "192.168.1.101:9100"
+          },
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
