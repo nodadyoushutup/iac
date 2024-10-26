@@ -89,7 +89,7 @@ services:
     container_name: exportarr-sonarr
     command: ["sonarr"]
     environment:
-      APIKEY: ${SONARR_EXPORTARR_API_KEY}
+      API_KEY: ${SONARR_EXPORTARR_API_KEY}
       PORT: ${SONARR_EXPORTARR_PORT}
       URL: ${SONARR_EXPORTARR_URL}
     ports:
