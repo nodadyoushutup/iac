@@ -1,7 +1,7 @@
 ---
 - name: Copy .gitconfig to the ansible user's home
   copy:
-    src: .gitconfig.j2
+    src: gitconfig.j2
     dest: /home/{{ ansible_user }}/.gitconfig
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
