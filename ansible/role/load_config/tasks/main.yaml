@@ -5,3 +5,9 @@
     name: config
   delegate_to: localhost
   run_once: true
+
+- name: Set config as a fact
+  set_fact:
+    config: "{{ config }}"
+  delegate_to: localhost
+  run_once: true
