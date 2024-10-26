@@ -1,7 +1,7 @@
 resource "grafana_data_source" "prometheus" {
     name = "prometheus"
     type = "prometheus"
-    url  = "http://192.168.1.101:9090"
+    url  = local.ip_address
 
   # Uncomment and configure the following lines if needed
   # basic_auth_enabled  = true
@@ -19,5 +19,5 @@ resource "grafana_data_source" "prometheus" {
 }
 
 resource "grafana_dashboard" "node_exporter_full" {
-  config_json = file("./dashboard/node_exporter_full.json")
+    config_json = file("./dashboard/node_exporter_full.json")
 }
