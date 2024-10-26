@@ -173,7 +173,7 @@ resource "spacelift_stack" "docker_init_stack" {
         "role/apt_lock_check",
         "role/docker_compose",
         "role/docker",
-        "role/load_config",
+        "role/config_load",
         "role/node_exporter",
         "role/vm_init",
         "role/vm_ping"
@@ -250,7 +250,7 @@ resource "spacelift_stack" "prometheus_init_stack" {
     labels = ["ansible", "init", "prometheus", "administrative", "p1", "p1b"]
     additional_project_globs = [
         "role/docker_compose",
-        "role/load_config",
+        "role/config_load",
         "role/prometheus",
         "role/vm_init",
         "role/vm_ping"
@@ -306,7 +306,7 @@ resource "spacelift_stack" "grafana_init_stack" {
     labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
     additional_project_globs = [
         "role/docker_compose",
-        "role/load_config",
+        "role/config_load",
         "role/vm_init",
         "role/vm_ping"
     ]

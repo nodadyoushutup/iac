@@ -1,6 +1,6 @@
-# roles/add_host_from_config/tasks/main.yaml
+# roles/host_add_from_config/tasks/main.yaml
 - name: Add host from config
-  add_host:
+  host_add:
     name: "{{ config.virtual_machine[key].ansible.host }}:{{ config.virtual_machine[key].ansible.port }}"
     ansible_host: "{{ config.virtual_machine[key].ansible.host }}"
     ansible_port: "{{ config.virtual_machine[key].ansible.port }}"

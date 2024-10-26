@@ -8,7 +8,7 @@
   tasks:
     - name: Load configuration
       include_role:
-        name: role/load_config
+        name: role/config_load
 
     - name: Ping VM
       include_role:
