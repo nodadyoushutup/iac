@@ -8,12 +8,11 @@
       include_role:
         name: role/load_config
 
-    - name: Add docker host from config
-      add_host:
-        name: "{{ config.virtual_machine.docker.ansible.host }}:{{ config.virtual_machine.docker.ansible.port }}"
-        ansible_host: "{{ config.virtual_machine.docker.ansible.host }}"
-        ansible_port: "{{ config.virtual_machine.docker.ansible.port }}"
-        groups: docker
+    - name: Add Host from Config
+      include_role:
+        name: role/add_host
+      vars:
+        key: docker
 
 - name: Initialize Docker Environment
   hosts: docker
