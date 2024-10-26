@@ -41,7 +41,6 @@ locals {
         env = "/mnt/workspace/source/default/.env"
       }
       gitconfig = "/mnt/workspace/source/config/.gitconfig"
-      prometheus = "/mnt/workspace/source/config/prometheus.yml"
     }
   })
   base64 = {
@@ -55,6 +54,5 @@ locals {
       env = try(filebase64(local.config.spacelift.path.docker.env), filebase64("/mnt/workspace/source/default/.env"))
       compose = try(filebase64(local.config.spacelift.path.docker.compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
     }
-    prometheus = try(filebase64(local.config.spacelift.path.prometheus), filebase64("/mnt/workspace/source/config/prometheus.yml"))
   }
 }
