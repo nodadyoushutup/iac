@@ -1,7 +1,7 @@
 resource "grafana_data_source" "prometheus" {
     name = "prometheus"
     type = "prometheus"
-    url  = local.ip_address
+    url  = "http://${local.ip_address}:${local.config.virtual_machine.docker.port}"
 
   # Uncomment and configure the following lines if needed
   # basic_auth_enabled  = true
