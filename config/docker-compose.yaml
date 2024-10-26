@@ -87,14 +87,15 @@ services:
   exportarr-sonarr:
     image: ghcr.io/onedr0p/exportarr:v2.0
     container_name: exportarr-sonarr
-    command: ["sonarr"]
+    restart: unless-stopped
     environment:
       API_KEY: ${SONARR_EXPORTARR_API_KEY}
       PORT: ${SONARR_EXPORTARR_PORT}
       URL: ${SONARR_EXPORTARR_URL}
     ports:
-      - "9707:9707"
-    restart: unless-stopped
+      - ${SONARR_EXPORTARR_PORT}:${SONARR_EXPORTARR_PORT}
+    command: ["sonarr"]
+    
 
   # exportarr-radarr:
   #   image: ghcr.io/onedr0p/exportarr:v2.0
