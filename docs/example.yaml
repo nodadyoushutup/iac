@@ -35,3 +35,12 @@
     executable: /bin/bash
   when: not docker_repo_list.stat.exists or current_docker_repo.stdout != expected_docker_repo
 
+---
+### Multiple Host Add
+- name: Add docker hosts from config
+  add_host:
+    name: "{{ item.host }}:{{ item.port }}"
+    ansible_host: "{{ item.host }}"
+    ansible_port: "{{ item.port }}"
+    groups: docker
+  loop: "{{ config.virtual_machine.docker.ansible }}"
