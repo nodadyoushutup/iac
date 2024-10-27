@@ -402,3 +402,4 @@ resource "spacelift_context_attachment" "nginx_proxy_manager_init_ansible_hook_c
     stack_id   = spacelift_stack.nginx_proxy_manager_init_stack[count.index].id
     priority   = 0
 }
+#
