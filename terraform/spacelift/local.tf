@@ -12,7 +12,6 @@ locals {
   }
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
-    
     spacelift = {
       dependency_deploy = {
         docker = {
@@ -30,7 +29,11 @@ locals {
         }
       }
     }
-    
+    virtual_machine = {
+      username = "ubuntu"
+      password = "ubuntu"
+      keys = []
+    }
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
