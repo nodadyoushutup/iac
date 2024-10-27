@@ -1,2 +1,0 @@
-[docker]
-docker ansible_host=000.000.000.000 ansible_port=10122
