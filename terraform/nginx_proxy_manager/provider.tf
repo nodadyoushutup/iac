@@ -19,8 +19,8 @@ resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
   forward_scheme = "http"
 
   ssl_forced      = true
-  hsts_enabled    = true
-  hsts_subdomains = true
-  http2_support   = true
+  hsts_enabled    = false
+  hsts_subdomains = false
+  http2_support   = false
 
 }
