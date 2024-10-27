@@ -12,3 +12,8 @@ provider "nginxproxymanager" {
   password = local.config.spacelift.provider.nginx_proxy_manager.password 
 } 
 
+data "nginxproxymanager_users" "all" {}
+
+output "nginxproxymanager_users" {
+  value = nginxproxymanager_users.all
+}
