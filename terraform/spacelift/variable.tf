@@ -9,9 +9,3 @@ variable "ENV" {
   description = "Environment configuration"
   default = 0
 }
-
-variable "PRIVATE_KEY" {
-  type = string
-  description = "SSH private key path"
-  default = null
-}
