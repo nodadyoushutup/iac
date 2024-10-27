@@ -37,4 +37,8 @@
             run_up: true
             up_services: "mysql nginx-proxy-manager"
             down_services: "mysql nginx-proxy-manager"
+
+        - name: Set NPM Administrator Password
+          include_role:
+            name: role/nginx-proxy-manager
       when: vm_ping == true
