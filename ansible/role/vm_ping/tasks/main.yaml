@@ -1,13 +1,14 @@
 ---
-- name: Verify SSH Port Accessibility via Netcat
-  command: nc -zv {{ ansible_host }} {{ ansible_port }}
-  register: nc_result
-  retries: 30
-  delay: 10
-  until: nc_result.rc == 0
-  ignore_errors: true
+- name: Verify SSH Port Accessibility via Netcat 
+  command: nc -zv {{ ansible_host }} {{ ansible_port }} 
+  register: nc_result 
+  retries: 30 
+  delay: 10 
+  until: nc_result.rc == 0 
+  ignore_errors: true 
+  delegate_to: localhost
   tags: check_ssh
 
-- name: Define SSH Connectivity Status as a Fact
-  set_fact:
-    vm_ping: "{{ nc_result.rc == 0 }}"
+# - name: Define SSH Connectivity Status as a Fact
+#   set_fact:
+#     vm_ping: "{{ nc_result.rc == 0 }}"
