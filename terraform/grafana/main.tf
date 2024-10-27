@@ -1,6 +1,7 @@
 resource "grafana_data_source" "prometheus" {
     name = "prometheus"
     type = "prometheus"
+    uid = "prometheus-data-source"
     url  = local.config.spacelift.provider.prometheus.hostname
 
   # Uncomment and configure the following lines if needed
