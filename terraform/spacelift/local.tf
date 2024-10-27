@@ -2,11 +2,9 @@ locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
     valid = {
-      gitconfig = "Gitconfig is valid"
       private_key = "Private key is valid"
     }
     invalid = {
-      gitconfig = "Gitconfig is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
       private_key = "Private key is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
     }
   }
