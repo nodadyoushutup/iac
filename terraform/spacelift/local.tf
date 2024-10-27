@@ -2,9 +2,6 @@ locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
     valid = {
-      ansible = {
-        inventory = "Ansible inventory is valid"
-      }
       docker = {
         env = "Docker env is valid"
       }
@@ -12,9 +9,6 @@ locals {
       private_key = "Private key is valid"
     }
     invalid = {
-      ansible = {
-        inventory = "Ansible inventory is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
-      }
       docker = {
         env = "Docker env not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
       }

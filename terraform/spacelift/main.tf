@@ -38,14 +38,6 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     write_only = true
 }
 
-resource "spacelift_mounted_file" "inventory_keymounted_file" {
-    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
-    context_id = spacelift_context.config_context.id
-    relative_path = "inventory"
-    content = local.base64.ansible.inventory
-    write_only = false
-}
-
 resource "spacelift_mounted_file" "env_keymounted_file" {
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
     context_id = spacelift_context.config_context.id
@@ -122,11 +114,10 @@ resource "spacelift_environment_variable" "env_environment_variable" {
         spacelift_environment_variable.ansible_private_key_environment_variable,
         spacelift_environment_variable.ansible_config_environment_variable,
         spacelift_environment_variable.ansible_remote_user_environment_variable,
-        spacelift_environment_variable.ansible_inventory_environment_variable
     ]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_ENV" 
-    value       = data.external.validate_docker_env.result["valid"] == "true" && data.external.validate_gitconfig.result["valid"] == "true" && data.external.validate_ansible_inventory.result["valid"] == "true" && data.external.validate_private_key.result["valid"] == "true"? local.env + 1 : local.env
+    value       = data.external.validate_docker_env.result["valid"] == "true" && data.external.validate_gitconfig.result["valid"] == "true" && data.external.validate_private_key.result["valid"] == "true"? local.env + 1 : local.env
     write_only  = false 
     description = "Flag for valid environment initialization"
 }
