@@ -375,7 +375,6 @@ resource "spacelift_stack_dependency" "grafana_init_collector_init_stack_depende
     depends_on_stack_id = spacelift_stack.collector_init_stack[count.index].id
 }
 
-
 resource "spacelift_stack_dependency" "grafana_config_grafana_init_stack_dependency" {
     count = local.env > 0 && local.config.spacelift.dependency_deploy.grafana.config ? 1 : 0
     depends_on = [

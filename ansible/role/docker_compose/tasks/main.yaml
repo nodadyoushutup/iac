@@ -18,7 +18,7 @@
 - name: Run docker compose up
   ansible.builtin.shell: |
     export COMPOSE_FILE=/home/{{ ansible_user }}/docker-compose.yaml
-    docker compose up -d {{ up_services | default('') }}
+    docker compose up -d {{ up_services | default('') }} --remove-orphans
   args:
     executable: /bin/bash
   environment:
