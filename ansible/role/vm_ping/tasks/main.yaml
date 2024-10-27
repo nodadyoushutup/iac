@@ -9,3 +9,7 @@
   delegate_to: localhost
   become: false
   tags: check_ssh
+
+- name: Define SSH Connectivity Status as a Fact
+  set_fact:
+    vm_ping: "{{ nc_result.rc == 0 }}"
