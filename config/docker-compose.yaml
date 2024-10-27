@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:latest
+    image: amir20/dozzle:v8.7.0
     container_name: dozzle
     restart: unless-stopped
     volumes:
@@ -9,7 +9,7 @@ services:
       - ${DOZZLE_PORT}
 
   uptime-kuma:
-    image: louislam/uptime-kuma:latest
+    image: louislam/uptime-kuma:1.23.15
     container_name: uptime-kuma
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
      - ${UPTIME_KUMA_PORT}
   
   postgresql:
-    image: postgres:latest
+    image: postgres:17.0
     container_name: postgres
     restart: unless-stopped
     environment:
@@ -31,7 +31,7 @@ services:
       - ${POSTGRES_PORT}
       
   nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:latest
+    image: jc21/nginx-proxy-manager:2.12.1
     container_name: nginx-proxy-manager
     restart: unless-stopped
     volumes:
@@ -43,7 +43,7 @@ services:
       - ${NPM_PORT_ADMIN}
   
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:v0.50.0
     container_name: cadvisor
     restart: unless-stopped
     volumes:
@@ -56,7 +56,7 @@ services:
       - ${CADVISOR_PORT}
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.55.0
     container_name: prometheus
     restart: unless-stopped
     user: "root"
@@ -67,7 +67,7 @@ services:
       - ${PROMTEHEUS_PORT}
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:11.3.0
     container_name: grafana
     restart: unless-stopped
     user: "root"
@@ -85,7 +85,8 @@ services:
       - ${GRAFANA_DATA}:/var/lib/grafana
 
   exportarr-sonarr:
-    image: ghcr.io/onedr0p/exportarr:latest
+    image: ghcr.io/onedr0p/exportarr:v2.0.1
+
     container_name: exportarr-sonarr
     restart: unless-stopped
     environment:
@@ -99,7 +100,8 @@ services:
     command: ["sonarr"]
 
   exportarr-radarr:
-    image: ghcr.io/onedr0p/exportarr:latest
+    image: ghcr.io/onedr0p/exportarr:v2.0.1
+
     container_name: exportarr-radarr
     restart: unless-stopped
     environment:
@@ -113,7 +115,8 @@ services:
     command: ["radarr"]
 
   exportarr-lidarr:
-    image: ghcr.io/onedr0p/exportarr:latest
+    image: ghcr.io/onedr0p/exportarr:v2.0.1
+
     container_name: exportarr-lidarr
     restart: unless-stopped
     environment:
@@ -127,7 +130,8 @@ services:
     command: ["lidarr"]
 
   exportarr-prowlarr:
-    image: ghcr.io/onedr0p/exportarr:latest
+    image: ghcr.io/onedr0p/exportarr:v2.0.1
+
     container_name: exportarr-prowlarr
     restart: unless-stopped
     environment:
@@ -143,7 +147,8 @@ services:
     command: ["prowlarr"]
 
   # bazarr-exportarr:
-  #   image: ghcr.io/onedr0p/exportarr:latest
+  #   image: ghcr.io/onedr0p/exportarr:v2.0.1
+
   #   container_name: bazarr-exportarr
   #   command: ["bazarr"]
   #   environment:
@@ -155,7 +160,8 @@ services:
   #   restart: unless-stopped
 
   # readarr-exportarr:
-  #   image: ghcr.io/onedr0p/exportarr:latest
+  #   image: ghcr.io/onedr0p/exportarr:v2.0.1
+
   #   container_name: readarr-exportarr
   #   command: ["readarr"]
   #   environment:
