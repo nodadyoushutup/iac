@@ -1,7 +1,7 @@
 ---
 - name: Add host from config
   add_host:
-    name: "{{ config.virtual_machine[key].ansible.host }}:{{ config.virtual_machine[key].ansible.port }}"
+    name: "{{ key }}"
     ansible_host: "{{ config.virtual_machine[key].ansible.host }}"
     ansible_port: "{{ config.virtual_machine[key].ansible.port }}"
     groups: "{{ key }}"
