@@ -1,63 +1,144 @@
 ---
-dependency_deploy:
-  docker:
-    infra: true
-    init: true
-  prometheus:
-    init: true
-  grafana:
-    init: true
-    config: true
-gitconfig:
-  user: 
-  email: 
-ansible:
-  host:
+spacelift:
+  path:
+    private_key: /mnt/workspace/id_rsa
+    ansible:
+      config: /mnt/workspace/source/config/ansible.cfg
     docker:
-      - ansible_host: 
-        ansible_port: 
-path:
-  private_key: /mnt/workspace/id_rsa
-  ansible:
-    config: /mnt/workspace/source/config/ansible.cfg
-    inventory: /mnt/workspace/inventory
-  docker:
-    compose: /mnt/workspace/source/config/docker-compose.yaml
-    env: /mnt/workspace/.env
-  gitconfig: /mnt/workspace/source/config/.gitconfig
-  prometheus: /mnt/workspace/source/config/prometheus.yml
-provider:
-  proxmox:
-    endpoint:
-    insecure:
-    username:
-    password:
-    ssh:
-      private_key:
-      node:
-        address:
-        name:
-        port:
-  fortigate:
-    hostname:
-    insecure:
-    username:
-    password:
+      compose: /mnt/workspace/source/config/docker-compose.yaml
+    gitconfig: /mnt/workspace/source/config/.gitconfig
+    prometheus: /mnt/workspace/source/config/prometheus.yml
+  dependency_deploy:
+    docker:
+      infra: false
+      init: false
+    collector:
+      init: true
+    grafana:
+      init: true
+      config: true
+  provider:
+    proxmox:
+      endpoint: https://<public_ip>:1086
+      insecure: true
+      username: root@pve
+      password: 
+      ssh:
+        node:
+          address: <public_ip>
+          name: pve
+          port: 1022
+    grafana:
+      url: http://<public_ip>:3000
+      auth: grafana:grafana
+    prometheus:
+      hostname: http://192.168.1.101:9090
+      auth:
+        username: prometheus
+        password: prometheus
+    fortigate:
+      hostname: <public_ip>:7014
+      insecure: true
+      username: admin
+      password: 
+    postgres:
+      host: <public_ip>:5432
+      port: 5432
+      database: postgres
+      username: postgres
+      password: 
+      sslmode: disable
+      connect_timeout: 15
+      clientcert:
+        cert: null
+        key: null
+gitconfig:
+  user: nodadyoushutup
+  email: admin@nodadyoushutup.com
+prometheus:
+  targets:
+    - job_name: prometheus
+      hostname: 192.168.1.101:9090
+    - job_name: node_exporter_docker
+      hostname: 192.168.1.101:9100
+    - job_name: cadvisor
+      hostname: 192.168.1.101:8080
+docker:
   postgres:
-    host:
+    user: postgres
+    password: 
+    db: postgres
+    port: 5432:5432
+    data: ./postgres
+  dozzle:
+    port: 8085:8080
+  uptime_kuma:
+    port: 3001:3001
+    data: ./uptime-kuma
+  nginx_proxy_manager:
     port:
-    database:
-    username:
-    password:
-    sslmode:
-    connect_timeout:
-    clientcert:
-      cert:
-      key:
+      http: 80:80
+      https: 443:443
+      admin: 81:81
+    data: ./nginx-proxy-manager
+    lets_encrypt: ./letsencrypt
+  node_exporter:
+    port: 9100:9100
+  cadvisor:
+    port: 8080:8080
+  prometheus:
+    config: ./prometheus.yml
+    port: 9090:9090
+    data: ./prometheus_data
+  grafana:
+    port: 3000:3000
+    data: ./grafana
+    security_admin:
+      user: grafana
+      password: grafana
+      disable_init_admin: false
+    auth:
+      anonymous:
+        enabled: false
+        org_role: Admin
+      disable:
+        signout_menu: false
+        login_form: false
+  docker_sock: /var/run/docker.sock
+  exportarr:
+    sonarr:
+      api_key: 950bfb57c2cc49c5b2e1e74fab3c5400
+      port: 9707
+      url: http://192.168.1.100:9989
+      additional_metrics: true
+      unknown_queue_items: true
+    radarr:
+      api_key: aec86fd08b3c49c9b8cef09de11b7102
+      port: 9708
+      url: http://192.168.1.100:9878
+      additional_metrics: true
+      unknown_queue_items: true
+    lidarr:
+      api_key: a2dbaf3b2b4047fda44ce12eb0363510
+      port: 9709
+      url: http://192.168.1.100:9686
+      additional_metrics: true
+      unknown_queue_items: true
+    prowlarr:
+      api_key: 8551a0ad414343c09083acd88f1feb9c
+      port: 9710
+      url: http://192.168.1.100:9696
+      additional_metrics: true
+      unknown_queue_items: true
+      backfill: 
+        enabled: true
+        date_since: 2024-10-01
 virtual_machine:
   username: ubuntu
   password: ubuntu
-  keys: []
+  keys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCgZOVI9Sgx6OlHbV3HobrJwodrDl6B7mqXzk8tP565mi1qtHDC89bkrD+ZB3Z2jbfg6H8buipV1NH6nnpBNMKedM9YRcDJvEj9NqPBdEvEQ7+pz7rTia6nNjQA/kACvyCJiiRm9xY3UXz94eVtfRJNxhedkg7A+MeJI8cmraRkFQ0Y+D9fvTHlo8xzNcY8Qg5ONOA/RcN/CfKR2RZntxuKd4VkeaUEqzJQpWOhAD12UWR6puEbxSj0KtWROtmGiXaLvaZ0t8bhjpc3a3hDQdCaCtdNeHPG9mbuZymCvvM/Hvg+Jq/bkuRgjPE+O5xC5QsUlBf32JdqatklT9z6trxZSkbyJvHSxtVzyEKMWB+sUJZTnV0c+dKybvXdT87cpl80O5BnsPbIZ2UIu21dY8ngice/rgT/bmYNvbw0ibfTfyfkY977NRUG6OUxoL/aBqTDAdOSS3fEWeM7TyO/rTk142f2GdqHWzozksVgxRu/ZjtmqahIXQrduNFF4kYs+WE= jacob@Desktop
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDa2MnucD8mQ9Ck/wRYJ3Urm7QdaZgz6sj3+wLTx82cRkzXIjMQ54ftkCJXsX+QAY+2aiJSW6bglbhC/lX5iHbcVusY4993dK+gYMwpFOpI+laqLhShdsp2nTA1hl7lNM3BsbzuWG7IYQlU96KS3RGCsYNfa9WaxFpZxScYHbWvhb1l36ZfesAJ3kiO8duLBW3Uq/WgB9GhGI0lbLOzSVsYDPmtxSwisSLw1U0sCqgEIU3I9QckvuDkRid1LnmG/et4PEMdSnER1r2T94A6m87Bgug+eEnlrQFNzQ16WAK+apBDuvFGdYY5fwXy0lIzTz2ttj7enxuvAsL1/xRAGr7fx7XvcKkxzJ4n6kZmVuk3/SQMseEqfTKXbBO9QCDdVW089r+qdz94CAxy3MzP5L5Eul7Hf5kR25RF0cXh76YK6Xg85imf6rISjhFMHC5TLJnjA4kPeXVJNF9JfmZCH1SH/uL/Z6ls0a8svt82G9LV2tmr6RqDtPCIHHd7uxtPVh5wH5zybYQGAIfvn2FqXCjK5GT1mOBR24AmC5jt+nLGYGJdovu0fmLBHoVOZ0X6TOYqNd159cLRL7B8MVKtkmbyEmByn139/BVDE892CNRHMKkAplA/x/8lrZHSA6QaOVjgmxFxFERGqOtpnXAXkhDNn0UgCrTlUFPegUZQwodhOw== root@pve
   datastore_id:
     iso: local
     cloud_config: local
@@ -82,3 +163,8 @@ virtual_machine:
     gateway: "192.168.1.1"
     memory: 4096
     bridge: "vmbr0"
+    ansible:
+      host: <public_ip>
+      port: 10122
+    
+  
