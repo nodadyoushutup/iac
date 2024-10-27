@@ -18,8 +18,9 @@ resource "nginxproxymanager_proxy_host" "example" {
   forward_port   = 443
   forward_scheme = "https"
 
-  ssl_forced      = false
-  hsts_enabled    = false
-  hsts_subdomains = false
-  http2_support   = false
+  ssl_forced      = false ? false : false
+  hsts_enabled    = false ? false : false
+  hsts_subdomains = false ? false : false
+  http2_support   = false ? false : false
+
 }
