@@ -26,6 +26,6 @@
           vars:
             run_down: true
             run_up: true
-            up_services: "prometheus cadvisor exportarr-sonarr"
-            down_services: "prometheus cadvisor exportarr-sonarr"
+            up_services: "prometheus cadvisor exportarr-radarr exportarr-sonarr exportarr-lidarr exportarr-prowlarr"
+            down_services: "prometheus cadvisor exportarr-radarr exportarr-sonarr exportarr-lidarr exportarr-prowlarr"
       when: vm_ping == true
