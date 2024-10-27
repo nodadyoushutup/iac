@@ -7,4 +7,5 @@
   until: nc_result.rc == 0 
   ignore_errors: true 
   delegate_to: localhost
+  become: false
   tags: check_ssh
