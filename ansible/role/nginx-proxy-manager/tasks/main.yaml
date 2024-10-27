@@ -1,52 +1,39 @@
 ---
 - name: Verify MySQL connectivity
-  mysql_ping:
-    login_host: "192.168.1.101"
-    login_user: npm
-    login_password: npm
+  command: "mysqladmin ping -h 192.168.1.101 -u npm -pnpm"
   register: mysql_connectivity
-  failed_when: not mysql_connectivity.ping
   retries: 5
   delay: 10
-  until: mysql_connectivity.ping
+  until: mysql_connectivity.rc == 0
+  failed_when: mysql_connectivity.rc != 0
 
 - name: Ensure MySQL is connectable
   debug:
     msg: "MySQL is connectable."
-  when: mysql_connectivity.ping
+  when: mysql_connectivity.rc == 0
 
 - name: Check if 'user' table exists
-  mysql_query:
-    login_host: "192.168.1.101"
-    login_user: npm
-    login_password: npm
-    login_db: npm
-    query: "SHOW TABLES LIKE 'user';"
+  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'user';\""
   register: user_table_check
   retries: 5
   delay: 10
-  until: user_table_check.stdout is search("user")
+  until: user_table_check.stdout.find("user") != -1
 
 - name: Ensure 'user' table exists
   assert:
     that:
-      - user_table_check.stdout is search("user")
+      - user_table_check.stdout.find("user") != -1
     fail_msg: "The 'user' table does not exist in the MySQL database."
 
 - name: Check if 'auth' table exists
-  mysql_query:
-    login_host: "192.168.1.101"
-    login_user: npm
-    login_password: npm
-    login_db: npm
-    query: "SHOW TABLES LIKE 'auth';"
+  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'auth';\""
   register: auth_table_check
   retries: 5
   delay: 10
-  until: auth_table_check.stdout is search("auth")
+  until: auth_table_check.stdout.find("auth") != -1
 
 - name: Ensure 'auth' table exists
   assert:
     that:
-      - auth_table_check.stdout is search("auth")
+      - auth_table_check.stdout.find("auth") != -1
     fail_msg: "The 'auth' table does not exist in the MySQL database."
