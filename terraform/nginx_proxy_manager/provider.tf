@@ -15,5 +15,5 @@ provider "nginxproxymanager" {
 data "nginxproxymanager_users" "all" {}
 
 output "nginxproxymanager_users" {
-  value = data.nginxproxymanager_users.all
+  value = data.nginxproxymanager_users.all.users
 }
