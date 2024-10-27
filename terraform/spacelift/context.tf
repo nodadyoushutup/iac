@@ -5,13 +5,6 @@ resource "spacelift_context" "config_context" {
     name        = "config"
 }
 
-resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
-    depends_on = [spacelift_context.config_context]
-    context_id = spacelift_context.config_context.id
-    stack_id   = data.spacelift_stack.spacelift.id
-    priority   = 0
-}
-
 resource "spacelift_context" "ansible_context" {
     depends_on = [data.spacelift_stack.spacelift]
     description = "Ansible configuration"
@@ -20,3 +13,11 @@ resource "spacelift_context" "ansible_context" {
         "chmod 600 ${local.config.spacelift.path.private_key}"
     ]
 }
+
+resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
+    depends_on = [spacelift_context.config_context]
+    context_id = spacelift_context.config_context.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
+

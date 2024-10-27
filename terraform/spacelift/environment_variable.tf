@@ -37,7 +37,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
 
 ### ANSIBLE ###
 resource "spacelift_environment_variable" "ansible_verbosity_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_VERBOSITY" 
     value       = 0
@@ -46,7 +46,7 @@ resource "spacelift_environment_variable" "ansible_verbosity_environment_variabl
 }
 
 resource "spacelift_environment_variable" "ansible_private_key_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_PRIVATE_KEY_FILE" 
     value       = local.config.spacelift.path.private_key
@@ -55,7 +55,7 @@ resource "spacelift_environment_variable" "ansible_private_key_environment_varia
 }
 
 resource "spacelift_environment_variable" "ansible_remote_user_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_REMOTE_USER" 
     value       = local.config.virtual_machine.username
@@ -64,7 +64,7 @@ resource "spacelift_environment_variable" "ansible_remote_user_environment_varia
 }
 
 resource "spacelift_environment_variable" "ansible_defaults_host_key_checking_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_HOST_KEY_CHECKING" 
     value       = local.config.ansible.defaults.host_key_checking
@@ -73,7 +73,7 @@ resource "spacelift_environment_variable" "ansible_defaults_host_key_checking_en
 }
 
 resource "spacelift_environment_variable" "ansible_defaults_retry_files_enabled_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_RETRY_FILES_ENABLED" 
     value       = local.config.ansible.defaults.retry_files_enabled
@@ -82,7 +82,7 @@ resource "spacelift_environment_variable" "ansible_defaults_retry_files_enabled_
 }
 
 resource "spacelift_environment_variable" "ansible_defaults_stdout_callback_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_STDOUT_CALLBACK" 
     value       = local.config.ansible.defaults.stdout_callback
@@ -91,7 +91,7 @@ resource "spacelift_environment_variable" "ansible_defaults_stdout_callback_envi
 }
 
 resource "spacelift_environment_variable" "ansible_become_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_BECOME" 
     value       = local.config.ansible.privilege_escalation.become
@@ -100,7 +100,7 @@ resource "spacelift_environment_variable" "ansible_become_environment_variable" 
 }
 
 resource "spacelift_environment_variable" "ansible_become_method_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_BECOME_METHOD" 
     value       = local.config.ansible.privilege_escalation.become_method
@@ -109,7 +109,7 @@ resource "spacelift_environment_variable" "ansible_become_method_environment_var
 }
 
 resource "spacelift_environment_variable" "ansible_become_user_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_BECOME_USER" 
     value       = local.config.ansible.privilege_escalation.become_user
@@ -118,7 +118,7 @@ resource "spacelift_environment_variable" "ansible_become_user_environment_varia
 }
 
 resource "spacelift_environment_variable" "ansible_become_ask_pass_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_BECOME_ASK_PASS" 
     value       = local.config.ansible.privilege_escalation.become_ask_pass
@@ -127,7 +127,7 @@ resource "spacelift_environment_variable" "ansible_become_ask_pass_environment_v
 }
 
 resource "spacelift_environment_variable" "ansible_ssh_connection_timeout_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_TIMEOUT" 
     value       = local.config.ansible.ssh_connection.timeout
@@ -136,7 +136,7 @@ resource "spacelift_environment_variable" "ansible_ssh_connection_timeout_enviro
 }
 
 resource "spacelift_environment_variable" "ansible_ssh_connection_pipelining_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_ansible_context_attachment]
+    depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_PIPELINING" 
     value       = local.config.ansible.ssh_connection.pipelining
