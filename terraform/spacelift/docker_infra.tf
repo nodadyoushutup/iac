@@ -2,7 +2,7 @@ resource "spacelift_stack" "docker_infra_stack" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_environment_variable.env_environment_variable,
-        spacelift_context.ansible_hook_context
+        spacelift_context.ansible_context
     ]
     administrative = true
     autodeploy = true

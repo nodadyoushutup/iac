@@ -12,10 +12,10 @@ resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
     priority   = 0
 }
 
-resource "spacelift_context" "ansible_hook_context" {
+resource "spacelift_context" "ansible_context" {
     depends_on = [data.spacelift_stack.spacelift]
-    description = "Ansible hook"
-    name        = "ansible_hook"
+    description = "Ansible configuration"
+    name        = "ansible"
     before_init = [
         "chmod 600 ${local.config.spacelift.path.private_key}"
     ]
