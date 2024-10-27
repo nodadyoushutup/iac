@@ -16,39 +16,8 @@ provider "nginxproxymanager" {
 resource "nginxproxymanager_proxy_host" "example" {
   domain_names = ["example.com"]
 
+  forward_host = "example2.com"
+  forward_port = 443
   forward_scheme = "https"
-  forward_host   = "example2.com"
-  forward_port   = 443
 
-  caching_enabled         = true
-  allow_websocket_upgrade = true
-  block_exploits          = true
-
-  access_list_id = 0 # Publicly Accessible
-
-  location {
-    path           = "/admin"
-    forward_scheme = "https"
-    forward_host   = "example3.com"
-    forward_port   = 443
-
-    advanced_config = ""
-  }
-
-  location {
-    path           = "/contact"
-    forward_scheme = "http"
-    forward_host   = "example4.com"
-    forward_port   = 80
-
-    advanced_config = ""
-  }
-
-  certificate_id  = 0 # No Certificate
-  ssl_forced      = 0    # No SSL enforcement
-  hsts_enabled    = 0    # No HSTS
-  hsts_subdomains = 0    # No HSTS for subdomains
-  http2_support   = 0    # No HTTP2 support
-
-  advanced_config = ""
 }
