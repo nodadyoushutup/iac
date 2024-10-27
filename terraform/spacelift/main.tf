@@ -175,7 +175,6 @@ resource "spacelift_environment_variable" "env_environment_variable" {
         spacelift_environment_variable.tf_log_environment_variable,
         spacelift_environment_variable.ansible_verbosity_environment_variable,
         spacelift_environment_variable.ansible_private_key_environment_variable,
-        spacelift_environment_variable.ansible_config_environment_variable,
         spacelift_environment_variable.ansible_remote_user_environment_variable,
     ]
     context_id  = spacelift_context.config_context.id
