@@ -19,3 +19,11 @@
 - name: Show config structure
   debug:
     var: config.virtual_machine
+
+- name: Check if config file exists
+  assert:
+    that:
+      - lookup('env', 'TF_VAR_CONFIG') is defined
+      - lookup('file', lookup('env', 'TF_VAR_CONFIG')) is not none
+  delegate_to: localhost
+  run_once: true
