@@ -45,10 +45,10 @@ resource "nginxproxymanager_proxy_host" "example" {
   }
 
   certificate_id  = 0 # No Certificate
-  ssl_forced      = false
-  hsts_enabled    = false
-  hsts_subdomains = false
-  http2_support   = false
+  ssl_forced      = 0    # No SSL enforcement
+  hsts_enabled    = 0    # No HSTS
+  hsts_subdomains = 0    # No HSTS for subdomains
+  http2_support   = 0    # No HTTP2 support
 
   advanced_config = ""
 }
