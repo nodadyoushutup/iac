@@ -1,4 +1,20 @@
 ---
+- name: Copy docker-compose.yaml to the ansible user's home
+  copy:
+    src: "{{ config.docker.compose }}"
+    dest: /home/{{ ansible_user }}/docker-compose.yaml
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Copy docker.env to the ansible user's home
+  template:
+    src: .env.j2
+    dest: /home/{{ ansible_user }}/.env
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+    
 - name: Ensure Docker service is running
   ansible.builtin.systemd:
     name: docker
