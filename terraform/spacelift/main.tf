@@ -384,3 +384,26 @@ resource "spacelift_stack_dependency" "grafana_config_grafana_init_stack_depende
     stack_id = spacelift_stack.grafana_config_stack[count.index].id
     depends_on_stack_id = spacelift_stack.grafana_init_stack[count.index].id
 }
+
+### NGINX PROXY MANAGER ###
+resource "spacelift_stack" "nginx_proxy_manager_init_stack" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [spacelift_stack.docker_init_stack]
+    administrative = true
+    autodeploy = true
+    branch = "main"
+    description = "Nginx Proxy Manager initialization"
+    name = "nginx_proxy_manager_init"
+    project_root = "ansible"
+    repository = "iac"
+    labels = ["ansible", "init", "collector", "administrative"]
+    additional_project_globs = [
+        "role/docker_compose",
+        "role/config_load",
+        "role/vm_init",
+        "role/vm_ping"
+    ]
+    ansible {
+        playbook = "nginx_proxy_manager_init.yaml"
+    }
+}

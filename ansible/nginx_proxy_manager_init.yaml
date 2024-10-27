@@ -1,0 +1,14 @@
+---
+- name: Add Docker Hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: role/config_load
+
+    # - name: Add Host from Config
+    #   include_role:
+    #     name: role/host_add
+    #   vars:
+    #     key: docker
