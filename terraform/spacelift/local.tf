@@ -31,9 +31,6 @@ locals {
         ansible = {
           config = "/mnt/workspace/source/config/ansible.cfg"
         }
-        docker = {
-          compose = "/mnt/workspace/source/config/docker-compose.yaml"
-        }
       }
     }
     virtual_machine = {
@@ -47,9 +44,6 @@ locals {
     private_key = try(filebase64(local.config.spacelift.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
     ansible = {
       config = try(filebase64(local.config.spacelift.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
-    }
-    docker = {
-      compose = try(filebase64(local.config.spacelift.path.docker.compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
     }
   }
 }
