@@ -98,7 +98,6 @@ resource "spacelift_environment_variable" "env_environment_variable" {
         spacelift_context.config_context,
         spacelift_mounted_file.config_mounted_file,
         spacelift_mounted_file.private_keymounted_file,
-        spacelift_mounted_file.private_keymounted_file,
         spacelift_environment_variable.config_environment_variable,
         spacelift_environment_variable.tf_log_environment_variable,
         spacelift_environment_variable.ansible_verbosity_environment_variable,

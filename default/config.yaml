@@ -4,10 +4,6 @@ spacelift:
     private_key: /mnt/workspace/id_rsa
     ansible:
       config: /mnt/workspace/source/config/ansible.cfg
-    docker:
-      compose: /mnt/workspace/source/config/docker-compose.yaml
-    gitconfig: /mnt/workspace/source/config/.gitconfig
-    prometheus: /mnt/workspace/source/config/prometheus.yml
   dependency_deploy:
     docker:
       infra: true
