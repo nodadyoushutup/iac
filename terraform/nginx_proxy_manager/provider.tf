@@ -11,3 +11,4 @@ provider "nginxproxymanager" {
   username = local.config.provider.nginx_proxy_manager.username 
   password = local.config.provider.nginx_proxy_manager.password 
 } 
+
