@@ -1,12 +1,26 @@
 ---
 # collector_init.
+- name: Add Docker Hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: role/config_load
+
+    - name: Add Host from Config
+      include_role:
+        name: role/host_add
+      vars:
+        key: docker
+
 - name: Initialize Collectors
   hosts: docker
   gather_facts: no
   become: true
   check_mode: no
   tasks:
-    - name: Load configuration
+    - name: Load Configuration
       include_role:
         name: role/config_load
 
