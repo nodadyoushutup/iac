@@ -6,12 +6,6 @@
   delegate_to: localhost
   run_once: true
 
-- name: Set config as a fact
-  set_fact:
-    config: "{{ config }}"
-  delegate_to: localhost
-  run_once: true
-
 - name: Show config
   debug:
     var: config
@@ -27,3 +21,7 @@
       - lookup('file', lookup('env', 'TF_VAR_CONFIG')) is not none
   delegate_to: localhost
   run_once: true
+
+- name: Verify config type
+  debug:
+    msg: "Config is a {{ config | type_debug }}"
