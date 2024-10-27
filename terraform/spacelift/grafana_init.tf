@@ -1,6 +1,6 @@
 resource "spacelift_stack" "grafana_init_stack" {
     count = local.env > 0 ? 1 : 0
-    depends_on = [spacelift_stack.docker_init_stack]
+    depends_on = [spacelift_stack.collector_init_stack]
     administrative = true
     autodeploy = true
     branch = "main"
@@ -18,6 +18,17 @@ resource "spacelift_stack" "grafana_init_stack" {
     ansible {
         playbook = "grafana_init.yaml"
     }
+}
+
+resource "spacelift_context_attachment" "grafana_init_config_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.grafana_init_stack,
+        spacelift_context.config_context
+    ]
+    context_id = spacelift_context.config_context.id
+    stack_id   = spacelift_stack.grafana_init_stack[count.index].id
+    priority   = 0
 }
 
 resource "spacelift_context_attachment" "grafana_init_terraform_context_attachment" {
