@@ -21,5 +21,5 @@
 data "nginxproxymanager_certificates" "all" {}
 
 output "nginxproxymanager_certificates" {
-  value = nginxproxymanager_certificates.all
+  value = data.nginxproxymanager_certificates.all
 }
