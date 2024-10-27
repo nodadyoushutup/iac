@@ -22,18 +22,32 @@ locals {
           init = false
         }
         grafana = {
-          init: false
-          config: false
+          init = false
+          config = false
         }
       }
       path = {
         private_key = "/mnt/workspace/source/default/id_rsa"
-        ansible = {
-          config = "/mnt/workspace/source/config/ansible.cfg"
-        }
         docker = {
           compose = "/mnt/workspace/source/config/docker-compose.yaml"
         }
+      }
+    }
+    ansible = {
+      defaults = {
+        host_key_checking = false
+        retry_files_enabled = false
+        stdout_callback = "yaml"
+      }
+      privilege_escalation = {
+        become = true
+        become_method = "sudo"
+        become_user = "root"
+        become_ask_pass = false
+      }
+      ssh_connection = {
+        timeout = 10
+        pipelining = true
       }
     }
     virtual_machine = {
@@ -45,8 +59,5 @@ locals {
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
     private_key = try(filebase64(local.config.spacelift.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
-    ansible = {
-      config = try(filebase64(local.config.spacelift.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
-    }
   }
 }
