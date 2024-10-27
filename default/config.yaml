@@ -13,6 +13,8 @@ spacelift:
     grafana:
       init: true
       config: true
+    nginx_proxy_manager:
+      init: true
   provider:
     proxmox:
       endpoint: https://<public_ip>:1086
