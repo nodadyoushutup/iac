@@ -2,7 +2,7 @@
 resource "spacelift_context" "terraform_context" {
     depends_on = [data.spacelift_stack.spacelift]
     description = "Infrastructure as Code  Configuration"
-    name        = "config"
+    name        = "terraform"
 }
 
 resource "spacelift_context" "ansible_context" {
