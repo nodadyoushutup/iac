@@ -18,6 +18,13 @@ locals {
           infra = false
           init = false
         }
+        collector = {
+          init = false
+        }
+        grafana = {
+          init: false
+          config: false
+        }
       }
       path = {
         private_key = "/mnt/workspace/source/default/id_rsa"
