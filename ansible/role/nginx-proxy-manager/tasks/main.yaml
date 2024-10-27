@@ -37,3 +37,29 @@
     that:
       - auth_table_check.stdout.find("auth") != -1
     fail_msg: "The 'auth' table does not exist in the MySQL database."
+
+- name: Check if record with id=1 exists in 'user' table
+  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM user WHERE id = 1;\""
+  register: user_id_check
+  retries: 5
+  delay: 10
+  until: user_id_check.stdout.find("1") != -1
+
+- name: Ensure record with id=1 exists in 'user' table
+  assert:
+    that:
+      - user_id_check.stdout.find("1") != -1
+    fail_msg: "Record with id=1 does not exist in the 'user' table."
+
+- name: Check if record with id=1 exists in 'auth' table
+  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM auth WHERE id = 1;\""
+  register: auth_id_check
+  retries: 5
+  delay: 10
+  until: auth_id_check.stdout.find("1") != -1
+
+- name: Ensure record with id=1 exists in 'auth' table
+  assert:
+    that:
+      - auth_id_check.stdout.find("1") != -1
+    fail_msg: "Record with id=1 does not exist in the 'auth' table."
