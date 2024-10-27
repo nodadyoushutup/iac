@@ -1,3 +1,13 @@
+### CONFIG ###
+resource "spacelift_environment_variable" "config_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "TF_VAR_CONFIG" 
+    value       = local.config_path
+    write_only  = false 
+    description = "IaC configuration path"
+}
+
 ### TERRAFORM ###
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_terraform_context_attachment]
@@ -6,15 +16,6 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
     value       = "debug"
     write_only  = false 
     description = "Terraform log level"
-}
-
-resource "spacelift_environment_variable" "config_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_terraform_context_attachment]
-    context_id  = spacelift_context.terraform_context.id
-    name        = "TF_VAR_CONFIG" 
-    value       = local.config_path
-    write_only  = false 
-    description = "Terraform configuration path"
 }
 
 resource "spacelift_environment_variable" "env_environment_variable" { 

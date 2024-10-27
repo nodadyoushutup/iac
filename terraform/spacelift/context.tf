@@ -20,7 +20,6 @@ resource "spacelift_context" "config_context" {
     name        = "config"
 }
 
-
 resource "spacelift_context_attachment" "spacelift_terraform_context_attachment" {
     depends_on = [spacelift_context.terraform_context]
     context_id = spacelift_context.terraform_context.id
@@ -28,3 +27,9 @@ resource "spacelift_context_attachment" "spacelift_terraform_context_attachment"
     priority   = 0
 }
 
+resource "spacelift_context_attachment" "spacelift_config_context_attachment" {
+    depends_on = [spacelift_context.config_context]
+    context_id = spacelift_context.config_context.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
