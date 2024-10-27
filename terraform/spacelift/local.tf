@@ -26,23 +26,6 @@ locals {
         }
       }
     }
-    ansible = {
-      defaults = {
-        host_key_checking = false
-        retry_files_enabled = false
-        stdout_callback = "yaml"
-      }
-      privilege_escalation = {
-        become = true
-        become_method = "sudo"
-        become_user = "root"
-        become_ask_pass = false
-      }
-      ssh_connection = {
-        timeout = 10
-        pipelining = true
-      }
-    }
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))

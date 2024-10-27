@@ -48,11 +48,12 @@ spacelift:
         cert: null
         key: null
 ansible:
-  private_key: /mnt/workspace/id_rsa
   defaults:
     host_key_checking: false
     retry_files_enabled: false
     stdout_callback: yaml
+    private_key_file: /mnt/workspace/id_rsa
+    verbosity: 0
   privilege_escalation:
     become: true
     become_method: sudo
