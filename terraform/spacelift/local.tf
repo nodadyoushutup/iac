@@ -34,7 +34,6 @@ locals {
       private_key = "/mnt/workspace/source/default/id_rsa"
       ansible = {
         config = "/mnt/workspace/source/config/ansible.cfg"
-        inventory = "/mnt/workspace/source/default/inventory"
       }
       docker = {
         compose = "/mnt/workspace/source/config/docker-compose.yaml"
@@ -48,7 +47,6 @@ locals {
     private_key = try(filebase64(local.config.spacelift.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
     ansible = {
       config = try(filebase64(local.config.spacelift.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
-      inventory = try(filebase64(local.config.spacelift.path.ansible.inventory), filebase64("/mnt/workspace/source/default/inventory"))
     }
     docker = {
       env = try(filebase64(local.config.spacelift.path.docker.env), filebase64("/mnt/workspace/source/default/.env"))
