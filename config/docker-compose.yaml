@@ -85,7 +85,7 @@ services:
       - ${GRAFANA_DATA}:/var/lib/grafana
 
   exportarr-sonarr:
-    image: ghcr.io/onedr0p/exportarr:v2.0
+    image: ghcr.io/onedr0p/exportarr:latest
     container_name: exportarr-sonarr
     restart: unless-stopped
     environment:
@@ -97,48 +97,53 @@ services:
     ports:
       - ${SONARR_EXPORTARR_PORT}:${SONARR_EXPORTARR_PORT}
     command: ["sonarr"]
-    
 
-  # exportarr-radarr:
-  #   image: ghcr.io/onedr0p/exportarr:v2.0
-  #   container_name: exportarr-radarr
-  #   command: ["radarr"]
-  #   environment:
-  #     PORT: 9708
-  #     URL: "http://x.x.x.x:7878" # or; http://radarr:7878
-  #     APIKEY: "xxx"
-  #   ports:
-  #     - "9708:9708"
-  #   restart: unless-stopped
+  exportarr-radarr:
+    image: ghcr.io/onedr0p/exportarr:latest
+    container_name: exportarr-radarr
+    restart: unless-stopped
+    environment:
+      API_KEY: ${RADARR_EXPORTARR_API_KEY}
+      PORT: ${RADARR_EXPORTARR_PORT}
+      URL: ${RADARR_EXPORTARR_URL}
+      ENABLE_ADDITIONAL_METRICS: ${RADARR_ENABLE_ADDITIONAL_METRICS}
+      ENABLE_UNKNOWN_QUEUE_ITEMS: ${RADARR_ENABLE_UNKNOWN_QUEUE_ITEMS}
+    ports:
+      - ${RADARR_EXPORTARR_PORT}:${RADARR_EXPORTARR_PORT}
+    command: ["radarr"]
 
-  # exportarr-lidarr:
-  #   image: ghcr.io/onedr0p/exportarr:v2.0
-  #   container_name: exportarr-lidarr
-  #   command: ["lidarr"]
-  #   environment:
-  #     PORT: 9709
-  #     URL: "http://x.x.x.x:8686" # or; http://lidarr:8686
-  #     APIKEY: "xxx"
-  #   ports:
-  #     - "9709:9709"
-  #   restart: unless-stopped
+  exportarr-lidarr:
+    image: ghcr.io/onedr0p/exportarr:latest
+    container_name: exportarr-lidarr
+    restart: unless-stopped
+    environment:
+      API_KEY: ${LIDARR_EXPORTARR_API_KEY}
+      PORT: ${LIDARR_EXPORTARR_PORT}
+      URL: ${LIDARR_EXPORTARR_URL}
+      ENABLE_ADDITIONAL_METRICS: ${LIDARR_ENABLE_ADDITIONAL_METRICS}
+      ENABLE_UNKNOWN_QUEUE_ITEMS: ${LIDARR_ENABLE_UNKNOWN_QUEUE_ITEMS}
+    ports:
+      - ${LIDARR_EXPORTARR_PORT}:${LIDARR_EXPORTARR_PORT}
+    command: ["lidarr"]
 
-  # exportarr-prowlarr:
-  #   image: ghcr.io/onedr0p/exportarr:v2.0
-  #   container_name: exportarr-prowlarr
-  #   command: ["prowlarr"]
-  #   environment:
-  #     PORT: 9710
-  #     URL: "http://x.x.x.x:9696" # or; http://prowlarr:8080
-  #     APIKEY: "abc"
-  #     # PROWLARR__BACKFILL: true # optional
-  #     # PROWLARR__BACKFILL_SINCE_DATE: "2023-03-01" # optional
-  #   ports:
-  #    - "9710:9710"
-  #   restart: unless-stopped
+  exportarr-prowlarr:
+    image: ghcr.io/onedr0p/exportarr:latest
+    container_name: exportarr-prowlarr
+    restart: unless-stopped
+    environment:
+      API_KEY: ${PROWLARR_EXPORTARR_API_KEY}
+      PORT: ${PROWLARR_EXPORTARR_PORT}
+      URL: ${PROWLARR_EXPORTARR_URL}
+      ENABLE_ADDITIONAL_METRICS: ${PROWLARR_ENABLE_ADDITIONAL_METRICS}
+      ENABLE_UNKNOWN_QUEUE_ITEMS: ${PROWLARR_ENABLE_UNKNOWN_QUEUE_ITEMS}
+      PROWLARR__BACKFILL: ${PROWLARR__BACKFILL}
+      PROWLARR__BACKFILL_DATE_SINCE: ${PROWLARR__BACKFILL_DATE_SINCE}
+    ports:
+      - ${PROWLARR_EXPORTARR_PORT}:${PROWLARR_EXPORTARR_PORT}
+    command: ["prowlarr"]
 
   # bazarr-exportarr:
-  #   image: ghcr.io/onedr0p/exportarr:v2.0
+  #   image: ghcr.io/onedr0p/exportarr:latest
   #   container_name: bazarr-exportarr
   #   command: ["bazarr"]
   #   environment:
@@ -150,7 +155,7 @@ services:
   #   restart: unless-stopped
 
   # readarr-exportarr:
-  #   image: ghcr.io/onedr0p/exportarr:v2.0
+  #   image: ghcr.io/onedr0p/exportarr:latest
   #   container_name: readarr-exportarr
   #   command: ["readarr"]
   #   environment:

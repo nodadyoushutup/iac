@@ -15,8 +15,30 @@ scrape_configs:
     static_configs:
       - targets: ["192.168.1.101:8080"]
 
-  - job_name: exportarr
-    scrape_interval: 1m
-    scrape_timeout: 1m
+  - job_name: exportarr-sonarr
+    scrape_interval: 2m
+    scrape_timeout: 2m
     static_configs:
-      - targets: ["192.168.1.101:9707"]
+      - targets: 
+        - 192.168.1.101:9707
+
+  - job_name: exportarr-radarr
+    scrape_interval: 2m
+    scrape_timeout: 2m
+    static_configs:
+      - targets: 
+        - 192.168.1.101:9708
+
+  - job_name: exportarr-lidarr
+    scrape_interval: 2m
+    scrape_timeout: 2m
+    static_configs:
+      - targets: 
+        - 192.168.1.101:9709
+
+  - job_name: exportarr-prowlarr
+    scrape_interval: 2m
+    scrape_timeout: 2m
+    static_configs:
+      - targets: 
+        - 192.168.1.101:9710
