@@ -6,7 +6,7 @@
 # }
 
 resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
-  domain_names   = ["nodadyoushutup.com"]
+  domain_names   = ["nodadyoushutup.com", "www.nodadyoushutup.com"]
   forward_host   = "192.168.1.100"
   forward_port   = 9055
   forward_scheme = "http"
