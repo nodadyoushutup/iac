@@ -37,5 +37,5 @@
             run_down: true
             run_up: true
             up_services: "grafana prometheus"
-            down_services: "grafana"
+            down_services: "grafana prometheus"
       when: vm_ping == true
