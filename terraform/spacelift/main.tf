@@ -93,6 +93,88 @@ resource "spacelift_environment_variable" "ansible_remote_user_environment_varia
     description = "Ansible SSH private Key"
 }
 
+resource "spacelift_environment_variable" "ansible_defaults_host_key_checking_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_HOST_KEY_CHECKING" 
+    value       = local.config.ansible.defaults.host_key_checking
+    write_only  = false 
+    description = "Ansible host key checking"
+}
+
+resource "spacelift_environment_variable" "ansible_defaults_retry_files_enabled_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_RETRY_FILES_ENABLED" 
+    value       = local.config.ansible.defaults.retry_files_enabled
+    write_only  = false 
+    description = "Ansible retry files enabled"
+}
+
+resource "spacelift_environment_variable" "ansible_defaults_stdout_callback_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_STDOUT_CALLBACK" 
+    value       = local.config.ansible.defaults.stdout_callback
+    write_only  = false 
+    description = "Ansible stdout callback"
+}
+
+resource "spacelift_environment_variable" "ansible_become_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_BECOME" 
+    value       = local.config.ansible.privilege_escalation.become
+    write_only  = false 
+    description = "Ansible become"
+}
+
+resource "spacelift_environment_variable" "ansible_become_method_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_BECOME_METHOD" 
+    value       = local.config.ansible.privilege_escalation.become_method
+    write_only  = false 
+    description = "Ansible become method"
+}
+
+resource "spacelift_environment_variable" "ansible_become_user_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_BECOME_USER" 
+    value       = local.config.ansible.privilege_escalation.become_user
+    write_only  = false 
+    description = "Ansible become user"
+}
+
+resource "spacelift_environment_variable" "ansible_become_ask_pass_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_BECOME_ASK_PASS" 
+    value       = local.config.ansible.privilege_escalation.become_ask_pass
+    write_only  = false 
+    description = "Ansible become ask pass"
+}
+
+resource "spacelift_environment_variable" "ansible_ssh_connection_timeout_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_TIMEOUT" 
+    value       = local.config.ansible.ssh_connection.timeout
+    write_only  = false 
+    description = "Ansible timeout"
+}
+
+resource "spacelift_environment_variable" "ansible_ssh_connection_pipelining_environment_variable" { 
+    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
+    context_id  = spacelift_context.config_context.id
+    name        = "ANSIBLE_PIPELINING" 
+    value       = local.config.ansible.ssh_connection.pipelining
+    write_only  = false 
+    description = "Ansible pipelining"
+}
+
+
 resource "spacelift_environment_variable" "env_environment_variable" { 
     depends_on = [
         spacelift_context.config_context,
