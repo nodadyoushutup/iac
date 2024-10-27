@@ -8,7 +8,7 @@ terraform {
  
 provider "nginxproxymanager" { 
   host     = local.config.spacelift.provider.nginx_proxy_manager.host 
-  username = local.config.spacelift.provider.nginx_proxy_manager.username 
+  username = local.config.spacelift.provider.nginx_proxy_manager.email 
   password = local.config.spacelift.provider.nginx_proxy_manager.password 
 } 
 
