@@ -1,20 +1,25 @@
-# # Manage a proxy host
-# resource "nginxproxymanager_proxy_host" "grafana" {
-#   domain_names = ["grafana.nodadyoushutup.com"]
+# resource "nginxproxymanager_certificate_custom" "example" {
+#   name = "example.com"
 
-#   forward_scheme = "http"
-#   forward_host   = "192.168.1.101"
-#   forward_port   = 80
-
-#   caching_enabled         = true
-#   allow_websocket_upgrade = true
-#   block_exploits          = true
-
-#   access_list_id = 0 # Publicly Accessible
-
-#   certificate_id  = 0 # No Certificate
-#   ssl_forced      = false
-#   hsts_enabled    = false
-#   hsts_subdomains = false
-#   http2_support   = false
+#   certificate     = file("example.pem")
+#   certificate_key = file("example.key")
 # }
+
+# resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
+#   domain_names   = ["nodadyoushutup.com"]
+#   forward_host   = "192.168.1.100"
+#   forward_port   = 9055
+#   forward_scheme = "http"
+#   certificate_id = "2"
+#   ssl_forced = true
+#   hsts_enabled = false
+#   hsts_subdomains = false
+#   http2_support = false
+# }
+
+# Fetch all certificates
+data "nginxproxymanager_certificates" "all" {}
+
+output "nginxproxymanager_certificates" {
+  value = nginxproxymanager_certificates.all
+}
