@@ -59,7 +59,7 @@ resource "spacelift_environment_variable" "ansible_remote_user_environment_varia
     depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_REMOTE_USER" 
-    value       = local.config.virtual_machine.username
+    value       = try(local.config.virtual_machine.username, "ubuntu")
     write_only  = false 
     description = "Ansible SSH private Key"
 }

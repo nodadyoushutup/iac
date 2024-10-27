@@ -43,11 +43,6 @@ locals {
         pipelining = true
       }
     }
-    virtual_machine = {
-      username = "ubuntu"
-      password = "ubuntu"
-      keys = []
-    }
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
