@@ -1,10 +1,3 @@
-# resource "nginxproxymanager_certificate_custom" "example" {
-#   name = "example.com"
-
-#   certificate     = file("example.pem")
-#   certificate_key = file("example.key")
-# }
-
 resource "null_resource" "dummy_success" {}
 
 resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
@@ -13,7 +6,7 @@ resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
   forward_port     = 9055
   forward_scheme   = "http"
   certificate_id   = "2"
-  ssl_forced       = true
+  ssl_forced       = 1
   hsts_enabled     = true
   hsts_subdomains  = true
   http2_support    = true
