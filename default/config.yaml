@@ -10,8 +10,8 @@ spacelift:
     prometheus: /mnt/workspace/source/config/prometheus.yml
   dependency_deploy:
     docker:
-      infra: false
-      init: false
+      infra: true
+      init: true
     collector:
       init: true
     grafana:
