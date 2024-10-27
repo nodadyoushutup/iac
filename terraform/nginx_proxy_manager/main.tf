@@ -12,9 +12,9 @@ resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
   forward_scheme = "http"
   certificate_id = "2"
   ssl_forced = true
-  hsts_enabled = false
-  hsts_subdomains = false
-  http2_support = false
+  hsts_enabled = true
+  hsts_subdomains = true
+  http2_support = true
 }
 
 # Fetch all certificates
