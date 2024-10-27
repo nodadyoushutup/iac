@@ -1,8 +1,9 @@
 resource "spacelift_stack" "docker_infra_stack" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
-        spacelift_environment_variable.env_environment_variable,
-        spacelift_context.ansible_context
+        spacelift_context.config_context,
+        spacelift_context.terraform_context,
+        spacelift_environment_variable.env_environment_variable
     ]
     administrative = true
     autodeploy = true
@@ -15,11 +16,22 @@ resource "spacelift_stack" "docker_infra_stack" {
     labels = ["terraform", "infra", "docker", "administrative", "p1", "p1a"]
 }
 
+resource "spacelift_context_attachment" "docker_infra_config_context_attachment" {
+    count = local.env > 0 ? 1 : 0
+    depends_on = [
+        spacelift_stack.docker_infra_stack,
+        spacelift_context.config_context,
+    ]
+    context_id = spacelift_context.config_context.id
+    stack_id = spacelift_stack.docker_infra_stack[count.index].id
+    priority = 0
+}
+
 resource "spacelift_context_attachment" "docker_infra_terraform_context_attachment" {
     count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_stack.docker_infra_stack,
-        spacelift_context.terraform_context
+        spacelift_context.terraform_context,
     ]
     context_id = spacelift_context.terraform_context.id
     stack_id = spacelift_stack.docker_infra_stack[count.index].id
@@ -27,6 +39,7 @@ resource "spacelift_context_attachment" "docker_infra_terraform_context_attachme
 }
 
 resource "spacelift_stack_dependency" "docker_infra_spacelift_stack_dependency" {
+    # TODO: This will change to Proxmox infra in the future
     count = local.env > 0 && local.config.spacelift.dependency_deploy.docker.infra ? 1 : 0
     depends_on = [
         data.spacelift_stack.spacelift, 
