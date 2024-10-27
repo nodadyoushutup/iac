@@ -1,12 +1,8 @@
 locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
-    valid = {
-      private_key = "Private key is valid"
-    }
-    invalid = {
-      private_key = "Private key is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
-    }
+    valid = "Configuration is valid"
+    invalid = "Configuration is not valid"
   }
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
