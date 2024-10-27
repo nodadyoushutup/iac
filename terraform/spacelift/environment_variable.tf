@@ -1,7 +1,7 @@
 ### TERRAFORM ###
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
-    context_id  = spacelift_context.config_context.id
+    depends_on = [spacelift_context_attachment.spacelift_terraform_context_attachment]
+    context_id  = spacelift_context.terraform_context.id
     name        = "TF_LOG" 
     value       = "debug"
     write_only  = false 
@@ -9,8 +9,8 @@ resource "spacelift_environment_variable" "tf_log_environment_variable" {
 }
 
 resource "spacelift_environment_variable" "config_environment_variable" { 
-    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
-    context_id  = spacelift_context.config_context.id
+    depends_on = [spacelift_context_attachment.spacelift_terraform_context_attachment]
+    context_id  = spacelift_context.terraform_context.id
     name        = "TF_VAR_CONFIG" 
     value       = local.config_path
     write_only  = false 
@@ -19,7 +19,7 @@ resource "spacelift_environment_variable" "config_environment_variable" {
 
 resource "spacelift_environment_variable" "env_environment_variable" { 
     depends_on = [
-        spacelift_context.config_context,
+        spacelift_context.terraform_context,
         spacelift_mounted_file.config_mounted_file,
         spacelift_mounted_file.private_keymounted_file,
         spacelift_environment_variable.config_environment_variable,
@@ -28,7 +28,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
         spacelift_environment_variable.ansible_private_key_environment_variable,
         spacelift_environment_variable.ansible_remote_user_environment_variable,
     ]
-    context_id  = spacelift_context.config_context.id
+    context_id  = spacelift_context.terraform_context.id
     name        = "TF_VAR_ENV" 
     value       = data.external.validate_private_key.result["valid"] == "true"? local.env + 1 : local.env
     write_only  = false 
