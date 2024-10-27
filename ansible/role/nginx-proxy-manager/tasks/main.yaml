@@ -68,3 +68,8 @@
   command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE user SET email='admin@nodadyoushutup.com' WHERE id='1';\""
   register: update_user_email
   changed_when: update_user_email.rc == 0
+
+- name: Update secret for record with id=1 in 'auth' table
+  shell: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE auth SET secret='$(mkpasswd -m bcrypt \"password\")' WHERE id='1';\""
+  register: update_auth_secret
+  changed_when: update_auth_secret.rc == 0
