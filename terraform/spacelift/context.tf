@@ -20,6 +20,7 @@ resource "spacelift_context" "config_context" {
     name        = "config"
 }
 
+### CONTEXT ATTACHMENT ###
 resource "spacelift_context_attachment" "spacelift_terraform_context_attachment" {
     depends_on = [spacelift_context.terraform_context]
     context_id = spacelift_context.terraform_context.id
