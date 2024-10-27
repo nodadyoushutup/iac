@@ -11,3 +11,11 @@
     config: "{{ config }}"
   delegate_to: localhost
   run_once: true
+
+- name: Show config
+  debug:
+    var: config
+
+- name: Show config structure
+  debug:
+    var: config.virtual_machine
