@@ -368,9 +368,20 @@ resource "spacelift_context_attachment" "grafana_init_ansible_hook_context_attac
 resource "spacelift_stack_dependency" "grafana_init_collector_init_stack_dependency" {
     count = local.env > 0 && local.config.spacelift.dependency_deploy.grafana.init ? 1 : 0
     depends_on = [
-        spacelift_stack.docker_init_stack, 
+        spacelift_stack.grafana_init_stack, 
         spacelift_stack.collector_init_stack,
     ]
     stack_id = spacelift_stack.grafana_init_stack[count.index].id
     depends_on_stack_id = spacelift_stack.collector_init_stack[count.index].id
+}
+
+
+resource "spacelift_stack_dependency" "grafana_config_grafana_init_stack_dependency" {
+    count = local.env > 0 && local.config.spacelift.dependency_deploy.grafana.config ? 1 : 0
+    depends_on = [
+        spacelift_stack.grafana_config_stack, 
+        spacelift_stack.grafana_init_stack,
+    ]
+    stack_id = spacelift_stack.grafana_config_stack[count.index].id
+    depends_on_stack_id = spacelift_stack.grafana_init_stack[count.index].id
 }
