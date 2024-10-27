@@ -40,8 +40,6 @@ services:
       DB_MYSQL_NAME: npm
       DB_MYSQL_USER: npm
       DB_MYSQL_PASSWORD: npm
-      NPM_INIT_ADMIN_EMAIL: admin@nodadyoushutup.com 
-      NPM_INIT_ADMIN_PASSWORD: password  
     volumes:
       - ${NPM_DATA}:/data
       - ${NPM_LETS_ENCRYPT}:/etc/letsencrypt
