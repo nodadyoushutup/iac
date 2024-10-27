@@ -2,16 +2,10 @@ locals {
   env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
     valid = {
-      docker = {
-        env = "Docker env is valid"
-      }
       gitconfig = "Gitconfig is valid"
       private_key = "Private key is valid"
     }
     invalid = {
-      docker = {
-        env = "Docker env not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
-      }
       gitconfig = "Gitconfig is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
       private_key = "Private key is not valid. See documentation: https://github.com/nodadyoushutup/iac/blob/main/docs/README.md"
     }
@@ -31,7 +25,6 @@ locals {
       }
       docker = {
         compose = "/mnt/workspace/source/config/docker-compose.yaml"
-        env = "/mnt/workspace/source/default/.env"
       }
       gitconfig = "/mnt/workspace/source/config/.gitconfig"
     }
@@ -43,7 +36,6 @@ locals {
       config = try(filebase64(local.config.spacelift.path.ansible.config), filebase64("/mnt/workspace/source/config/ansible.cfg"))
     }
     docker = {
-      env = try(filebase64(local.config.spacelift.path.docker.env), filebase64("/mnt/workspace/source/default/.env"))
       compose = try(filebase64(local.config.spacelift.path.docker.compose), filebase64("/mnt/workspace/source/config/docker-compose.yaml"))
     }
   }

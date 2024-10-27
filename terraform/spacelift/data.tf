@@ -15,23 +15,3 @@ data "external" "validate_private_key" {
     query = {trigger = random_id.validate_env_trigger.hex}
     depends_on = [random_id.validate_env_trigger]
 }
-
-data "external" "validate_gitconfig" {
-    program = [
-        "bash", 
-        "${path.module}/script/validate_gitconfig.sh", 
-        local.config.spacelift.path.gitconfig
-    ]
-    query = {trigger = random_id.validate_env_trigger.hex}
-    depends_on = [random_id.validate_env_trigger]
-}
-
-data "external" "validate_docker_env" {
-    program = [
-        "bash", 
-        "${path.module}/script/validate_docker_env.sh", 
-        local.config.spacelift.path.docker.env
-    ]
-    query = {trigger = random_id.validate_env_trigger.hex}
-    depends_on = [random_id.validate_env_trigger]
-}

@@ -117,7 +117,7 @@ resource "spacelift_environment_variable" "env_environment_variable" {
     ]
     context_id  = spacelift_context.config_context.id
     name        = "TF_VAR_ENV" 
-    value       = data.external.validate_docker_env.result["valid"] == "true" && data.external.validate_gitconfig.result["valid"] == "true" && data.external.validate_private_key.result["valid"] == "true"? local.env + 1 : local.env
+    value       = data.external.validate_private_key.result["valid"] == "true"? local.env + 1 : local.env
     write_only  = false 
     description = "Flag for valid environment initialization"
 }
