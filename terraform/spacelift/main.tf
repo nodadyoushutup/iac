@@ -38,14 +38,6 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
     write_only = true
 }
 
-resource "spacelift_mounted_file" "env_keymounted_file" {
-    depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]
-    context_id = spacelift_context.config_context.id
-    relative_path = ".env"
-    content = local.base64.docker.env
-    write_only = false
-}
-
 ### ENVIRONMENT VARIABLES ###
 resource "spacelift_environment_variable" "tf_log_environment_variable" { 
     depends_on = [spacelift_context_attachment.spacelift_config_context_attachment]

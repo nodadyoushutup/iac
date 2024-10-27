@@ -26,7 +26,6 @@ locals {
       docker = {
         compose = "/mnt/workspace/source/config/docker-compose.yaml"
       }
-      gitconfig = "/mnt/workspace/source/config/.gitconfig"
     }
   })
   base64 = {
