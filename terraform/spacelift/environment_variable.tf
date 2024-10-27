@@ -50,7 +50,7 @@ resource "spacelift_environment_variable" "ansible_private_key_environment_varia
     depends_on = [spacelift_context.ansible_context]
     context_id  = spacelift_context.ansible_context.id
     name        = "ANSIBLE_PRIVATE_KEY_FILE" 
-    value       = local.config.spacelift.path.private_key
+    value       = local.config.spacelift.private_key
     write_only  = false 
     description = "Ansible SSH private Key"
 }

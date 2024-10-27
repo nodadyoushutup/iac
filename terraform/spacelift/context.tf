@@ -10,7 +10,7 @@ resource "spacelift_context" "ansible_context" {
     description = "Ansible configuration"
     name        = "ansible"
     before_init = [
-        "chmod 600 ${local.config.spacelift.path.private_key}"
+        "chmod 600 ${local.config.spacelift.private_key}"
     ]
 }
 

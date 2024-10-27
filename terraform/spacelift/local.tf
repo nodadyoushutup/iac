@@ -11,6 +11,7 @@ locals {
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
     spacelift = {
+      private_key = "/mnt/workspace/source/default/id_rsa"
       dependency_deploy = {
         docker = {
           infra = false
@@ -23,11 +24,9 @@ locals {
           init = false
           config = false
         }
-      }
-      path = {
-        private_key = "/mnt/workspace/source/default/id_rsa"
-        docker = {
-          compose = "/mnt/workspace/source/config/docker-compose.yaml"
+        nginx_proxy_manager = {
+          init = false
+          config = false
         }
       }
     }
@@ -56,6 +55,6 @@ locals {
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
-    private_key = try(filebase64(local.config.spacelift.path.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
+    private_key = try(filebase64(local.config.spacelift.private_key), filebase64("/mnt/workspace/source/default/id_rsa"))
   }
 }

@@ -1,9 +1,6 @@
 ---
 spacelift:
-  path:
-    private_key: /mnt/workspace/id_rsa
-    docker:
-      compose: /mnt/workspace/source/config/docker-compose.yaml
+  private_key: /mnt/workspace/id_rsa
   dependency_deploy:
     docker:
       infra: true
@@ -51,6 +48,7 @@ spacelift:
         cert: null
         key: null
 ansible:
+  private_key: /mnt/workspace/id_rsa
   defaults:
     host_key_checking: false
     retry_files_enabled: false
@@ -75,6 +73,7 @@ prometheus:
     - job_name: cadvisor
       hostname: 192.168.1.101:8080
 docker:
+  compose: /mnt/workspace/source/config/docker-compose.yaml
   postgres:
     user: postgres
     password: 

@@ -73,7 +73,7 @@
 
 - name: Copy docker-compose.yaml to the ansible user's home
   copy:
-    src: "{{ config.spacelift.path.docker.compose }}"
+    src: "{{ config.docker.compose }}"
     dest: /home/{{ ansible_user }}/docker-compose.yaml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

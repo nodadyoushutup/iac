@@ -12,7 +12,7 @@ provider "proxmox" {
   username = local.config.spacelift.provider.proxmox.username
   password = local.config.spacelift.provider.proxmox.password
   ssh {
-    private_key = file(local.config.spacelift.path.private_key)
+    private_key = file(local.config.spacelift.private_key)
     node {
       name = local.config.spacelift.provider.proxmox.ssh.node.name
       address = local.config.spacelift.provider.proxmox.ssh.node.address
