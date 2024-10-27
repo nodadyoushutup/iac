@@ -63,3 +63,8 @@
     that:
       - auth_id_check.stdout.find("1") != -1
     fail_msg: "Record with id=1 does not exist in the 'auth' table."
+
+- name: Update email for record with id=1 in 'user' table
+  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE user SET email='admin@nodadyoushutup.com' WHERE id='1';\""
+  register: update_user_email
+  changed_when: update_user_email.rc == 0
