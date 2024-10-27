@@ -12,15 +12,15 @@ provider "nginxproxymanager" {
   password = local.config.spacelift.provider.nginx_proxy_manager.password 
 } 
 
-resource "nginxproxymanager_proxy_host" "example" {
-  domain_names   = ["example.com"]
-  forward_host   = "example2.com"
-  forward_port   = 443
-  forward_scheme = "https"
+resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
+  domain_names   = ["nodadyoushutup.com"]
+  forward_host   = "192.168.1.100"
+  forward_port   = 9055
+  forward_scheme = "http"
 
-  ssl_forced      = false ? false : false
-  hsts_enabled    = false ? false : false
-  hsts_subdomains = false ? false : false
-  http2_support   = false ? false : false
+  ssl_forced      = true
+  hsts_enabled    = true
+  hsts_subdomains = true
+  http2_support   = true
 
 }
