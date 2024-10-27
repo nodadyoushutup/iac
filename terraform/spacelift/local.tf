@@ -12,21 +12,25 @@ locals {
   }
   config_path = try(var.CONFIG != null && var.CONFIG != "" ? var.CONFIG : "/mnt/workspace/config.yaml")
   config = try(yamldecode(file(local.config_path)), {
-    dependency_deploy = {
-      docker = {
-        infra = false
-        init = false
+    
+    spacelift = {
+      dependency_deploy = {
+        docker = {
+          infra = false
+          init = false
+        }
+      }
+      path = {
+        private_key = "/mnt/workspace/source/default/id_rsa"
+        ansible = {
+          config = "/mnt/workspace/source/config/ansible.cfg"
+        }
+        docker = {
+          compose = "/mnt/workspace/source/config/docker-compose.yaml"
+        }
       }
     }
-    path = {
-      private_key = "/mnt/workspace/source/default/id_rsa"
-      ansible = {
-        config = "/mnt/workspace/source/config/ansible.cfg"
-      }
-      docker = {
-        compose = "/mnt/workspace/source/config/docker-compose.yaml"
-      }
-    }
+    
   })
   base64 = {
     config = try(filebase64(local.config_path), filebase64("/mnt/workspace/source/default/config.yaml"))
