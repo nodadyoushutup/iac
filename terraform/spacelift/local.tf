@@ -31,6 +31,9 @@ locals {
         ansible = {
           config = "/mnt/workspace/source/config/ansible.cfg"
         }
+        docker = {
+          compose = "/mnt/workspace/source/config/docker-compose.yaml"
+        }
       }
     }
     virtual_machine = {
