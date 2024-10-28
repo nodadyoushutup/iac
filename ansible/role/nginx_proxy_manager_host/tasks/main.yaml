@@ -39,12 +39,24 @@
   debug:
     var: certificates_response.json
 
-- name: Find existing certificate ID
+- name: Initialize certificate ID as false
   set_fact:
-    certificate_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else false }}"
+    certificate_id: false
+
+- name: Find existing certificate ID and exit on first match
+  pause:
+    seconds: 0
+  register: pause_result
+  until: item.domain_names | sort == host_config.domain_names | sort
   loop: "{{ certificates_response.json }}"
   loop_control:
     loop_var: item
+  when: certificate_id == false
+
+- name: Set certificate ID if match found
+  set_fact:
+    certificate_id: "{{ item.id }}"
+  when: pause_result.failed == false
 
 - name: Debug host_config value
   debug:
@@ -75,18 +87,18 @@
     certificate_id: "{{ create_cert_response.json.id }}"
   when: certificate_id is false
 
-- name: Check if proxy host exists for domain
-  uri:
-    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
-    method: GET
-    headers:
-      Authorization: "Bearer {{ token }}"
-    return_content: yes
-  register: hosts_response
+# - name: Check if proxy host exists for domain
+#   uri:
+#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
+#     method: GET
+#     headers:
+#       Authorization: "Bearer {{ token }}"
+#     return_content: yes
+#   register: hosts_response
 
-- name: Debug host_config value
-  debug:
-    var: hosts_response
+# - name: Debug host_config value
+#   debug:
+#     var: hosts_response
 
 # - name: Find existing host ID
 #   set_fact:
