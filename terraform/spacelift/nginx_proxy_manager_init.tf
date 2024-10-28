@@ -6,19 +6,19 @@ resource "spacelift_stack" "nginx_proxy_manager_init_stack" {
     branch = "main"
     description = "Nginx Proxy Manager initialization"
     name = "nginx_proxy_manager_init"
-    project_root = "ansible/playbook"
+    project_root = "ansible/stack/nginx_proxy_manager_init"
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative"]
-    additional_project_globs = [
-        "/mnt/workspace/source/ansible/role/docker_compose",
-        "/mnt/workspace/source/ansible/role/config_load",
-        "/mnt/workspace/source/ansible/role/nginx_proxy_manager_admin",
-        "/mnt/workspace/source/ansible/role/nginx_proxy_manager_host",
-        "/mnt/workspace/source/ansible/role/vm_init",
-        "/mnt/workspace/source/ansible/role/vm_ping"
-    ]
+    # additional_project_globs = [
+    #     "/mnt/workspace/source/ansible/role/docker_compose",
+    #     "/mnt/workspace/source/ansible/role/config_load",
+    #     "/mnt/workspace/source/ansible/role/nginx_proxy_manager_admin",
+    #     "/mnt/workspace/source/ansible/role/nginx_proxy_manager_host",
+    #     "/mnt/workspace/source/ansible/role/vm_init",
+    #     "/mnt/workspace/source/ansible/role/vm_ping"
+    # ]
     ansible {
-        playbook = "nginx_proxy_manager_init.yaml"
+        playbook = "main.yaml"
     }
 }
 

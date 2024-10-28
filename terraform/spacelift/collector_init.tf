@@ -7,7 +7,7 @@ resource "spacelift_stack" "collector_init_stack" {
     branch = "main"
     description = "Collector initialization"
     name = "collector_init"
-    project_root = "ansible/playbook"
+    project_root = "ansible/stack/collector_init"
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative", "p1", "p1b"]
     # additional_project_globs = [
@@ -18,7 +18,7 @@ resource "spacelift_stack" "collector_init_stack" {
     #     "role/vm_ping"
     # ]
     ansible {
-        playbook = "collector_init.yaml"
+        playbook = "main.yaml"
     }
 }
 

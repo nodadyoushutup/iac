@@ -6,7 +6,7 @@ resource "spacelift_stack" "grafana_init_stack" {
     branch = "main"
     description = "Grafana initialization"
     name = "grafana_init"
-    project_root = "ansible/playbook"
+    project_root = "ansible/stack_grafana_init"
     repository = "iac"
     labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
     # additional_project_globs = [
@@ -16,7 +16,7 @@ resource "spacelift_stack" "grafana_init_stack" {
     #     "role/vm_ping"
     # ]
     ansible {
-        playbook = "grafana_init.yaml"
+        playbook = "main.yaml"
     }
 }
 

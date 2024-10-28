@@ -6,11 +6,11 @@
   tasks:
     - name: Load Configuration
       include_role:
-        name: ../role/config_load
+        name: ../../role/config_load
 
     - name: Add Host from Config
       include_role:
-        name: ../role/host_add
+        name: ../../role/host_add
       vars:
         key: docker
 
@@ -22,23 +22,23 @@
   tasks:
     - name: Load Configuration
       include_role:
-        name: ../role/config_load
+        name: ../../role/config_load
 
     - name: Ping VM
       include_role:
-        name: ../role/vm_ping
+        name: ../../role/vm_ping
 
     - name: Docker Setup and Service Management
       block:
         - name: VM Initialization Tasks
           include_role:
-            name: ../role/vm_init
+            name: ../../role/vm_init
 
         - name: Migrate Prometheus configuration
           include_role:
-            name: ../role/prometheus
+            name: ../../role/prometheus
 
         - name: Install or Update Docker
           include_role:
-            name: ../role/docker
+            name: ../../role/docker
       when: vm_ping == true
