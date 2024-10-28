@@ -34,8 +34,8 @@
 - name: Find existing certificate ID
   set_fact:
     certificate_id: "{{ item.id }}"
-  loop: "{{ certificates_response.json | json_query('[?contains(domain_names, domain_names)]') }}"
-  when: item is defined
+  loop: "{{ certificates_response.json }}"
+  when: item.domain_names == domain_names
   vars:
     domain_names: ["grafana.nodadyoushutup.com"]
 
@@ -75,8 +75,8 @@
 - name: Find existing host ID
   set_fact:
     host_id: "{{ item.id }}"
-  loop: "{{ hosts_response.json | json_query('[?contains(domain_names, domain_names)]') }}"
-  when: item is defined
+  loop: "{{ hosts_response.json }}"
+  when: item.domain_names == domain_names
   vars:
     domain_names: ["grafana.nodadyoushutup.com"]
 
