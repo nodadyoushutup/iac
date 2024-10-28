@@ -22,25 +22,26 @@
     msg: "Failed to retrieve token."
   when: token is not defined
 
-- name: Loop through each proxy host configuration
-  loop: "{{ proxy_host }}"
+- name: Check if SSL certificate exists for domain
+  uri:
+    url: "http://{{ item.forward_host }}:{{ item.forward_port }}/api/nginx/certificates"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token }}"
+    return_content: yes
+  register: certificates_response
+  with_items: "{{ proxy_host }}"
   loop_control:
     loop_var: host_config
-  block:
-    - name: Check if SSL certificate exists for domain
-      uri:
-        url: "http://{{ host_config.forward_host }}:{{ host_config.forward_port }}/api/nginx/certificates"
-        method: GET
-        headers:
-          Authorization: "Bearer {{ token }}"
-        return_content: yes
-      register: certificates_response
 
-    # - name: Find existing certificate ID
-    #   set_fact:
-    #     certificate_id: "{{ item.id }}"
-    #   loop: "{{ certificates_response.json }}"
-    #   when: item.domain_names == host_config.domain_names
+- name: Find existing certificate ID
+  set_fact:
+    certificate_id: "{{ item.id }}"
+  loop: "{{ certificates_response.results | map(attribute='json') | list }}"
+  when: item.domain_names == host_config.domain_names
+  with_items: "{{ proxy_host }}"
+  loop_control:
+    loop_var: host_config
 
     # - name: Create new SSL certificate if none exists
     #   uri:
