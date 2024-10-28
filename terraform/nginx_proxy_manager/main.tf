@@ -1,4 +1,14 @@
-resource "null_resource" "dummy_success" {}
+resource "null_resource" "dummy_success" {
+  triggers = {
+    create_proxy_host = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+    terraform apply -target=nginxproxymanager_proxy_host.nodadyoushutup || true
+    EOT
+  }
+}
 
 resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
   domain_names     = ["nodadyoushutup.com", "www.nodadyoushutup.com"]
@@ -6,9 +16,8 @@ resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
   forward_port     = 9055
   forward_scheme   = "http"
   certificate_id   = "2"
-  ssl_forced       = 1
+  ssl_forced       = true
   hsts_enabled     = true
   hsts_subdomains  = true
   http2_support    = true
-  depends_on       = [null_resource.dummy_success]
 }
