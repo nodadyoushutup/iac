@@ -12,7 +12,8 @@ resource "spacelift_stack" "nginx_proxy_manager_init_stack" {
     additional_project_globs = [
         "role/docker_compose",
         "role/config_load",
-        "role/nginx-proxy-manager",
+        "role/nginx_proxy_manager_admin",
+        "role/nginx_proxy_manager_host",
         "role/vm_init",
         "role/vm_ping"
     ]

@@ -40,5 +40,9 @@
 
         - name: Set NPM Administrator Password
           include_role:
-            name: role/nginx-proxy-manager
+            name: role/nginx_proxy_manager_admin
+
+        - name: Set NPM Certificates and Hosts
+          include_role:
+            name: role/nginx_proxy_manager_host
       when: vm_ping == true
