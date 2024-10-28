@@ -30,9 +30,6 @@
       Authorization: "Bearer {{ token }}"
     return_content: yes
   register: certificates_response
-  with_items: "{{ proxy_host }}"
-  loop_control:
-    loop_var: host_config
 
 # - name: Debug formatted content of each item
 #   debug:
@@ -42,13 +39,13 @@
 #     loop_var: item
 #   when: "'content' in item"
 
-- name: Find existing certificate ID
-  set_fact:
-    certificate_id: "{{ item.json.id }}"
-  when: item.json.domain_names == host_config.domain_names
-  loop: "{{ certificates_response.results }}"
-  loop_control:
-    loop_var: item
+# - name: Find existing certificate ID
+#   set_fact:
+#     certificate_id: "{{ item.json.id }}"
+#   when: item.json.domain_names == host_config.domain_names
+#   loop: "{{ certificates_response.results }}"
+#   loop_control:
+#     loop_var: item
 
 # - name: Create new SSL certificate if none exists
 #   uri:
