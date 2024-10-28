@@ -49,6 +49,6 @@
           loop: "{{ config.docker.nginx_proxy_manager.proxy_host }}"
           loop_control:
             loop_var: host_config
-          vars:
-            host_config: "{{ host_config }}"
+          # vars:
+          #   host_config: "{{ host_config }}"
       when: vm_ping == true
