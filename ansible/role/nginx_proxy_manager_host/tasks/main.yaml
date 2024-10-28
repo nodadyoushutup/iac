@@ -1,7 +1,7 @@
 ---
 - name: Get token
   uri:
-    url: "{{ host }}/api/tokens"
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/tokens"
     method: POST
     headers:
       Content-Type: "application/json"
@@ -24,7 +24,7 @@
 
 - name: Check if SSL certificate exists for domain
   uri:
-    url: "{{ host }}/api/nginx/certificates"
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
     method: GET
     headers:
       Authorization: "Bearer {{ token }}"
@@ -41,7 +41,7 @@
 
 - name: Create new SSL certificate if none exists
   uri:
-    url: "{{ host }}/api/nginx/certificates"
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
     method: POST
     headers:
       Authorization: "Bearer {{ token }}"
@@ -61,7 +61,7 @@
 
 - name: Configure Proxy Host
   uri:
-    url: "{{ host }}/api/nginx/proxy-hosts"
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
     method: POST
     headers:
       Authorization: "Bearer {{ token }}"
@@ -94,7 +94,7 @@
 
 # - name: Check if proxy host exists for domain
 #   uri:
-#     url: "{{ host }}/api/nginx/proxy-hosts"
+#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
 #     method: GET
 #     headers:
 #       Authorization: "Bearer {{ token }}"
@@ -111,7 +111,7 @@
 
 # - name: Create proxy host if none exists
 #   uri:
-#     url: "{{ host }}/api/nginx/proxy-hosts"
+#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
 #     method: POST
 #     headers:
 #       Authorization: "Bearer {{ token }}"
@@ -144,7 +144,7 @@
 
 # - name: Update proxy host if it exists
 #   uri:
-#     url: "{{ host }}/api/nginx/proxy-hosts/{{ host_id }}"
+#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts/{{ host_id }}"
 #     method: PUT
 #     headers:
 #       Authorization: "Bearer {{ token }}"
