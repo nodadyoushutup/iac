@@ -46,4 +46,6 @@
         - name: Set NPM Certificates and Hosts
           include_role:
             name: ../../role/nginx_proxy_manager_host
+          vars:
+            domain_names: ["truenas.nodadyoushutup.com"]
       when: vm_ping == true

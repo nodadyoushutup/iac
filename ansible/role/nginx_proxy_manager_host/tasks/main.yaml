@@ -37,7 +37,7 @@
   loop: "{{ certificates_response.json }}"
   when: item.domain_names == domain_names
   vars:
-    domain_names: ["truenas.nodadyoushutup.com"]
+    domain_names: "{{ domain_names }}"
 
 - name: Create new SSL certificate if none exists
   uri:
@@ -50,7 +50,7 @@
     body:
       provider: "letsencrypt"
       nice_name: "truenas.nodadyoushutup.com Certificate"
-      domain_names: ["truenas.nodadyoushutup.com"]
+      domain_names: "{{ domain_names }}"
       meta:
         letsencrypt_agree: true
         letsencrypt_email: "admin@nodadyoushutup.com"
@@ -83,7 +83,7 @@
   loop: "{{ hosts_response.json }}"
   when: item.domain_names == domain_names
   vars:
-    domain_names: ["truenas.nodadyoushutup.com"]
+    domain_names: "{{ domain_names }}"
 
 - name: Create proxy host if none exists
   uri:
@@ -94,7 +94,7 @@
       Content-Type: "application/json"
     body_format: json
     body:
-      domain_names: ["truenas.nodadyoushutup.com"]
+      domain_names: "{{ domain_names }}"
       forward_scheme: "http"
       forward_host: "192.168.1.101"
       forward_port: 9055
@@ -127,7 +127,7 @@
       Content-Type: "application/json"
     body_format: json
     body:
-      domain_names: ["truenas.nodadyoushutup.com"]
+      domain_names: "{{ domain_names }}"
       forward_scheme: "http"
       forward_host: "192.168.1.101"
       forward_port: 9055
