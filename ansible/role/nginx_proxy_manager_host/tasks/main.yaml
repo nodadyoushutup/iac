@@ -24,7 +24,7 @@
 
 - name: Null certificate ID
   set_fact:
-    certificate_id: null
+    certificate_id: none
 
 - name: Check if SSL certificate exists for domain
   uri:
@@ -61,12 +61,12 @@
     return_content: yes
     status_code: [200, 201]
   register: create_cert_response
-  when: certificate_id is not null
+  when: certificate_id is none
 
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
-  when: certificate_id is not null
+  when: certificate_id is none
 
 # - name: Output certificate creation response for debugging
 #   debug:
