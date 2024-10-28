@@ -62,8 +62,8 @@
 - name: Verify SSL certificate creation status
   fail:
     msg: "Failed to create SSL certificate. Response: {{ create_cert_response.content }}"
-  when:
-    - create_cert_response.status not in [200, 201]
+  when: 
+    - create_cert_response.status_code not in [200, 201]
     - certificate_id is not defined
 
 - name: Set certificate ID from newly created certificate
@@ -120,7 +120,7 @@
   fail:
     msg: "Failed to create proxy host. Response: {{ create_host_response.content }}"
   when: 
-    - create_host_response.status not in [200, 201]
+    - create_host_response.status_code not in [200, 201]
     - host_id is not defined
 
 - name: Update proxy host if it exists
