@@ -31,46 +31,38 @@
     return_content: yes
   register: certificates_response
 
-# - name: Debug formatted content of each item
-#   debug:
-#     msg: "{{ item.content | to_nice_yaml }}"
-#   loop: "{{ certificates_response.results }}"
-#   loop_control:
-#     loop_var: item
-#   when: "'content' in item"
+- name: Find existing certificate ID
+  set_fact:
+    certificate_id: "{{ item.json.id }}"
+  when: item.json.domain_names == host_config.domain_names
+  loop: "{{ certificates_response.results }}"
+  loop_control:
+    loop_var: item
 
-# - name: Find existing certificate ID
-#   set_fact:
-#     certificate_id: "{{ item.json.id }}"
-#   when: item.json.domain_names == host_config.domain_names
-#   loop: "{{ certificates_response.results }}"
-#   loop_control:
-#     loop_var: item
+- name: Create new SSL certificate if none exists
+  uri:
+    url: "{{ host }}/api/nginx/certificates"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      provider: "letsencrypt"
+      nice_name: "{{ host_config.domain_names[0] }} Certificate"
+      domain_names: "{{ host_config.domain_names }}"
+      meta:
+        letsencrypt_agree: true
+        letsencrypt_email: "admin@nodadyoushutup.com"
+    return_content: yes
+    status_code: [200, 201]
+  register: create_cert_response
+  when: certificate_id is not defined
 
-# - name: Create new SSL certificate if none exists
-#   uri:
-#     url: "{{ host }}/api/nginx/certificates"
-#     method: POST
-#     headers:
-#       Authorization: "Bearer {{ token }}"
-#       Content-Type: "application/json"
-#     body_format: json
-#     body:
-#       provider: "letsencrypt"
-#       nice_name: "{{ host_config.domain_names[0] }} Certificate"
-#       domain_names: "{{ host_config.domain_names }}"
-#       meta:
-#         letsencrypt_agree: true
-#         letsencrypt_email: "admin@nodadyoushutup.com"
-#     return_content: yes
-#     status_code: [200, 201]
-#   register: create_cert_response
-#   when: certificate_id is not defined
-
-# - name: Set certificate ID from newly created certificate
-#   set_fact:
-#     certificate_id: "{{ create_cert_response.json.id }}"
-#   when: certificate_id is not defined
+- name: Set certificate ID from newly created certificate
+  set_fact:
+    certificate_id: "{{ create_cert_response.json.id }}"
+  when: certificate_id is not defined
 
 # - name: Output certificate creation response for debugging
 #   debug:
