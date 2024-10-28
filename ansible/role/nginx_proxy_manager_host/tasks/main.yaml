@@ -63,7 +63,7 @@
   fail:
     msg: "Failed to create SSL certificate. Response: {{ create_cert_response.content }}"
   when: 
-    - create_cert_response.status_code not in [200, 201]
+    - create_cert_response.status not in [200, 201]
     - certificate_id is not defined
 
 - name: Set certificate ID from newly created certificate
