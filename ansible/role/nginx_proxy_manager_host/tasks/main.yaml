@@ -37,7 +37,7 @@
 
 - name: Find existing certificate ID
   set_fact:
-    certificate_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else certificate_id }}"
+    certificate_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else none }}"
   loop: "{{ certificates_response.json }}"
   loop_control:
     loop_var: item
