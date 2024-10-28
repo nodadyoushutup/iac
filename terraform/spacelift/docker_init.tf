@@ -9,16 +9,6 @@ resource "spacelift_stack" "docker_init_stack" {
     project_root = "ansible/stack/docker_init"
     repository = "iac"
     labels = ["ansible", "init", "docker", "administrative", "p1", "p1b"]
-    # additional_project_globs = [
-    #     "role/apt_lock_check",
-    #     "role/config_load",
-    #     "role/docker_compose",
-    #     "role/docker",
-    #     "role/gitconfig",
-    #     "role/node_exporter",
-    #     "role/vm_init",
-    #     "role/vm_ping"
-    # ]
     ansible {
         playbook = "main.yaml"
     }
