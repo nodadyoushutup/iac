@@ -34,9 +34,9 @@
   loop_control:
     loop_var: host_config
 
-- name: Debug item structure
+- name: Debug item keys
   debug:
-    var: item
+    msg: "{{ item | dict2items | map(attribute='key') | list }}"
   loop: "{{ certificates_response.results }}"
   loop_control:
     loop_var: item
