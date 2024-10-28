@@ -94,13 +94,14 @@
   set_fact:
     host_id: false
 
-# - name: Find existing host ID
-#   set_fact:
-#     host_id: "{{ item.id }}"
-#   when: item.domain_names == host_config.domain_names
-#   loop: "{{ hosts_response.json }}"
-#   loop_control:
-#     loop_var: item
+- name: Find existing host ID
+  set_fact:
+    host_id: "{{ (hosts_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
+  when: hosts_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
+
+- name: Debug host_config value
+  debug:
+    var: host_id
 
 # - name: Create proxy host if none exists
 #   uri:
