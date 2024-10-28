@@ -34,12 +34,13 @@
   loop_control:
     loop_var: host_config
 
-- name: Debug item keys
+- name: Debug formatted content of each item
   debug:
-    msg: "{{ item | dict2items | map(attribute='key') | list }}"
+    msg: "{{ item.content | to_nice_yaml }}"
   loop: "{{ certificates_response.results }}"
   loop_control:
     loop_var: item
+  when: "'content' in item"
 
 - name: Find existing certificate ID
   set_fact:
