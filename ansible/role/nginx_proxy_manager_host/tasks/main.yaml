@@ -59,30 +59,6 @@
   register: create_cert_response
   when: certificate_id is not defined
 
-- name: Configure Proxy Host
-  uri:
-    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
-    method: POST
-    headers:
-      Authorization: "Bearer {{ token }}"
-      Content-Type: "application/json"
-    body_format: json
-    body:
-      domain_names: "{{ host_config.domain_names }}"
-      forward_scheme: "{{ host_config.forward_scheme }}"
-      forward_host: "{{ host_config.forward_host }}"
-      forward_port: "{{ host_config.forward_port }}"
-      ssl_forced: "{{ host_config.ssl_forced }}"
-      hsts_enabled: "{{ host_config.hsts_enabled }}"
-      hsts_subdomains: "{{ host_config.hsts_subdomains }}"
-      http2_support: "{{ host_config.http2_support }}"
-      block_exploits: "{{ host_config.block_exploits }}"
-      caching_enabled: "{{ host_config.caching_enabled }}"
-      allow_websocket_upgrade: "{{ host_config.allow_websocket_upgrade }}"
-      access_list_id: "{{ host_config.access_list_id }}"
-      enabled: "{{ host_config.enabled }}"
-    status_code: [200, 201]
-  register: proxy_host_response
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
