@@ -1,4 +1,5 @@
 ---
+# npm.
 - name: Add Docker Hosts
   hosts: localhost
   gather_facts: no

@@ -55,6 +55,7 @@
         letsencrypt_agree: true
         letsencrypt_email: "admin@nodadyoushutup.com"
     return_content: yes
+    status_codes: [200, 201]
   register: create_cert_response
   when: certificate_id is not defined
 
