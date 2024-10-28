@@ -36,8 +36,8 @@
     certificate_id: "{{ item.id }}"
   loop: "{{ certificates_response.json }}"
   when: item.domain_names == domain_names
-  vars:
-    domain_names: "{{ domain_names }}"
+  # vars:
+  #   domain_names: "{{ domain_names }}"
 
 - name: Create new SSL certificate if none exists
   uri:
