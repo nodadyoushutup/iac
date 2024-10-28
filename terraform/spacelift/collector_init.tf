@@ -7,7 +7,7 @@ resource "spacelift_stack" "collector_init_stack" {
     branch = "main"
     description = "Collector initialization"
     name = "collector_init"
-    project_root = "ansible"
+    project_root = "ansible/playbook"
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative", "p1", "p1b"]
     # additional_project_globs = [

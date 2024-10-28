@@ -6,11 +6,11 @@
   tasks:
     - name: Load Configuration
       include_role:
-        name: role/config_load
+        name: ../role/config_load
 
     - name: Add Host from Config
       include_role:
-        name: role/host_add
+        name: ../role/host_add
       vars:
         key: docker
 
@@ -22,17 +22,17 @@
   tasks:
     - name: Load Configuration
       include_role:
-        name: role/config_load
+        name: ../role/config_load
 
     - name: Ping VM
       include_role:
-        name: role/vm_ping
+        name: ../role/vm_ping
 
     - name: Initialize Grafana
       block:
         - name: Restart Docker Compose Managed Services
           include_role:
-            name: role/docker_compose
+            name: ../role/docker_compose
           vars:
             run_down: true
             run_up: true

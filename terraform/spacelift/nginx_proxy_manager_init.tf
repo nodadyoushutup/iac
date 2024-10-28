@@ -6,7 +6,7 @@ resource "spacelift_stack" "nginx_proxy_manager_init_stack" {
     branch = "main"
     description = "Nginx Proxy Manager initialization"
     name = "nginx_proxy_manager_init"
-    project_root = "ansible"
+    project_root = "ansible/playbook"
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative"]
     additional_project_globs = [
