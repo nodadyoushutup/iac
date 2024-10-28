@@ -34,6 +34,13 @@
   loop_control:
     loop_var: host_config
 
+- name: Debug item structure
+  debug:
+    var: item
+  loop: "{{ certificates_response.results }}"
+  loop_control:
+    loop_var: item
+
 - name: Find existing certificate ID
   set_fact:
     certificate_id: "{{ item.json.id }}"
