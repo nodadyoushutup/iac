@@ -1,5 +1,6 @@
 ---
 # defaults
+host: http://192.168.1.101:81
 proxy_host:
   - domain_names: ["truenas.nodadyoushutup.com"]
     forward_scheme: "http"
