@@ -9,12 +9,12 @@ resource "spacelift_stack" "grafana_init_stack" {
     project_root = "ansible"
     repository = "iac"
     labels = ["ansible", "init", "grafana", "administrative", "p1", "p1b"]
-    additional_project_globs = [
-        "role/docker_compose",
-        "role/config_load",
-        "role/vm_init",
-        "role/vm_ping"
-    ]
+    # additional_project_globs = [
+    #     "role/docker_compose",
+    #     "role/config_load",
+    #     "role/vm_init",
+    #     "role/vm_ping"
+    # ]
     ansible {
         playbook = "grafana_init.yaml"
     }

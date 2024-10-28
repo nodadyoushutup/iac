@@ -10,13 +10,13 @@ resource "spacelift_stack" "collector_init_stack" {
     project_root = "ansible"
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative", "p1", "p1b"]
-    additional_project_globs = [
-        "role/docker_compose",
-        "role/config_load",
-        "role/prometheus",
-        "role/vm_init",
-        "role/vm_ping"
-    ]
+    # additional_project_globs = [
+    #     "role/docker_compose",
+    #     "role/config_load",
+    #     "role/prometheus",
+    #     "role/vm_init",
+    #     "role/vm_ping"
+    # ]
     ansible {
         playbook = "collector_init.yaml"
     }
