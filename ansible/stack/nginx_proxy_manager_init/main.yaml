@@ -39,9 +39,9 @@
         #     up_services: "mysql nginx-proxy-manager"
         #     down_services: "mysql nginx-proxy-manager"
 
-        - name: Set NPM Administrator Password
-          include_role:
-            name: ../../role/nginx_proxy_manager_admin
+        # - name: Set NPM Administrator Password
+        #   include_role:
+        #     name: ../../role/nginx_proxy_manager_admin
 
         - name: Set NPM Certificates and Hosts
           include_role:
