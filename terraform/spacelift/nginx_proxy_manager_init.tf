@@ -45,7 +45,7 @@ resource "spacelift_context_attachment" "nginx_proxy_manager_init_terraform_cont
 }
 
 resource "spacelift_context_attachment" "nginx_proxy_manager_init_ansible_context_attachment" {
-    count = local.env > 0 && local.config.spacelift.dependency_deploy.nginx_proxy_manager.init ? 1 : 0
+    count = local.env > 0 ? 1 : 0
     depends_on = [
         spacelift_stack.nginx_proxy_manager_init_stack, 
         spacelift_context.ansible_context
