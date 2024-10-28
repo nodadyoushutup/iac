@@ -41,7 +41,7 @@
 
 - name: Find existing certificate ID
   set_fact:
-    certificate_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else none }}"
+    certificate_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else false }}"
   loop: "{{ certificates_response.json }}"
   loop_control:
     loop_var: item
@@ -68,12 +68,12 @@
     return_content: yes
     status_code: [200, 201]
   register: create_cert_response
-  when: certificate_id is none
+  when: certificate_id is false
 
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
-  when: certificate_id is none
+  when: certificate_id is false
 
 # - name: Output certificate creation response for debugging
 #   debug:
