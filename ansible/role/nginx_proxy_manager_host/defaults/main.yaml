@@ -17,7 +17,7 @@ proxy_host:
     enabled: true
   - domain_names: ["overseerr.nodadyoushutup.com"]
     forward_scheme: "http"
-    forward_host: "192.168.1.101"
+    forward_host: "192.168.1.100"
     forward_port: 9055
     ssl_forced: true
     hsts_enabled: true
