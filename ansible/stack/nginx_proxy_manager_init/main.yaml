@@ -43,7 +43,12 @@
         #   include_role:
         #     name: ../../role/nginx_proxy_manager_admin
 
-        - name: Set NPM Certificates and Hosts
+        - name: Loop over NPM Certificate and Proxy Host Setup
           include_role:
             name: ../../role/nginx_proxy_manager_host
+          loop: "{{ proxy_host }}"
+          loop_control:
+            loop_var: item
+          vars:
+            host_config: "{{ item }}"
       when: vm_ping == true
