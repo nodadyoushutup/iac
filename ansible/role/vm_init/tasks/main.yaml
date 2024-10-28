@@ -28,6 +28,7 @@
         - python3
         - python3-pip
         - whois
+        - jq
       state: present
       update_cache: yes
       # more later

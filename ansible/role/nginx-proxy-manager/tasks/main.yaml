@@ -73,3 +73,144 @@
   shell: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE auth SET secret='$(mkpasswd -m bcrypt \"password\")' WHERE id='1';\""
   register: update_auth_secret
   changed_when: update_auth_secret.rc == 0
+
+# Additional tasks to manage SSL certificate and proxy host
+
+- name: Get token
+  uri:
+    url: "http://192.168.1.101:81/api/tokens"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      identity: "admin@nodadyoushutup.com"
+      secret: "password"
+    return_content: yes
+  register: token_response
+
+- name: Extract token
+  set_fact:
+    token: "{{ token_response.json.token }}"
+  when: token_response.json.token is defined
+
+- name: Fail if token retrieval failed
+  fail:
+    msg: "Failed to retrieve token."
+  when: token is not defined
+
+- name: Check if SSL certificate exists for domain
+  uri:
+    url: "http://192.168.1.101:81/api/nginx/certificates"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token }}"
+    return_content: yes
+  register: certificates_response
+
+- name: Find existing certificate ID
+  set_fact:
+    certificate_id: "{{ item.id }}"
+  loop: "{{ certificates_response.json | json_query('[?contains(domain_names, domain_names)]') }}"
+  when: item is defined
+  vars:
+    domain_names: ["grafana.nodadyoushutup.com"]
+
+- name: Create new SSL certificate if none exists
+  uri:
+    url: "http://192.168.1.101:81/api/nginx/certificates"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      provider: "letsencrypt"
+      nice_name: "grafana.nodadyoushutup.com Certificate"
+      domain_names: ["grafana.nodadyoushutup.com"]
+      meta:
+        letsencrypt_agree: true
+        letsencrypt_email: "admin@nodadyoushutup.com"
+    return_content: yes
+  register: create_cert_response
+  when: certificate_id is not defined
+
+- name: Set certificate ID from newly created certificate
+  set_fact:
+    certificate_id: "{{ create_cert_response.json.id }}"
+  when: certificate_id is not defined
+
+- name: Check if proxy host exists for domain
+  uri:
+    url: "http://192.168.1.101:81/api/nginx/proxy-hosts"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token }}"
+    return_content: yes
+  register: hosts_response
+
+- name: Find existing host ID
+  set_fact:
+    host_id: "{{ item.id }}"
+  loop: "{{ hosts_response.json | json_query('[?contains(domain_names, domain_names)]') }}"
+  when: item is defined
+  vars:
+    domain_names: ["grafana.nodadyoushutup.com"]
+
+- name: Create proxy host if none exists
+  uri:
+    url: "http://192.168.1.101:81/api/nginx/proxy-hosts"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      domain_names: ["grafana.nodadyoushutup.com"]
+      forward_scheme: "http"
+      forward_host: "192.168.1.101"
+      forward_port: 3000
+      certificate_id: "{{ certificate_id }}"
+      ssl_forced: true
+      hsts_enabled: true
+      hsts_subdomains: true
+      http2_support: true
+      block_exploits: true
+      caching_enabled: false
+      allow_websocket_upgrade: true
+      access_list_id: 0
+      enabled: true
+    return_content: yes
+  register: create_host_response
+  when: host_id is not defined
+
+- name: Update proxy host if it exists
+  uri:
+    url: "http://192.168.1.101:81/api/nginx/proxy-hosts/{{ host_id }}"
+    method: PUT
+    headers:
+      Authorization: "Bearer {{ token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      domain_names: ["grafana.nodadyoushutup.com"]
+      forward_scheme: "http"
+      forward_host: "192.168.1.101"
+      forward_port: 3000
+      certificate_id: "{{ certificate_id }}"
+      ssl_forced: true
+      hsts_enabled: true
+      hsts_subdomains: true
+      http2_support: true
+      block_exploits: true
+      caching_enabled: false
+      allow_websocket_upgrade: true
+      access_list_id: 0
+      enabled: true
+    return_content: yes
+  register: update_host_response
+  when: host_id is defined
+
+- name: Output result of proxy host operation
+  debug:
+    msg: "{{ create_host_response.json if host_id is not defined else update_host_response.json }}"
