@@ -22,7 +22,11 @@
     msg: "Failed to retrieve token."
   when: token is not defined
 
-- name: Check if SSL certificate exists for domain
+- name: Debug host_config value
+  debug:
+    var: host_config
+
+- name: Query existing certificates
   uri:
     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
     method: GET
@@ -31,9 +35,9 @@
     return_content: yes
   register: certificates_response
 
-- name: Null certificate ID
-  set_fact:
-    certificate_id: none
+- name: Debug host_config value
+  debug:
+    var: certificates_response
 
 - name: Find existing certificate ID
   set_fact:
