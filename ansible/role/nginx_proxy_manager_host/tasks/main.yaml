@@ -59,14 +59,14 @@
   register: create_cert_response
   when: certificate_id is not defined
 
-- name: Output create_cert_response for debugging
-  debug:
-    var: create_cert_response
-
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
   when: certificate_id is not defined
+
+- name: Output certificate creation response for debugging
+  debug:
+    msg: "Certificate ID is: {{ certificate_id }}"
 
 - name: Check if proxy host exists for domain
   uri:
@@ -113,12 +113,10 @@
   register: create_host_response
   when: host_id is not defined
 
-- name: Verify proxy host creation status
-  fail:
-    msg: "Failed to create proxy host. Response: {{ create_host_response.content }}"
-  when:
-    - create_host_response.status not in [200, 201]
-    - host_id is not defined
+- name: Set host ID from newly created proxy host
+  set_fact:
+    host_id: "{{ create_host_response.json.id }}"
+  when: host_id is not defined
 
 - name: Update proxy host if it exists
   uri:
