@@ -1,23 +1,40 @@
-resource "null_resource" "dummy_success" {
-  triggers = {
-    create_proxy_host = "${timestamp()}"
+# Manage a proxy host
+resource "nginxproxymanager_proxy_host" "example" {
+  domain_names = ["example.com"]
+
+  forward_scheme = "https"
+  forward_host   = "example2.com"
+  forward_port   = 443
+
+  caching_enabled         = true
+  allow_websocket_upgrade = true
+  block_exploits          = true
+
+  access_list_id = 0 # Publicly Accessible
+
+  location {
+    path           = "/admin"
+    forward_scheme = "https"
+    forward_host   = "example3.com"
+    forward_port   = 443
+
+    advanced_config = ""
   }
 
-  provisioner "local-exec" {
-    command = <<EOT
-    terraform apply -target=nginxproxymanager_proxy_host.nodadyoushutup || true
-    EOT
-  }
-}
+  location {
+    path           = "/contact"
+    forward_scheme = "http"
+    forward_host   = "example4.com"
+    forward_port   = 80
 
-resource "nginxproxymanager_proxy_host" "nodadyoushutup" {
-  domain_names     = ["nodadyoushutup.com", "www.nodadyoushutup.com"]
-  forward_host     = "192.168.1.100"
-  forward_port     = 9055
-  forward_scheme   = "http"
-  certificate_id   = "2"
-  ssl_forced       = true
-  hsts_enabled     = true
-  hsts_subdomains  = true
-  http2_support    = true
+    advanced_config = ""
+  }
+
+  certificate_id  = 0 # No Certificate
+  ssl_forced      = false
+  hsts_enabled    = false
+  hsts_subdomains = false
+  http2_support   = false
+
+  advanced_config = ""
 }
