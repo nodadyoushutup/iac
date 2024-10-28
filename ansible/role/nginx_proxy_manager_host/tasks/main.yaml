@@ -22,6 +22,10 @@
     msg: "Failed to retrieve token."
   when: token is not defined
 
+- name: Null certificate ID
+  set_fact:
+    certificate_id: null
+
 - name: Check if SSL certificate exists for domain
   uri:
     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
@@ -57,12 +61,12 @@
     return_content: yes
     status_code: [200, 201]
   register: create_cert_response
-  when: certificate_id is not defined
+  when: certificate_id is not null
 
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
-  when: certificate_id is not defined
+  when: certificate_id is not null
 
 # - name: Output certificate creation response for debugging
 #   debug:
