@@ -35,9 +35,9 @@
     return_content: yes
   register: certificates_response
 
-- name: Debug host_config value
+- name: Debug certificates_response.json value
   debug:
-    var: certificates_response
+    var: certificates_response.json
 
 - name: Find existing certificate ID
   set_fact:
@@ -45,6 +45,10 @@
   loop: "{{ certificates_response.json }}"
   loop_control:
     loop_var: item
+
+- name: Debug host_config value
+  debug:
+    var: certificate_id
 
 - name: Create new SSL certificate if none exists
   uri:
