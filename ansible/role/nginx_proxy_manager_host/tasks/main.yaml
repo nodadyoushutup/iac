@@ -24,7 +24,7 @@
 
 - name: Check if SSL certificate exists for domain
   uri:
-    url: "http://{{ host }}/api/nginx/certificates"
+    url: "{{ host }}/api/nginx/certificates"
     method: GET
     headers:
       Authorization: "Bearer {{ token }}"
