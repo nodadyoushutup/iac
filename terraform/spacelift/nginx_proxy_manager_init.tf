@@ -10,12 +10,12 @@ resource "spacelift_stack" "nginx_proxy_manager_init_stack" {
     repository = "iac"
     labels = ["ansible", "init", "collector", "administrative"]
     additional_project_globs = [
-        "../role/docker_compose",
-        "../role/config_load",
-        "../role/nginx_proxy_manager_admin",
-        "../role/nginx_proxy_manager_host",
-        "../role/vm_init",
-        "../role/vm_ping"
+        "/mnt/workspace/source/ansible/role/docker_compose",
+        "/mnt/workspace/source/ansible/role/config_load",
+        "/mnt/workspace/source/ansible/role/nginx_proxy_manager_admin",
+        "/mnt/workspace/source/ansible/role/nginx_proxy_manager_host",
+        "/mnt/workspace/source/ansible/role/vm_init",
+        "/mnt/workspace/source/ansible/role/vm_ping"
     ]
     ansible {
         playbook = "nginx_proxy_manager_init.yaml"
