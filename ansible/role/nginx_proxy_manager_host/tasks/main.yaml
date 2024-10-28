@@ -43,20 +43,15 @@
   set_fact:
     certificate_id: false
 
-- name: Find existing certificate ID and exit on first match
-  pause:
-    seconds: 0
-  register: pause_result
-  until: item.domain_names | sort == host_config.domain_names | sort
-  loop: "{{ certificates_response.json }}"
-  loop_control:
-    loop_var: item
-  when: certificate_id == false
-
-- name: Set certificate ID if match found
+- name: Initialize certificate ID as false
   set_fact:
-    certificate_id: "{{ item.id }}"
-  when: pause_result.failed == false
+    certificate_id: false
+
+- name: Check for existing certificate match
+  set_fact:
+    certificate_id: "{{ (certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
+  when: certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
+
 
 - name: Debug host_config value
   debug:
