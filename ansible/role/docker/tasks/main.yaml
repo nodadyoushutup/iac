@@ -1,7 +1,7 @@
 ---
 - name: APT lock check
   include_role:
-    name: ../role/apt_lock_check
+    name: ../../role/apt_lock_check
 
 - name: Uninstall unwanted packages 
   apt: 
@@ -42,7 +42,7 @@
 
 - name: APT lock check
   include_role:
-    name: ../role/apt_lock_check
+    name: ../../role/apt_lock_check
 
 - name: Install Docker
   apt: 
