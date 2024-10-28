@@ -22,60 +22,60 @@
     msg: "Failed to retrieve token."
   when: token is not defined
 
-# # - name: Debug host_config value
-# #   debug:
-# #     var: host_config
+# - name: Debug host_config value
+#   debug:
+#     var: host_config
 
-# - name: Query existing certificates
-#   uri:
-#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
-#     method: GET
-#     headers:
-#       Authorization: "Bearer {{ token }}"
-#     return_content: yes
-#   register: certificates_response
+- name: Query existing certificates
+  uri:
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token }}"
+    return_content: yes
+  register: certificates_response
 
-# # - name: Debug certificates_response.json value
-# #   debug:
-# #     var: certificates_response.json
+# - name: Debug certificates_response.json value
+#   debug:
+#     var: certificates_response.json
 
-# - name: Initialize certificate ID as false
-#   set_fact:
-#     certificate_id: false
+- name: Initialize certificate ID as false
+  set_fact:
+    certificate_id: false
 
-# - name: Find existing certificate ID
-#   set_fact:
-#     certificate_id: "{{ (certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
-#   when: certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
+- name: Find existing certificate ID
+  set_fact:
+    certificate_id: "{{ (certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
+  when: certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
 
-# # - name: Debug host_config value
-# #   debug:
-# #     var: certificate_id
+# - name: Debug host_config value
+#   debug:
+#     var: certificate_id
 
-# - name: Create new SSL certificate if none exists
-#   uri:
-#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
-#     method: POST
-#     headers:
-#       Authorization: "Bearer {{ token }}"
-#       Content-Type: "application/json"
-#     body_format: json
-#     body:
-#       provider: "letsencrypt"
-#       nice_name: "{{ host_config.domain_names[0] }} Certificate"
-#       domain_names: "{{ host_config.domain_names }}"
-#       meta:
-#         letsencrypt_agree: true
-#         letsencrypt_email: "admin@nodadyoushutup.com"
-#     return_content: yes
-#     status_code: [200, 201]
-#   register: create_cert_response
-#   when: certificate_id is false
+- name: Create new SSL certificate if none exists
+  uri:
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      provider: "letsencrypt"
+      nice_name: "{{ host_config.domain_names[0] }} Certificate"
+      domain_names: "{{ host_config.domain_names }}"
+      meta:
+        letsencrypt_agree: true
+        letsencrypt_email: "admin@nodadyoushutup.com"
+    return_content: yes
+    status_code: [200, 201]
+  register: create_cert_response
+  when: certificate_id is false
 
-# - name: Set certificate ID from newly created certificate
-#   set_fact:
-#     certificate_id: "{{ create_cert_response.json.id }}"
-#   when: certificate_id is false
+- name: Set certificate ID from newly created certificate
+  set_fact:
+    certificate_id: "{{ create_cert_response.json.id }}"
+  when: certificate_id is false
 
 - name: Check if proxy host exists for domain
   uri:
@@ -155,5 +155,6 @@
       access_list_id: "{{ host_config.access_list_id }}"
       enabled: "{{ host_config.enabled }}"
     return_content: yes
+    status_code: [200, 201]
   register: update_host_response
   when: host_id is not false
