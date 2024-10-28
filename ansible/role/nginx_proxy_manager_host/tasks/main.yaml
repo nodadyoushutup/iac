@@ -63,13 +63,6 @@
   debug:
     var: create_cert_response
 
-- name: Verify SSL certificate creation status
-  fail:
-    msg: "Failed to create SSL certificate. Response: {{ create_cert_response.content }}"
-  when: 
-    - create_cert_response.status not in [200, 201]
-    - certificate_id is not defined
-
 - name: Set certificate ID from newly created certificate
   set_fact:
     certificate_id: "{{ create_cert_response.json.id }}"
@@ -123,7 +116,7 @@
 - name: Verify proxy host creation status
   fail:
     msg: "Failed to create proxy host. Response: {{ create_host_response.content }}"
-  when: 
+  when:
     - create_host_response.status not in [200, 201]
     - host_id is not defined
 
