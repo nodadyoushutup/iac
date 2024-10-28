@@ -73,8 +73,9 @@
   shell: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE auth SET secret='$(mkpasswd -m bcrypt \"password\")' WHERE id='1';\""
   register: update_auth_secret
   changed_when: update_auth_secret.rc == 0
+  
 
-# Additional tasks to manage SSL certificate and proxy host
+#########################
 
 - name: Get token
   uri:
