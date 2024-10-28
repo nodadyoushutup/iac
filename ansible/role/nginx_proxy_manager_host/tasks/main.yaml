@@ -24,7 +24,7 @@
 
 - name: Check if SSL certificate exists for domain
   uri:
-    url: "http://{{ item.forward_host }}:{{ item.forward_port }}/api/nginx/certificates"
+    url: "http://{{ host_config.forward_host }}:{{ host_config.forward_port }}/api/nginx/certificates"
     method: GET
     headers:
       Authorization: "Bearer {{ token }}"
