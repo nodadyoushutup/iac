@@ -75,24 +75,31 @@
     certificate_id: "{{ create_cert_response.json.id }}"
   when: certificate_id is false
 
-# - name: Output certificate creation response for debugging
-#   debug:
-#     msg: "Certificate ID is: {{ certificate_id }} for {{ host_config.domain_names[0] }}"
+- name: Check if proxy host exists for domain
+  uri:
+    url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ token }}"
+    return_content: yes
+  register: hosts_response
 
-# - name: Check if proxy host exists for domain
-#   uri:
-#     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/proxy-hosts"
-#     method: GET
-#     headers:
-#       Authorization: "Bearer {{ token }}"
-#     return_content: yes
-#   register: hosts_response
+- name: Debug host_config value
+  debug:
+    var: hosts_response
 
 # - name: Find existing host ID
 #   set_fact:
 #     host_id: "{{ item.id }}"
 #   when: item.domain_names == host_config.domain_names
 #   loop: "{{ hosts_response.json }}"
+#   loop_control:
+#     loop_var: item
+
+# - name: Find existing certificate ID
+#   set_fact:
+#     host_id: "{{ item.id if item.domain_names | sort == host_config.domain_names | sort else false }}"
+#   loop: "{{ certificates_response.json }}"
 #   loop_control:
 #     loop_var: item
 
