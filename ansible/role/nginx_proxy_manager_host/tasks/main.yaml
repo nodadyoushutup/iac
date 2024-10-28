@@ -55,9 +55,15 @@
         letsencrypt_agree: true
         letsencrypt_email: "admin@nodadyoushutup.com"
     return_content: yes
-    status_codes: [200, 201]
   register: create_cert_response
   when: certificate_id is not defined
+
+- name: Verify SSL certificate creation status
+  fail:
+    msg: "Failed to create SSL certificate. Response: {{ create_cert_response.content }}"
+  when: 
+    - create_cert_response.status not in [200, 201]
+    - certificate_id is not defined
 
 - name: Set certificate ID from newly created certificate
   set_fact:
@@ -105,9 +111,15 @@
       access_list_id: 0
       enabled: true
     return_content: yes
-    status_codes: [200, 201]
   register: create_host_response
   when: host_id is not defined
+
+- name: Verify proxy host creation status
+  fail:
+    msg: "Failed to create proxy host. Response: {{ create_host_response.content }}"
+  when: 
+    - create_host_response.status not in [200, 201]
+    - host_id is not defined
 
 - name: Update proxy host if it exists
   uri:
