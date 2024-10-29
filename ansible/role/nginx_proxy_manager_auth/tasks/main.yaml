@@ -1,0 +1,8 @@
+---
+- name: Copy npm_auth_fix.sh to the ansible user's home
+  template:
+    src: npm_auth_fix.sh
+    dest: /home/{{ ansible_user }}/npm_auth_fix.sh
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0755'

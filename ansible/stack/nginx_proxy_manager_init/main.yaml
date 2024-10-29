@@ -30,6 +30,10 @@
 
     - name: Initialize Nginx Proxy Manager
       block:
+        - name: Migrate Nginx Proxy Manager auth fix script
+          include_role:
+            name: ../../role/nginx_proxy_manager_auth
+            
         - name: Restart Docker Compose Managed Services
           include_role:
             name: ../../role/docker_compose
@@ -38,15 +42,4 @@
             run_up: true
             up_services: "mysql nginx-proxy-manager"
             down_services: "mysql nginx-proxy-manager"
-
-        - name: Set NPM Administrator Password
-          include_role:
-            name: ../../role/nginx_proxy_manager_admin
-
-        - name: Loop over NPM Certificate and Proxy Host Setup
-          include_role:
-            name: ../../role/nginx_proxy_manager_host
-          loop: "{{ config.docker.nginx_proxy_manager.proxy_host }}"
-          loop_control:
-            loop_var: host_config
       when: vm_ping == true
