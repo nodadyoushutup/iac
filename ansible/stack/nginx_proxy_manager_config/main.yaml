@@ -1,0 +1,39 @@
+---
+# npm
+- name: Add Docker Hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: ../../role/config_load
+
+    - name: Add Host from Config
+      include_role:
+        name: ../../role/host_add
+      vars:
+        key: docker
+
+- name: Initialize Nginx Proxy Manager
+  hosts: docker
+  gather_facts: no
+  become: true
+  check_mode: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: ../../role/config_load
+
+    - name: Ping VM
+      include_role:
+        name: ../../role/vm_ping
+
+    - name: Initialize Nginx Proxy Manager
+      block:
+        - name: Loop over NPM Certificate and Proxy Host Setup
+          include_role:
+            name: ../../role/nginx_proxy_manager_host
+          loop: "{{ config.docker.nginx_proxy_manager.proxy_host }}"
+          loop_control:
+            loop_var: host_config
+      when: vm_ping == true
