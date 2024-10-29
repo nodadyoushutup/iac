@@ -22,10 +22,6 @@
     msg: "Failed to retrieve token."
   when: token is not defined
 
-# - name: Debug host_config value
-#   debug:
-#     var: host_config
-
 - name: Query existing certificates
   uri:
     url: "{{ config.docker.nginx_proxy_manager.host }}/api/nginx/certificates"
@@ -35,10 +31,6 @@
     return_content: yes
   register: certificates_response
 
-# - name: Debug certificates_response.json value
-#   debug:
-#     var: certificates_response.json
-
 - name: Initialize certificate ID as false
   set_fact:
     certificate_id: false
@@ -47,10 +39,6 @@
   set_fact:
     certificate_id: "{{ (certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
   when: certificates_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
-
-# - name: Debug host_config value
-#   debug:
-#     var: certificate_id
 
 - name: Create new SSL certificate if none exists
   uri:
@@ -86,10 +74,6 @@
     return_content: yes
   register: hosts_response
 
-- name: Debug host_config value
-  debug:
-    var: hosts_response
-
 - name: Initialize certificate ID as false
   set_fact:
     host_id: false
@@ -98,10 +82,6 @@
   set_fact:
     host_id: "{{ (hosts_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | first).id | default(false) }}"
   when: hosts_response.json | selectattr('domain_names', '==', host_config.domain_names) | list | length > 0
-
-- name: Debug host_config value
-  debug:
-    var: host_id
 
 - name: Create proxy host if none exists
   uri:

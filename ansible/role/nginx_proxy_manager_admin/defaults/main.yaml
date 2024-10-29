@@ -1,0 +1,1 @@
+nginx_proxy_ip: "{{ config.docker.nginx_proxy_manager.host | regex_replace('http://', '') | regex_replace(':.*', '') }}"

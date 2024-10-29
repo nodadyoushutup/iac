@@ -1,6 +1,6 @@
 ---
 - name: Verify MySQL connectivity
-  command: "mysqladmin ping -h 192.168.1.101 -u npm -pnpm"
+  command: "mysqladmin ping -h {{ nginx_proxy_ip }} -u npm -pnpm"
   register: mysql_connectivity
   retries: 5
   delay: 10
@@ -13,7 +13,7 @@
   when: mysql_connectivity.rc == 0
 
 - name: Check if 'user' table exists
-  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'user';\""
+  command: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'user';\""
   register: user_table_check
   retries: 5
   delay: 10
@@ -26,7 +26,7 @@
     fail_msg: "The 'user' table does not exist in the MySQL database."
 
 - name: Check if 'auth' table exists
-  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'auth';\""
+  command: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"SHOW TABLES LIKE 'auth';\""
   register: auth_table_check
   retries: 5
   delay: 10
@@ -39,7 +39,7 @@
     fail_msg: "The 'auth' table does not exist in the MySQL database."
 
 - name: Check if record with id=1 exists in 'user' table
-  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM user WHERE id = 1;\""
+  command: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM user WHERE id = 1;\""
   register: user_id_check
   retries: 5
   delay: 10
@@ -52,7 +52,7 @@
     fail_msg: "Record with id=1 does not exist in the 'user' table."
 
 - name: Check if record with id=1 exists in 'auth' table
-  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM auth WHERE id = 1;\""
+  command: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"SELECT COUNT(*) FROM auth WHERE id = 1;\""
   register: auth_id_check
   retries: 5
   delay: 10
@@ -65,11 +65,11 @@
     fail_msg: "Record with id=1 does not exist in the 'auth' table."
 
 - name: Update email for record with id=1 in 'user' table
-  command: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE user SET email='admin@nodadyoushutup.com' WHERE id='1';\""
+  command: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"UPDATE user SET email='admin@nodadyoushutup.com' WHERE id='1';\""
   register: update_user_email
   changed_when: update_user_email.rc == 0
 
 - name: Update secret for record with id=1 in 'auth' table
-  shell: "mysql -h 192.168.1.101 -u npm -pnpm -D npm -e \"UPDATE auth SET secret='$(mkpasswd -m bcrypt \"password\")' WHERE id='1';\""
+  shell: "mysql -h {{ nginx_proxy_ip }} -u npm -pnpm -D npm -e \"UPDATE auth SET secret='$(mkpasswd -m bcrypt \"password\")' WHERE id='1';\""
   register: update_auth_secret
   changed_when: update_auth_secret.rc == 0
