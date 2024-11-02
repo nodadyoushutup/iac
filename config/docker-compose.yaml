@@ -48,7 +48,7 @@ services:
     ports:
       - ${NGINX_PROXY_MANAGER_PORT_HTTP}
       - ${NGINX_PROXY_MANAGER_PORT_HTTPS}
-      - ${NGINX_PROXY_MANAGER_PORTS_ADMIN}
+      - ${NGINX_PROXY_MANAGER_PORT_ADMIN}
     depends_on: 
       - mysql
   
