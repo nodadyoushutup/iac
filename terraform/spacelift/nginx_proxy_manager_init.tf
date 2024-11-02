@@ -46,3 +46,13 @@ resource "spacelift_context_attachment" "nginx_proxy_manager_init_ansible_contex
     stack_id   = spacelift_stack.nginx_proxy_manager_init_stack[count.index].id
     priority   = 0
 }
+
+resource "spacelift_stack_dependency" "nginx_proxy_manager_init_grafana_config_stack_dependency" {
+    count = local.env > 0 && local.config.spacelift.dependency_deploy.nginx_proxy_manager.init ? 1 : 0
+    depends_on = [
+        spacelift_stack.nginx_proxy_manager_init_stack, 
+        spacelift_stack.grafana_config_stack,
+    ]
+    stack_id = spacelift_stack.nginx_proxy_manager_init_stack[count.index].id
+    depends_on_stack_id = spacelift_stack.grafana_config_stack[count.index].id
+}
