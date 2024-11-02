@@ -1,14 +1,13 @@
 #!/bin/bash
 
 export $(cat /.env | tr '\0' '\n' | grep -E '^NGINX_PROXY_MANAGER' | xargs)
-
 FLAG_FILE="/tmp/custom-init-done"
 RETRIES=18
 DELAY=10
 MYSQL_CONNECTED=false
 
 log() {
-    echo "[$(date '+%m/%d/%Y')] [$(date '+%-I:%M:%S %p')] [Init     ] › ℹ  info      $1"
+    echo "[$(date '+%-m/%-d/%Y')] [$(date '+%-I:%M:%S %p')] [Init     ] › ℹ  info      $1"
 }
 
 check_mysql_connectivity() {
@@ -19,7 +18,7 @@ check_mysql_connectivity() {
             log "MySQL connectivity established."
             return 0
         else
-            log "Attempt $i/$RETRIES: MySQL not reachable. Retrying in $DELAY seconds..."
+            log "Attempt $i/$RETRIES: MySQL not reachable. Retrying in $DELAY seconds... (host=${NGINX_PROXY_MANAGER_DB_HOST}, port=${NGINX_PROXY_MANAGER_DB_PORT}, user=${NGINX_PROXY_MANAGER_DB_USER}, password=${NGINX_PROXY_MANAGER_DB_PASSWORD})"
             sleep $DELAY
         fi
     done
@@ -59,7 +58,7 @@ check_id() {
     exit 1
 }
 
-# Main execution
+# MAIN EXECUTION
 
 # Check if the script has already run
 if [ -f "$FLAG_FILE" ]; then
@@ -74,6 +73,7 @@ check_mysql_connectivity
 if [ "$MYSQL_CONNECTED" = true ]; then
     check_table "user"
     check_id "user"
+
     check_table "auth"
     check_id "auth"
 
@@ -83,7 +83,7 @@ if [ "$MYSQL_CONNECTED" = true ]; then
     mysql -h "${NGINX_PROXY_MANAGER_DB_HOST}" -P "${NGINX_PROXY_MANAGER_DB_PORT}" -u "${NGINX_PROXY_MANAGER_DB_USER}" -p"${NGINX_PROXY_MANAGER_DB_PASSWORD}" -D "$NGINX_PROXY_MANAGER_DB_NAME" -e "UPDATE user SET nickname='$NGINX_PROXY_MANAGER_AUTH_NICKNAME' WHERE id='1';"
 
     # Generate bcrypt hash and update it
-    SECRET=$(mkpasswd -m bcrypt "$NGINX_PROXY_MANAGER_PASSWORD")
+    SECRET=$(mkpasswd -m bcrypt "$NGINX_PROXY_MANAGER_AUTH_PASSWORD")
     mysql -h "${NGINX_PROXY_MANAGER_DB_HOST}" -P "${NGINX_PROXY_MANAGER_DB_PORT}" -u "${NGINX_PROXY_MANAGER_DB_USER}" -p"${NGINX_PROXY_MANAGER_DB_PASSWORD}" -D "$NGINX_PROXY_MANAGER_DB_NAME" -e "UPDATE auth SET secret='$SECRET' WHERE id='1';"
 
     log "Successfully initialized admin credentials from environment"

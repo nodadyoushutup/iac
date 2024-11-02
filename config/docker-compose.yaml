@@ -41,14 +41,14 @@ services:
       DB_MYSQL_USER: ${NGINX_PROXY_MANAGER_DB_USER}
       DB_MYSQL_PASSWORD: ${NGINX_PROXY_MANAGER_DB_PASSWORD}
     volumes:
-      - ${NPM_DATA}:/data
-      - ${NPM_LETS_ENCRYPT}:/etc/letsencrypt
+      - ${NGINX_PROXY_MANAGER_DATA}:/data
+      - ${NGINX_PROXY_MANAGER_LETS_ENCRYPT}:/etc/letsencrypt
       - ./.env:/.env
       - ./npm_auth_fix.sh:/etc/services.d/custom-init/run:x
     ports:
-      - ${NPM_PORT_HTTP}
-      - ${NPM_PORT_HTTPS}
-      - ${NPM_PORT_ADMIN}
+      - ${NGINX_PROXY_MANAGER_PORTS_HTTP}
+      - ${NGINX_PROXY_MANAGER_PORTS_HTTPS}
+      - ${NGINX_PROXY_MANAGER_PORTS_ADMIN}
     depends_on: 
       - mysql
   
