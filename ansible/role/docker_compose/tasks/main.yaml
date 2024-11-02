@@ -7,6 +7,10 @@
     group: "{{ ansible_user }}"
     mode: '0644'
 
+- name: Debug config variable
+  debug:
+    var: config
+
 - name: Copy docker.env to the ansible user's home
   template:
     src: .env.j2
