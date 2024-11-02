@@ -7,8 +7,8 @@
       Content-Type: "application/json"
     body_format: json
     body:
-      identity: {{ config.docker.nginx_proxy_manager.auth.email }}
-      secret: {{ config.docker.nginx_proxy_manager.auth.password }}
+      identity: "{{ config.docker.nginx_proxy_manager.auth.email }}"
+      secret: "{{ config.docker.nginx_proxy_manager.auth.password }}"
     return_content: yes
   register: token_response
 
