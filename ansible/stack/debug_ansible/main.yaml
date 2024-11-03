@@ -34,6 +34,10 @@
           include_role:
             name: ../../role/fstab/copy
 
+        - name: Debug variable
+          ansible.builtin.debug:
+            var: "{{ config.virtual_machine.fstab }}"
+
         - name: Add fstab entry directories
           include_role:
             name: ../../role/fstab/entry
