@@ -1,4 +1,0 @@
-dir_init_required: >
-  (dest_stat[item.dest].stat.exists is not defined or not dest_stat[item.dest].stat.exists) or
-  (dest_stat[item.dest].stat.mode != "0755" or dest_stat[item.dest].stat.uid != ansible_user_id or
-    dest_stat[item.dest].stat.gid != ansible_user_gid)
