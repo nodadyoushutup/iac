@@ -5,14 +5,14 @@
   become: true 
 
 - name: Unmount existing mount point if it exists or permissions are incorrect
-  command: "umount {{ dest_path }}" 
+  command: "umount {{ fstab_entry.dest }}" 
   when: not dir_stat.stat.exists or not dir_stat.stat.mode == '0755' 
   ignore_errors: true 
   become: true 
 
 - name: Create destination directory with correct permissions
   file: 
-    path: "{{ dest_path }}" 
+    path: "{{ fstab_entry.dest }}" 
     state: directory 
     owner: "{{ ansible_user }}" 
     group: "{{ ansible_user }}" 
