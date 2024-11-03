@@ -32,7 +32,7 @@
       block:
         - name: Loop over NPM Certificate and Proxy Host Setup
           include_role:
-            name: ../../role/nginx_proxy_manager_host
+            name: ../../role/nginx_proxy_manager/add_host
           loop: "{{ config.docker.nginx_proxy_manager.proxy_host }}"
           loop_control:
             loop_var: host_config

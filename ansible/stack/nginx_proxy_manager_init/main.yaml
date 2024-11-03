@@ -32,7 +32,7 @@
       block:
         - name: Copy Nginx Proxy Manager auth fix script
           include_role:
-            name: ../../role/copy_template/nginx_proxy_manager_auth
+            name: ../../role/nginx_proxy_manager/auth
             
         - name: Restart Docker Compose Managed Services
           include_role:
