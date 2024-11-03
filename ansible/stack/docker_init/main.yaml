@@ -26,13 +26,13 @@
 
     - name: Ping VM
       include_role:
-        name: ../../role/vm_ping
+        name: ../../role/virtual_machine/ping
 
     - name: Docker Setup and Service Management
       block:
         - name: VM Initialization Tasks
           include_role:
-            name: ../../role/vm_init
+            name: ../../role/virtual_machine/init
 
         - name: Migrate Prometheus configuration
           include_role:
@@ -45,4 +45,4 @@
         - name: Install or Update Docker
           include_role:
             name: ../../role/docker/install
-      when: vm_ping == true
+      when: virtual_machine/ping == true

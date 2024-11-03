@@ -26,7 +26,7 @@
 
     - name: Ping VM
       include_role:
-        name: ../../role/vm_ping
+        name: ../../role/virtual_machine/ping
 
     - name: Initialize Nginx Proxy Manager
       block:
@@ -36,4 +36,4 @@
           loop: "{{ config.docker.nginx_proxy_manager.proxy_host }}"
           loop_control:
             loop_var: host_config
-      when: vm_ping == true
+      when: virtual_machine/ping == true
