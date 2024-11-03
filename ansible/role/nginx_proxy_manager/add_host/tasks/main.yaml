@@ -65,7 +65,7 @@
     certificate_id: "{{ create_cert_response.json.id }}"
   when: certificate_id is false
 
-- name: Check if proxy host exists for domain
+- name: Get proxy hosts
   uri:
     url: "{{ config.docker.nginx_proxy_manager.auth.protocol }}://{{ config.docker.nginx_proxy_manager.database.host }}:{{ config.docker.nginx_proxy_manager.auth.port }}/api/nginx/proxy-hosts"
     method: GET
