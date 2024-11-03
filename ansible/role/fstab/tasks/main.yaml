@@ -9,6 +9,12 @@
     mode: '0644'
   become: true
 
+- name: Unmount existing mount points
+  command: "umount {{ item.dest }}"
+  ignore_errors: true
+  loop: "{{ config.virtual_machine.fstab }}"
+  become: true
+
 - name: Create destination directories
   file:
     path: "{{ item.dest }}"
