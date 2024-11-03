@@ -1,3 +1,4 @@
+# role/virtual_machine/init
 ---
 - name: Add user to sudo group
   user:

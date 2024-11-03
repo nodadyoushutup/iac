@@ -1,3 +1,4 @@
+# role/fstab
 ---
 - name: Copy fstab to the remote machine
   template:
@@ -6,6 +7,7 @@
     owner: root
     group: root
     mode: '0644'
+  become: true
 
 - name: Create destination directories
   file:
@@ -15,6 +17,8 @@
     group: "{{ ansible_user }}"
     mode: '0755'
   loop: "{{ config.virtual_machine.fstab }}"
+  become: true
 
 - name: Mount all filesystems in /etc/fstab
   command: mount -a
+  become: true
