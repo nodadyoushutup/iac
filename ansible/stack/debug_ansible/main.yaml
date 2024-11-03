@@ -1,5 +1,5 @@
 ---
-# debug_ansible.
+# debug_ansible
 - name: Add Docker Hosts
   hosts: localhost
   gather_facts: no
@@ -33,10 +33,6 @@
         - name: Copy fstab
           include_role:
             name: ../../role/fstab/copy
-
-        - name: Debug variable
-          ansible.builtin.debug:
-            var: "{{ config.virtual_machine.fstab }}"
 
         - name: Add fstab entry directories
           include_role:
