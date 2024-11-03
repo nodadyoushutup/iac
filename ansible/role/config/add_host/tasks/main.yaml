@@ -2,8 +2,8 @@
 - name: Add host from config
   add_host:
     name: "{{ key }}"
-    ansible_host: "{{ config.virtual_machine[key].ansible.host }}"
-    ansible_port: "{{ config.virtual_machine[key].ansible.port }}"
+    ansible_host: "{{ config[key].ansible.host }}"
+    ansible_port: "{{ config[key].ansible.port }}"
     groups: "{{ key }}"
   delegate_to: localhost
   run_once: true
