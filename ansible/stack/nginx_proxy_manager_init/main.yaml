@@ -30,9 +30,9 @@
 
     - name: Initialize Nginx Proxy Manager
       block:
-        - name: Migrate Nginx Proxy Manager auth fix script
+        - name: Copy Nginx Proxy Manager auth fix script
           include_role:
-            name: ../../role/nginx_proxy_manager_auth
+            name: ../../role/copy_template/nginx_proxy_manager_auth
             
         - name: Restart Docker Compose Managed Services
           include_role:
