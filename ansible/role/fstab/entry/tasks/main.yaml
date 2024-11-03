@@ -1,15 +1,4 @@
-- name: Debug variable
-  ansible.builtin.debug:
-    var: fstab_entry
-
-- name: List files
-  command: "ls -la /mnt" 
-  become: true 
-
-- name: List files
-  command: "ls -la /mnt/epool" 
-  become: true 
-    
+---
 - name: Check if destination directory exists and has correct permissions
   stat: 
     path: "{{ fstab_entry.dest }}" 
