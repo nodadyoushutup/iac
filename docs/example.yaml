@@ -38,7 +38,7 @@
 ---
 ### Multiple Host Add
 - name: Add docker hosts from config
-  host_add:
+  add_host:
     name: "{{ item.host }}:{{ item.port }}"
     ansible_host: "{{ item.host }}"
     ansible_port: "{{ item.port }}"
