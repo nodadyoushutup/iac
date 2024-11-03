@@ -5,7 +5,7 @@
   become: true 
 
 - name: Unmount existing mount point if it exists or permissions are incorrect
-  command: "umount {{ fstab_entry.dest }}" 
+  command: "umount -l {{ fstab_entry.dest }}" 
   when: not dir_stat.stat.exists or not dir_stat.stat.mode == '0755' 
   ignore_errors: true 
   become: true 
