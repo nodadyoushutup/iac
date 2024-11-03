@@ -38,9 +38,9 @@
           include_role:
             name: ../../role/prometheus
 
-        - name: Migrate Nginx Proxy Manager auth fix script
+        - name: Copy Nginx Proxy Manager auth fix script
           include_role:
-            name: ../../role/nginx_proxy_manager/nginx_proxy_manager_auth
+            name: ../../role/nginx_proxy_manager/auth
 
         - name: Install or Update Docker
           include_role:
