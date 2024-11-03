@@ -19,24 +19,24 @@
   ansible.builtin.debug:
     var: stat_result
 
-# - block:
-#   - name: Unmount existing mount points
-#     command: "umount {{ item.dest }}"
-#     ignore_errors: true
-#     loop: "{{ config.virtual_machine.fstab }}"
-#     become: true
+- block:
+  - name: Unmount existing mount points
+    command: "umount {{ item.dest }}"
+    ignore_errors: true
+    loop: "{{ config.virtual_machine.fstab }}"
+    become: true
 
-#   - name: Create destination directories
-#     file:
-#       path: "{{ item.dest }}"
-#       state: directory
-#       owner: "{{ ansible_user }}"
-#       group: "{{ ansible_user }}"
-#       mode: '0755'
-#     loop: "{{ config.virtual_machine.fstab }}"
-#     become: true
-#   when: stat_result.stat.exists == true and stat_result.stat.mode != '0755'
+  - name: Create destination directories
+    file:
+      path: "{{ item.dest }}"
+      state: directory
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: '0755'
+    loop: "{{ config.virtual_machine.fstab }}"
+    become: true
+  when: not stat_result.stat.exists == true and not stat_result.stat.mode != '0755'
 
-# - name: Mount all filesystems in /etc/fstab
-#   command: mount -a
-#   become: true
+- name: Mount all filesystems in /etc/fstab
+  command: mount -a
+  become: true
