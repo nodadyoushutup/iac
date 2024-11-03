@@ -6,7 +6,7 @@
 
 - name: Unmount existing mount point if it exists or permissions are incorrect
   command: "umount {{ dest_path }}" 
-  when: not dir_stat.stat.exists and not dir_stat.stat.mode == '0755' 
+  when: not dir_stat.stat.exists or not dir_stat.stat.mode == '0755' 
   ignore_errors: true 
   become: true 
 
@@ -17,7 +17,7 @@
     owner: "{{ ansible_user }}" 
     group: "{{ ansible_user }}" 
     mode: '0755' 
-  when: not dir_stat.stat.exists and not dir_stat.stat.mode == '0755' 
+  when: not dir_stat.stat.exists or not dir_stat.stat.mode == '0755' 
   become: true 
 
 - name: Mount all filesystems in /etc/fstab 
