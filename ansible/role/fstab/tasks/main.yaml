@@ -9,21 +9,31 @@
     mode: '0644'
   become: true
 
-- name: Unmount existing mount points
-  command: "umount {{ item.dest }}"
-  ignore_errors: true
-  loop: "{{ config.virtual_machine.fstab }}"
-  become: true
+- name: Ensure destination directories exist with correct permissions
+  block:
+    - name: Unmount existing mount points
+      command: "umount {{ item.dest }}"
+      ignore_errors: true
+      become: true
 
-- name: Create destination directories
-  file:
-    path: "{{ item.dest }}"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0755'
+    - name: Create destination directory with correct ownership
+      file:
+        path: "{{ item.dest }}"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+      become: true
   loop: "{{ config.virtual_machine.fstab }}"
-  become: true
+  when: >
+    (ansible_stat_result[item.dest] is not defined or not ansible_stat_result[item.dest].exists) or
+    (ansible_stat_result[item.dest].mode != "0755" or
+     ansible_stat_result[item.dest].uid != ansible_user_id or
+     ansible_stat_result[item.dest].gid != ansible_user_gid)
+  vars:
+    ansible_stat_result: "{{ lookup('ansible.builtin.stat', item.dest, wantlist=True, follow=True) | list | items2dict }}"
+    ansible_user_id: "{{ (lookup('ansible.builtin.user', ansible_user) | default(lookup('env', 'UID')) | int) }}"
+    ansible_user_gid: "{{ (lookup('ansible.builtin.group', ansible_user) | default(lookup('env', 'GID')) | int) }}"
 
 - name: Mount all filesystems in /etc/fstab
   command: mount -a
