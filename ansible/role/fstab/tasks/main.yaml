@@ -9,4 +9,3 @@
 
 - name: Mount all filesystems in /etc/fstab
   command: mount -a
-  when: ansible_facts['os_family'] == "Linux"

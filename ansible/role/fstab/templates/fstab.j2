@@ -1,6 +1,6 @@
 LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
 LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
 
-{% for mount in virtual_machine.fstab %}
+{% for mount in config.virtual_machine.fstab %}
 {{ mount.host }}:{{ mount.src }} {{ mount.dest }} {{ mount.opt }}
 {% endfor %}
