@@ -1,23 +1,29 @@
 ---
+# Find and replace all instances of <public_ip> with your public IPv4 address (ex: 111.222.333.444)
+# Find and replace all instances of <user@realm> with your public Proxmox user and realm (ex: root@pve)
+# Find and replace all instances of <password> with your password
+# Find and replace all instances of <domain> with your domain name (ex: nodadyoushutup.com)
+
 spacelift:
   private_key: /mnt/workspace/id_rsa
   dependency_deploy:
     docker:
-      infra: true
-      init: true
+      infra: false
+      init: false
     collector:
-      init: true
+      init: false
     grafana:
-      init: true
-      config: true
+      init: false
+      config: false
     nginx_proxy_manager:
-      init: true
+      init: false
+      config: false
   provider:
     proxmox:
       endpoint: https://<public_ip>:1086
       insecure: true
-      username: root@pve
-      password: 
+      username: <user@realm>
+      password: "<password>"
       ssh:
         node:
           address: <public_ip>
@@ -35,13 +41,13 @@ spacelift:
       hostname: <public_ip>:7014
       insecure: true
       username: admin
-      password: 
+      password: "<password>"
     postgres:
       host: <public_ip>:5432
       port: 5432
       database: postgres
       username: postgres
-      password: 
+      password: "<password>"
       sslmode: disable
       connect_timeout: 15
       clientcert:
@@ -64,7 +70,7 @@ ansible:
     pipelining: true
 gitconfig:
   user: nodadyoushutup
-  email: admin@nodadyoushutup.com
+  email: admin@<domain>
 prometheus:
   targets:
     - job_name: prometheus
@@ -75,9 +81,10 @@ prometheus:
       hostname: 192.168.1.101:8080
 docker:
   compose: /mnt/workspace/source/config/docker-compose.yaml
+  sock: /var/run/docker.sock
   postgres:
     user: postgres
-    password: 
+    password: "<password>"
     db: postgres
     port: 5432:5432
     data: ./postgres
@@ -87,12 +94,78 @@ docker:
     port: 3001:3001
     data: ./uptime-kuma
   nginx_proxy_manager:
+    auth:
+      username: Administrator
+      nickname: Admin
+      email: admin@<domain>
+      password: "<password>"
+      protocol: http
+      port: 81
+    database:
+      name: npm
+      user: npm
+      password: npm
+      host: "192.168.1.101"
+      port: 3306
     port:
       http: 80:80
       https: 443:443
       admin: 81:81
     data: ./nginx-proxy-manager
     lets_encrypt: ./letsencrypt
+    proxy_host:
+      - domain_names: ["<domain>", "www.<domain>", "overseerr.<domain>", "requests.<domain>"]
+        forward_scheme: http
+        forward_host: "192.168.1.100"
+        forward_port: 9055
+        ssl_forced: true
+        hsts_enabled: true
+        hsts_subdomains: true
+        http2_support: true
+        block_exploits: true
+        caching_enabled: false
+        allow_websocket_upgrade: true
+        access_list_id: 0
+        enabled: true
+      - domain_names: ["tautulli.<domain>"]
+        forward_scheme: http
+        forward_host: "192.168.1.100"
+        forward_port: 9181
+        ssl_forced: true
+        hsts_enabled: true
+        hsts_subdomains: true
+        http2_support: true
+        block_exploits: true
+        caching_enabled: false
+        allow_websocket_upgrade: true
+        access_list_id: 0
+        enabled: true
+      - domain_names: ["grafana.<domain>"]
+        forward_scheme: http
+        forward_host: "192.168.1.101"
+        forward_port: 3000
+        ssl_forced: true
+        hsts_enabled: true
+        hsts_subdomains: true
+        http2_support: true
+        block_exploits: true
+        caching_enabled: false
+        allow_websocket_upgrade: true
+        access_list_id: 0
+        enabled: true
+      - domain_names: ["plex.<domain>"]
+        forward_scheme: http
+        forward_host: "192.168.1.100"
+        forward_port: 32400
+        ssl_forced: true
+        hsts_enabled: true
+        hsts_subdomains: true
+        http2_support: true
+        block_exploits: true
+        caching_enabled: false
+        allow_websocket_upgrade: true
+        access_list_id: 0
+        enabled: true
   node_exporter:
     port: 9100:9100
   cadvisor:
@@ -115,7 +188,6 @@ docker:
       disable:
         signout_menu: false
         login_form: false
-  docker_sock: /var/run/docker.sock
   exportarr:
     sonarr:
       api_key: 950bfb57c2cc49c5b2e1e74fab3c5400
@@ -147,9 +219,7 @@ docker:
 virtual_machine:
   username: ubuntu
   password: ubuntu
-  keys:
-    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCgZOVI9Sgx6OlHbV3HobrJwodrDl6B7mqXzk8tP565mi1qtHDC89bkrD+ZB3Z2jbfg6H8buipV1NH6nnpBNMKedM9YRcDJvEj9NqPBdEvEQ7+pz7rTia6nNjQA/kACvyCJiiRm9xY3UXz94eVtfRJNxhedkg7A+MeJI8cmraRkFQ0Y+D9fvTHlo8xzNcY8Qg5ONOA/RcN/CfKR2RZntxuKd4VkeaUEqzJQpWOhAD12UWR6puEbxSj0KtWROtmGiXaLvaZ0t8bhjpc3a3hDQdCaCtdNeHPG9mbuZymCvvM/Hvg+Jq/bkuRgjPE+O5xC5QsUlBf32JdqatklT9z6trxZSkbyJvHSxtVzyEKMWB+sUJZTnV0c+dKybvXdT87cpl80O5BnsPbIZ2UIu21dY8ngice/rgT/bmYNvbw0ibfTfyfkY977NRUG6OUxoL/aBqTDAdOSS3fEWeM7TyO/rTk142f2GdqHWzozksVgxRu/ZjtmqahIXQrduNFF4kYs+WE= jacob@Desktop
-    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDa2MnucD8mQ9Ck/wRYJ3Urm7QdaZgz6sj3+wLTx82cRkzXIjMQ54ftkCJXsX+QAY+2aiJSW6bglbhC/lX5iHbcVusY4993dK+gYMwpFOpI+laqLhShdsp2nTA1hl7lNM3BsbzuWG7IYQlU96KS3RGCsYNfa9WaxFpZxScYHbWvhb1l36ZfesAJ3kiO8duLBW3Uq/WgB9GhGI0lbLOzSVsYDPmtxSwisSLw1U0sCqgEIU3I9QckvuDkRid1LnmG/et4PEMdSnER1r2T94A6m87Bgug+eEnlrQFNzQ16WAK+apBDuvFGdYY5fwXy0lIzTz2ttj7enxuvAsL1/xRAGr7fx7XvcKkxzJ4n6kZmVuk3/SQMseEqfTKXbBO9QCDdVW089r+qdz94CAxy3MzP5L5Eul7Hf5kR25RF0cXh76YK6Xg85imf6rISjhFMHC5TLJnjA4kPeXVJNF9JfmZCH1SH/uL/Z6ls0a8svt82G9LV2tmr6RqDtPCIHHd7uxtPVh5wH5zybYQGAIfvn2FqXCjK5GT1mOBR24AmC5jt+nLGYGJdovu0fmLBHoVOZ0X6TOYqNd159cLRL7B8MVKtkmbyEmByn139/BVDE892CNRHMKkAplA/x/8lrZHSA6QaOVjgmxFxFERGqOtpnXAXkhDNn0UgCrTlUFPegUZQwodhOw== root@pve
+  keys: []
   datastore_id:
     iso: local
     cloud_config: local
@@ -177,5 +247,3 @@ virtual_machine:
     ansible:
       host: <public_ip>
       port: 10122
-    
-  
