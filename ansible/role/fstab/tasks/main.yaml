@@ -1,4 +1,3 @@
-# role/fstab
 ---
 - name: Copy fstab to the remote machine
   template:
@@ -9,29 +8,30 @@
     mode: '0644'
   become: true
 
-- name: Unmount existing mount points
-  command: "umount {{ item.dest }}"
-  ignore_errors: true
-  loop: "{{ config.virtual_machine.fstab }}"
-  become: true
-  when: >
-    (dest_stat[item.dest].stat.exists is not defined or not dest_stat[item.dest].stat.exists) or
-    (dest_stat[item.dest].stat.mode != "0755" or dest_stat[item.dest].stat.uid != ansible_user_id or
-      dest_stat[item.dest].stat.gid != ansible_user_gid)
-
-- name: Create destination directories
-  file:
+- name: Check if destination directories exist
+  stat:
     path: "{{ item.dest }}"
-    state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: '0755'
+  register: stat_result
   loop: "{{ config.virtual_machine.fstab }}"
   become: true
-  when: >
-    (dest_stat[item.dest].stat.exists is not defined or not dest_stat[item.dest].stat.exists) or
-    (dest_stat[item.dest].stat.mode != "0755" or dest_stat[item.dest].stat.uid != ansible_user_id or
-      dest_stat[item.dest].stat.gid != ansible_user_gid)
+
+- block:
+  - name: Unmount existing mount points
+    command: "umount {{ item.dest }}"
+    ignore_errors: true
+    loop: "{{ config.virtual_machine.fstab }}"
+    become: true
+
+  - name: Create destination directories
+    file:
+      path: "{{ item.dest }}"
+      state: directory
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+      mode: '0755'
+    loop: "{{ config.virtual_machine.fstab }}"
+    become: true
+  when: stat_result.stat.exists == true and stat_result.stat.mode != '0755'
 
 - name: Mount all filesystems in /etc/fstab
   command: mount -a
