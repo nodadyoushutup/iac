@@ -1,1 +1,45 @@
 ---
+---
+# docker_init
+- name: Add Docker Hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: ../../role/config/load
+
+    - name: Add Host from Config
+      include_role:
+        name: ../../role/config/add_host
+      vars:
+        key: docker
+
+- name: Debug
+  hosts: docker
+  gather_facts: no
+  become: true
+  check_mode: no
+  tasks:
+    - name: Load Configuration
+      include_role:
+        name: ../../role/config/load
+
+    - name: Ping VM
+      include_role:
+        name: ../../role/virtual_machine/ping
+
+    - name: Docker Setup and Service Management
+      block:
+        - name: Copy fstab
+          include_role:
+            name: ../../role/fstab/copy
+
+        - name: Add fstab entry directories
+          include_role:
+            name: ../../role/fstab/entry
+          loop: "{{ config.virtual_machine.fstab }}"
+          loop_control:
+            loop_var: fstab_entry
+            
+      when: virtual_machine_ping == true
