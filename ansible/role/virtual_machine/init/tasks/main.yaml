@@ -8,7 +8,14 @@
 
 - name: Copy fstab
   include_role:
-    name: ../../role/fstab
+    name: ../../role/fstab/copy
+
+- name: Add fstab entry directories
+  include_role:
+    name: ../../role/fstab/entry
+  loop: "{{ config.virtual_machine.fstab }}"
+  loop_control:
+    loop_var: fstab_entry
 
 - name: Copy .gitconfig
   include_role:
