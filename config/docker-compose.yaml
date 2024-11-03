@@ -44,7 +44,7 @@ services:
       - ${NGINX_PROXY_MANAGER_DATA}:/data
       - ${NGINX_PROXY_MANAGER_LETS_ENCRYPT}:/etc/letsencrypt
       - ./.env:/.env
-      - ./npm_auth_fix.sh:/etc/services.d/custom-init/run:x
+      - ./nginx_proxy_manager_auth.sh:/etc/services.d/custom-init/run:x
     ports:
       - ${NGINX_PROXY_MANAGER_PORT_HTTP}
       - ${NGINX_PROXY_MANAGER_PORT_HTTPS}
