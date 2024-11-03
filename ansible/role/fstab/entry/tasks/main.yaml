@@ -1,3 +1,7 @@
+- name: Debug a specific variable
+  ansible.builtin.debug:
+    var: "{{ fstab_entry }}"
+    
 - name: Check if destination directory exists and has correct permissions
   stat: 
     path: "{{ fstab_entry.dest }}" 
