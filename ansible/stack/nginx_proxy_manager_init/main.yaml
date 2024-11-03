@@ -42,4 +42,4 @@
             run_up: true
             up_services: "mysql nginx-proxy-manager"
             down_services: "mysql nginx-proxy-manager"
-      when: virtual_machine/ping == true
+      when: virtual_machine_ping == true

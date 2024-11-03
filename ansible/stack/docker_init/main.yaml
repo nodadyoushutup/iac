@@ -45,4 +45,4 @@
         - name: Install or Update Docker
           include_role:
             name: ../../role/docker/install
-      when: virtual_machine/ping == true
+      when: virtual_machine_ping == true

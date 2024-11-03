@@ -38,4 +38,4 @@
             run_up: true
             up_services: "grafana prometheus"
             down_services: "grafana prometheus"
-      when: virtual_machine/ping == true
+      when: virtual_machine_ping == true

@@ -42,4 +42,4 @@
             run_up: true
             up_services: "prometheus cadvisor exportarr-radarr exportarr-sonarr exportarr-lidarr exportarr-prowlarr"
             down_services: "prometheus cadvisor exportarr-radarr exportarr-sonarr exportarr-lidarr exportarr-prowlarr"
-      when: virtual_machine/ping == true
+      when: virtual_machine_ping == true

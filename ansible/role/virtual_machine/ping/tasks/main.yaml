@@ -12,4 +12,4 @@
 
 - name: Define SSH Connectivity Status as a Fact
   set_fact:
-    virtual_machine/ping: "{{ nc_result.rc == 0 }}"
+    virtual_machine_ping: "{{ nc_result.rc == 0 }}"
