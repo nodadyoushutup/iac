@@ -34,9 +34,9 @@ resource "proxmox_virtual_environment_vm" "docker_vm" {
       }
     }
     user_account {
-      keys     = try(local.config.virtual_machine.keys, [])
-      password = try(local.config.virtual_machine.password, "ubuntu")
-      username = try(local.config.virtual_machine.username, "ubuntu")
+      keys     = try(local.config.virtual_machine.auth.keys, [])
+      password = try(local.config.virtual_machine.auth.password, "ubuntu")
+      username = try(local.config.virtual_machine.auth.username, "ubuntu")
     }
   }
   network_device {

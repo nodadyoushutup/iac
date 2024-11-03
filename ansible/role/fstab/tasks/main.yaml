@@ -1,0 +1,12 @@
+---
+- name: Copy fstab to the remote machine
+  template:
+    src: fstab.j2
+    dest: /etc/fstab
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Mount all filesystems in /etc/fstab
+  command: mount -a
+  when: ansible_facts['os_family'] == "Linux"

@@ -5,6 +5,10 @@
     groups: "sudo"
     append: yes
 
+- name: Copy fstab
+  include_role:
+    name: ../../role/fstab
+
 - name: Copy .gitconfig
   include_role:
     name: ../../role/gitconfig
