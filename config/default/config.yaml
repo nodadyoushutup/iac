@@ -8,16 +8,16 @@ spacelift:
   private_key: /mnt/workspace/id_rsa
   dependency_deploy:
     docker:
-      infra: false
-      init: false
+      infra: true
+      init: true
     collector:
-      init: false
+      init: true
     grafana:
-      init: false
-      config: false
+      init: true
+      config: true
     nginx_proxy_manager:
-      init: false
-      config: false
+      init: true
+      config: true
   provider:
     proxmox:
       endpoint: https://<public_ip>:1086
