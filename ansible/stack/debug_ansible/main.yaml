@@ -28,7 +28,7 @@
       include_role:
         name: ../../role/virtual_machine/ping
 
-    - name: Docker Setup and Service Management
+    - name: Debug
       block:
         - name: Init VM
           include_role:

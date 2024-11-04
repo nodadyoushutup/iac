@@ -13,7 +13,7 @@
 - name: Add fstab entry directories
   include_role:
     name: ../../role/fstab/entry
-  loop: "{{ config.virtual_machine.fstab }}"
+  loop: "{{ config.fstab }}"
   loop_control:
     loop_var: fstab_entry
 
