@@ -6,8 +6,8 @@
 - name: Add host from config
   add_host:
     name: "{{ key }}"
-    ansible_host: "{{ config[key].ansible.host }}"
-    ansible_port: "{{ config[key].ansible.port }}"
+    ansible_host: "{{ config[key].machine.host }}"
+    ansible_port: "{{ config[key].machine.port }}"
     groups: "{{ key }}"
   delegate_to: localhost
   run_once: true
