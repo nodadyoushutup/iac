@@ -1,7 +1,7 @@
 ---
 - name: Copy docker-compose.yaml to the ansible user's home
   copy:
-    src: "{{ config.docker.compose }}"
+    src: "{{ config.docker.machine.compose }}"
     dest: /home/{{ ansible_user }}/docker-compose.yaml
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"

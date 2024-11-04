@@ -80,8 +80,11 @@ prometheus:
     - job_name: cadvisor
       hostname: 192.168.1.101:8080
 docker:
-  compose: /mnt/workspace/source/config/docker-compose.yaml
-  sock: /var/run/docker.sock
+  machine:
+    host: <public_ip>
+    port: 10122
+    compose: /mnt/workspace/source/config/docker-compose.yaml
+    sock: /var/run/docker.sock
   postgres:
     user: postgres
     password: "<password>"
