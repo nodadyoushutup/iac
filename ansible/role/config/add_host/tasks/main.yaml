@@ -1,4 +1,8 @@
 ---
+- name: Debug
+  debug:
+    var: config[key]
+
 - name: Add host from config
   add_host:
     name: "{{ key }}"
