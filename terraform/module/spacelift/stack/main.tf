@@ -21,5 +21,5 @@
 
 
 output "output" {
-  value = try(local.config.spacelift.stack.repository)
+  value = try(var.repository, local.config.spacelift.stack.repository)
 }
