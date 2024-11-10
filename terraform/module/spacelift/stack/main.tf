@@ -19,6 +19,6 @@
 # }
 
 
-output "test" {
+output "output" {
   value = try(var.administrative, local.config.spacelift.stack.administrative, true)
 }
