@@ -146,10 +146,10 @@ variable "github_action_deploy" {
 
 variable "github_enterprise" {
   type = object({
-    provider = string
-    app_id   = string
+    namespace = string
+    id = optional(string)
   })
-  description = "GitHub Enterprise configuration"
+  description = "GitHub Enterprise"
   default     = null
 }
 
