@@ -20,6 +20,10 @@
 
 
 
-output "repository" {
+output "okokok" {
+  value = try(var.repository, local.config.spacelift.stack.repository, "iac")
+}
+
+output "okokok2" {
   value = try(var.repository, local.config.spacelift.stack.repository, "iac")
 }
