@@ -10,7 +10,7 @@ resource "spacelift_stack" "stack" {
     description = var.description
     labels = var.labels
     project_root = var.project_root
-    space_id = var.space_id
+    space_id = "root"
 
     # TERRAFORM
     terraform_version = var.terraform_version
