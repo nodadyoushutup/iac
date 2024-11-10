@@ -20,5 +20,9 @@
 
 
 output "output" {
-  value = try(var.administrative, local.config.spacelift.stack.administrative, true)
+  value = try(var.repository, local.config.spacelift.stack.repository, "iac")
+}
+
+output "hello" {
+  value = "hello"
 }
