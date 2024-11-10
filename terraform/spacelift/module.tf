@@ -7,4 +7,5 @@ module "test" {
     repository = "iac"
 
     administrative = true
+    space_id = "root"
 }
