@@ -6,6 +6,6 @@ module "test" {
     branch = "main"
     repository = "iac"
 
-    administrative = true
-    space_id = "root"
+    # administrative = true
+    # space_id = "root"
 }
