@@ -9,8 +9,7 @@ resource "random_id" "validate_env_trigger" {
 data "external" "validate_env" {
     program = [
         "python3",
-        "${path.module}/script/validate_config.py",
-        var.PRIVATE_KEY
+        "${path.module}/script/validate_config.py"
     ]
     query = { trigger = random_id.validate_env_trigger.hex }
     depends_on = [random_id.validate_env_trigger]
