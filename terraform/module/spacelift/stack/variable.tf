@@ -25,13 +25,13 @@ variable "repository" {
 variable "additional_project_globs" {
   type = list(string)
   description = "Additional project globs"
-  default = null
+  default = []
 }
 
 variable "administrative" {
   type = bool
   description = "Administrative"
-  default = null
+  default = true
 }
 
 variable "after_apply" {
