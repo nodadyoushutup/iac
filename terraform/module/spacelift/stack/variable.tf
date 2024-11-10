@@ -208,12 +208,6 @@ variable "space_id" {
   default = "null"
 }
 
-variable "space_id" {
-  type = string
-  description = "Space ID"
-  default = null
-}
-
 variable "terraform_external_state_access" {
   type = bool
   description = "Terraform external state access"
