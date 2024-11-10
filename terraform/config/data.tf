@@ -10,7 +10,7 @@ data "external" "validate_env" {
     program = [
         "python3",
         "${path.module}/script/validate_config.py",
-        local.config.spacelift.private_key
+        var.PRIVATE_KEY
     ]
     query = { trigger = random_id.validate_env_trigger.hex }
     depends_on = [random_id.validate_env_trigger]
