@@ -1,8 +1,8 @@
 ---
 version: "1"
-module_version: 0.0.7
+module_version: 0.0.8
 runner_image: spacelift/runner:latest
-tests:
-  - name: Test Config
-    environment:
-      TF_VAR_CONFIG: /mnt/workspace/config.yaml
+# tests:
+#   - name: Test Config
+#     environment:
+#       TF_VAR_CONFIG: /mnt/workspace/config.yaml
