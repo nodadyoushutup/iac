@@ -39,4 +39,13 @@ resource "spacelift_stack" "stack" {
     terraform_workflow_tool = var.terraform_workflow_tool
     terraform_workspace = var.terraform_workspace
     worker_pool_id = var.worker_pool_id
+
+    # Conditionally include GitHub Enterprise block
+    dynamic "github_enterprise" {
+        for_each = var.github_enterprise != null ? [var.github_enterprise] : []
+        content {
+            provider = github_enterprise.value.provider
+            app_id   = github_enterprise.value.app_id
+        }
+    }
 }

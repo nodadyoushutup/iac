@@ -144,7 +144,15 @@ variable "github_action_deploy" {
   default = true
 }
 
-# github_enterprise
+variable "github_enterprise" {
+  type = object({
+    provider = string
+    app_id   = string
+  })
+  description = "GitHub Enterprise configuration"
+  default     = null
+}
+
 # gitlab
 
 variable "import_state" {
