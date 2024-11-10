@@ -25,7 +25,7 @@ variable "repository" {
 variable "additional_project_globs" {
   type = list(string)
   description = "Additional project globs"
-  default = []
+  default = null
 }
 
 variable "administrative" {
@@ -205,7 +205,7 @@ variable "slug" {
 variable "space_id" {
   type = string
   description = "Space ID"
-  default = null
+  default = "root"
 }
 
 variable "terraform_external_state_access" {
