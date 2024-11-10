@@ -61,3 +61,15 @@ resource "spacelift_context_attachment" "config_context_attachment" {
     stack_id   = spacelift_stack.stack.id
     priority   = 0
 }
+
+resource "spacelift_context_attachment" "terraform_context_attachment" {
+    context_id = data.spacelift_context.terraform.id
+    stack_id   = spacelift_stack.stack.id
+    priority   = 0
+}
+
+resource "spacelift_context_attachment" "ansible_context_attachment" {
+    context_id = data.spacelift_context.ansible.id
+    stack_id   = spacelift_stack.stack.id
+    priority   = 0
+}
