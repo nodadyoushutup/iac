@@ -63,6 +63,7 @@ resource "spacelift_context_attachment" "config_context_attachment" {
 }
 
 resource "spacelift_context_attachment" "terraform_context_attachment" {
+    count = var.ansible != null && var.terraform_version == null ? 1 : 0
     context_id = data.spacelift_context.terraform.id
     stack_id   = spacelift_stack.stack.id
     priority   = 0
