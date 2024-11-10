@@ -3,6 +3,7 @@ resource "spacelift_stack" "stack" {
     branch = "main"
     name = "stack"
     repository = "iac"
+    space_id = "root"
 
     # OPTIONAL
     administrative = true
