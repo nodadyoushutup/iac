@@ -1,4 +1,4 @@
-resource "spacelift_module" "spacelift_stack_terraform" {
+resource "spacelift_module" "module_stack" {
     # REQUIRED
     branch = "main"
     repository = "iac"
@@ -8,7 +8,7 @@ resource "spacelift_module" "spacelift_stack_terraform" {
     description = "Spacelift Terraform stack"
     enable_local_preview = false
     labels = ["spacelift", "infra", "terraform"]
-    name = "stack-terraform"
+    name = "stack"
     project_root = "terraform/module/stack/terraform"
     public = true
     shared_accounts = null
@@ -17,14 +17,14 @@ resource "spacelift_module" "spacelift_stack_terraform" {
     workflow_tool = "TERRAFORM_FOSS"
 }
 
-resource "spacelift_stack" "module_spacelift_stack_stack" {
-    depends_on = [spacelift_module.spacelift_stack_terraform]
+resource "spacelift_stack" "module_stack_stack" {
+    depends_on = [spacelift_module.module_stack]
     administrative = true
     autodeploy = true
     branch = "main"
     description = "Module spacelift stack"
     name = "module_spacelift_stack"
-    project_root = "terraform/module/stack/terraform"
+    project_root = "terraform/module/stack"
     repository = "iac"
     terraform_version = "1.5.7"
     labels = ["module"]
