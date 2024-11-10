@@ -1,6 +1,6 @@
 resource "spacelift_stack" "stack" {
     # REQUIRED
-    branch = try(local.config.spacelift.stack.branch)
+    branch = try(var.branch, local.config.spacelift.stack.branch)
     name = "stack"
     repository = "iac"
 
