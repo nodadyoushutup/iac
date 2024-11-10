@@ -36,7 +36,7 @@ resource "spacelift_stack" "stack" {
     terraform_external_state_access    = var.terraform_external_state_access
     terraform_smart_sanitization       = var.terraform_smart_sanitization
     terraform_version                  = var.terraform_version != null && var.ansible == null ? var.terraform_version : null
-    terraform_workflow_tool            = var.terraform_workflow_tool
+    terraform_workflow_tool            = var.ansible == null ? var.terraform_workflow_tool : null
     terraform_workspace                = var.terraform_workspace
     worker_pool_id                     = var.worker_pool_id
 
