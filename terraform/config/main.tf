@@ -1,10 +1,11 @@
-# main
+# CONTEXT
 resource "spacelift_context" "config" {
     description = "Configuration"
     name = "config"
     space_id = "root"
 }
 
+#CONTEXT ATTACHMENT
 resource "spacelift_context_attachment" "config_config" {
     depends_on = [spacelift_context.config]
     context_id = spacelift_context.config.id
@@ -12,6 +13,7 @@ resource "spacelift_context_attachment" "config_config" {
     priority   = 0
 }
 
+# ENVIRONMENT VARIABLE
 resource "spacelift_environment_variable" "env_branch" { 
     depends_on = [spacelift_context_attachment.config_config]
     context_id  = spacelift_context.config.id
@@ -48,24 +50,22 @@ resource "spacelift_environment_variable" "config_path" {
     description = "IaC configuration path"
 }
 
+# MOUNTED FILE
+resource "spacelift_mounted_file" "config_mounted_file" {
+    depends_on = [spacelift_context_attachment.config_config]
+    context_id = spacelift_context.config.id
+    relative_path = "config.yaml"
+    content = local.base64.config
+    write_only = false
+}
 
-
-
-# resource "spacelift_mounted_file" "config_mounted_file" {
-#     depends_on = [spacelift_context_attachment.config_config]
-#     context_id = spacelift_context.config.id
-#     relative_path = "config.yaml"
-#     content = local.base64.config
-#     write_only = false
-# }
-
-# resource "spacelift_mounted_file" "private_keymounted_file" {
-#     depends_on = [spacelift_context_attachment.config_config]
-#     context_id = spacelift_context.config.id
-#     relative_path = "id_rsa"
-#     content = local.base64.private_key
-#     write_only = true
-# }
+resource "spacelift_mounted_file" "private_keymounted_file" {
+    depends_on = [spacelift_context_attachment.config_config]
+    context_id = spacelift_context.config.id
+    relative_path = "id_rsa"
+    content = local.base64.private_key
+    write_only = true
+}
 
 # resource "spacelift_stack" "module" {
 #     count = var.ENV_BRANCH != null && var.ENV_REPOSITORY != null ? 1 : 0
