@@ -198,7 +198,7 @@ variable "runner_image" {
 variable "slug" {
   type = string
   description = "Slug"
-  default = "null"
+  default = null
 }
 
 variable "space_id" {
