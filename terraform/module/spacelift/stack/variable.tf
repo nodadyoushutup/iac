@@ -205,7 +205,7 @@ variable "slug" {
 variable "space_id" {
   type = string
   description = "Space ID"
-  default = "null"
+  default = null
 }
 
 variable "terraform_external_state_access" {
