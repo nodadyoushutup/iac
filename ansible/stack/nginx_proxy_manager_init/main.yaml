@@ -1,5 +1,5 @@
 ---
-# npm_init.
+# npm_init
 - name: Add Docker Hosts
   hosts: localhost
   gather_facts: no
