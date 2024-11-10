@@ -12,15 +12,6 @@ resource "spacelift_context_attachment" "config_config" {
     priority   = 0
 }
 
-resource "spacelift_environment_variable" "config" { 
-    depends_on = [spacelift_context_attachment.config_config]
-    context_id  = spacelift_context.config.id
-    name        = "TF_VAR_CONFIG" 
-    value       = var.CONFIG_PATH
-    write_only  = false 
-    description = "IaC configuration path"
-}
-
 resource "spacelift_environment_variable" "env_branch" { 
     depends_on = [spacelift_context_attachment.config_config]
     context_id  = spacelift_context.config.id
@@ -48,6 +39,14 @@ resource "spacelift_environment_variable" "private_key" {
     description = "Private key"
 }
 
+resource "spacelift_environment_variable" "config_path" { 
+    depends_on = [spacelift_context_attachment.config_config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_CONFIG" 
+    value       = var.CONFIG_PATH
+    write_only  = false 
+    description = "IaC configuration path"
+}
 
 
 
