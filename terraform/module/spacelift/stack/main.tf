@@ -1,25 +1,17 @@
 resource "spacelift_stack" "stack" {
     # REQUIRED
+    branch = var.branch
     name = var.name
-    project_root = var.project_root
+    repository = var.repository
 
-    # UNIQUE
+    # OPTIONAL
+    administrative = var.administrative
+    autodeploy = var.autodeploy
     description = var.description
     labels = var.labels
-
-    # GENERAL
-    administrative = coalesce(var.administrative, local.config.spacelift.stack.administrative, true)
-    autodeploy = coalesce(var.autodeploy, local.config.spacelift.stack.autodeploy, true)
-    branch = coalesce(var.branch, local.config.spacelift.stack.branch, "main")
-    repository = coalesce(var.repository, local.config.spacelift.stack.repository, "iac")
-    space_id = coalesce(var.space_id, local.config.spacelift.stack.space_id, "root")
+    project_root = var.project_root
+    space_id = var.space_id
 
     # TERRAFORM
-    terraform_version = coalesce(var.terraform_version, local.config.spacelift.stack.terraform_version, "1.5.7")
-}
-
-
-
-output "output" {
-  value = coalesce(var.repository, "iac")
+    terraform_version = var.terraform_version
 }

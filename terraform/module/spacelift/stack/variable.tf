@@ -5,31 +5,22 @@ variable "CONFIG" {
 }
 
 # REQUIRED
+variable "branch" {
+  type = string
+  description = "Branch"
+}
+
 variable "name" {
   type = string
   description = "Name"
 }
 
-variable "project_root" {
+variable "repository" {
   type = string
-  description = "Project root"
-  default = null
+  description = "Repository"
 }
 
-# UNIQUE
-variable "description" {
-  type = string
-  description = "Description"
-  default = null
-}
-
-variable "labels" {
-  type = list(string)
-  description = "Labels"
-  default = []
-}
-
-# GENERAL
+# OPTIONAL
 variable "administrative" {
   type = bool
   description = "Administrative"
@@ -42,15 +33,21 @@ variable "autodeploy" {
   default = null
 }
 
-variable "branch" {
+variable "description" {
   type = string
-  description = "Branch"
+  description = "Description"
   default = null
 }
 
-variable "repository" {
+variable "labels" {
+  type = list(string)
+  description = "Labels"
+  default = []
+}
+
+variable "project_root" {
   type = string
-  description = "Repository"
+  description = "Project root"
   default = null
 }
 
