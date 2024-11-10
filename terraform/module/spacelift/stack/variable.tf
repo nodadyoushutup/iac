@@ -243,7 +243,7 @@ variable "terraform_version" {
 variable "terraform_workflow_tool" {
   type = string
   description = "Terraform workflow tool"
-  default = null
+  default = "TERRAFORM_FOSS"
 }
 
 variable "terraform_workspace" {
