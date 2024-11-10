@@ -4,7 +4,8 @@ module "test_stack" {
     name = "test"
     branch = "main"
     repository = "iac"
-    github_enterprise = {
+    raw_git = {
         namespace = "nodadyoushutup"
+        url = "https://github.com/nodadyoushutup/iac"
     }
 }

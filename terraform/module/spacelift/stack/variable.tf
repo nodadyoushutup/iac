@@ -144,14 +144,7 @@ variable "github_action_deploy" {
   default = true
 }
 
-variable "github_enterprise" {
-  type = object({
-    namespace = string
-    id = optional(string)
-  })
-  description = "GitHub Enterprise"
-  default     = null
-}
+
 
 # gitlab
 
@@ -195,7 +188,15 @@ variable "protect_from_deletion" {
 }
 
 # pulumi
-# raw_git
+
+variable "raw_git" {
+  type = object({
+    namespace = string
+    url = string
+  })
+  description = "Raw git"
+  default     = null
+}
 
 variable "runner_image" {
   type = string

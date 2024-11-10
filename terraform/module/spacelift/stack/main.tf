@@ -40,11 +40,11 @@ resource "spacelift_stack" "stack" {
     terraform_workspace = var.terraform_workspace
     worker_pool_id = var.worker_pool_id
 
-    dynamic "github_enterprise" {
-        for_each = var.github_enterprise != null ? [var.github_enterprise] : []
+    dynamic "raw_git" {
+        for_each = var.raw_git != null ? [var.raw_git] : []
         content {
-            namespace = github_enterprise.value.namespace
-            id = github_enterprise.value.id
+            namespace = raw_git.value.namespace
+            id = raw_git.value.id
         }
     }
 }
