@@ -59,6 +59,7 @@ variable "space_id" {
   default = null
 }
 
+# TERRAFORM
 variable "terraform_version" {
   type = string
   description = "Terraform version"
