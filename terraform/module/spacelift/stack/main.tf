@@ -33,15 +33,22 @@ resource "spacelift_stack" "stack" {
     runner_image                       = var.runner_image
     slug                               = var.slug
     space_id                           = var.space_id
-    terraform_external_state_access    = var.terraform_external_state_access
-    terraform_smart_sanitization       = var.terraform_smart_sanitization
-    terraform_version                  = var.terraform_version != null && var.ansible == null ? var.terraform_version : null
+    terraform_external_state_access    = var.ansible == null ? var.terraform_external_state_access : null
+    terraform_smart_sanitization       = var.ansible == null ? var.terraform_smart_sanitization : null
+    terraform_version                  = var.ansible == null ? var.terraform_version : null
     terraform_workflow_tool            = var.ansible == null ? var.terraform_workflow_tool : null
-    terraform_workspace                = var.terraform_workspace
+    terraform_workspace                = var.ansible == null ? var.terraform_workspace : null
     worker_pool_id                     = var.worker_pool_id
 
     dynamic "ansible" {
-        for_each = (var.ansible != null && var.terraform_version == null) ? [var.ansible] : []
+        for_each = (
+            var.ansible != null 
+            && var.terraform_external_state_access == null
+            && var.terraform_smart_sanitization == null
+            && var.terraform_version == null
+            && var.terraform_workflow_tool == null
+            && var.terraform_workspace == null
+        ) ? [var.ansible] : []
         content {
             playbook = ansible.value.playbook
         }

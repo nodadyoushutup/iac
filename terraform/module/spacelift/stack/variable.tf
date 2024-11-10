@@ -225,19 +225,19 @@ variable "space_id" {
 variable "terraform_external_state_access" {
   type = bool
   description = "Terraform external state access"
-  default = null
+  default = false
 }
 
 variable "terraform_smart_sanitization" {
   type = bool
   description = "Terraform smart sanitization"
-  default = null
+  default = true
 }
 
 variable "terraform_version" {
   type = string
   description = "Terraform version"
-  default = null
+  default = "1.5.7"
 }
 
 variable "terraform_workflow_tool" {
