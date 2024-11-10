@@ -81,7 +81,7 @@ variable "autodeploy" {
 variable "autoretry" {
   type = bool
   description = "Auto retry"
-  default = true
+  default = false
 }
 
 # azure_devops
