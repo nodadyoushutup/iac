@@ -41,14 +41,7 @@ resource "spacelift_stack" "stack" {
     worker_pool_id                     = var.worker_pool_id
 
     dynamic "ansible" {
-        for_each = (
-            var.ansible != null 
-            && var.terraform_external_state_access == null
-            && var.terraform_smart_sanitization == null
-            && var.terraform_version == null
-            && var.terraform_workflow_tool == null
-            && var.terraform_workspace == null
-        ) ? [var.ansible] : []
+        for_each = (var.ansible != null && var.terraform_version == null) ? [var.ansible] : []
         content {
             playbook = ansible.value.playbook
         }
