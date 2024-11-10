@@ -21,5 +21,5 @@
 
 
 output "output" {
-  value = local.config.spacelift
+  value = local.config.spacelift.stack.repository
 }
