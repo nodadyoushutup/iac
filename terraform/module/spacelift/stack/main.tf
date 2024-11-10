@@ -44,7 +44,7 @@ resource "spacelift_stack" "stack" {
         for_each = var.raw_git != null ? [var.raw_git] : []
         content {
             namespace = raw_git.value.namespace
-            id = raw_git.value.id
+            url = raw_git.value.url
         }
     }
 }
