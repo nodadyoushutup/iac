@@ -38,3 +38,11 @@ resource "spacelift_stack" "module" {
     terraform_version = "1.5.7"
     labels = ["module"]
 }
+
+resource "spacelift_context_attachment" "env_context_attachment" {
+    count = var.ENV_BRANCH != null && var.ENV_REPOSITORY != null ? 1 : 0
+    depends_on = [ spacelift_stack.module ]
+    context_id = spacelift_context.env_context.id
+    stack_id   = data.spacelift_stack.env.id
+    priority   = 0
+}
