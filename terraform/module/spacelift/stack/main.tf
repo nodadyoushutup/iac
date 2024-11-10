@@ -51,7 +51,7 @@ resource "spacelift_stack" "stack" {
         for_each = var.raw_git != null ? [var.raw_git] : []
         content {
             namespace = raw_git.value.namespace
-            url       = raw_git.value.url
+            url = raw_git.value.url
         }
     }
 }
@@ -63,7 +63,7 @@ resource "spacelift_context_attachment" "config_context_attachment" {
 }
 
 resource "spacelift_context_attachment" "terraform_context_attachment" {
-    count = var.ansible != null && var.terraform_version == null ? 1 : 0
+    count = var.terraform_version != null && var.ansible == null ? 1 : 0
     context_id = data.spacelift_context.terraform.id
     stack_id   = spacelift_stack.stack.id
     priority   = 0
