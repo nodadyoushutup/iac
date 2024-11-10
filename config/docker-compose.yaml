@@ -29,6 +29,21 @@ services:
       - ${POSTGRES_DATA}:/var/lib/postgresql/data
     ports:
       - ${POSTGRES_PORT}
+
+  mysql:
+    image: jc21/mariadb-aria:10.11.5
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MARIADB_AUTO_UPGRADE: 1
+      MYSQL_DATABASE: npm
+      MYSQL_USER: npm
+      MYSQL_PASSWORD: npm
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
       
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
@@ -51,21 +66,6 @@ services:
       - ${NGINX_PROXY_MANAGER_PORT_ADMIN}
     depends_on: 
       - mysql
-  
-  mysql:
-    image: jc21/mariadb-aria:10.11.5
-    container_name: mysql
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MARIADB_AUTO_UPGRADE: 1
-      MYSQL_DATABASE: npm
-      MYSQL_USER: npm
-      MYSQL_PASSWORD: npm
-    volumes:
-      - ./mysql:/var/lib/mysql
-    ports:
-      - 3306:3306
   
   grafana:
     image: grafana/grafana:latest

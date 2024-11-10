@@ -41,6 +41,7 @@
         - python3-pip
         - whois
         - jq
+        - nmap
       state: present
       update_cache: yes
       # more later
