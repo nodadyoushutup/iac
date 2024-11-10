@@ -1,5 +1,5 @@
 locals {
-  env = try(var.ENV != null && var.ENV != "" && var.ENV != false && var.ENV > 0 ? var.ENV : 0, 0)
+  env = try(var.ENV != null && var.ENV > 0 ? var.ENV : 0, 0)
   env_msg = {
     valid = "Configuration is valid"
     invalid = "Configuration is not valid"

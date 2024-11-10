@@ -1,7 +1,7 @@
 resource "spacelift_module" "spacelift_stack" {
     # REQUIRED
-    branch = "main"
-    repository = "iac"
+    branch = coalesce(try(local.config.spacelift.stack.branch, null), "main")
+    repository = coalesce(try(local.config.spacelift.stack.repository, null), "iac")
 
     # OPTIONAL
     administrative = false
