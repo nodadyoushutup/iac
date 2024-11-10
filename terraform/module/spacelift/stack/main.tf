@@ -55,3 +55,9 @@ resource "spacelift_stack" "stack" {
         }
     }
 }
+
+resource "spacelift_context_attachment" "config_context_attachment" {
+    context_id = data.spacelift_context.context_id
+    stack_id   = spacelift_stack.stack.id
+    priority   = 0
+}
