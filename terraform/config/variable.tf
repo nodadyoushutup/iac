@@ -19,5 +19,5 @@ variable "ENV_REPOSITORY" {
 variable "PRIVATE_KEY" {
   type = string
   description = "Private key"
-  default = "/mnt/workspace/ird_rsa"
+  default = "/mnt/workspace/id_rsa"
 }
