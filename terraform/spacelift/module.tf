@@ -5,4 +5,6 @@ module "test" {
     name = "test"
     branch = "main"
     repository = "iac"
+
+    administrative = true
 }
