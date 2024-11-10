@@ -1,3 +1,4 @@
+# main
 resource "spacelift_context" "config" {
     description = "Configuration"
     name = "config"
