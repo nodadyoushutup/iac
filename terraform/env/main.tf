@@ -23,7 +23,7 @@ resource "spacelift_environment_variable" "env_repository" {
 }
 
 resource "spacelift_stack" "module" {
-    count = var.ENV_BRANCH != null && var.ENV_REPOSITORY != null
+    count = var.ENV_BRANCH != null && var.ENV_REPOSITORY != null ? 1 : 0
     depends_on = [ 
         spacelift_environment_variable.env_branch,
         spacelift_environment_variable.env_repository
