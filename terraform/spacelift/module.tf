@@ -8,8 +8,8 @@ resource "spacelift_module" "spacelift_stack_terraform" {
     description = "Spacelift Terraform stack"
     enable_local_preview = false
     labels = ["spacelift", "infra", "terraform"]
-    name = "stack"
-    project_root = "module/spacelift/stack/terraform"
+    name = "stack_terraform"
+    project_root = "terraform/module/stack/terraform"
     public = true
     shared_accounts = null
     space_id = "root"
