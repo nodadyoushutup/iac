@@ -70,7 +70,13 @@ variable "after_run" {
   default = null
 }
 
-# ansible
+variable "ansible" {
+  type = object({
+    playbook = string
+  })
+  description = "Ansible"
+  default     = null
+}
 
 variable "autodeploy" {
   type = bool
@@ -143,8 +149,6 @@ variable "github_action_deploy" {
   description = "Github actionm deploy"
   default = true
 }
-
-
 
 # gitlab
 

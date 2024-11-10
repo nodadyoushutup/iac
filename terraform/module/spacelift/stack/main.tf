@@ -40,6 +40,13 @@ resource "spacelift_stack" "stack" {
     terraform_workspace = var.terraform_workspace
     worker_pool_id = var.worker_pool_id
 
+    dynamic "ansible" {
+        for_each = var.ansible != null ? [var.ansible] : []
+        content {
+            playbook = ansible.value.playbook
+        }
+    }
+
     dynamic "raw_git" {
         for_each = var.raw_git != null ? [var.raw_git] : []
         content {
