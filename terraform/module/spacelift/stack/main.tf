@@ -19,10 +19,7 @@
 # }
 
 
-output "output" {
-  value = try(var.repository, local.config.spacelift.stack.repository, "iac")
-}
 
-output "hello" {
-  value = "hello"
+output "repository" {
+  value = try(var.repository, local.config.spacelift.stack.repository, "iac")
 }

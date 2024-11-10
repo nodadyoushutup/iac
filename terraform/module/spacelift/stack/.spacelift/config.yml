@@ -1,6 +1,6 @@
 ---
 version: "1"
-module_version: 0.0.25
+module_version: 0.0.26
 runner_image: spacelift/runner:latest
 tests:
   - name: Test Config
