@@ -21,5 +21,5 @@
 
 
 output "output" {
-  value = try(var.repository, local.config.spacelift.stack.repository)
+  value = coalesce(var.repository, "iac")
 }
