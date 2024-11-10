@@ -13,6 +13,7 @@ variable "name" {
 variable "project_root" {
   type = string
   description = "Project root"
+  default = null
 }
 
 # UNIQUE
