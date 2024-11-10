@@ -2,8 +2,9 @@
 import json
 import os
 
-def main():
-    # Get the private key path from the first argument
+
+if __name__ == "__main__":
+# Get the private key path from the first argument
     private_key_path = os.environ.get("TF_VAR_PRIVATE_KEY")
     private_key_valid = False
 
@@ -24,6 +25,3 @@ def main():
     # Output JSON result
     result = {"valid": "true" if private_key_valid else "false"}
     print(json.dumps(result))
-
-if __name__ == "__main__":
-    main()
