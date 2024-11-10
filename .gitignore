@@ -48,4 +48,5 @@ Dockerfile
 config/.env
 _old
 config/** */
+!terraform/config
 ignore/
