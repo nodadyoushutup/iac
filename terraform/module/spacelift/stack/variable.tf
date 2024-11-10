@@ -7,5 +7,5 @@ variable "CONFIG" {
 variable "branch" {
   type = string
   description = "Branch"
-  default = "staging"
+  default = null
 }
