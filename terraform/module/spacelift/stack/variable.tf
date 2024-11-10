@@ -75,13 +75,13 @@ variable "after_run" {
 variable "autodeploy" {
   type = bool
   description = "Auto deploy"
-  default = null
+  default = true
 }
 
 variable "autoretry" {
   type = bool
   description = "Auto retry"
-  default = null
+  default = true
 }
 
 # azure_devops
@@ -129,19 +129,19 @@ variable "description" {
 variable "enable_local_preview" {
   type = bool
   description = "Enable local preview"
-  default = null
+  default = false
 }
 
 variable "enable_well_known_secret_masking" {
   type = bool
   description = "Enable well known secret masking"
-  default = null
+  default = true
 }
 
 variable "github_action_deploy" {
   type = bool
-  description = "Enable well known secret masking"
-  default = null
+  description = "Github actionm deploy"
+  default = true
 }
 
 # github_enterprise
@@ -151,6 +151,7 @@ variable "import_state" {
   type = string
   description = "Import state"
   default = null
+  sensitive = true
 }
 
 variable "import_state_file" {
@@ -170,7 +171,7 @@ variable "labels" {
 variable "manage_state" {
   type = bool
   description = "Manage state"
-  default = null
+  default = true
 }
 
 variable "project_root" {
@@ -182,7 +183,7 @@ variable "project_root" {
 variable "protect_from_deletion" {
   type = bool
   description = "Protect from deletion"
-  default = null
+  default = false
 }
 
 # pulumi
@@ -211,25 +212,25 @@ variable "space_id" {
 variable "terraform_external_state_access" {
   type = bool
   description = "Terraform external state access"
-  default = null
+  default = false
 }
 
 variable "terraform_smart_sanitization" {
   type = bool
   description = "Terraform smart sanitization"
-  default = null
+  default = true
 }
 
 variable "terraform_version" {
   type = string
   description = "Terraform version"
-  default = null
+  default = "1.5.7"
 }
 
 variable "terraform_workflow_tool" {
   type = string
   description = "Terraform workflow tool"
-  default = null
+  default = "TERRAFORM_FOSS"
 }
 
 variable "terraform_workspace" {
