@@ -18,6 +18,7 @@ resource "spacelift_module" "spacelift_stack_terraform" {
 }
 
 module "infra" {
-  source  = "spacelift.io/nodadyoushutup/stack-terraform/spacelift"
+    depends_on = [ spacelift_module.spacelift_stack_terraform ]
+    source  = "spacelift.io/nodadyoushutup/stack-terraform/spacelift"
   
 }
