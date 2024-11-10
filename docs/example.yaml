@@ -44,3 +44,17 @@
     ansible_port: "{{ item.port }}"
     groups: docker
   loop: "{{ config.virtual_machine.docker.ansible }}"
+
+---
+### Spacelift Module Test
+version: "1"
+module_version: 0.0.50
+runner_image: spacelift/runner:latest
+# tests:
+#   - name: Test
+#     environment:
+#       TF_VAR_CONFIG: /mnt/workspace/config.yaml
+#       TF_LOG: debug
+#       TF_VAR_name: unit_test
+#       TF_VAR_repository: iac
+#       TF_VAR_branch: main
