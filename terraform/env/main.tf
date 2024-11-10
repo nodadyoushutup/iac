@@ -1,4 +1,5 @@
 resource "spacelift_context" "env_context" {
     description = "Environment"
-    name        = "env"
+    name = "env"
+    space_id = "root"
 }
