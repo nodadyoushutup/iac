@@ -1,15 +1,15 @@
 resource "spacelift_stack" "stack" {
     # REQUIRED
-    branch = "main"
+    branch = try(local.config.spacelift.stack.branch)
     name = "stack"
     repository = "iac"
-    space_id = "root"
 
     # OPTIONAL
     administrative = true
     autodeploy = true
     description = "Spacelift stack"
     project_root = "terraform"
+    space_id = "root"
     terraform_version = "1.5.7"
     labels = []
 }
