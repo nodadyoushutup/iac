@@ -1,3 +1,3 @@
-# data "spacelift_stack" "config" {
-#   stack_id = "config"
-# }
+data "spacelift_stack" "config" {
+  stack_id = "config"
+}
