@@ -8,7 +8,7 @@ resource "spacelift_module" "spacelift_stack" {
     description = "Spacelift stack"
     enable_local_preview = false
     labels = ["spacelift"]
-    name = "spacelift-stack"
+    name = "stack"
     project_root = "terraform/module/spacelift/stack"
     public = true
     shared_accounts = null
@@ -20,6 +20,6 @@ resource "spacelift_module" "spacelift_stack" {
 resource "spacelift_context_attachment" "spacelift_stack_config" {
     depends_on = [spacelift_module.spacelift_stack]
     context_id = "config"
-    module_id  = "spacelift-stack"
+    module_id  = "terraform-spacelift-stack"
     priority   = 0
 }
