@@ -1,3 +1,3 @@
-data "spacelift_stack" "env" {
-  stack_id = "env"
+data "spacelift_stack" "config" {
+  stack_id = "config"
 }
