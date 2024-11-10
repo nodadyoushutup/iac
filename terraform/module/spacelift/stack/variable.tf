@@ -23,7 +23,7 @@ variable "description" {
 }
 
 variable "labels" {
-  type = string
+  type = list(string)
   description = "Labels"
   default = []
 }
