@@ -237,7 +237,7 @@ variable "terraform_smart_sanitization" {
 variable "terraform_version" {
   type = string
   description = "Terraform version"
-  default = "1.5.7"
+  default = null
 }
 
 variable "terraform_workflow_tool" {
