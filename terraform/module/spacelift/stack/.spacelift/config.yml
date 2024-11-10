@@ -1,12 +1,12 @@
 ---
 version: "1"
-module_version: 0.0.37
+module_version: 0.0.39
 runner_image: spacelift/runner:latest
-# tests:
-#   - name: Test
-#     environment:
-#       TF_VAR_CONFIG: /mnt/workspace/config.yaml
-#       TF_LOG: debug
-#       TF_VAR_name: test
-#       TF_VAR_project_root: terraform
-#       TF_VAR_repository: null
+tests:
+  - name: Test
+    environment:
+      TF_VAR_CONFIG: /mnt/workspace/config.yaml
+      TF_LOG: debug
+      TF_VAR_name: test
+      TF_VAR_repository: iac
+      TF_VAR_branch: main
