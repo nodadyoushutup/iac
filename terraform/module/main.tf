@@ -1,31 +1,18 @@
-resource "spacelift_module" "module_stack" {
+resource "spacelift_module" "module_spacelift_stack" {
     # REQUIRED
     branch = "main"
     repository = "iac"
 
     # OPTIONAL
     administrative = false
-    description = "Spacelift Terraform stack"
+    description = "Spacelift stack"
     enable_local_preview = false
-    labels = ["spacelift", "infra", "terraform"]
+    labels = ["spacelift"]
     name = "stack"
-    project_root = "terraform/module/stack/terraform"
+    project_root = "terraform/module/stack"
     public = true
     shared_accounts = null
     space_id = "root"
     terraform_provider = "spacelift"
     workflow_tool = "TERRAFORM_FOSS"
-}
-
-resource "spacelift_stack" "module_stack_stack" {
-    depends_on = [spacelift_module.module_stack]
-    administrative = true
-    autodeploy = true
-    branch = "main"
-    description = "Module spacelift stack"
-    name = "module_spacelift_stack"
-    project_root = "terraform/module/stack"
-    repository = "iac"
-    terraform_version = "1.5.7"
-    labels = ["module"]
 }
