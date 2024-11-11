@@ -43,12 +43,12 @@ def validate_config_path(path):
         return "No file detected at path provided"
     return "true"
 
-def load_yaml_file(path):
+def validate_yaml(path):
     if not path or not os.path.isfile(path):
         return "No file detected at path provided"
     with open(path, 'r') as file:
         yaml_content = file.read()
-    return parse_yaml(yaml_content)
+    return type(parse_yaml(yaml_content))
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
@@ -76,7 +76,7 @@ def validate_private_key(path):
 if __name__ == "__main__":
     validation_results = {
         "config_path": validate_config_path(CONFIG_PATH),
-        "yaml_load": load_yaml_file(CONFIG_PATH),
+        "yaml": validate_yaml(CONFIG_PATH),
         "private_key": validate_private_key(PRIVATE_KEY)
     }
     valid = all(value == "true" for value in validation_results.values())
