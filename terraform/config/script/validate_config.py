@@ -18,7 +18,7 @@ def parse_yaml(yaml_str):
         level = indent // 2
         key, sep, value = line.strip().partition(':')
         if not sep:
-            raise ValueError(f"Invalid YAML format on line: {line}")
+            return f"Invalid YAML format on line: {line}"
         value = value.strip()
         if not value:
             value = {}
