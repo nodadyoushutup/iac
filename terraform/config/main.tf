@@ -1,3 +1,33 @@
+# INIT
+resource "spacelift_context" "py_venv" {
+    description = "Python virtual environment"
+    name = "py_venv"
+    space_id = "root"
+    before_init = [
+        "python3 -m venv venv",
+        "source venv/bin/activate",
+        "pip install --upgrade pip && pip install pyyaml paramiko",
+    ]
+}
+
+resource "spacelift_environment_variable" "py_venv" { 
+    depends_on = [spacelift_context.py_venv]
+    context_id  = spacelift_context.py_venv.id
+    name        = "TF_VAR_PY_VENV" 
+    value       = var.PY_VENV
+    write_only  = false 
+    description = "Python virtual environment"
+}
+
+resource "spacelift_context_attachment" "py_venv_config" {
+    depends_on = [spacelift_context.py_venv]
+    context_id = spacelift_context.py_venv.id
+    stack_id   = data.spacelift_stack.config.id
+    priority   = 0
+}
+
+
+
 # # CONTEXT
 # resource "spacelift_context" "config" {
 #     description = "Configuration"
@@ -5,18 +35,8 @@
 #     space_id = "root"
 # }
 
-# resource "spacelift_context" "py_venv" {
-#     description = "Python Virtual Environment"
-#     name = "py_venv"
-#     space_id = "root"
-#     before_init = [
-#         "python3 -m venv venv",
-#         "source venv/bin/activate",
-#         "pip install --upgrade pip && pip install pyyaml paramiko",
-#     ]
-# }
 
-# #CONTEXT ATTACHMENT
+# # CONTEXT ATTACHMENT
 # resource "spacelift_context_attachment" "config_config" {
 #     depends_on = [spacelift_context.config]
 #     context_id = spacelift_context.config.id
@@ -24,12 +44,7 @@
 #     priority   = 0
 # }
 
-# resource "spacelift_context_attachment" "py_venv_config" {
-#     depends_on = [spacelift_context.py_venv]
-#     context_id = spacelift_context.py_venv.id
-#     stack_id   = data.spacelift_stack.config.id
-#     priority   = 0
-# }
+
 
 # # ENVIRONMENT VARIABLE
 # resource "spacelift_environment_variable" "branch" { 
