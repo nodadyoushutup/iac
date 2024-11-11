@@ -1,5 +1,5 @@
 output "_validate_results" {
-  value = var.PYVENV == 2 ? (data.external.validate_env[0].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed") : null
+  value = (var.PYVENV == 2 ? (data.external.validate_env[0].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed") : null)
 }
 
 output "validate_config_path" {

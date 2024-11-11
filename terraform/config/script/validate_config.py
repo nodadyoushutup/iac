@@ -12,7 +12,7 @@ CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
 def validate_config_path(path): 
     if not path or not os.path.isfile(path): 
         return "No file detected at path provided" 
-    return "true" 
+    return "valid" 
  
 def validate_yaml(path): 
     if not path or not os.path.isfile(path): 
@@ -22,31 +22,8 @@ def validate_yaml(path):
             yaml.safe_load(file) 
     except yaml.YAMLError as e: 
         return f"YAML format is not valid: {e}" 
-    return "true" 
+    return "valid" 
  
-# def validate_private_key(path): 
-#     if path and os.path.isfile(path): 
-#         with open(path, "r") as f: 
-#             lines = f.readlines() 
-#         if len(lines) == 1: 
-#             return "Private key must be updated from default" 
-#         if len(lines) >= 2: 
-#             first_line = lines[0].strip() 
-#             last_line = lines[-1].strip() 
-#             if not ( 
-#                 first_line == "-----BEGIN OPENSSH PRIVATE KEY-----"  
-#                 and last_line == "-----END OPENSSH PRIVATE KEY-----" 
-#             ): 
-#                 return "Private key first and last lines are not valid" 
-#             key_body = ''.join(line.strip() for line in lines[1:-1]) 
-#             try: 
-#                 base64.b64decode(key_body, validate=True) 
-#             except (ValueError, base64.binascii.Error): 
-#                 return "Private key body is not valid" 
-#     else: 
-#         return "Private key not found at path provided" 
-#     return "true" 
-
 def validate_private_key(path, password=None):
     try:
         try:
@@ -59,7 +36,7 @@ def validate_private_key(path, password=None):
                     paramiko.DSSKey.from_private_key_file(path, password=password)
                 except paramiko.ssh_exception.SSHException:
                     paramiko.Ed25519Key.from_private_key_file(path, password=password)
-        return "true"
+        return "valid"
     except Exception as e:
         return e
 
@@ -79,7 +56,7 @@ if __name__ == "__main__":
         "yaml": validate_yaml(CONFIG_PATH), 
         "private_key": validate_private_key(PRIVATE_KEY) 
     } 
-    valid = all(value == "true" for value in validation_results.values()) 
+    valid = all(value == "valid" for value in validation_results.values()) 
     result = { 
         "valid": "true" if valid else "false", 
         **{key: str(value) for key, value in validation_results.items()} 
