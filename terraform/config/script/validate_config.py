@@ -2,7 +2,7 @@
 import json
 import os
 import base64
-
+import yaml
 
 PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
 CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
@@ -28,7 +28,8 @@ def validate_private_key(path):
                 return "Private key body is not valid"
     else:
         return "Private key not found at path provided"
-    return "true"
+    # return "true"
+    return yaml.safe_load(CONFIG_PATH)
 
 if __name__ == "__main__":
     validation_results = {
