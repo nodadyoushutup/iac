@@ -29,7 +29,7 @@ variable "FLAG_PYVENV" {
 }
 
 variable "FLAG_CONFIG" {
-  type = bool
+  type = number
   description = "Spacelift configuration flag"
-  default = false
+  default = 0
 }
