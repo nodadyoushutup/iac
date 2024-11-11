@@ -51,7 +51,7 @@ def load_yaml_file(path):
     parsed_yaml = parse_yaml(yaml_content)
     if isinstance(parsed_yaml, str):
         return parsed_yaml  # Return the error message directly if parsing failed
-    return "YAML parsed successfully"
+    return parsed_yaml
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
