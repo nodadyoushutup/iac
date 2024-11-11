@@ -10,8 +10,8 @@ locals {
         )
     }
     flag = {
-        pyvenv = var.FLAG_PYVENV == 2 ? var.FLAG_PYVENV : var.FLAG_PYVENV + 1
-        config = var.FLAG_PYVENV == 2 && try(
+        pyvenv = var.FLAG_PYVENV == 1 ? var.FLAG_PYVENV : var.FLAG_PYVENV + 1
+        config = var.FLAG_PYVENV == 1 && try(
             data.external.validate_env[0].result["valid"], 
             "false"
         ) == "true" ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG

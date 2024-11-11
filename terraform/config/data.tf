@@ -7,12 +7,12 @@ data "spacelift_stack" "config" {
 }
 
 resource "random_id" "validate_env_trigger" {
-  count = var.FLAG_PYVENV == 2 ? 1 : 0
+  count = var.FLAG_PYVENV == 1 ? 1 : 0
   byte_length = 8
 }
 
 data "external" "validate_env" {
-  count = var.FLAG_PYVENV == 2 ? 1 : 0
+  count = var.FLAG_PYVENV == 1 ? 1 : 0
   depends_on = [random_id.validate_env_trigger]
   program = [
       "python3",
