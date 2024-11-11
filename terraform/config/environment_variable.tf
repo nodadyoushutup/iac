@@ -4,7 +4,16 @@ resource "spacelift_environment_variable" "flag_pyvenv" {
     name        = "TF_VAR_FLAG_PYVENV" 
     value       = local.flag.pyvenv
     write_only  = false 
-    description = "Runner Python virtual environment"
+    description = "Runner Python virtual environment flag"
+}
+
+resource "spacelift_environment_variable" "flag_config" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_FLAG_CONFIG" 
+    value       = local.flag.config
+    write_only  = false 
+    description = "Spacelift configuration flag"
 }
 
 resource "spacelift_environment_variable" "git_branch" { 
