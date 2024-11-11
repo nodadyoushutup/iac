@@ -3,9 +3,14 @@ import json
 import os
 import base64
 import yaml
+import subprocess
+import sys
 
 PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
 CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
+
+def install_package(package_name):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
@@ -32,6 +37,7 @@ def validate_private_key(path):
     return yaml.safe_load(CONFIG_PATH)
 
 if __name__ == "__main__":
+    install_package("pyyaml")
     validation_results = {
         "private_key": validate_private_key(PRIVATE_KEY)
     }
