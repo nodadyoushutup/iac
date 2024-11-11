@@ -1,28 +1,28 @@
-variable "BRANCH" {
+variable "GIT_BRANCH" {
     type = string
     description = "Environment branch"
     default = null
 }
 
-variable "CONFIG_PATH" {
-    type = string
-    description = "Configuration path"
-    default = "/mnt/workspace/config.yaml"
-}
-
-variable "REPOSITORY" {
+variable "GIT_REPOSITORY" {
     type = string
     description = "Environment repository"
     default = null
 }
 
-variable "PRIVATE_KEY" {
+variable "PATH_CONFIG" {
+    type = string
+    description = "Configuration path"
+    default = "/mnt/workspace/config.yaml"
+}
+
+variable "PATH_PRIVATE_KEY" {
   type = string
   description = "Private key"
   default = "/mnt/workspace/id_rsa"
 }
 
-variable "PYVENV" {
+variable "FLAG_PYVENV" {
   type = number
   description = "Python virtual envrionment"
   default = 0

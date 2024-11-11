@@ -1,44 +1,44 @@
-resource "spacelift_environment_variable" "pyvenv" { 
+resource "spacelift_environment_variable" "flag_pyvenv" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_PYVENV" 
+    name        = "TF_VAR_FLAG_PYVENV" 
     value       = local.flag.pyvenv
     write_only  = false 
     description = "Runner Python virtual environment"
 }
 
-resource "spacelift_environment_variable" "branch" { 
+resource "spacelift_environment_variable" "git_branch" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_BRANCH" 
+    name        = "TF_VAR_GIT_BRANCH" 
     value       = local.git.branch
     write_only  = false 
     description = "Environment branch"
 }
 
-resource "spacelift_environment_variable" "repository" { 
+resource "spacelift_environment_variable" "git_repository" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_REPOSITORY" 
+    name        = "TF_VAR_GIT_REPOSITORY" 
     value       = local.git.repository
     write_only  = false 
     description = "Environment repository"
 }
 
-resource "spacelift_environment_variable" "private_key" { 
+resource "spacelift_environment_variable" "path_private_key" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_PRIVATE_KEY" 
-    value       = var.PRIVATE_KEY
+    name        = "TF_VAR_PATH_PRIVATE_KEY" 
+    value       = var.PATH_PRIVATE_KEY
     write_only  = false 
     description = "Private key"
 }
 
-resource "spacelift_environment_variable" "config_path" { 
+resource "spacelift_environment_variable" "path_config" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_CONFIG_PATH" 
-    value       = var.CONFIG_PATH
+    name        = "TF_VAR_PATH_CONFIG" 
+    value       = var.PATH_CONFIG
     write_only  = false 
     description = "IaC configuration path"
 }
