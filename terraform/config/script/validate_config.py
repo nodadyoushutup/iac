@@ -3,7 +3,6 @@ import json
 import os
 import base64
 
-
 PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
 CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
 
@@ -13,7 +12,7 @@ def parse_yaml(yaml_str):
     stack = [result]
     for line in lines:
         if not line.strip() or line.strip().startswith('#') or line.strip() == "---":
-            continue  # Skip empty lines and comments
+            continue  # Skip empty lines, comments, and document separators
         indent = len(line) - len(line.lstrip())
         level = indent // 2
         key, sep, value = line.strip().partition(':')
@@ -40,16 +39,19 @@ def parse_yaml(yaml_str):
     return result
 
 def validate_config_path(path):
-    if not path and not os.path.isfile(path):
+    if not path or not os.path.isfile(path):
         return "No file detected at path provided"
     return "true"
 
 def load_yaml_file(path):
-    if validate_config_path(path) == "true":
-        with open(path, 'r') as file:
-            yaml_content = file.read()
-        return parse_yaml(yaml_content)
-    return "No file detected at path provided"
+    if validate_config_path(path) != "true":
+        return "No file detected at path provided"
+    with open(path, 'r') as file:
+        yaml_content = file.read()
+    parsed_yaml = parse_yaml(yaml_content)
+    if isinstance(parsed_yaml, str):
+        return parsed_yaml  # Return the error message directly if parsing failed
+    return "YAML parsed successfully"
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
@@ -83,6 +85,6 @@ if __name__ == "__main__":
     valid = all(value == "true" for value in validation_results.values())
     result = {
         "valid": "true" if valid else "false",
-        **validation_results
+        **{key: str(value) for key, value in validation_results.items()}  # Ensure all values are strings
     }
     print(json.dumps(result))
