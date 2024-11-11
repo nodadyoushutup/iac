@@ -8,11 +8,7 @@ resource "spacelift_environment_variable" "pyvenv" {
 }
 
 resource "spacelift_environment_variable" "branch" { 
-    count = var.PYVENV == 2 ? 1 : 0
-    depends_on = [
-        spacelift_context.config,
-        spacelift_environment_variable.pyvenv
-    ]
+    depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_BRANCH" 
     value       = var.BRANCH
@@ -21,11 +17,7 @@ resource "spacelift_environment_variable" "branch" {
 }
 
 resource "spacelift_environment_variable" "repository" { 
-    count = var.PYVENV == 2 ? 1 : 0
-    depends_on = [
-        spacelift_context.config,
-        spacelift_environment_variable.pyvenv
-    ]
+    depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_REPOSITORY" 
     value       = var.REPOSITORY
@@ -34,11 +26,7 @@ resource "spacelift_environment_variable" "repository" {
 }
 
 resource "spacelift_environment_variable" "private_key" { 
-    count = var.PYVENV == 2 ? 1 : 0
-    depends_on = [
-        spacelift_context.config,
-        spacelift_environment_variable.pyvenv
-    ]
+    depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_PRIVATE_KEY" 
     value       = var.PRIVATE_KEY
@@ -47,11 +35,7 @@ resource "spacelift_environment_variable" "private_key" {
 }
 
 resource "spacelift_environment_variable" "config_path" { 
-    count = var.PYVENV == 2 ? 1 : 0
-    depends_on = [
-        spacelift_context.config,
-        spacelift_environment_variable.pyvenv
-    ]
+    depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_CONFIG_PATH" 
     value       = var.CONFIG_PATH
