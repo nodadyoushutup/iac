@@ -1,42 +1,42 @@
-# # INIT
-# resource "spacelift_context" "pyvenv" {
-#     description = "Python virtual environment"
-#     name = "pyvenv"
-#     space_id = data.spacelift_space.root.id
-#     before_init = [
-#         "python3 -m venv venv",
-#         "source venv/bin/activate",
-#         "pip install --upgrade pip && pip install pyyaml paramiko",
-#     ]
-# }
+# INIT
+resource "spacelift_context" "pyvenv" {
+    description = "Python virtual environment"
+    name = "pyvenv"
+    space_id = data.spacelift_space.root.id
+    before_init = [
+        "python3 -m venv venv",
+        "source venv/bin/activate",
+        "pip install --upgrade pip && pip install pyyaml paramiko",
+    ]
+}
 
-# resource "spacelift_environment_variable" "pyvenv" { 
-#     depends_on = [spacelift_context.pyvenv]
-#     context_id  = spacelift_context.pyvenv.id
-#     name        = "TF_VAR_PYVENV" 
-#     value       = var.PYVENV
-#     write_only  = false 
-#     description = "Python virtual environment"
-# }
+resource "spacelift_environment_variable" "pyvenv" { 
+    depends_on = [spacelift_context.pyvenv]
+    context_id  = spacelift_context.pyvenv.id
+    name        = "TF_VAR_PYVENV" 
+    value       = var.PYVENV
+    write_only  = false 
+    description = "Python virtual environment"
+}
 
-# resource "spacelift_context_attachment" "pyvenv_config" {
-#     depends_on = [
-#         spacelift_context.pyvenv,
-#         spacelift_environment_variable.pyvenv
-#     ]
-#     context_id = spacelift_context.pyvenv.id
-#     stack_id   = data.spacelift_stack.config.id
-#     priority   = 0
-# }
+resource "spacelift_context_attachment" "pyvenv_config" {
+    depends_on = [
+        spacelift_context.pyvenv,
+        spacelift_environment_variable.pyvenv
+    ]
+    context_id = spacelift_context.pyvenv.id
+    stack_id   = data.spacelift_stack.config.id
+    priority   = 0
+}
 
-# # CONTEXT
-# resource "spacelift_context" "config" {
-#     count = var.PYVENV == true ? 1 : 0
-#     depends_on = [ spacelift_context_attachment.pyvenv_config ]
-#     description = "Configuration"
-#     name = "config"
-#     space_id = data.spacelift_space.root.id
-# }
+# CONTEXT
+resource "spacelift_context" "config" {
+    count = var.PYVENV == true ? 1 : 0
+    depends_on = [ spacelift_context_attachment.pyvenv_config ]
+    description = "Configuration"
+    name = "config"
+    space_id = data.spacelift_space.root.id
+}
 
 
 # # CONTEXT ATTACHMENT

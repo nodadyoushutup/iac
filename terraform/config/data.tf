@@ -1,5 +1,5 @@
 data "spacelift_space" "root" {
-  space_id = spacelift_space.root.id
+  space_id = "root"
 }
 
 data "spacelift_stack" "config" {
