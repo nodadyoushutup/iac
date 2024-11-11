@@ -61,7 +61,7 @@ resource "spacelift_environment_variable" "branch" {
 resource "spacelift_environment_variable" "repository" { 
     count = var.PYVENV == 2 ? 1 : 0
     depends_on = [spacelift_context_attachment.config_config]
-    context_id  = spacelift_context[count.index].config.id
+    context_id  = spacelift_context.config[count.index].id
     name        = "TF_VAR_REPOSITORY" 
     value       = var.REPOSITORY
     write_only  = false 
@@ -71,7 +71,7 @@ resource "spacelift_environment_variable" "repository" {
 resource "spacelift_environment_variable" "private_key" { 
     count = var.PYVENV == 2 ? 1 : 0
     depends_on = [spacelift_context_attachment.config_config]
-    context_id  = spacelift_context[count.index].config.id
+    context_id  = spacelift_context.config[count.index].id
     name        = "TF_VAR_PRIVATE_KEY" 
     value       = var.PRIVATE_KEY
     write_only  = false 
@@ -81,7 +81,7 @@ resource "spacelift_environment_variable" "private_key" {
 resource "spacelift_environment_variable" "config_path" { 
     count = var.PYVENV == 2 ? 1 : 0
     depends_on = [spacelift_context_attachment.config_config]
-    context_id  = spacelift_context[count.index].config.id
+    context_id  = spacelift_context.config[count.index].id
     name        = "TF_VAR_CONFIG_PATH" 
     value       = var.CONFIG_PATH
     write_only  = false 
@@ -92,7 +92,7 @@ resource "spacelift_environment_variable" "config_path" {
 resource "spacelift_mounted_file" "config_mounted_file" {
     count = var.PYVENV == 2 ? 1 : 0
     depends_on = [spacelift_context_attachment.config_config]
-    context_id = spacelift_context[count.index].config.id
+    context_id = spacelift_context.config[count.index].id
     relative_path = "config.yaml"
     content = local.base64.config
     write_only = false
@@ -101,7 +101,7 @@ resource "spacelift_mounted_file" "config_mounted_file" {
 resource "spacelift_mounted_file" "private_keymounted_file" {
     count = var.PYVENV == 2 ? 1 : 0
     depends_on = [spacelift_context_attachment.config_config]
-    context_id = spacelift_context[count.index].config.id
+    context_id = spacelift_context.config[count.index].id
     relative_path = "id_rsa"
     content = local.base64.private_key
     write_only = true
