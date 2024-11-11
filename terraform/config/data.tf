@@ -15,7 +15,7 @@ data "external" "validate_env" {
     depends_on = [random_id.validate_env_trigger]
 }
 
-output "validate_results" {
+output "_validate_results" {
   value = data.external.validate_env.result["valid"] != "false" ? "All validation checks have passed" : "Validation checks failed"
 }
 
