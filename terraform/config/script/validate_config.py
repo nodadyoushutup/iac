@@ -2,14 +2,12 @@
 import json
 import os
 
-
 PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
 CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
 
 def validate_private_key(path):
-    private_key_path = path
-    if private_key_path and os.path.isfile(private_key_path):
-        with open(private_key_path, "r") as f:
+    if path and os.path.isfile(path):
+        with open(path, "r") as f:
             lines = f.readlines()
         if len(lines) >= 2:
             first_line = lines[0].strip()
@@ -24,19 +22,17 @@ def validate_private_key(path):
 if __name__ == "__main__":
 
     validation_results = {
-        "private_key": False
+        "private_key": "true" if validate_private_key(PRIVATE_KEY) else "Private key is not valid"
     }
-
-    private_key_valid = validate_private_key(PRIVATE_KEY)
-
-    if private_key_valid:
-        validation_results["private_key"] = True
-    else:
-        validation_results["private_key"] = "Private key is not valid"
     
-    valid = all(value is True for value in validation_results.values())
+    # Determine overall validity
+    valid = all(value == "true" for value in validation_results.values())
+    
+    # Create result dictionary with all string values
     result = {
         "valid": "true" if valid else "false",
-        "details": validation_results
+        "details": json.dumps(validation_results)  # Serialize the details dictionary as a JSON string
     }
+    
+    # Output result as JSON
     print(json.dumps(result))
