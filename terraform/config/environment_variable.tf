@@ -1,6 +1,6 @@
 resource "spacelift_environment_variable" "pyvenv" { 
-    depends_on = [spacelift_context.env_flag]
-    context_id  = spacelift_context.env_flag.id
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
     name        = "TF_VAR_PYVENV" 
     value       = var.PYVENV == 2 ? var.PYVENV : var.PYVENV + 1
     write_only  = false 

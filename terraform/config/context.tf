@@ -9,13 +9,6 @@ resource "spacelift_context" "pyvenv" {
     ]
 }
 
-resource "spacelift_context" "env_flag" {
-    name = "env_flag"
-    description = "Environment flags"
-    space_id = data.spacelift_space.root.id
-}
-
-
 resource "spacelift_context" "config" {
     name = "config"
     description = "Configuration"
