@@ -12,7 +12,7 @@ def parse_yaml(yaml_str):
     stack = [result]
     for line in lines:
         if not line.strip() or line.strip().startswith('#') or line.strip() == "---":
-            continue  # Skip empty lines, comments, and document separators
+            continue
         indent = len(line) - len(line.lstrip())
         level = indent // 2
         key, sep, value = line.strip().partition(':')
@@ -48,10 +48,7 @@ def load_yaml_file(path):
         return "No file detected at path provided"
     with open(path, 'r') as file:
         yaml_content = file.read()
-    parsed_yaml = parse_yaml(yaml_content)
-    if isinstance(parsed_yaml, str):
-        return parsed_yaml  # Return the error message directly if parsing failed
-    return parsed_yaml
+    return parse_yaml(yaml_content)
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
@@ -85,6 +82,6 @@ if __name__ == "__main__":
     valid = all(value == "true" for value in validation_results.values())
     result = {
         "valid": "true" if valid else "false",
-        **{key: str(value) for key, value in validation_results.items()}  # Ensure all values are strings
+        **{key: str(value) for key, value in validation_results.items()}
     }
     print(json.dumps(result))
