@@ -1,4 +1,12 @@
-# # ENVIRONMENT VARIABLE
+resource "spacelift_environment_variable" "pyvenv" { 
+    depends_on = [spacelift_context.env_flag]
+    context_id  = spacelift_context.env_flag.id
+    name        = "TF_VAR_PYVENV" 
+    value       = var.PYVENV == 2 ? var.PYVENV : var.PYVENV + 1
+    write_only  = false 
+    description = "Runner Python virtual environment"
+}
+
 # resource "spacelift_environment_variable" "branch" { 
 #     count = var.ENV_FLAG_PYVENV == 2 ? 1 : 0
 #     depends_on = [spacelift_context_attachment.config_config]
@@ -39,21 +47,5 @@
 #     description = "IaC configuration path"
 # }
 
-# resource "spacelift_environment_variable" "env_flag_pyvenv" { 
-#     depends_on = [spacelift_context.pyvenv]
-#     context_id  = spacelift_context.pyvenv.id
-#     name        = "TF_VAR_ENV_FLAG_PYVENV" 
-#     value       = var.ENV_FLAG_PYVENV == 2 ? var.ENV_FLAG_PYVENV : var.ENV_FLAG_PYVENV + 1
-#     write_only  = false 
-#     description = "Python virtual environment"
-# }
 
-# resource "spacelift_context_attachment" "env_flag_config" {
-#     depends_on = [
-#         spacelift_context.env_flag,
-#         spacelift_environment_variable.pyvenv
-#     ]
-#     context_id = spacelift_context.pyvenv.id
-#     stack_id   = data.spacelift_stack.config.id
-#     priority   = 0
-# }
+
