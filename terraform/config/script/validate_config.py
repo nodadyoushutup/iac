@@ -50,7 +50,7 @@ def validate_public_key(key_path):
  
 if __name__ == "__main__": 
     validation_results = { 
-        "test": f"{PRIVATE_KEY} {CONFIG_PATH}",
+        "debug": f"{PRIVATE_KEY} {CONFIG_PATH}",
         "config_path": validate_config_path(CONFIG_PATH), 
         "yaml": validate_yaml(CONFIG_PATH), 
         "private_key": validate_private_key(PRIVATE_KEY),
