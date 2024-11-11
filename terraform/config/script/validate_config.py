@@ -13,14 +13,14 @@ def validate_private_key(path):
             first_line = lines[0].strip()
             last_line = lines[-1].strip()
             if (
-                first_line == "-----BEGIN OPENSSH PRIVATE KEY2-----" 
+                first_line == "-----BEGIN OPENSSH PRIVATE KEY-----" 
                 and last_line == "-----END OPENSSH PRIVATE KEY-----"
             ):
                 return True
     return False
 
 if __name__ == "__main__":
-
+    # Validate private key and set results
     validation_results = {
         "private_key": "true" if validate_private_key(PRIVATE_KEY) else "Private key is not valid"
     }
@@ -28,10 +28,10 @@ if __name__ == "__main__":
     # Determine overall validity
     valid = all(value == "true" for value in validation_results.values())
     
-    # Create result dictionary with all string values
+    # Flatten result, moving validation results to top-level
     result = {
         "valid": "true" if valid else "false",
-        "details": json.dumps(validation_results)  # Serialize the details dictionary as a JSON string
+        **validation_results
     }
     
     # Output result as JSON

@@ -20,5 +20,5 @@ output "validate_config" {
 }
 
 output "validate_private_key" {
-  value = data.external.validate_env.result["details"]["private_key"]
+  value = data.external.validate_env.result["private_key"]
 }
