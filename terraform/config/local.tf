@@ -5,7 +5,7 @@ locals {
     }
     flag = {
         pyvenv = var.FLAG_PYVENV == 2 ? var.FLAG_PYVENV : var.FLAG_PYVENV + 1
-        config = try(var.FLAG_PYVENV == 2 && data.external.validate_private_key.result["valid"] == "true", null) ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG
+        config = try(var.FLAG_PYVENV == 2 && data.external.validate_env.result["valid"] == "true", null) ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG
     }
     git = {
         branch = coalesce(var.GIT_BRANCH, data.spacelift_stack.config.branch)
