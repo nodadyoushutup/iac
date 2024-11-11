@@ -4,13 +4,13 @@ variable "CONFIG_PATH" {
     default = "/mnt/workspace/config.yaml"
 }
 
-variable "ENV_BRANCH" {
+variable "BRANCH" {
     type = string
     description = "Environment branch"
     default = "main"
 }
 
-variable "ENV_REPOSITORY" {
+variable "REPOSITORY" {
     type = string
     description = "Environment repository"
     default = "iac"

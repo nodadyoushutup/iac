@@ -32,20 +32,20 @@ resource "spacelift_context_attachment" "py_venv_config" {
 }
 
 # ENVIRONMENT VARIABLE
-resource "spacelift_environment_variable" "env_branch" { 
+resource "spacelift_environment_variable" "branch" { 
     depends_on = [spacelift_context_attachment.config_config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_ENV_BRANCH" 
-    value       = var.ENV_BRANCH
+    name        = "TF_VAR_BRANCH" 
+    value       = var.BRANCH
     write_only  = false 
     description = "Environment branch"
 }
 
-resource "spacelift_environment_variable" "env_repository" { 
+resource "spacelift_environment_variable" "repository" { 
     depends_on = [spacelift_context_attachment.config_config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_ENV_REPOSITORY" 
-    value       = var.ENV_REPOSITORY
+    name        = "TF_VAR_REPOSITORY" 
+    value       = var.REPOSITORY
     write_only  = false 
     description = "Environment repository"
 }
@@ -86,18 +86,18 @@ resource "spacelift_mounted_file" "private_keymounted_file" {
 }
 
 # resource "spacelift_stack" "module" {
-#     count = var.ENV_BRANCH != null && var.ENV_REPOSITORY != null ? 1 : 0
+#     count = var.BRANCH != null && var.REPOSITORY != null ? 1 : 0
 #     depends_on = [
-#         spacelift_environment_variable.env_branch,
-#         spacelift_environment_variable.env_repository
+#         spacelift_environment_variable.branch,
+#         spacelift_environment_variable.repository
 #    ]
 #     administrative = true
 #     autodeploy = true
-#     branch = var.ENV_BRANCH
+#     branch = var.BRANCH
 #     description = "Modules"
 #     name = "module"
 #     project_root = "terraform/module"
-#     repository = var.ENV_REPOSITORY
+#     repository = var.REPOSITORY
 #     terraform_version = "1.5.7"
 #     labels = ["module"]
 # }
