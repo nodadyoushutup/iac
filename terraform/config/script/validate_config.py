@@ -3,9 +3,11 @@ import json
 import os
 
 
-def validate_private_key():
-    private_key_path = os.environ.get("TF_VAR_PRIVATE_KEY")
-    private_key_valid = False
+PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
+CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
+
+def validate_private_key(path):
+    private_key_path = path
     if private_key_path and os.path.isfile(private_key_path):
         with open(private_key_path, "r") as f:
             lines = f.readlines()
@@ -21,14 +23,20 @@ def validate_private_key():
 
 if __name__ == "__main__":
 
-    private_key_valid = validate_private_key()
+    validation_results = {
+        "private_key": False
+    }
 
+    private_key_valid = validate_private_key(PRIVATE_KEY)
 
-    if (
-        private_key_valid
-    ):
-        valid = True
-
-    # Output JSON result
-    result = {"valid": "true" if valid else "false"}
+    if private_key_valid:
+        validation_results["private_key"] = True
+    else:
+        validation_results["private_key"] = "Private key is not valid"
+    
+    valid = all(value is True for value in validation_results.values())
+    result = {
+        "valid": "true" if valid else "false",
+        "details": validation_results
+    }
     print(json.dumps(result))
