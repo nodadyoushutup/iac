@@ -18,13 +18,16 @@ def validate_private_key(path):
                 first_line == "-----BEGIN OPENSSH PRIVATE KEY-----" 
                 and last_line == "-----END OPENSSH PRIVATE KEY-----"
             ):
-                return "Private key first and last lines not valid"
-            
+                return "Private key first and last lines are not valid"
             key_body = ''.join(line.strip() for line in lines[1:-1])
             try:
                 base64.b64decode(key_body, validate=True)
             except (ValueError, base64.binascii.Error):
-                return "Private key body not valid"
+                return "Private key body is not valid"
+        else:
+            return "Private key is not valid"
+    else:
+            return "Private key path is not valid"
     return "true"
 
 if __name__ == "__main__":
