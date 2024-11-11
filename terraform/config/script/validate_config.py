@@ -13,7 +13,7 @@ def validate_private_key(path):
             first_line = lines[0].strip()
             last_line = lines[-1].strip()
             if (
-                first_line == "-----BEGIN OPENSSH PRIVATE KEY-----" 
+                first_line == "-----BEGIN OPENSSH PRIVATE KEY2-----" 
                 and last_line == "-----END OPENSSH PRIVATE KEY-----"
             ):
                 return True
