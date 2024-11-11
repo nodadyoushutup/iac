@@ -48,10 +48,10 @@ def validate_yaml(path):
         return "No file detected at path provided"
     with open(path, 'r') as file:
         yaml_content = file.read()
-    if isinstance(yaml_content, dict):
-        return "true"
-    else:
+    parsed_yaml = parse_yaml(yaml_content)
+    if not isinstance(parsed_yaml, dict):
         return "YAML format is not valid"
+    return "true"
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
