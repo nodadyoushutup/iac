@@ -1,13 +1,13 @@
-variable "CONFIG_PATH" {
-    type = string
-    description = "Configuration path"
-    default = "/mnt/workspace/config.yaml"
-}
-
 variable "BRANCH" {
     type = string
     description = "Environment branch"
     default = "main"
+}
+
+variable "CONFIG_PATH" {
+    type = string
+    description = "Configuration path"
+    default = "/mnt/workspace/config.yaml"
 }
 
 variable "REPOSITORY" {
