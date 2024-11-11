@@ -11,6 +11,8 @@ def validate_private_key(path):
     if path and os.path.isfile(path):
         with open(path, "r") as f:
             lines = f.readlines()
+        if len(lines) == 1:
+            return "Private key must be updated from default"
         if len(lines) >= 2:
             first_line = lines[0].strip()
             last_line = lines[-1].strip()
@@ -24,8 +26,6 @@ def validate_private_key(path):
                 base64.b64decode(key_body, validate=True)
             except (ValueError, base64.binascii.Error):
                 return "Private key body is not valid"
-        else:
-            return "Private key is not valid"
     else:
         return "Private key not found at path provided"
     return "true"
