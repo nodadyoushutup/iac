@@ -22,7 +22,7 @@ variable "PRIVATE_KEY" {
   default = "/mnt/workspace/id_rsa"
 }
 
-variable "PY_VENV" {
+variable "PYVENV" {
   type = bool
   description = "Python virtual envrionment"
   default = true
