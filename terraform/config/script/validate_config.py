@@ -76,7 +76,8 @@ def validate_private_key(path):
 
 if __name__ == "__main__":
     validation_results = {
-        "config_path": load_yaml_file(CONFIG_PATH),
+        "config_path": validate_config_path(CONFIG_PATH),
+        "yaml_load": load_yaml_file(CONFIG_PATH),
         "private_key": validate_private_key(PRIVATE_KEY)
     }
     valid = all(value == "true" for value in validation_results.values())
