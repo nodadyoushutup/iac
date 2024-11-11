@@ -1,7 +1,6 @@
 #!/usr/bin/env python3 
 import json 
 import os 
-import base64 
 import yaml
 import paramiko
 import re
@@ -40,15 +39,14 @@ def validate_private_key(path, password=None):
     except Exception as e:
         return e
 
-def is_valid_public_key(key_path):
+def validate_public_key(key_path):
     try:
         with open(key_path, "r") as file:
             key_data = file.read().strip()
             key_pattern = re.compile(r"^(ssh-(rsa|dss|ed25519|ecdsa) [A-Za-z0-9+/=]+ ?.*)$")
             return bool(key_pattern.match(key_data))
     except Exception as e:
-        print(f"Error: {e}")
-        return False
+        return e
  
 if __name__ == "__main__": 
     validation_results = { 
