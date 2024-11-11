@@ -16,5 +16,5 @@ data "external" "validate_env" {
 }
 
 output "validate_env" {
-  value = data.external.validate_env
+  value = data.external.validate_env.results
 }
