@@ -12,6 +12,7 @@ resource "spacelift_context" "py_venv" {
     before_init = [
         "python3 -m venv venv",
         "source venv/bin/activate",
+        "pip install --upgrade pip",
         "pip install pyyaml"
     ]
 }
@@ -30,7 +31,6 @@ resource "spacelift_context_attachment" "py_venv_config" {
     stack_id   = data.spacelift_stack.config.id
     priority   = 0
 }
-
 
 # ENVIRONMENT VARIABLE
 resource "spacelift_environment_variable" "env_branch" { 
