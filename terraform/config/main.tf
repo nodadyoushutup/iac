@@ -44,7 +44,7 @@ resource "spacelift_environment_variable" "private_key" {
 resource "spacelift_environment_variable" "config_path" { 
     depends_on = [spacelift_context_attachment.config_config]
     context_id  = spacelift_context.config.id
-    name        = "TF_VAR_CONFIG" 
+    name        = "TF_VAR_CONFIG_PATH" 
     value       = var.CONFIG_PATH
     write_only  = false 
     description = "IaC configuration path"
