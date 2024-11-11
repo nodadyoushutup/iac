@@ -23,6 +23,10 @@ output "validate_config_path" {
   value = data.external.validate_env.result["config_path"]
 }
 
+output "validate_yaml_load" {
+  value = data.external.validate_env.result["yaml_load"]
+}
+
 output "validate_private_key" {
   value = data.external.validate_env.result["private_key"]
 }
