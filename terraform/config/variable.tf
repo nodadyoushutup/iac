@@ -23,9 +23,9 @@ variable "PATH_PRIVATE_KEY" {
 }
 
 variable "FLAG_PYVENV" {
-  type = number
+  type = bool
   description = "Python virtual envrionment flag"
-  default = 0
+  default = false
 }
 
 variable "FLAG_CONFIG" {
