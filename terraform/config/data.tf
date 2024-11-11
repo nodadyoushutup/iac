@@ -15,6 +15,10 @@ data "external" "validate_env" {
     depends_on = [random_id.validate_env_trigger]
 }
 
-output "validate_env" {
-  value = data.external.validate_env.result
+output "validate_config" {
+  value = data.external.validate_env.result["valid"]
+}
+
+output "validate_private_key" {
+  value = data.external.validate_env.result["private_key"]
 }
