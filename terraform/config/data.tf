@@ -16,7 +16,7 @@ data "external" "validate_env" {
 }
 
 output "validate_config" {
-  value = data.external.validate_env.result["valid"]
+  value = data.external.validate_env.result["valid"] != "false" ? "Configuration is valid" : "Configuration is not valid"
 }
 
 output "validate_private_key" {
