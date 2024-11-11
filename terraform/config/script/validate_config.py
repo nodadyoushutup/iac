@@ -12,7 +12,7 @@ def parse_yaml(yaml_str):
     result = {}
     stack = [result]
     for line in lines:
-        if not line.strip() or line.strip().startswith('#'):
+        if not line.strip() or line.strip().startswith('#') or line.strip() == "---":
             continue  # Skip empty lines and comments
         indent = len(line) - len(line.lstrip())
         level = indent // 2
