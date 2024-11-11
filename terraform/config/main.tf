@@ -1,4 +1,4 @@
-# INIT
+# PYVENV
 resource "spacelift_context" "pyvenv" {
     description = "Python virtual environment"
     name = "pyvenv"
@@ -29,8 +29,6 @@ resource "spacelift_environment_variable" "pyvenv" {
     description = "Python virtual environment"
 }
 
-
-
 # CONTEXT
 resource "spacelift_context" "config" {
     count = var.PYVENV == 2 ? 1 : 0
@@ -40,7 +38,6 @@ resource "spacelift_context" "config" {
     space_id = data.spacelift_space.root.id
 }
 
-
 # CONTEXT ATTACHMENT
 resource "spacelift_context_attachment" "config_config" {
     count = var.PYVENV == 2 ? 1 : 0
@@ -49,8 +46,6 @@ resource "spacelift_context_attachment" "config_config" {
     stack_id   = data.spacelift_stack.config.id
     priority   = 0
 }
-
-
 
 # ENVIRONMENT VARIABLE
 resource "spacelift_environment_variable" "branch" { 
