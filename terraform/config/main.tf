@@ -14,7 +14,7 @@ resource "spacelift_environment_variable" "pyvenv" {
     depends_on = [spacelift_context.pyvenv]
     context_id  = spacelift_context.pyvenv.id
     name        = "TF_VAR_PYVENV" 
-    value       = var.PYVENV >= 1 ? var.PYVENV + 1 : var.PYVENV + 1
+    value       = var.PYVENV == 2 ? var.PYVENV : var.PYVENV + 1
     write_only  = false 
     description = "Python virtual environment"
 }
