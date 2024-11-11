@@ -19,6 +19,10 @@ output "_validate_results" {
   value = data.external.validate_env.result["valid"] != "false" ? "All validation checks have passed" : "Validation checks failed"
 }
 
+output "validate_config_path" {
+  value = data.external.validate_env.result["config_path"]
+}
+
 output "validate_private_key" {
   value = data.external.validate_env.result["private_key"]
 }
