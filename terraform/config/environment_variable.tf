@@ -11,7 +11,7 @@ resource "spacelift_environment_variable" "branch" {
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_BRANCH" 
-    value       = var.BRANCH
+    value       = local.git.branch
     write_only  = false 
     description = "Environment branch"
 }
@@ -20,7 +20,7 @@ resource "spacelift_environment_variable" "repository" {
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_REPOSITORY" 
-    value       = var.REPOSITORY
+    value       = local.git.repository
     write_only  = false 
     description = "Environment repository"
 }

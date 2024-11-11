@@ -1,7 +1,7 @@
 variable "BRANCH" {
     type = string
     description = "Environment branch"
-    default = "main"
+    default = null
 }
 
 variable "CONFIG_PATH" {
@@ -13,7 +13,7 @@ variable "CONFIG_PATH" {
 variable "REPOSITORY" {
     type = string
     description = "Environment repository"
-    default = "iac"
+    default = null
 }
 
 variable "PRIVATE_KEY" {
