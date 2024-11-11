@@ -39,10 +39,13 @@ def parse_yaml(yaml_str):
             stack.append(value)
     return result
 
-def load_yaml_file(file_path):
-    with open(file_path, 'r') as file:
-        yaml_content = file.read()
-    return parse_yaml(yaml_content)
+def load_yaml_file(path):
+    if path and os.path.isfile(path):
+        with open(path, 'r') as file:
+            yaml_content = file.read()
+        # return parse_yaml(yaml_content)
+        return "YAML file found"
+    return "YAML file not found at provided path"
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
@@ -65,11 +68,11 @@ def validate_private_key(path):
                 return "Private key body is not valid"
     else:
         return "Private key not found at path provided"
-    # return "true"
-    return load_yaml_file(CONFIG_PATH)
+    return "true"
 
 if __name__ == "__main__":
     validation_results = {
+        "yaml": load_yaml_file(CONFIG_PATH),
         "private_key": validate_private_key(PRIVATE_KEY)
     }
     valid = all(value == "true" for value in validation_results.values())
