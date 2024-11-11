@@ -18,6 +18,6 @@ data "external" "validate_env" {
       "python3",
       "${path.module}/script/validate_config.py"
   ]
-  query = { trigger = random_id.validate_env_trigger.hex }
+  query = { trigger = random_id.validate_env_trigger[count.index].hex }
 }
 
