@@ -2,6 +2,8 @@
 import json
 import os
 import base64
+import yaml
+
 
 PRIVATE_KEY = os.environ.get("TF_VAR_PRIVATE_KEY")
 CONFIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")

@@ -16,6 +16,7 @@ resource "spacelift_context" "py_venv" {
     ]
 }
 
+
 #CONTEXT ATTACHMENT
 resource "spacelift_context_attachment" "config_config" {
     depends_on = [spacelift_context.config]
