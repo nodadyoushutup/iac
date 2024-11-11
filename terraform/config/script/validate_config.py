@@ -16,13 +16,13 @@ def validate_private_key(path):
                 first_line == "-----BEGIN OPENSSH PRIVATE KEY-----" 
                 and last_line == "-----END OPENSSH PRIVATE KEY-----"
             ):
-                return True
-    return False
+                return "true"
+    return "Private key is not valid"
 
 if __name__ == "__main__":
     # Validate private key and set results
     validation_results = {
-        "private_key": "true" if validate_private_key(PRIVATE_KEY) else "Private key is not valid"
+        "private_key": validate_private_key(PRIVATE_KEY)
     }
     
     # Determine overall validity
