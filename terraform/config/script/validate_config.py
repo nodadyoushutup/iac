@@ -49,7 +49,7 @@ def load_yaml_file(path):
         with open(path, 'r') as file:
             yaml_content = file.read()
         return parse_yaml(yaml_content)
-    return "YAML file not found at provided path"
+    return "No file detected at path provided"
 
 def validate_private_key(path):
     if path and os.path.isfile(path):
