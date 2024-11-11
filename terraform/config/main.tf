@@ -14,7 +14,7 @@ resource "spacelift_environment_variable" "pyvenv" {
     depends_on = [spacelift_context.pyvenv]
     context_id  = spacelift_context.pyvenv.id
     name        = "TF_VAR_PYVENV" 
-    value       = var.PYVENV
+    value       = var.PYVENV >= 1 ? var.PYVENV + 1 : var.PYVENV + 1
     write_only  = false 
     description = "Python virtual environment"
 }
@@ -29,14 +29,14 @@ resource "spacelift_context_attachment" "pyvenv_config" {
     priority   = 0
 }
 
-# CONTEXT
-resource "spacelift_context" "config" {
-    count = var.PYVENV == true ? 1 : 0
-    depends_on = [ spacelift_context_attachment.pyvenv_config ]
-    description = "Configuration"
-    name = "config"
-    space_id = data.spacelift_space.root.id
-}
+# # CONTEXT
+# resource "spacelift_context" "config" {
+#     count = var.PYVENV > 0 ? 1 : 0
+#     depends_on = [ spacelift_context_attachment.pyvenv_config ]
+#     description = "Configuration"
+#     name = "config"
+#     space_id = data.spacelift_space.root.id
+# }
 
 
 # # CONTEXT ATTACHMENT

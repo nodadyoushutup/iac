@@ -23,7 +23,7 @@ variable "PRIVATE_KEY" {
 }
 
 variable "PYVENV" {
-  type = bool
+  type = number
   description = "Python virtual envrionment"
-  default = true
+  default = 0
 }
