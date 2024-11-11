@@ -1,3 +1,7 @@
+data "spacelift_space" "root" {
+  space_id = spacelift_space.root.id
+}
+
 data "spacelift_stack" "config" {
   stack_id = "config"
 }
