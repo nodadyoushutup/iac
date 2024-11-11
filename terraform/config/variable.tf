@@ -23,13 +23,13 @@ variable "PATH_PRIVATE_KEY" {
 }
 
 variable "FLAG_PYVENV" {
-  type = bool
+  type = number
   description = "Python virtual envrionment flag"
-  default = false
+  default = 0
 }
 
 variable "FLAG_CONFIG" {
-  type = number
+  type = bool
   description = "Spacelift configuration flag"
-  default = 0
+  default = false
 }
