@@ -1,23 +1,15 @@
 output "_validate_results" {
-  value = [for i in range(length(data.external.validate_env)) :
-    data.external.validate_env[i].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed"
-  ]
+  value = var.PYVENV == 2 ? (data.external.validate_env[0].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed") : null
 }
 
 output "validate_config_path" {
-  value = [for i in range(length(data.external.validate_env)) :
-    data.external.validate_env[i].result["config_path"]
-  ]
+  value = var.PYVENV == 2 ? data.external.validate_env[0].result["config_path"] : null
 }
 
 output "validate_yaml" {
-  value = [for i in range(length(data.external.validate_env)) :
-    data.external.validate_env[i].result["yaml"]
-  ]
+  value = var.PYVENV == 2 ? data.external.validate_env[0].result["yaml"] : null
 }
 
 output "validate_private_key" {
-  value = [for i in range(length(data.external.validate_env)) :
-    data.external.validate_env[i].result["private_key"]
-  ]
+  value = var.PYVENV == 2 ? data.external.validate_env[0].result["private_key"] : null
 }
