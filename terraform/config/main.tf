@@ -5,6 +5,17 @@ resource "spacelift_context" "config" {
     space_id = "root"
 }
 
+resource "spacelift_context" "py_venv" {
+    description = "Python Virtual Environment"
+    name = "py_venv"
+    space_id = "root"
+    before_init = [
+        "python3 -m venv venv",
+        "source venv/bin/activate",
+        "pip install pyyaml"
+    ]
+}
+
 #CONTEXT ATTACHMENT
 resource "spacelift_context_attachment" "config_config" {
     depends_on = [spacelift_context.config]
@@ -12,6 +23,14 @@ resource "spacelift_context_attachment" "config_config" {
     stack_id   = data.spacelift_stack.config.id
     priority   = 0
 }
+
+resource "spacelift_context_attachment" "py_venv_config" {
+    depends_on = [spacelift_context.py_venv]
+    context_id = spacelift_context.py_venv.id
+    stack_id   = data.spacelift_stack.config.id
+    priority   = 0
+}
+
 
 # ENVIRONMENT VARIABLE
 resource "spacelift_environment_variable" "env_branch" { 

@@ -10,32 +10,91 @@ def parse_yaml(yaml_str):
     lines = yaml_str.strip().splitlines()
     result = {}
     stack = [result]
+    last_level = 0  # Track the indentation level of the previous line
+    
     for line in lines:
         if not line.strip() or line.strip().startswith('#') or line.strip() == "---":
             continue
+        
         indent = len(line) - len(line.lstrip())
         level = indent // 2
-        key, sep, value = line.strip().partition(':')
-        if not sep:
-            return f"Invalid YAML format on line: {line}"
-        value = value.strip()
-        if not value:
-            value = {}
-        elif value.isdigit():
-            value = int(value)
-        elif value.lower() == "true":
-            value = True
-        elif value.lower() == "false":
-            value = False
-        elif value.replace('.', '', 1).isdigit():
-            value = float(value)
+        
+        # Detect inconsistent indentation
+        if indent % 2 != 0:
+            return f"Inconsistent indentation (not multiple of 2 spaces) on line: {line}"
+        if level > last_level + 1:
+            return f"Unexpected indentation level on line: {line}"
+        
+        last_level = level
+        
+        # Check if line is a list item
+        is_list_item = line.lstrip().startswith('-')
+        
+        # Process the line content
+        if is_list_item:
+            key = None  # List items don’t have a key
+            value = line.lstrip()[1:].strip()  # Remove the dash and any extra space
+            if value.isdigit():
+                value = int(value)
+            elif value.lower() == "true":
+                value = True
+            elif value.lower() == "false":
+                value = False
+            elif value.replace('.', '', 1).isdigit():
+                value = float(value)
+            elif not value:
+                value = {}
+        else:
+            key, sep, value = line.strip().partition(':')
+            if not sep:
+                return f"Invalid YAML format on line: {line}"
+            value = value.strip()
+            
+            # Check for inline list format
+            if value.startswith('[') and value.endswith(']'):
+                value = [
+                    item.strip() for item in value[1:-1].split(',')
+                ]
+                # Convert list items to int, float, or bool if possible
+                value = [
+                    int(v) if v.isdigit() else
+                    float(v) if v.replace('.', '', 1).isdigit() else
+                    True if v.lower() == "true" else
+                    False if v.lower() == "false" else v
+                    for v in value
+                ]
+            elif not value:
+                value = {}
+            elif value.isdigit():
+                value = int(value)
+            elif value.lower() == "true":
+                value = True
+            elif value.lower() == "false":
+                value = False
+            elif value.replace('.', '', 1).isdigit():
+                value = float(value)
+        
+        # Adjust the stack based on the current level
         while len(stack) > level + 1:
             stack.pop()
         current = stack[-1]
-        if isinstance(current, dict):
-            current[key] = value
-        if isinstance(value, dict):
-            stack.append(value)
+        
+        # Append to list if it's a list item
+        if is_list_item:
+            if isinstance(current, dict):
+                # Initialize list if the current dict does not have a list yet
+                last_key = list(current.keys())[-1] if current else None
+                if last_key is None or not isinstance(current[last_key], list):
+                    current[last_key] = []
+                current[last_key].append(value)
+            elif isinstance(current, list):
+                current.append(value)
+        else:
+            if isinstance(current, dict):
+                current[key] = value
+            if isinstance(value, dict):
+                stack.append(value)
+    
     return result
 
 def validate_config_path(path):
