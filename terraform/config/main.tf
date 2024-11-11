@@ -1,30 +1,30 @@
 # INIT
-# resource "spacelift_context" "pyvenv" {
-#     description = "Python virtual environment"
-#     name = "pyvenv"
-#     space_id = "root"
-#     before_init = [
-#         "python3 -m venv venv",
-#         "source venv/bin/activate",
-#         "pip install --upgrade pip && pip install pyyaml paramiko",
-#     ]
-# }
+resource "spacelift_context" "pyvenv" {
+    description = "Python virtual environment"
+    name = "pyvenv"
+    space_id = "root"
+    before_init = [
+        "python3 -m venv venv",
+        "source venv/bin/activate",
+        "pip install --upgrade pip && pip install pyyaml paramiko",
+    ]
+}
 
-# resource "spacelift_environment_variable" "pyvenv" { 
-#     depends_on = [spacelift_context.pyvenv]
-#     context_id  = spacelift_context.pyvenv.id
-#     name        = "TF_VAR_PYVENV" 
-#     value       = var.PYVENV
-#     write_only  = false 
-#     description = "Python virtual environment"
-# }
+resource "spacelift_environment_variable" "pyvenv" { 
+    depends_on = [spacelift_context.pyvenv]
+    context_id  = spacelift_context.pyvenv.id
+    name        = "TF_VAR_PYVENV" 
+    value       = var.PYVENV
+    write_only  = false 
+    description = "Python virtual environment"
+}
 
-# resource "spacelift_context_attachment" "pyvenv_config" {
-#     depends_on = [spacelift_context.pyvenv]
-#     context_id = spacelift_context.pyvenv.id
-#     stack_id   = data.spacelift_stack.config.id
-#     priority   = 0
-# }
+resource "spacelift_context_attachment" "pyvenv_config" {
+    depends_on = [spacelift_context.pyvenv]
+    context_id = spacelift_context.pyvenv.id
+    stack_id   = data.spacelift_stack.config.id
+    priority   = 0
+}
 
 
 
