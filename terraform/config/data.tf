@@ -12,6 +12,6 @@ data "external" "validate_env" {
         "${path.module}/script/validate_config.py"
     ]
     query = { trigger = random_id.validate_env_trigger.hex }
-    depends_on = [random_id.validate_env_trigger]
+    depends_on = [random_id.validate_env_trigger, spacelift_context_attachment.py_venv_config]
 }
 
