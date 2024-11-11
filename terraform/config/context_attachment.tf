@@ -11,10 +11,3 @@ resource "spacelift_context_attachment" "config_config" {
     stack_id   = data.spacelift_stack.config.id
     priority   = 0
 }
-
-resource "spacelift_context_attachment" "env_flag_config" {
-    depends_on = [spacelift_context.config]
-    context_id = spacelift_context.env_flag.id
-    stack_id   = data.spacelift_stack.config.id
-    priority   = 0
-}
