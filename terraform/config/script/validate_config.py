@@ -44,7 +44,7 @@ def validate_config_path(path):
     return "true"
 
 def load_yaml_file(path):
-    if validate_config_path(path) != "true":
+    if not path or not os.path.isfile(path):
         return "No file detected at path provided"
     with open(path, 'r') as file:
         yaml_content = file.read()
