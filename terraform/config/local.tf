@@ -21,11 +21,3 @@ locals {
         repository = coalesce(var.GIT_REPOSITORY, data.spacelift_stack.config.repository)
     }
 }
-
-output "pyvenv" {
-  value = local.flag.pyvenv
-}
-
-output "config" {
-  value = local.flag.config
-}
