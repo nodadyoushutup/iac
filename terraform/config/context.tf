@@ -16,10 +16,10 @@ resource "spacelift_context" "env_flag" {
 }
 
 
-resource "spacelift_context" "config" {
-    count = var.PYVENV == 2 ? 1 : 0
-    depends_on = [ spacelift_context_attachment.env_flag_config ]
-    description = "Configuration"
-    name = "config"
-    space_id = data.spacelift_space.root.id
-}
+# resource "spacelift_context" "config" {
+#     count = var.PYVENV == 2 ? 1 : 0
+#     depends_on = [ spacelift_context_attachment.env_flag_config ]
+#     description = "Configuration"
+#     name = "config"
+#     space_id = data.spacelift_space.root.id
+# }
