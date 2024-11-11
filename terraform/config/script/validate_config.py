@@ -27,7 +27,7 @@ def validate_private_key(path):
         else:
             return "Private key is not valid"
     else:
-            return "Private key path is not valid"
+        return "Private key not found at path provided"
     return "true"
 
 if __name__ == "__main__":
