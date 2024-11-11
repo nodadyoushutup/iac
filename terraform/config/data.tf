@@ -1,10 +1,10 @@
-# data "spacelift_space" "root" {
-#   space_id = "root"
-# }
+data "spacelift_space" "root" {
+  space_id = "root"
+}
 
-# data "spacelift_stack" "config" {
-#   stack_id = "config"
-# }
+data "spacelift_stack" "config" {
+  stack_id = "config"
+}
 
 # resource "random_id" "validate_env_trigger" {
 #   count = var.PYVENV == 2 ? 1 : 0
