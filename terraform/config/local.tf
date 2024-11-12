@@ -11,8 +11,7 @@ locals {
     }
     flag = {
         deploy = var.FLAG_DEPLOY + 1
-        pyvenv = var.FLAG_PYVENV == 1 ? var.FLAG_PYVENV : var.FLAG_PYVENV + 1
-        config = var.FLAG_PYVENV == 1 && try(
+        config = var.FLAG_DEPLOY >= 1 && try(
             data.external.validate_env[0].result["valid"], 
             "false"
         ) == "true" ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG
