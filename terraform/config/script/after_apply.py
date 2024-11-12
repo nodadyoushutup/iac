@@ -35,6 +35,13 @@ def create_module_version(module):
 
 if __name__ == "__main__":
     verify_spacectl_path()
-    modules = ["terraform-spacelift-stack"]
-    for module in modules:
-        create_module_version(module)
+    try:
+        result = subprocess.run(
+            [SPACECTL_PATH, "module", "list"],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        print(f"{get_timestamp()} {result}")
+    except subprocess.CalledProcessError as e:
+        print(e)
