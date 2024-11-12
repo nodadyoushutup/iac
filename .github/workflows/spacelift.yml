@@ -8,10 +8,8 @@ jobs:
     env:
       SPACELIFT_API_KEY_ENDPOINT: ${{ secrets.SPACELIFT_API_KEY_ENDPOINT }}
       SPACELIFT_API_GITHUB_TOKEN: ${{ secrets.SPACELIFT_API_GITHUB_TOKEN }}
-
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-
       - name: Init module - Stack
         run: spacectl module create-version --id terraform-spacelift-stack
