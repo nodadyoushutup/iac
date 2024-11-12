@@ -27,11 +27,21 @@ jobs:
             # Debugging output
             echo "Checking module ID: $module_id with version: '$current_version'"
 
+            # Verify if module ID is valid
+            if ! spacectl module get --id "$module_id"; then
+              echo "Module ID $module_id not found. Skipping."
+              continue
+            fi
+
             # Check if current_version matches semantic version pattern
             if [[ "$current_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "Module $module_id already has a valid semantic version: $current_version. Skipping creation."
             else
               echo "No valid semantic version found for module $module_id. Creating a new version."
-              spacectl module create-version --id "$module_id"
+
+              # Attempt to create version and capture error output
+              if ! spacectl module create-version --id "$module_id"; then
+                echo "Failed to create version for module $module_id. Continuing with other modules."
+              fi
             fi
           done
