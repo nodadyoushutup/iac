@@ -24,5 +24,5 @@ jobs:
           SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
           SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
           SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
-        # run: spacectl module create-version --id terraform-spacelift-stack
-        run: spacectl module create-version -h
+        run: spacectl module create-version --id terraform-spacelift-stack
+        # run: spacectl module create-version -h
