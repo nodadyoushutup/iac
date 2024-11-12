@@ -4,11 +4,14 @@ on:
     inputs:
       SPACELIFT_API_KEY_ENDPOINT:
         description: "Spacelift API Key Endpoint"
-        required: true
+        required: false
       SPACELIFT_API_KEY_ID:
         description: "Spacelift API Key ID"
-        required: true
+        required: false
       SPACELIFT_API_KEY_SECRET:
+        description: "Spacelift API Key Secret"
+        required: false
+      SPACELIFT_API_TOKEN:
         description: "Spacelift API Key Secret"
         required: true
 jobs:
@@ -21,11 +24,11 @@ jobs:
 
       - name: Login to Spacelift
         env:
-          SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
-          SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
-          SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
-        run: echo ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }} ${{ github.event.inputs.SPACELIFT_API_KEY_ID }} ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
-          
+          # SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
+          # SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
+          # SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
+          SPACELIFT_API_TOKEN: ${{ github.event.inputs.SPACELIFT_API_TOKEN }}    
+        run: spacectl module create-version --id terraform-spacelift-stack
 
       # - name: Init Module - Stack
       #   run: spacectl module create-version --id terraform-spacelift-stack
