@@ -4,6 +4,9 @@ import sys
 from datetime import datetime
 
 SPACECTL_PATH = "/mnt/workspace/source/terraform/config/bin/spacectl"
+MODULES = [
+    "terraform-spacelift-stack"
+]
 
 def get_timestamp():
     return datetime.now().strftime("%Y/%m/%d %H:%M:%S")
@@ -35,13 +38,5 @@ def create_module_version(module):
 
 if __name__ == "__main__":
     verify_spacectl_path()
-    try:
-        result = subprocess.run(
-            [SPACECTL_PATH, "module", "list"],
-            check=True,
-            capture_output=True,
-            text=True
-        )
-        print(f"{get_timestamp()} {result}")
-    except subprocess.CalledProcessError as e:
-        print(e)
+    for module in MODULES:
+        create_module_version(module)
