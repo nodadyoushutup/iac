@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: spacelift
     env:
-      SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
+      SPACELIFT_API_KEY_ENDPOINT: ${{ secrets.SPACELIFT_API_KEY_ENDPOINT }}
       SPACELIFT_API_GITHUB_TOKEN: ${{ secrets.SPACELIFT_API_GITHUB_TOKEN }}
 
     steps:
