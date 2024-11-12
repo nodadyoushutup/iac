@@ -57,7 +57,7 @@ def create_module_version(module):
 
 if __name__ == "__main__":
     verify_spacectl_path()
-
+    print(f"API TOKEN: {os.environ["SPACELIFT_API_TOKEN"]}")
     result = subprocess.run(
         [SPACECTL_PATH, "module", "list"],
         check=True,
