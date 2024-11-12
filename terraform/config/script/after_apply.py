@@ -64,7 +64,7 @@ if __name__ == "__main__":
         capture_output=True,
         text=True
     )
-    print(result.stdout)
+    print(result)
     # Retrieve modules without a current version
     # modules = get_modules_without_version()
     # if not modules:
