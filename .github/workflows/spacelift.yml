@@ -11,7 +11,14 @@ jobs:
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-      - name: List Modules
-        run: spacectl module list
-      # - name: Init module - Stack
-      #   run: spacectl module create-version --id terraform-spacelift-stack
+
+      - name: Check if version exists
+        id: check_version
+        run: |
+          # Run spacectl module list and parse output for the Current Version field of the target module
+          version=$(spacectl module list | grep -w "terraform-spacelift-stack" | awk '{print $3}')
+          echo "current_version=$version" >> $GITHUB_ENV
+
+      - name: Conditionally create version if none exists
+        if: env.current_version == ""
+        run: spacectl module create-version --id terraform-spacelift-stack
