@@ -39,15 +39,15 @@ jobs:
             # Final debugging output for parsed values
             echo "Final parsed module ID: '$module_id', version: '$current_version'"
 
-            # Check if current_version matches semantic version pattern
-            if [[ "$current_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "Module '$module_id' already has a valid semantic version: '$current_version'. Skipping creation."
-            else
+            # Check if current_version is truly empty or does not contain a semantic version
+            if [[ -z "$current_version" || ! "$current_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "No valid semantic version found for module '$module_id'. Attempting to create a new version."
 
               # Attempt to create version and capture error output
               if ! spacectl module create-version --id "$module_id"; then
                 echo "Failed to create version for module '$module_id'. Continuing with other modules."
               fi
+            else
+              echo "Module '$module_id' already has a valid semantic version: '$current_version'. Skipping creation."
             fi
           done
