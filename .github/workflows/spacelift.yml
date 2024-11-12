@@ -15,6 +15,7 @@ jobs:
       - name: Check and conditionally create version
         run: |
           # Run spacectl module list and parse output for the Current Version field of the target module
+          echo spacectl module list
           version=$(spacectl module list | grep -w "terraform-spacelift-stack" | awk '{print $3}')
           echo "Current version found: '$version'"  # Debugging output
           # Set a default value if version is empty
