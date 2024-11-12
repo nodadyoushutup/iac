@@ -59,7 +59,7 @@ if __name__ == "__main__":
     verify_spacectl_path()
 
     result = subprocess.run(
-        [SPACECTL_PATH, "module list"],
+        [SPACECTL_PATH, "--version"],
         check=True,
         capture_output=True,
         text=True
