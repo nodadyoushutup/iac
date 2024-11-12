@@ -1,10 +1,23 @@
 import subprocess
+import os
+import sys
+
+SPACECTL_PATH = "/mnt/workspace/source/terraform/config/bin/spacectl"
+
+def verify_spacectl_path():
+    # Check if spacectl exists and is executable
+    if not os.path.isfile(SPACECTL_PATH):
+        print(f"Error: spacectl not found at {SPACECTL_PATH}.")
+        sys.exit(1)
+    if not os.access(SPACECTL_PATH, os.X_OK):
+        print(f"Error: spacectl at {SPACECTL_PATH} is not executable.")
+        sys.exit(1)
 
 def create_module_version(module):
     try:
         # Run the spacectl command
         subprocess.run(
-            ["/mnt/workspace/source/terraform/config/bin/spacectl", "module", "create-version", "--id", module],
+            [SPACECTL_PATH, "module", "create-version", "--id", module],
             check=True
         )
         print(f"Version created successfully for module {module}.")
@@ -13,6 +26,9 @@ def create_module_version(module):
         print(f"Error encountered while creating version for module {module}. Ignoring and continuing.")
 
 if __name__ == "__main__":
+    # Verify spacectl path and permissions
+    verify_spacectl_path()
+    
     # Define a list of modules
     modules = ["terraform-spacelift-stack"]
     
