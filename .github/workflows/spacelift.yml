@@ -26,7 +26,7 @@ jobs:
 
       - name: Init Module - Stack
         env:
-          # SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
+          SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
           # SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
           # SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
           SPACELIFT_API_KEY_TOKEN: ${{ github.event.inputs.SPACELIFT_API_TOKEN }}
