@@ -1,4 +1,4 @@
-name: Create Spacelift Module Versions
+name: Spacectl
 on:
   workflow_dispatch:
     inputs:
@@ -10,7 +10,7 @@ on:
         required: true
 
 jobs:
-  create-spacelift-module-versions:
+  spacectl:
     runs-on: ubuntu-latest
     environment: spacelift
     env:
@@ -20,9 +20,5 @@ jobs:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
 
-      - name: terraform-spacelift-stack
-        run: |
-          export MODULE="terraform-spacelift-stack"
-          if ! spacectl module create-version --id $MODULE; then
-            echo "Error encountered while creating version for module $MODULE. Ignoring and continuing."
-          fi
+      - name: Spacectl
+        run: spacectl stack -h
