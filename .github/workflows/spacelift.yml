@@ -21,16 +21,16 @@ jobs:
           echo "$modules" | while read -r line; do
             # Extract module ID and version using awk with | as the field separator
             module_id=$(echo "$line" | awk -F ' *\\| *' '{print $2}' | xargs)
-            current_version=$(echo "$line" | awk -F ' *\\| *' '{print $4}' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//') # Strip all whitespace
+            current_version=$(echo "$line" | awk -F ' *\\| *' '{print $4}' | xargs)
             
             # Debugging output
             echo "Checking module ID: $module_id with version: '$current_version'"
 
-            # Check if current_version is empty after comprehensive trim
-            if [[ -z "$current_version" ]]; then
-              echo "No version found for module $module_id. Creating a new version."
-              spacectl module create-version --id "$module_id"
+            # Check if current_version matches semantic version pattern
+            if [[ "$current_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Module $module_id already has a valid semantic version: $current_version. Skipping creation."
             else
-              echo "Module $module_id already has version $current_version. Skipping creation."
+              echo "No valid semantic version found for module $module_id. Creating a new version."
+              spacectl module create-version --id "$module_id"
             fi
           done
