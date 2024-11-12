@@ -19,10 +19,13 @@ jobs:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
 
-      - name: Init Module - Stack
+      - name: Login to Spacelift
         env:
           SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
           SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
           SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
+        run: |
+          spacectl profile login --endpoint $SPACELIFT_API_KEY_ENDPOINT --id $SPACELIFT_API_KEY_ID --secret $SPACELIFT_API_KEY_SECRET
+
+      - name: Init Module - Stack
         run: spacectl module create-version --id terraform-spacelift-stack
-        # run: spacectl module create-version -h
