@@ -6,7 +6,7 @@ on:
       - ".github/workflows/create_spacelift_module_versions.yml"
 
 jobs:
-  create-module-versions:
+  create-spacelift-module-versions:
     runs-on: ubuntu-latest
     environment: spacelift
     env:
