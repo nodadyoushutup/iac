@@ -4,7 +4,7 @@ resource "spacelift_environment_variable" "flag_config" {
     name        = "TF_VAR_FLAG_CONFIG" 
     value       = local.flag.config
     write_only  = false 
-    description = "Spacelift configuration flag"
+    description = "Valid configuration"
 }
 
 resource "spacelift_environment_variable" "flag_deploy" { 
