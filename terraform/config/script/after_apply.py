@@ -57,12 +57,19 @@ def create_module_version(module):
 
 if __name__ == "__main__":
     verify_spacectl_path()
-    
+
+    result = subprocess.run(
+        [SPACECTL_PATH, "module", "list", "-o", "json"],
+        check=True,
+        capture_output=True,
+        text=True
+    )
+    print(result)
     # Retrieve modules without a current version
-    modules = get_modules_without_version()
-    if not modules:
-        print(f"{get_timestamp()} All modules already have versions. No action needed.")
-    else:
-        # Loop through each module without a version and attempt to create one
-        for module in modules:
-            create_module_version(module)
+    # modules = get_modules_without_version()
+    # if not modules:
+    #     print(f"{get_timestamp()} All modules already have versions. No action needed.")
+    # else:
+    #     # Loop through each module without a version and attempt to create one
+    #     for module in modules:
+    #         create_module_version(module)
