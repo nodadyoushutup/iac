@@ -14,6 +14,7 @@ jobs:
 
       - name: Check and conditionally create versions for modules
         run: |
+          spacectl module list
           # Run spacectl module list and parse each module
           modules=$(spacectl module list | tail -n +2) # Skip header row
           
