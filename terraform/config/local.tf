@@ -12,7 +12,7 @@ locals {
     flag = {
         deploy = var.FLAG_DEPLOY + 1
         config = var.FLAG_DEPLOY >= 1 && try(
-            data.external.validate_env[0].result["valid"], 
+            data.external.validate[0].result["valid"], 
             "false"
         ) == "true" ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG
     }
