@@ -20,5 +20,5 @@ jobs:
           echo "current_version=$version" >> $GITHUB_ENV
 
       - name: Conditionally create version if none exists
-        if: env.current_version == ""
+        if: ${{ env.current_version == '' }}
         run: spacectl module create-version --id terraform-spacelift-stack
