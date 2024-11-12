@@ -33,8 +33,9 @@ def get_modules_without_version():
             if "current" not in module or not module["current"].get("id")
         ]
         return modules_without_version
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         print(f"{get_timestamp()} Error: Failed to retrieve module list.")
+        print(f"{get_timestamp()} Detailed error: {e.stderr.strip()}")
         sys.exit(1)
 
 def create_module_version(module):
