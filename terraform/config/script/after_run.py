@@ -4,7 +4,7 @@ def create_module_version(module):
     try:
         # Run the spacectl command
         subprocess.run(
-            ["spacectl", "module", "create-version", "--id", module],
+            ["/mnt/workspace/source/terraform/config/bin/spacectl", "module", "create-version", "--id", module],
             check=True
         )
         print(f"Version created successfully for module {module}.")
