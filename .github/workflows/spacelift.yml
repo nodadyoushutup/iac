@@ -14,6 +14,7 @@ jobs:
 
       - name: Attempt to create versions for all modules with full debugging
         run: |
-          if ! spacectl module create-version --id terraform-spacelift-stack; then
-            echo "Error encountered while creating version for module '$module_id'. Ignoring and continuing."
+          module_id = "terraform-spacelift-stack"
+          if ! spacectl module create-version --id $module_id; then
+            echo "Error encountered while creating version for module $module_id. Ignoring and continuing."
           fi
