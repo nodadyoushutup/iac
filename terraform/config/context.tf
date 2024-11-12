@@ -9,6 +9,15 @@ resource "spacelift_context" "pyvenv" {
     ]
 }
 
+resource "spacelift_context" "spacectl" {
+    name = "spacectl"
+    description = "Runner Spacectl CLI"
+    space_id = data.spacelift_space.root.id
+    after_apply = [
+        "python3 /mnt/workspace/source/terraform/config/script/after_apply.py"
+    ]
+}
+
 resource "spacelift_context" "config" {
     name = "config"
     description = "Configuration"
