@@ -1,4 +1,4 @@
-name: Spacectl
+name: Init Spacelift Modules
 on:
   workflow_dispatch:
 jobs:
@@ -11,5 +11,7 @@ jobs:
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-      - name: Init module - Stack
-        run: spacectl module create-version --id terraform-spacelift-stack
+      - name: List Modules
+        run: spacectl module list
+      # - name: Init module - Stack
+      #   run: spacectl module create-version --id terraform-spacelift-stack
