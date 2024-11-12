@@ -1,6 +1,10 @@
-name: Init Spacelift Modules
+name: Create Spacelift Module Versions
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/create_spacelift_module_versions.yml"
+
 jobs:
   spacectl:
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
 
-      - name: Attempt to create versions for all modules with full debugging
+      - name: terraform-spacelift-stack
         run: |
           export MODULE="terraform-spacelift-stack"
           if ! spacectl module create-version --id $MODULE; then
