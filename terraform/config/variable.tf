@@ -33,3 +33,9 @@ variable "FLAG_CONFIG" {
   description = "Spacelift configuration flag"
   default = 0
 }
+
+variable "FLAG_DEPLOY" {
+  type = number
+  description = "Deployment ID"
+  default = 0
+}

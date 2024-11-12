@@ -1,5 +1,5 @@
 output "_validate_results" {
-  value = var.FLAG_PYVENV == 1 ? (data.external.validate_env[0].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed") : null
+  value = var.FLAG_PYVENV == 1 ? concat(var.FLAG_DEPLOY, data.external.validate_env[0].result["valid"] != "false" ? "All validation checks have passed" : "Some validation checks failed") : null
 }
 
 output "validate_debug" {
