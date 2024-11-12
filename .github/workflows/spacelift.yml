@@ -26,8 +26,8 @@ jobs:
             # Debugging output
             echo "Checking module ID: $module_id with version: '$current_version'"
 
-            # Check if current version is empty and create a version if it is
-            if [ -z "$current_version" ]; then
+            # Check if current_version is truly empty (after trimming whitespace)
+            if [[ -z "${current_version// }" ]]; then
               echo "No version found for module $module_id. Creating a new version."
               spacectl module create-version --id "$module_id"
             else
