@@ -6,7 +6,7 @@ import paramiko
 import re
  
 PRIVATE_KEY = os.environ.get("TF_VAR_PATH_PRIVATE_KEY") 
-CONFIG_PATH = os.environ.get("TF_VAR_PATH_CONFIG_PATH") 
+CONFIG_PATH = os.environ.get("TF_VAR_PATH_CONFIG") 
  
 def validate_config_path(path): 
     if not path or not os.path.isfile(path): 
