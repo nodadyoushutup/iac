@@ -18,11 +18,15 @@ jobs:
           # Run spacectl module list and parse output for the Current Version field of the target module
           version=$(spacectl module list | grep -w "terraform-spacelift-stack" | awk '{print $3}')
           echo "Current version found: '$version'"  # Debugging output
+          # Set a default value if version is empty
+          if [ -z "$version" ]; then
+            version="none"
+          fi
           echo "current_version=$version" >> $GITHUB_ENV
 
       - name: Debug current version
         run: echo "The current version is ${{ env.current_version }}"
 
       - name: Conditionally create version if none exists
-        if: ${{ env.current_version == '' }}
+        if: ${{ env.current_version == 'none' }}
         run: spacectl module create-version --id terraform-spacelift-stack
