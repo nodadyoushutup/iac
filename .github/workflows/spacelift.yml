@@ -1,21 +1,42 @@
+# name: Spacectl
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       SPACELIFT_API_KEY_ENDPOINT:
+#         description: "Spacelift API Key Endpoint"
+#         required: false
+#       SPACELIFT_API_KEY_ID:
+#         description: "Spacelift API Key ID"
+#         required: false
+#       SPACELIFT_API_KEY_SECRET:
+#         description: "Spacelift API Key Secret"
+#         required: false
+#       SPACELIFT_API_TOKEN:
+#         description: "Spacelift API Key Secret"
+#         required: false
+#       SPACELIFT_API_GITHUB_TOKEN:
+#         description: "Spacelift Github PAT"
+#         required: false
+# jobs:
+#   spacectl:
+#     runs-on: ubuntu-latest
+#     environment: spacelift
+#     steps:
+#       - name: Install spacectl
+#         uses: spacelift-io/setup-spacectl@main
+
+#       - name: Init module - Stack
+#         env:
+#           SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
+#           SPACELIFT_API_GITHUB_TOKEN: ${{ github.event.inputs.SPACELIFT_API_GITHUB_TOKEN }}    
+#         run: spacectl module create-version --id terraform-spacelift-stack
+
 name: Spacectl
 on:
   workflow_dispatch:
     inputs:
       SPACELIFT_API_KEY_ENDPOINT:
         description: "Spacelift API Key Endpoint"
-        required: false
-      SPACELIFT_API_KEY_ID:
-        description: "Spacelift API Key ID"
-        required: false
-      SPACELIFT_API_KEY_SECRET:
-        description: "Spacelift API Key Secret"
-        required: false
-      SPACELIFT_API_TOKEN:
-        description: "Spacelift API Key Secret"
-        required: false
-      SPACELIFT_API_GITHUB_TOKEN:
-        description: "Spacelift Github PAT"
         required: false
 jobs:
   spacectl:
@@ -28,10 +49,5 @@ jobs:
       - name: Login to Spacelift
         env:
           SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
-          # SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
-          # SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
-          SPACELIFT_API_GITHUB_TOKEN: ${{ github.event.inputs.SPACELIFT_API_GITHUB_TOKEN }}    
+          SPACELIFT_API_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Using the built-in GITHUB_TOKEN
         run: spacectl module create-version --id terraform-spacelift-stack
-
-      # - name: Init Module - Stack
-      #   run: spacectl module create-version --id terraform-spacelift-stack
