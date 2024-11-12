@@ -14,7 +14,9 @@ jobs:
 
       - name: Check and conditionally create versions for modules
         run: |
+          # Debugging output
           spacectl module list
+          
           # Run spacectl module list and parse each module
           modules=$(spacectl module list | tail -n +2) # Skip header row
           
@@ -26,12 +28,6 @@ jobs:
             
             # Debugging output
             echo "Checking module ID: $module_id with version: '$current_version'"
-
-            # Verify if module ID is valid
-            if ! spacectl module get --id "$module_id"; then
-              echo "Module ID $module_id not found. Skipping."
-              continue
-            fi
 
             # Check if current_version matches semantic version pattern
             if [[ "$current_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
