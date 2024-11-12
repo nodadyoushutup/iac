@@ -6,18 +6,18 @@ data "spacelift_stack" "config" {
   stack_id = "config"
 }
 
-resource "random_id" "validate_trigger" {
+resource "random_id" "trigger" {
   count = var.FLAG_DEPLOY >= 1 ? 1 : 0
   byte_length = 8
 }
 
 data "external" "validate" {
   count = var.FLAG_DEPLOY >= 1 ? 1 : 0
-  depends_on = [random_id.validate_trigger]
+  depends_on = [random_id.trigger]
   program = [
       "python3",
-      "${path.module}/script/validate_config.py"
+      "${path.module}/script/validate.py"
   ]
-  query = { trigger = random_id.validate_trigger[count.index].hex }
+  query = { trigger = random_id.trigger[0].hex }
 }
 
