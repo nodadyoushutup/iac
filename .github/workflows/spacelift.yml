@@ -2,6 +2,16 @@ name: Spacectl
 
 on:
   workflow_dispatch:
+    inputs:
+      SPACELIFT_API_KEY_ENDPOINT:
+        description: "Spacelift API Key Endpoint"
+        required: true
+      SPACELIFT_API_KEY_ID:
+        description: "Spacelift API Key ID"
+        required: true
+      SPACELIFT_API_KEY_SECRET:
+        description: "Spacelift API Key Secret"
+        required: true
 
 jobs:
   spacectl:
@@ -13,8 +23,8 @@ jobs:
 
       - name: Spacectl Command
         env:
-          SPACELIFT_API_KEY_ENDPOINT: ${{ secrets.SPACELIFT_API_KEY_ENDPOINT }}
-          SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
-          SPACELIFT_API_KEY_SECRET: ${{ secrets.SPACELIFT_API_KEY_SECRET }}
+          SPACELIFT_API_KEY_ENDPOINT: ${{ github.event.inputs.SPACELIFT_API_KEY_ENDPOINT }}
+          SPACELIFT_API_KEY_ID: ${{ github.event.inputs.SPACELIFT_API_KEY_ID }}
+          SPACELIFT_API_KEY_SECRET: ${{ github.event.inputs.SPACELIFT_API_KEY_SECRET }}
         # run: spacectl module create-version --id terraform-spacelift-stack
         run: spacectl stack list
