@@ -1,10 +1,6 @@
 name: Spacectl
 on:
   workflow_dispatch:
-    inputs:
-      SPACELIFT_API_KEY_ENDPOINT:
-        description: "Spacelift API Key Endpoint"
-        required: false
 jobs:
   spacectl:
     runs-on: ubuntu-latest
