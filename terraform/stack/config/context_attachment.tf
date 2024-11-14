@@ -13,6 +13,7 @@ resource "spacelift_context_attachment" "pyvenv_config" {
 }
 
 resource "spacelift_context_attachment" "spacectl_module" {
+    count = var.FLAG_CONFIG >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
         spacelift_context.spacectl,
         spacelift_stack.module
