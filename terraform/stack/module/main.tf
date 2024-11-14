@@ -8,7 +8,6 @@ resource "spacelift_context" "spacectl" {
 }
 
 resource "spacelift_context_attachment" "spacectl_module" {
-    count = var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
         spacelift_context.spacectl,
         data.spacelift_stack.module
