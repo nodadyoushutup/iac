@@ -55,8 +55,8 @@ resource "spacelift_stack" "spacelift" {
     autodeploy = true
     branch = var.GIT_BRANCH
     description = "Spacelift stack management"
-    name = "spacelift"
-    project_root = "terraform/stack/spacelift"
+    name = "stack"
+    project_root = "terraform/stack/stack"
     repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
     labels = ["module"]
