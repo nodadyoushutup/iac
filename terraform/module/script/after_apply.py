@@ -1,22 +1,21 @@
 import subprocess
 import os
 import sys
-from datetime import datetime
+
 
 SPACECTL_PATH = "/mnt/workspace/source/terraform/module/bin/spacectl"
 MODULES = [
     "terraform-spacelift-stack"
 ]
+SPACELIFT_RUN_ID = os.environ.get("TF_VAR_spacelift_run_id")
 
-def get_timestamp():
-    return datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
 def verify_spacectl_path():
     if not os.path.isfile(SPACECTL_PATH):
-        print(f"{get_timestamp()} Error: spacectl not found at {SPACECTL_PATH}.")
+        print(f"[{SPACELIFT_RUN_ID}] spacectl not found at {SPACECTL_PATH}.")
         sys.exit(1)
     if not os.access(SPACECTL_PATH, os.X_OK):
-        print(f"{get_timestamp()} Error: spacectl at {SPACECTL_PATH} is not executable.")
+        print(f"[{SPACELIFT_RUN_ID}] spacectl at {SPACECTL_PATH} is not executable.")
         sys.exit(1)
 
 def create_module_version(module):
@@ -27,14 +26,14 @@ def create_module_version(module):
             capture_output=True,
             text=True
         )
-        print(f"{get_timestamp()} Version created successfully for module {module}.")
+        print(f"[{SPACELIFT_RUN_ID}] Version created successfully for module {module}.")
     except subprocess.CalledProcessError as e:
         error_message = e.stderr.strip()
         if "already exists" in error_message:
-            print(f"[{os.environ.get("TF_VAR_spacelift_run_id")}] INFO: Version for module '{module}' already exists - Skipping.")
+            print(f"[{SPACELIFT_RUN_ID}] Version for module '{module}' already exists - Skipping.")
         else:
-            print(f"{get_timestamp()} ERROR: Error encountered while creating version for module {module}. Ignoring and continuing.")
-            print(f"{get_timestamp()} Detailed error: {error_message}")
+            print(f"[{SPACELIFT_RUN_ID}] Error encountered while creating version for module {module}. Ignoring and continuing.")
+            print(f"[{SPACELIFT_RUN_ID}] Detailed error: {error_message}")
 
 if __name__ == "__main__":
     verify_spacectl_path()
