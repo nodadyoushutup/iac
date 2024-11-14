@@ -4,8 +4,5 @@ terraform {
       source  = "spacelift-io/spacelift"
       version = ">= 0.2.0"
     }
-    proxmox = {
-      source = "bpg/proxmox"
-    }
   }
 }
