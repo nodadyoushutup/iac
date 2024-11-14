@@ -1,3 +1,3 @@
-data "spacelift_stack" "config" {
+data "spacelift_context" "config" {
   stack_id = "config"
 }
