@@ -8,12 +8,12 @@ resource "spacelift_stack" "module" {
     administrative = true
     autodeploy = true
     branch = var.GIT_BRANCH
-    description = "Modules"
-    name = "module"
-    project_root = "terraform/stack/module"
+    description = "Spacelift modules"
+    name = "spacelift_module"
+    project_root = "terraform/stack/spacelift_module"
     repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
-    labels = ["module"]
+    labels = ["spacelift", "module"]
     additional_project_globs = [ 
         "script/**",
         "bin/**"
