@@ -6,10 +6,6 @@ data "spacelift_context" "config" {
   context_id = "config"
 }
 
-data "spacelift_context" "spacectl" {
-  context_id = "spacectl"
-}
-
 data "spacelift_stack" "module" {
   stack_id = "module"
 }
