@@ -1,8 +1,8 @@
 resource "spacelift_stack" "module" {
     count = var.FLAG_CONFIG >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
-        spacelift_environment_variable.git_branch,
-        spacelift_environment_variable.git_repository,
+        spacelift_environment_variable.GIT_BRANCH,
+        spacelift_environment_variable.GIT_REPOSITORY,
         spacelift_environment_variable.flag_config
    ]
     administrative = true
