@@ -31,7 +31,7 @@ def create_module_version(module):
     except subprocess.CalledProcessError as e:
         error_message = e.stderr.strip()
         if "already exists" in error_message:
-            print(f"{get_timestamp()} INFO: Version for module '{module}' already exists - Skipping.")
+            print(f"[{os.environ.get("TF_VAR_spacelift_run_id")}] INFO: Version for module '{module}' already exists - Skipping.")
         else:
             print(f"{get_timestamp()} ERROR: Error encountered while creating version for module {module}. Ignoring and continuing.")
             print(f"{get_timestamp()} Detailed error: {error_message}")
