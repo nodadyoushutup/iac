@@ -28,8 +28,8 @@ resource "spacelift_environment_variable" "flag_module" {
 resource "spacelift_stack" "stack" {
     count = var.FLAG_MODULE >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
-        data.spacelift_environment_variable.GIT_BRANCH,
-        data.spacelift_environment_variable.GIT_REPOSITORY,
+        data.spacelift_environment_variable.git_branch,
+        data.spacelift_environment_variable.git_repository,
         spacelift_environment_variable.flag_module
    ]
     administrative = true
