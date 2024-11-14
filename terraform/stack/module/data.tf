@@ -1,3 +1,7 @@
+data "spacelift_space" "root" {
+  space_id = "root"
+}
+
 data "spacelift_context" "config" {
   context_id = "config"
 }
