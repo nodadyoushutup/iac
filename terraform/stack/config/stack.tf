@@ -10,7 +10,7 @@ resource "spacelift_stack" "module" {
     branch = var.GIT_BRANCH
     description = "Modules"
     name = "module"
-    project_root = "terraform/module"
+    project_root = "terraform/stack/module"
     repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
     labels = ["module"]
