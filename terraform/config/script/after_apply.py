@@ -33,7 +33,7 @@ def create_module_version(module):
         if "already exists" in error_message:
             print(f"{get_timestamp()} INFO: Version for module '{module}' already exists - Skipping.")
         else:
-            print(f"{get_timestamp()} Error encountered while creating version for module {module}. Ignoring and continuing.")
+            print(f"{get_timestamp()} ERROR: Error encountered while creating version for module {module}. Ignoring and continuing.")
             print(f"{get_timestamp()} Detailed error: {error_message}")
 
 if __name__ == "__main__":
