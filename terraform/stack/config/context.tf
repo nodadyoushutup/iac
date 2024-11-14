@@ -18,16 +18,11 @@ resource "spacelift_context" "spacectl" {
     ]
 }
 
-resource "spacelift_context" "ansible_context" {
-    description = "Ansible configuration"
-    name        = "ansible"
-    before_init = [
-        "chmod 600 ${var.PATH_PRIVATE_KEY}"
-    ]
-}
-
 resource "spacelift_context" "config" {
     name = "config"
     description = "Configuration"
     space_id = data.spacelift_space.root.id
+    before_init = [
+        "chmod 600 ${var.PATH_PRIVATE_KEY}"
+    ]
 }
