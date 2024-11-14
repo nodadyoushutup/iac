@@ -23,3 +23,7 @@ resource "spacelift_module" "spacelift_stack" {
 #     module_id  = "terraform-spacelift-stack"
 #     priority   = 0
 # }
+
+output "run_id" {
+  value = var.spacelift_run_id
+}
