@@ -29,3 +29,11 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_noble_22_04" {
   url = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
   overwrite_unmanaged = true
 }
+
+resource "proxmox_virtual_environment_download_file" "centos_8_4" {
+  content_type = "iso"
+  datastore_id = "local"
+  node_name    = "pve"
+  url = "https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-GenericCloud-8.4.2105-20210603.0.x86_64.qcow2"
+  overwrite_unmanaged = true
+}
