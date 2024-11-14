@@ -16,7 +16,6 @@ resource "spacelift_environment_variable" "flag_deploy" {
     description = "Deployment ID"
 }
 
-
 resource "spacelift_environment_variable" "git_branch" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id

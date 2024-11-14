@@ -9,3 +9,9 @@ variable "GIT_REPOSITORY" {
   description = "Repository"
   default = "iac"
 }
+
+variable "FLAG_MODULE" {
+  type = number
+  description = "Module configuration flag"
+  default = 0
+}
