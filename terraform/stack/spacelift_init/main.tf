@@ -1,16 +1,13 @@
 resource "spacelift_module" "stack" {
-    # REQUIRED
-    branch = var.GIT_BRANCH
-    repository = var.GIT_REPOSITORY
-
-    # OPTIONAL
     administrative = false
+    branch = var.GIT_BRANCH
     description = "Spacelift stack"
     enable_local_preview = false
     labels = ["spacelift"]
     name = "stack"
     project_root = "terraform/module/spacelift/stack"
     public = true
+    repository = var.GIT_REPOSITORY
     shared_accounts = null
     space_id = data.spacelift_space.root.id
     terraform_provider = "spacelift"
