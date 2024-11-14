@@ -9,14 +9,14 @@ resource "spacelift_context" "pyvenv" {
     ]
 }
 
-resource "spacelift_context" "spacectl" {
-    name = "spacectl"
-    description = "Runner Spacectl CLI"
-    space_id = data.spacelift_space.root.id
-    after_apply = [
-        "python3 ${path.module}/script/after_apply.py"
-    ]
-}
+# resource "spacelift_context" "spacectl" {
+#     name = "spacectl"
+#     description = "Runner Spacectl CLI"
+#     space_id = data.spacelift_space.root.id
+#     after_apply = [
+#         "python3 ${path.module}/script/after_apply.py"
+#     ]
+# }
 
 resource "spacelift_context" "config" {
     name = "config"
