@@ -1,9 +1,5 @@
 resource "proxmox_virtual_environment_vm" "test_vm" {
   stop_on_destroy = true
-  bios = "ovmf"
-  efi_disk {
-    datastore_id = "local-lvm"
-  }
   disk {
     datastore_id = "local-lvm"
     file_id = proxmox_virtual_environment_download_file.centos_9.id
