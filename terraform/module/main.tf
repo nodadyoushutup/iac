@@ -25,7 +25,7 @@ resource "spacelift_environment_variable" "flag_module" {
     description = "Deployment ID"
 }
 
-resource "spacelift_stack" "stack" {
+resource "spacelift_stack" "spacelift" {
     count = var.FLAG_MODULE >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
         data.spacelift_environment_variable.git_branch,
@@ -35,8 +35,8 @@ resource "spacelift_stack" "stack" {
     administrative = true
     autodeploy = true
     branch = var.GIT_BRANCH
-    description = "Stacks"
-    name = "stack"
+    description = "Spacelift stack management"
+    name = "spacelift"
     project_root = "terraform/spacelift"
     repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
