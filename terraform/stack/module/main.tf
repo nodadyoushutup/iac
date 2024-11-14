@@ -17,16 +17,7 @@ resource "spacelift_module" "stack" {
     workflow_tool = "TERRAFORM_FOSS"
 }
 
-resource "spacelift_environment_variable" "flag_module" { 
-    context_id  = data.spacelift_context.config.id
-    name        = "TF_VAR_FLAG_MODULE" 
-    value       = local.flag.module
-    write_only  = false 
-    description = "Deployment ID"
-}
-
 resource "spacelift_stack" "spacelift" {
-    count = var.FLAG_MODULE >=1 ? 1 : 0
     depends_on = [
         data.spacelift_environment_variable.git_branch,
         data.spacelift_environment_variable.git_repository,
