@@ -17,7 +17,7 @@ resource "spacelift_module" "stack" {
     workflow_tool = "TERRAFORM_FOSS"
 }
 
-resource "spacelift_stack" "spacelift" {
+resource "spacelift_stack" "spacelift_infra" {
     depends_on = [
         data.spacelift_environment_variable.git_branch,
         data.spacelift_environment_variable.git_repository,
