@@ -3,8 +3,8 @@ import os
 import sys
 
 
-# SPACECTL_PATH = f"{os.environ.get("PWD")}/bin/spacectl"
-SPACECTL_PATH = "../bin/spacectl"
+# SPACECTL_PATH = f"{os.environ.get('PWD')}/bin/spacectl"
+SPACECTL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../bin/spacectl")
 MODULES = [
     "terraform-spacelift-stack"
 ]
