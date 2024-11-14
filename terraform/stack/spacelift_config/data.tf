@@ -3,7 +3,7 @@ data "spacelift_space" "root" {
 }
 
 data "spacelift_stack" "config" {
-  stack_id = "config"
+  stack_id = "spacelift_config"
 }
 
 resource "random_id" "trigger" {
