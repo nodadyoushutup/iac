@@ -1,4 +1,3 @@
-
 resource "spacelift_stack" "module" {
     count = var.FLAG_CONFIG >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     depends_on = [
@@ -8,11 +7,11 @@ resource "spacelift_stack" "module" {
    ]
     administrative = true
     autodeploy = true
-    branch = var.BRANCH
+    branch = var.GIT_BRANCH
     description = "Modules"
     name = "module"
     project_root = "terraform/module"
-    repository = var.REPOSITORY
+    repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
     labels = ["module"]
 }
