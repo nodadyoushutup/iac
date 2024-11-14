@@ -3,8 +3,8 @@ import os
 import sys
 
 
-print(os.environ)
-SPACECTL_PATH = "/mnt/workspace/source/terraform/module/bin/spacectl"
+# SPACECTL_PATH = f"{os.environ.get("PWD")}/bin/spacectl"
+SPACECTL_PATH = "../bin/spacectl"
 MODULES = [
     "terraform-spacelift-stack"
 ]
