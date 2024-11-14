@@ -1,4 +1,5 @@
 resource "proxmox_virtual_environment_vm" "test_vm" {
+  depends_on = [ proxmox_virtual_environment_download_file.centos_9 ]
   stop_on_destroy = true
   disk {
     datastore_id = "local-lvm"
