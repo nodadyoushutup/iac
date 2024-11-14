@@ -1,4 +1,4 @@
-resource "spacelift_module" "spacelift_stack" {
+resource "spacelift_module" "stack" {
     # REQUIRED
     branch = coalesce(var.GIT_BRANCH, "main")
     repository = coalesce(var.GIT_REPOSITORY, "iac")
