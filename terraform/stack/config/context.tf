@@ -18,7 +18,6 @@ resource "spacelift_context" "spacectl" {
     ]
 }
 
-
 resource "spacelift_context" "ansible_context" {
     description = "Ansible configuration"
     name        = "ansible"
