@@ -16,14 +16,3 @@ resource "spacelift_module" "spacelift_stack" {
     terraform_provider = "spacelift"
     workflow_tool = "TERRAFORM_FOSS"
 }
-
-# resource "spacelift_context_attachment" "spacelift_stack_config" {
-#     depends_on = [spacelift_module.spacelift_stack]
-#     context_id = "config"
-#     module_id  = "terraform-spacelift-stack"
-#     priority   = 0
-# }
-
-output "run_id" {
-  value = var.spacelift_run_id
-}

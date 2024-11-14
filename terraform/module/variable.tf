@@ -9,9 +9,3 @@ variable "GIT_REPOSITORY" {
   description = "Repository"
   default = "iac"
 }
-
-variable "spacelift_run_id" {
-  type = string
-  description = "Spacelift Run ID"
-  default = null
-}
