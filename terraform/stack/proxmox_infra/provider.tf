@@ -14,7 +14,7 @@ provider "proxmox" {
   ssh {
     agent = local.config.proxmox.ssh.agent.enabled
     agent_socket = local.config.proxmox.ssh.agent.socket
-    private_key = file(var.PATH_PRIVATE_KEY)
+    private_key = coalesce(try(file(local.config.proxmox.ssh.private_key), null), var.PATH_PRIVATE_KEY)
     node {
       name = local.config.proxmox.ssh.node.name
       address = local.config.proxmox.ssh.node.address
