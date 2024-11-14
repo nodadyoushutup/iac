@@ -6,6 +6,10 @@ data "spacelift_stack" "config" {
   stack_id = "config"
 }
 
+data "spacelift_stack" "module" {
+  stack_id = "module"
+}
+
 resource "random_id" "trigger" {
   count = var.FLAG_DEPLOY >= 1 ? 1 : 0
   byte_length = 8
