@@ -1,5 +1,5 @@
 locals {
     flag = {
-        deploy = var.FLAG_MODULE + 1
+        module = var.FLAG_MODULE + 1
     }
 }
