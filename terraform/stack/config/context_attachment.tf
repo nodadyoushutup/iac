@@ -18,7 +18,7 @@ resource "spacelift_context_attachment" "spacectl_module" {
         spacelift_stack.module
     ]
     context_id = spacelift_context.spacectl.id
-    stack_id   = spacelift_stack.module[0].id
+    stack_id   = spacelift_stack.module.id
     priority   = 0
 }
 
@@ -28,6 +28,6 @@ resource "spacelift_context_attachment" "config_module" {
         spacelift_stack.module
     ]
     context_id = spacelift_context.config.id
-    stack_id   = spacelift_stack.module[0].id
+    stack_id   = spacelift_stack.module.id
     priority   = 0
 }
