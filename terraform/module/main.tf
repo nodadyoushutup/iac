@@ -18,8 +18,7 @@ resource "spacelift_module" "spacelift_stack" {
 }
 
 resource "spacelift_environment_variable" "flag_module" { 
-    depends_on = [spacelift_context.config]
-    context_id  = spacelift_context.config.id
+    context_id  = data.spacelift_context.config.id
     name        = "TF_VAR_FLAG_MODULE" 
     value       = local.flag.module
     write_only  = false 
