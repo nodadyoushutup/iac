@@ -1,22 +1,3 @@
-resource "spacelift_context" "spacectl" {
-    name = "spacectl"
-    description = "Runner Spacectl CLI"
-    space_id = data.spacelift_space.root.id
-    after_apply = [
-        "python3 ${path.module}/script/after_apply.py"
-    ]
-}
-
-resource "spacelift_context_attachment" "spacectl_module" {
-    depends_on = [
-        spacelift_context.spacectl,
-        data.spacelift_stack.module
-    ]
-    context_id = spacelift_context.spacectl.id
-    stack_id   = data.spacelift_stack.module.id
-    priority   = 0
-}
-
 resource "spacelift_module" "stack" {
     # REQUIRED
     branch = coalesce(var.GIT_BRANCH, "main")

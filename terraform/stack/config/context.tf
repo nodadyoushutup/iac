@@ -9,14 +9,23 @@ resource "spacelift_context" "pyvenv" {
     ]
 }
 
-# resource "spacelift_context" "spacectl" {
-#     name = "spacectl"
-#     description = "Runner Spacectl CLI"
-#     space_id = data.spacelift_space.root.id
-#     after_apply = [
-#         "python3 ${path.module}/script/after_apply.py"
-#     ]
-# }
+resource "spacelift_context" "spacectl" {
+    name = "spacectl"
+    description = "Runner Spacectl CLI"
+    space_id = data.spacelift_space.root.id
+    after_apply = [
+        "python3 ${path.module}/script/after_apply.py"
+    ]
+}
+
+
+resource "spacelift_context" "ansible_context" {
+    description = "Ansible configuration"
+    name        = "ansible"
+    before_init = [
+        "chmod 600 ${var.PATH_PRIVATE_KEY}"
+    ]
+}
 
 resource "spacelift_context" "config" {
     name = "config"
