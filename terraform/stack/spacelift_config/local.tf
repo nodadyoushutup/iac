@@ -17,7 +17,7 @@ locals {
         ) == "true" ? var.FLAG_CONFIG + 1 : var.FLAG_CONFIG
     }
     git = {
-        branch = coalesce(var.GIT_BRANCH, data.spacelift_stack.config.branch)
-        repository = coalesce(var.GIT_REPOSITORY, data.spacelift_stack.config.repository)
+        branch = coalesce(var.GIT_BRANCH, data.spacelift_stack.spacelift_config.branch)
+        repository = coalesce(var.GIT_REPOSITORY, data.spacelift_stack.spacelift_config.repository)
     }
 }
