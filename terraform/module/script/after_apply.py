@@ -3,7 +3,7 @@ import os
 import sys
 from datetime import datetime
 
-SPACECTL_PATH = "/mnt/workspace/source/terraform/config/bin/spacectl"
+SPACECTL_PATH = "/mnt/workspace/source/terraform/module/bin/spacectl"
 MODULES = [
     "terraform-spacelift-stack"
 ]

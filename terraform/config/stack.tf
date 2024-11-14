@@ -14,5 +14,9 @@ resource "spacelift_stack" "module" {
     repository = var.GIT_REPOSITORY
     terraform_version = "1.5.7"
     labels = ["module"]
+    additional_project_globs = [ 
+        "script/**",
+        "bin/**"
+    ]
 }
 

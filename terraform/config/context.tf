@@ -14,7 +14,7 @@ resource "spacelift_context" "spacectl" {
     description = "Runner Spacectl CLI"
     space_id = data.spacelift_space.root.id
     after_apply = [
-        "python3 /mnt/workspace/source/terraform/config/script/after_apply.py"
+        "python3 ${path.module}/script/after_apply.py"
     ]
 }
 
