@@ -74,7 +74,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+    file_id      = proxmox_virtual_environment_download_file.talos_cloud_image_ip_210.id
     interface    = "scsi0"
     discard      = "on"
     size         = 20
@@ -146,7 +146,7 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
 
-resource "proxmox_virtual_environment_download_file" "talos_cloud_image" {
+resource "proxmox_virtual_environment_download_file" "talos_cloud_image_ip_210" {
   content_type = "iso"
   datastore_id = "local"
   node_name    = "pve"
@@ -154,6 +154,13 @@ resource "proxmox_virtual_environment_download_file" "talos_cloud_image" {
   url = "https://factory.talos.dev/image/790a9cca0ec53aff8a84bd692994593eb6e4dc1d95f910074f374763d80a188b/v1.8.3/metal-amd64.qcow2"
 }
 
+resource "proxmox_virtual_environment_download_file" "talos_cloud_image" {
+  content_type = "iso"
+  datastore_id = "local"
+  node_name    = "pve"
+  file_name = "talos_cloud_image.img"
+  url = "https://factory.talos.dev/image/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515/v1.8.3/metal-amd64.qcow2"
+}
 
 output "talos_cp_0_ipv4_address" {
   value = proxmox_virtual_environment_vm.talos_cp_0.ipv4_addresses
