@@ -1,0 +1,1 @@
+# linux /boot/vmlinuz init_on_alloc=1 slab_nomerge pti=on panic=0 consoleblank=0 printk.devkmsg=on earlyprintk=ttyS0 console=tty0 console=ttyS0 talos.platform=metal ip=192.168.0.100::192.168.0.1:255.255.255.0::eth0:off
