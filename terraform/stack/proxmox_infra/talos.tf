@@ -132,15 +132,13 @@ resource "proxmox_virtual_environment_vm" "talos_cp_2" {
     initialization {
         ip_config {
             ipv4 {
-                # address = "dhcp"
-                address = "192.168.1.250/24"
-                gateway = "192.168.1.1"
+                address = "dhcp"
             }
         }
     }
 
     network_device {
         bridge = "vmbr0"
-        # mac_address = "0a:00:00:00:02:02"
+        mac_address = "0a:00:00:00:02:02"
     }
 }
