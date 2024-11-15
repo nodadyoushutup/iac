@@ -150,7 +150,7 @@ resource "proxmox_virtual_environment_download_file" "talos_cloud_image_ip_210" 
   content_type = "iso"
   datastore_id = "local"
   node_name    = "pve"
-  file_name = "talos_cloud_image.img"
+  file_name = "talos_cloud_image_ip_210.img"
   url = "https://factory.talos.dev/image/790a9cca0ec53aff8a84bd692994593eb6e4dc1d95f910074f374763d80a188b/v1.8.3/metal-amd64.qcow2"
 }
 
