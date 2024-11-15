@@ -9,10 +9,13 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     users:
       - default
       - name: ubuntu
+        passwd: "your_password_here" 
+        lock_passwd: false 
         groups:
           - sudo
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
+        
     runcmd:
         - apt update
         - apt install -y net-tools
