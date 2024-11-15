@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    qemu = {
+      version = ">= 1.1.0"
+      source  = "github.com/hashicorp/qemu"
+    }
+  }
+}
+
 # Define a Packer source image
 source "qemu" "ubuntu" {
   iso_url       = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img"
