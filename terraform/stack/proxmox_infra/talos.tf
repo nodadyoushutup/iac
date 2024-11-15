@@ -26,12 +26,12 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
     }
 
     tpm_state {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         version = "v2.0"
     }
 
     disk {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
         interface    = "scsi0"
         discard      = "on"
@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
 
     network_device {
         bridge = "vmbr0"
-        mac_address = "0a:00:00:00:02:00"
+        mac_address = "0a:00:00:00:12:00"
     }
 
 }
@@ -72,12 +72,12 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
     }
 
     tpm_state {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         version = "v2.0"
     }
 
     disk {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
         interface    = "scsi0"
         discard      = "on"
@@ -94,7 +94,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
 
     network_device {
         bridge = "vmbr0"
-        mac_address = "0a:00:00:00:02:01"
+        mac_address = "0a:00:00:00:12:01"
     }
 }
 
@@ -117,12 +117,12 @@ resource "proxmox_virtual_environment_vm" "talos_cp_2" {
     }
 
     tpm_state {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         version = "v2.0"
     }
 
     disk {
-        datastore_id = "local-lvm"
+        datastore_id = "virtualization"
         file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
         interface    = "scsi0"
         discard      = "on"
@@ -139,6 +139,186 @@ resource "proxmox_virtual_environment_vm" "talos_cp_2" {
 
     network_device {
         bridge = "vmbr0"
-        mac_address = "0a:00:00:00:02:02"
+        mac_address = "0a:00:00:00:12:02"
+    }
+}
+
+resource "proxmox_virtual_environment_vm" "talos_wk_0" {
+    name      = "talos_wk_0"
+    node_name = "pve"
+    vm_id = "1203"
+
+    agent {
+        enabled = true
+    }
+
+    cpu {
+        cores = 2
+        type = "x86-64-v2-AES"
+    }
+
+    memory {
+        dedicated = 2048
+    }
+
+    tpm_state {
+        datastore_id = "virtualization"
+        version = "v2.0"
+    }
+
+    disk {
+        datastore_id = "virtualization"
+        file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+        interface    = "scsi0"
+        discard      = "on"
+        size         = 20
+    }
+
+    initialization {
+        ip_config {
+            ipv4 {
+                address = "dhcp"
+            }
+        }
+    }
+
+    network_device {
+        bridge = "vmbr0"
+        mac_address = "0a:00:00:00:12:03"
+    }
+}
+
+resource "proxmox_virtual_environment_vm" "talos_wk_1" {
+    name      = "talos_wk_1"
+    node_name = "pve"
+    vm_id = "1204"
+
+    agent {
+        enabled = true
+    }
+
+    cpu {
+        cores = 2
+        type = "x86-64-v2-AES"
+    }
+
+    memory {
+        dedicated = 2048
+    }
+
+    tpm_state {
+        datastore_id = "virtualization"
+        version = "v2.0"
+    }
+
+    disk {
+        datastore_id = "virtualization"
+        file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+        interface    = "scsi0"
+        discard      = "on"
+        size         = 20
+    }
+
+    initialization {
+        ip_config {
+            ipv4 {
+                address = "dhcp"
+            }
+        }
+    }
+
+    network_device {
+        bridge = "vmbr0"
+        mac_address = "0a:00:00:00:12:04"
+    }
+}
+
+resource "proxmox_virtual_environment_vm" "talos_wk_2" {
+    name      = "talos_wk_2"
+    node_name = "pve"
+    vm_id = "1205"
+
+    agent {
+        enabled = true
+    }
+
+    cpu {
+        cores = 2
+        type = "x86-64-v2-AES"
+    }
+
+    memory {
+        dedicated = 2048
+    }
+
+    tpm_state {
+        datastore_id = "virtualization"
+        version = "v2.0"
+    }
+
+    disk {
+        datastore_id = "virtualization"
+        file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+        interface    = "scsi0"
+        discard      = "on"
+        size         = 20
+    }
+
+    initialization {
+        ip_config {
+            ipv4 {
+                address = "dhcp"
+            }
+        }
+    }
+
+    network_device {
+        bridge = "vmbr0"
+        mac_address = "0a:00:00:00:12:05"
+    }
+}
+
+resource "proxmox_virtual_environment_vm" "talos_wk_3" {
+    name      = "talos_wk_3"
+    node_name = "pve"
+    vm_id = "1206"
+
+    agent {
+        enabled = true
+    }
+
+    cpu {
+        cores = 2
+        type = "x86-64-v2-AES"
+    }
+
+    memory {
+        dedicated = 2048
+    }
+
+    tpm_state {
+        datastore_id = "virtualization"
+        version = "v2.0"
+    }
+
+    disk {
+        datastore_id = "virtualization"
+        file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+        interface    = "scsi0"
+        discard      = "on"
+        size         = 20
+    }
+
+    initialization {
+        ip_config {
+            ipv4 {
+                address = "dhcp"
+            }
+        }
+    }
+
+    network_device {
+        bridge = "vmbr0"
+        mac_address = "0a:00:00:00:12:06"
     }
 }
