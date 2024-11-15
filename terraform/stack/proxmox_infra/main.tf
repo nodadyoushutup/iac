@@ -21,7 +21,8 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
         - apt update
-        - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl postgresql-client mysql-client-core-8.0 git whois jq nmap
+        - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
+        - apt install -y curl postgresql-client mysql-client-core-8.0 git whois jq nmap
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent
         - echo "done" > /tmp/cloud-config.done
