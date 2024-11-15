@@ -9,7 +9,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     users:
       - default
       - name: ubuntu
-        passwd: "your_password_here" 
+        passwd: "$6$TYD6pGjxfnS5EwIl$e0O0riI6jlUR635OWZCRicew4sdrZDou1HFV/EjFWnhIelyxNrl5pUWiW7oY0fu/v6suE5Ly17P5/QwNSVRXs0" 
         lock_passwd: false 
         groups:
           - sudo
