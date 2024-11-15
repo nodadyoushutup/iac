@@ -2,6 +2,9 @@ name: Packer Build - Base
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'packer/base.pkr.hcl'
 
 jobs:
   hcp-packer:
@@ -19,14 +22,14 @@ jobs:
 
       - name: Run `packer init`
         id: init
-        run: "packer init ./image.pkr.hcl"
+        run: "packer init ./packer/base.pkr.hcl"
 
       - name: Run `packer validate`
         id: validate
-        run: "packer validate ./image.pkr.hcl"
+        run: "packer validate ./packer/base.pkr.hcl"
 
       - name: Build Artifact
-        run: packer build -color=false -on-error=abort ./image.pkr.hcl
+        run: packer build -color=false -on-error=abort ./packer/base.pkr.hcl
         env:
           HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
           HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
