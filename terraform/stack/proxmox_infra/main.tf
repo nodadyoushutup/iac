@@ -72,7 +72,3 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
 
   url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
-
-output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.ubuntu_vm.ipv4_addresses[1][0]
-}
