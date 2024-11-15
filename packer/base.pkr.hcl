@@ -1,13 +1,3 @@
-packer {
-  required_plugins {
-    qemu = {
-      version = ">= 1.1.0"
-      source  = "github.com/hashicorp/qemu"
-    }
-  }
-}
-
-# Define a Packer source image
 source "qemu" "example" {
   iso_url           = "http://mirror.raystedman.net/centos/6/isos/x86_64/CentOS-6.9-x86_64-minimal.iso"
   iso_checksum      = "md5:af4a1640c0c6f348c6c41f1ea9e192a2"
@@ -27,16 +17,6 @@ source "qemu" "example" {
   boot_command      = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos6-ks.cfg<enter><wait>"]
 }
 
-
-# Define the build block that will use the source image
 build {
-  sources = ["source.qemu.ubuntu"]
-
-  provisioner "shell" {
-    inline = [
-      "ls -la"
-      # "sudo apt-get update -y",
-      # "sudo apt-get install -y qemu-guest-agent"
-    ]
-  }
+  sources = ["source.qemu.example"]
 }
