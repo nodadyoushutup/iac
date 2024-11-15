@@ -90,6 +90,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
 
   network_device {
     bridge = "vmbr0"
+    mac_address = "0a:00:00:00:01:01"
   }
 
 }
