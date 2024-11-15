@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         sudo: ALL=(ALL) NOPASSWD:ALL
     mounts: ${jsonencode(var.mounts)}
     write_files:
-      - path: /home/ubuntu/.gitconfig
+      - path: /tmp/.gitconfig
         owner: ubuntu:ubuntu
         permissions: '0644'
         content: |
