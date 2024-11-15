@@ -4,9 +4,7 @@ data "local_file" "ssh_public_key" {
 
 variable "mounts" {
   type = list(list(string))
-  default = [
-    ["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0"]
-  ]
+  default = [["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0"]]
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
@@ -26,7 +24,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         ssh_authorized_keys:
           - ${trimspace(data.local_file.ssh_public_key.content)}
         sudo: ALL=(ALL) NOPASSWD:ALL
-    mounts: ${var.mounts}
+    mounts: ${jsonencode(var.mounts)}
     runcmd:
         - apt update
         - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
