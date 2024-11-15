@@ -144,7 +144,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_2" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_wk_0" {
-    name      = "talos_wk_0"
+    name      = "talos-wk-0"
     node_name = "pve"
     vm_id = "1203"
 
@@ -189,7 +189,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk_0" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_wk_1" {
-    name      = "talos_wk_1"
+    name      = "talos-wk-1"
     node_name = "pve"
     vm_id = "1204"
 
@@ -234,7 +234,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk_1" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_wk_2" {
-    name      = "talos_wk_2"
+    name      = "talos-wk-2"
     node_name = "pve"
     vm_id = "1205"
 
@@ -279,7 +279,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk_2" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_wk_3" {
-    name      = "talos_wk_3"
+    name      = "talos-wk-3"
     node_name = "pve"
     vm_id = "1206"
 
