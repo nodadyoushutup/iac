@@ -76,7 +76,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     datastore_id = "local-lvm"
     file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
     interface    = "scsi0"
-    iothread     = true
     discard      = "on"
     size         = 20
   }
