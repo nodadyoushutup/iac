@@ -26,10 +26,13 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         sudo: ALL=(ALL) NOPASSWD:ALL
     mounts: ${jsonencode(var.mounts)}
     write_files:
-      - path: /tmp/testfile
+      - path: /home/ubuntu/.gitconfig
         owner: ubuntu:ubuntu
         permissions: '0644'
-        content: "This is a test file for cloud-init."
+        content: |
+          [user]
+            name = nodadyoushutup
+            email = admin@nodadyoushutup.com
     runcmd:
         - apt update
         - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
