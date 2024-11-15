@@ -1,57 +1,57 @@
-data "local_file" "ssh_public_key" {
-  filename = "./id_rsa.pub"
-}
+# data "local_file" "ssh_public_key" {
+#   filename = "./id_rsa.pub"
+# }
 
-variable "mounts" {
-  type = list(list(string))
-  default = [["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0"]]
-}
+# variable "mounts" {
+#   type = list(list(string))
+#   default = [["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0"]]
+# }
 
-resource "proxmox_virtual_environment_file" "cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
+# resource "proxmox_virtual_environment_file" "cloud_config" {
+#   content_type = "snippets"
+#   datastore_id = "local"
+#   node_name    = "pve"
 
-  source_raw {
-    data = <<-EOF
-    #cloud-config
-    users:
-      - default
-      - name: ubuntu
-        groups:
-          - sudo
-        shell: /bin/bash
-        ssh_authorized_keys:
-          - ${trimspace(data.local_file.ssh_public_key.content)}
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    mounts: ${jsonencode(var.mounts)}
-    write_files:
-      - path: /tmp/.gitconfig
-        owner: ubuntu:ubuntu
-        permissions: '0644'
-        content: |
-          [user]
-            name = nodadyoushutup
-            email = admin@nodadyoushutup.com
-    runcmd:
-        - apt update
-        - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
-        - apt install -y curl postgresql-client mysql-client-core-8.0 git whois jq nmap
-        - systemctl enable qemu-guest-agent
-        - systemctl start qemu-guest-agent
-        - mkdir -p $(echo ${join(" ", [for mount in var.mounts : mount[1]])})
-        - mount -a
-        - mv /tmp/.gitconfig /home/ubuntu
-        - chown ubuntu:ubuntu /home/ubuntu/.gitconfig
-        - echo "done" > /tmp/cloud-config.done
-    EOF
+#   source_raw {
+#     data = <<-EOF
+#     #cloud-config
+#     users:
+#       - default
+#       - name: ubuntu
+#         groups:
+#           - sudo
+#         shell: /bin/bash
+#         ssh_authorized_keys:
+#           - ${trimspace(data.local_file.ssh_public_key.content)}
+#         sudo: ALL=(ALL) NOPASSWD:ALL
+#     mounts: ${jsonencode(var.mounts)}
+#     write_files:
+#       - path: /tmp/.gitconfig
+#         owner: ubuntu:ubuntu
+#         permissions: '0644'
+#         content: |
+#           [user]
+#             name = nodadyoushutup
+#             email = admin@nodadyoushutup.com
+#     runcmd:
+#         - apt update
+#         - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
+#         - apt install -y curl postgresql-client mysql-client-core-8.0 git whois jq nmap
+#         - systemctl enable qemu-guest-agent
+#         - systemctl start qemu-guest-agent
+#         - mkdir -p $(echo ${join(" ", [for mount in var.mounts : mount[1]])})
+#         - mount -a
+#         - mv /tmp/.gitconfig /home/ubuntu
+#         - chown ubuntu:ubuntu /home/ubuntu/.gitconfig
+#         - echo "done" > /tmp/cloud-config.done
+#     EOF
 
-    file_name = "cloud-config.yaml"
-  }
-}
+#     file_name = "cloud-config.yaml"
+#   }
+# }
 
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name      = "test-ubuntu"
+  name      = "talos-cp-0"
   node_name = "pve"
 
   agent {
@@ -68,8 +68,8 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
-    interface    = "virtio0"
+    file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
+    interface    = "scsi0"
     iothread     = true
     discard      = "on"
     size         = 20
@@ -81,8 +81,6 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
         address = "dhcp"
       }
     }
-
-    user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
   }
 
   network_device {
