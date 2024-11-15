@@ -1,7 +1,3 @@
-data "local_file" "ssh_public_key" {
-  filename = "./id_rsa.pub"
-}
-
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
@@ -16,8 +12,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         groups:
           - sudo
         shell: /bin/bash
-        ssh_authorized_keys:
-          - ${trimspace(data.local_file.ssh_public_key.content)}
+        ssh_authorized_keys: []
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
         - apt update
