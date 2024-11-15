@@ -1,21 +1,22 @@
-{
-  "builders": [
-    {
-      "type": "qemu",
-      "iso_url": "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img",
-      "headless": true,
-      "format": "qcow2",
-      "output_directory": "./"
-    }
-  ],
+# Define a Packer source image
+source "qemu" "ubuntu" {
+  iso_url       = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img"
+  iso_checksum  = "sha256:<checksum>"
+  disk_size     = "10240"
+  headless      = true
+  format        = "qcow2"
+  ssh_username  = "ubuntu"
+  ssh_password  = "password"
+}
 
-  "provisioners": [
-    {
-      "type": "shell",
-      "inline": [
-        "sudo apt-get update -y",
-        "sudo apt-get install -y qemu-guest-agent"
-      ]
-    }
-  ]
+# Define the build block that will use the source image
+build {
+  sources = ["source.qemu.ubuntu"]
+
+  provisioner "shell" {
+    inline = [
+      "sudo apt-get update -y",
+      "sudo apt-get install -y qemu-guest-agent"
+    ]
+  }
 }
