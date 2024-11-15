@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p ~/.config/packer/plugins/hashicorp.com/qemu/packer-plugin-qemu
           cd ~/.config/packer/plugins/hashicorp.com/qemu/packer-plugin-qemu
-          curl -L -o packer-plugin-qemu.zip https://releases.hashicorp.com/packer-plugin-qemu/1.0.0/packer-plugin-qemu_1.0.0_linux_amd64.zip
+          curl -L -o packer-plugin-qemu.zip https://github.com/hashicorp/packer-plugin-qemu/releases/download/v1.1.0/packer-plugin-qemu_v1.1.0_x5.0_linux_amd64.zip
           unzip packer-plugin-qemu.zip
           rm packer-plugin-qemu.zip
 
