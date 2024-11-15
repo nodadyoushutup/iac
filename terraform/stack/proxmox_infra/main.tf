@@ -26,8 +26,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         ssh_authorized_keys:
           - ${trimspace(data.local_file.ssh_public_key.content)}
         sudo: ALL=(ALL) NOPASSWD:ALL
-    mounts:
-      - [ "192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0" ]
+    mounts: ${var.mounts}
     runcmd:
         - apt update
         - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
@@ -35,6 +34,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent
         - mkdir -p $(echo ${join(" ", [for mount in var.mounts : mount[1]])})
+        - mount -a
         - echo "done" > /tmp/cloud-config.done
     EOF
 
