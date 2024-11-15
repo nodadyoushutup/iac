@@ -67,6 +67,11 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
     dedicated = 2048
   }
 
+  tpm_state {
+    datastore_id = "local-lvm"
+    version = "v2.0"
+  }
+
   disk {
     datastore_id = "local-lvm"
     file_id      = proxmox_virtual_environment_download_file.talos_cloud_image.id
