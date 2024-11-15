@@ -8,8 +8,8 @@ packer {
 }
 
 source "qemu" "example" {
-  iso_url           = "http://mirror.raystedman.net/centos/6/isos/x86_64/CentOS-6.9-x86_64-minimal.iso"
-  iso_checksum      = "md5:af4a1640c0c6f348c6c41f1ea9e192a2"
+  iso_url           = "https://cloud.centos.org/centos/6/images/CentOS-6-x86_64-GenericCloud-1907.qcow2"
+  iso_checksum      = "md5:5350c20875a3fec28157abbc7db5dc635911212804f892b751f94fcf3f285aec"
   output_directory  = "output_centos_tdhtest"
   shutdown_command  = "echo 'packer' | sudo -S shutdown -P now"
   disk_size         = "5000M"
