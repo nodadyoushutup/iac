@@ -12,7 +12,6 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         groups:
           - sudo
         shell: /bin/bash
-        ssh_authorized_keys: []
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
         - apt update
