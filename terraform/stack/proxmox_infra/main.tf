@@ -25,6 +25,14 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
           - ${trimspace(data.local_file.ssh_public_key.content)}
         sudo: ALL=(ALL) NOPASSWD:ALL
     mounts: ${jsonencode(var.mounts)}
+    write_files:
+      - path: /home/ubuntu/.gitconfig
+        owner: ubuntu:ubuntu
+        permissions: '0644'
+        content: |
+          [user]
+            name = nodadyoushutup
+            email = admin@nodadyoushutup.com
     runcmd:
         - apt update
         - apt install -y qemu-guest-agent net-tools python3 python3-pip nfs-common zip curl
