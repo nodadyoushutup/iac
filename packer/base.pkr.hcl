@@ -8,15 +8,25 @@ packer {
 }
 
 # Define a Packer source image
-source "qemu" "ubuntu" {
-  iso_url       = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img"
-  iso_checksum  = "sha256:3661899b29fc41da9873ecc1adbb95ab6600887cd0de077163e0720891645985"
-  disk_size     = "10240"
-  headless      = true
-  format        = "qcow2"
-  ssh_username  = "ubuntu"
-  ssh_password  = "password"
+source "qemu" "example" {
+  iso_url           = "http://mirror.raystedman.net/centos/6/isos/x86_64/CentOS-6.9-x86_64-minimal.iso"
+  iso_checksum      = "md5:af4a1640c0c6f348c6c41f1ea9e192a2"
+  output_directory  = "output_centos_tdhtest"
+  shutdown_command  = "echo 'packer' | sudo -S shutdown -P now"
+  disk_size         = "5000M"
+  format            = "qcow2"
+  accelerator       = "kvm"
+  http_directory    = "path/to/httpdir"
+  ssh_username      = "root"
+  ssh_password      = "s0m3password"
+  ssh_timeout       = "20m"
+  vm_name           = "tdhtest"
+  net_device        = "virtio-net"
+  disk_interface    = "virtio"
+  boot_wait         = "10s"
+  boot_command      = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos6-ks.cfg<enter><wait>"]
 }
+
 
 # Define the build block that will use the source image
 build {
@@ -24,8 +34,9 @@ build {
 
   provisioner "shell" {
     inline = [
-      "sudo apt-get update -y",
-      "sudo apt-get install -y qemu-guest-agent"
+      "ls -la"
+      # "sudo apt-get update -y",
+      # "sudo apt-get install -y qemu-guest-agent"
     ]
   }
 }
