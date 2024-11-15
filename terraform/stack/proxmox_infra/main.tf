@@ -42,6 +42,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         - mkdir -p $(echo ${join(" ", [for mount in var.mounts : mount[1]])})
         - mount -a
         - mv /tmp/.gitconfig /home/ubuntu
+        - chown ubuntu:ubuntu /home/ubuntu/.gitconfig
         - echo "done" > /tmp/cloud-config.done
     EOF
 
