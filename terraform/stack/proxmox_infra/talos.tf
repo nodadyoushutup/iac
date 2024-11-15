@@ -10,7 +10,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
     depends_on = [ proxmox_virtual_environment_download_file.talos_cloud_image ]
     name      = "talos-cp-0"
     node_name = "pve"
-    vm_id = "200"
+    vm_id = "1200"
 
     agent {
         enabled = true
@@ -56,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_0" {
 resource "proxmox_virtual_environment_vm" "talos_cp_1" {
     name      = "talos-cp-1"
     node_name = "pve"
-    vm_id = "201"
+    vm_id = "1201"
 
     agent {
         enabled = true
@@ -101,7 +101,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
 resource "proxmox_virtual_environment_vm" "talos_cp_2" {
     name      = "talos-cp-2"
     node_name = "pve"
-    vm_id = "202"
+    vm_id = "1202"
 
     agent {
         enabled = true
