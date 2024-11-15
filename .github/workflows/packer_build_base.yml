@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Packer
     steps:
+      - name: Install QEMU
+        run: sudo apt-get update && sudo apt-get install -y qemu-system
+
       - name: Checkout
         uses: actions/checkout@v4
 
