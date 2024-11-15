@@ -2,6 +2,13 @@ data "local_file" "ssh_public_key" {
   filename = "./id_rsa.pub"
 }
 
+variable "mounts" {
+  type = list(list(string))
+  default = [
+    ["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs", "defaults", "0", "0"]
+  ]
+}
+
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
@@ -25,6 +32,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         - apt install -y curl postgresql-client mysql-client-core-8.0 git whois jq nmap
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent
+        - mkdir -p $(echo ${join(" ", [for mount in var.mounts : mount[1]])})
         - echo "done" > /tmp/cloud-config.done
     EOF
 
