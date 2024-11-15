@@ -1,3 +1,7 @@
+data "local_file" "ssh_public_key" {
+  filename = "./id_rsa.pub"
+}
+
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
@@ -9,17 +13,18 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     users:
       - default
       - name: ubuntu
-        passwd: "$6$TYD6pGjxfnS5EwIl$e0O0riI6jlUR635OWZCRicew4sdrZDou1HFV/EjFWnhIelyxNrl5pUWiW7oY0fu/v6suE5Ly17P5/QwNSVRXs0" 
-        lock_passwd: false 
         groups:
           - sudo
         shell: /bin/bash
+        ssh_authorized_keys:
+          - ${trimspace(data.local_file.ssh_public_key.content)}
         sudo: ALL=(ALL) NOPASSWD:ALL
-        
     runcmd:
         - apt update
-        - apt install -y net-tools
-        - timedatectl set-timezone America/New_York
+        - apt install -y qemu-guest-agent net-tools
+        - timedatectl set-timezone America/Toronto
+        - systemctl enable qemu-guest-agent
+        - systemctl start qemu-guest-agent
         - echo "done" > /tmp/cloud-config.done
     EOF
 
@@ -32,7 +37,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   node_name = "pve"
 
   agent {
-    enabled = false
+    enabled = true
   }
 
   cpu {
@@ -74,4 +79,8 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
   node_name    = "pve"
 
   url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+}
+
+output "vm_ipv4_address" {
+  value = proxmox_virtual_environment_vm.ubuntu_vm.ipv4_addresses[1][0]
 }
