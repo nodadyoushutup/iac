@@ -1,4 +1,4 @@
-resource "talos_machine_secrets" "machine_secrets" {
+resource "talos_machine_secrets" "this" {
     talos_version = "1.8.3"
 }
 
