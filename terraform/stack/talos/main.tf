@@ -25,6 +25,10 @@ data "talos_client_configuration" "this" {
   ]
 }
 
+resource "random_id" "trigger" {
+  byte_length = 8
+}
+
 output "debug" {
   value = data.talos_client_configuration.this.nodes
 }
