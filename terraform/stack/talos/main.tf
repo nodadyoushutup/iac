@@ -71,85 +71,85 @@ resource "talos_machine_configuration_apply" "talos_cp_0" {
   ]
 }
 
-# resource "talos_machine_configuration_apply" "talos_cp_1" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_cp_1.machine_configuration
-#   for_each                    = var.node_data.controlplanes
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     }),
-#     file("${path.module}/file/cp-scheduling.yaml"),
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_cp_1" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_cp_1.machine_configuration
+  for_each                    = var.node_data.controlplanes
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    }),
+    file("${path.module}/file/cp-scheduling.yaml"),
+  ]
+}
 
-# resource "talos_machine_configuration_apply" "talos_cp_2" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_cp_2.machine_configuration
-#   for_each                    = var.node_data.controlplanes
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     }),
-#     file("${path.module}/file/cp-scheduling.yaml"),
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_cp_2" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_cp_2.machine_configuration
+  for_each                    = var.node_data.controlplanes
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    }),
+    file("${path.module}/file/cp-scheduling.yaml"),
+  ]
+}
 
-# resource "talos_machine_configuration_apply" "talos_wk_0" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_wk_0.machine_configuration
-#   for_each                    = var.node_data.workers
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     })
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_wk_0" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_wk_0.machine_configuration
+  for_each                    = var.node_data.workers
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    })
+  ]
+}
 
-# resource "talos_machine_configuration_apply" "talos_wk_1" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_wk_1.machine_configuration
-#   for_each                    = var.node_data.workers
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     })
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_wk_1" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_wk_1.machine_configuration
+  for_each                    = var.node_data.workers
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    })
+  ]
+}
 
-# resource "talos_machine_configuration_apply" "talos_wk_2" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_wk_2.machine_configuration
-#   for_each                    = var.node_data.workers
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     })
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_wk_2" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_wk_2.machine_configuration
+  for_each                    = var.node_data.workers
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    })
+  ]
+}
 
-# resource "talos_machine_configuration_apply" "talos_wk_3" {
-#   client_configuration        = talos_machine_secrets.this.client_configuration
-#   machine_configuration_input = data.talos_machine_configuration.talos_wk_3.machine_configuration
-#   for_each                    = var.node_data.workers
-#   node                        = each.key
-#   config_patches = [
-#     templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
-#       hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
-#       install_disk = each.value.install_disk
-#     })
-#   ]
-# }
+resource "talos_machine_configuration_apply" "talos_wk_3" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.talos_wk_3.machine_configuration
+  for_each                    = var.node_data.workers
+  node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    })
+  ]
+}
 
 resource "talos_machine_bootstrap" "this" {
   depends_on = [talos_machine_configuration_apply.talos_cp_0]
