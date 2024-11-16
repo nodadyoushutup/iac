@@ -62,6 +62,13 @@ resource "talos_machine_configuration_apply" "talos_cp_0" {
   machine_configuration_input = data.talos_machine_configuration.talos_cp_0.machine_configuration
   for_each                    = var.node_data.controlplanes
   node                        = each.key
+  config_patches = [
+    templatefile("${path.module}/template/install-disk-and-hostname.yaml.tmpl", {
+      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
+      install_disk = each.value.install_disk
+    }),
+    file("${path.module}/file/cp-scheduling.yaml"),
+  ]
 }
 
 # resource "talos_machine_configuration_apply" "talos_cp_1" {
