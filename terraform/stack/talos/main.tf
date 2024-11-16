@@ -5,7 +5,7 @@ resource "talos_machine_secrets" "this" {
 data "talos_machine_configuration" "controlplane" {
     depends_on = [ talos_machine_secrets.this ]
     cluster_name     = local.config.talos.cluster_name
-    cluster_endpoint = "https://${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
+    cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.control_plane[0].port}"
     machine_type     = "controlplane"
     machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
@@ -13,7 +13,7 @@ data "talos_machine_configuration" "controlplane" {
 data "talos_machine_configuration" "worker" {
     depends_on = [ talos_machine_secrets.this ]
     cluster_name     = local.config.talos.cluster_name
-    cluster_endpoint = "https://${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
+    cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.control_plane[0].port}"
     machine_type     = "worker"
     machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
@@ -28,7 +28,7 @@ data "talos_client_configuration" "this" {
     client_configuration = talos_machine_secrets.this.client_configuration
     endpoints            = [
         for control_plane in local.config.talos.control_plane :
-        "${control_plane.ip_address}:${control_plane.port}"
+        "${local.config.talos.ip_address}:${control_plane.port}"
     ]
 }
 
