@@ -54,20 +54,20 @@ resource "talos_machine_configuration_apply" "worker" {
     node                        = "${each.value.ip_address}:${each.value.port}"
 }
 
-resource "talos_machine_bootstrap" "this" {
-    depends_on = [ 
-        talos_machine_secrets.this.client_configuration,
-        talos_machine_configuration_apply.controlplane 
-    ]
-    client_configuration = talos_machine_secrets.this.client_configuration
-    node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
-}
+# resource "talos_machine_bootstrap" "this" {
+#     depends_on = [ 
+#         talos_machine_secrets.this.client_configuration,
+#         talos_machine_configuration_apply.controlplane 
+#     ]
+#     client_configuration = talos_machine_secrets.this.client_configuration
+#     node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
+# }
 
-resource "talos_cluster_kubeconfig" "this" {
-    depends_on = [ 
-        talos_machine_secrets.this.client_configuration,
-        talos_machine_bootstrap.this
-    ]
-    client_configuration = talos_machine_secrets.this.client_configuration
-    node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
-}
+# resource "talos_cluster_kubeconfig" "this" {
+#     depends_on = [ 
+#         talos_machine_secrets.this.client_configuration,
+#         talos_machine_bootstrap.this
+#     ]
+#     client_configuration = talos_machine_secrets.this.client_configuration
+#     node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
+# }
