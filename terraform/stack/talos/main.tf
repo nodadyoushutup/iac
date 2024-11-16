@@ -50,3 +50,9 @@ data "talos_machine_configuration" "talos_wk_3" {
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
+
+data "talos_client_configuration" "this" {
+  cluster_name         = var.cluster_name
+  client_configuration = talos_machine_secrets.this.client_configuration
+  endpoints            = [for k, v in var.node_data.controlplanes : k]
+}
