@@ -43,16 +43,16 @@ resource "talos_machine_configuration_apply" "controlplane" {
     node                        = "${each.value.ip_address}:${each.value.port}"
 }
 
-resource "talos_machine_configuration_apply" "worker" {
-    depends_on = [ 
-        talos_machine_secrets.this,
-        data.talos_machine_configuration.worker 
-    ]
-    client_configuration        = talos_machine_secrets.this.client_configuration
-    machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
-    for_each                    = { for idx, worker in local.config.talos.worker : idx => worker }
-    node                        = "${each.value.ip_address}:${each.value.port}"
-}
+# resource "talos_machine_configuration_apply" "worker" {
+#     depends_on = [ 
+#         talos_machine_secrets.this,
+#         data.talos_machine_configuration.worker 
+#     ]
+#     client_configuration        = talos_machine_secrets.this.client_configuration
+#     machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
+#     for_each                    = { for idx, worker in local.config.talos.worker : idx => worker }
+#     node                        = "${each.value.ip_address}:${each.value.port}"
+# }
 
 # resource "talos_machine_bootstrap" "this" {
 #     depends_on = [ 
