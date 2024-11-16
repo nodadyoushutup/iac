@@ -42,13 +42,11 @@ resource "talos_machine_configuration_apply" "worker" {
 resource "talos_machine_bootstrap" "this" {
   depends_on           = [talos_machine_configuration_apply.controlplane]
   client_configuration = talos_machine_secrets.this.client_configuration
-  for_each             = { for idx, control_plane in local.config.talos.control_plane : idx => control_plane }
-  node                 = "${each.value.ip_address}:${each.value.port}"
+  node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
 }
 
 resource "talos_cluster_kubeconfig" "this" {
   depends_on           = [talos_machine_bootstrap.this]
   client_configuration = talos_machine_secrets.this.client_configuration
-  for_each             = { for idx, control_plane in local.config.talos.control_plane : idx => control_plane }
-  node                 = "${each.value.ip_address}:${each.value.port}"
+  node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
 }
