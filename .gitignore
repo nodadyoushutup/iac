@@ -50,3 +50,4 @@ _old
 config/** */
 !terraform/config
 ignore/
+talos/
