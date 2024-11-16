@@ -50,4 +50,5 @@ _old
 config/** */
 !terraform/config
 ignore/
-talos/
+.sops.yaml
+talsecret.sops.yaml
