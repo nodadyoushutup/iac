@@ -25,7 +25,12 @@ data "talos_client_configuration" "this" {
   ]
 }
 
-
+resource "talos_machine_configuration_apply" "controlplane" {
+  client_configuration        = talos_machine_secrets.this.client_configuration
+  machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
+  for_each                    = local.config.talos.control_plane
+  node                        = "${each.value.ip_address}:${each.value.port}"
+}
 
 # data "talos_machine_configuration" "talos_cp_0" {
 #   cluster_name     = local.config.talos.cluster_name
