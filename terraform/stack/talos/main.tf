@@ -26,28 +26,28 @@ data "talos_machine_configuration" "talos_cp_2" {
 data "talos_machine_configuration" "talos_wk_0" {
   cluster_name     = local.config.talos.cluster_name
   cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.worker[0].port}"
-  machine_type     = "controlplane"
+  machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 
 data "talos_machine_configuration" "talos_wk_1" {
   cluster_name     = local.config.talos.cluster_name
   cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.worker[1].port}"
-  machine_type     = "controlplane"
+  machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 
 data "talos_machine_configuration" "talos_wk_2" {
   cluster_name     = local.config.talos.cluster_name
   cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.worker[2].port}"
-  machine_type     = "controlplane"
+  machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 
 data "talos_machine_configuration" "talos_wk_3" {
   cluster_name     = local.config.talos.cluster_name
   cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.worker[2].port}"
-  machine_type     = "controlplane"
+  machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 

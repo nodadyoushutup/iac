@@ -34,33 +34,33 @@ variable "node_data" {
   })
   default = {
     controlplanes = {
-      "192.168.1.200" = {
+      "${local.config.talos.ip_address}:${local.config.talos.control_plane[0].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-cp-0"
       },
-      "192.168.1.201" = {
+      "${local.config.talos.ip_address}:${local.config.talos.control_plane[1].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-cp-1"
       },
-      "192.168.1.202" = {
+      "${local.config.talos.ip_address}:${local.config.talos.control_plane[2].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-cp-1"
       }
     }
     workers = {
-      "192.168.1.203" = {
+      "${local.config.talos.ip_address}:${local.config.talos.worker[0].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-wk-0"
       },
-      "192.168.1.204" = {
+      "${local.config.talos.ip_address}:${local.config.talos.worker[1].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-wk-1"
       }
-      "192.168.1.205" = {
+      "${local.config.talos.ip_address}:${local.config.talos.worker[2].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-wk-2"
       }
-      "192.168.1.206" = {
+      "${local.config.talos.ip_address}:${local.config.talos.worker[3].port}" = {
         install_disk = "/dev/sda"
         hostname = "talos-wk-3"
       }
