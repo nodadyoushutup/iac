@@ -28,7 +28,7 @@ data "talos_client_configuration" "this" {
 resource "talos_machine_configuration_apply" "controlplane" {
   client_configuration        = talos_machine_secrets.this.client_configuration
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
-  for_each                    = local.config.talos.control_plane
+  for_each                    = { for idx, control_plane in local.config.talos.control_plane : idx => control_plane }
   node                        = "${each.value.ip_address}:${each.value.port}"
 }
 
