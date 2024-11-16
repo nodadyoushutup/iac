@@ -10,7 +10,7 @@ data "talos_machine_configuration" "controlplane" {
 }
 
 data "talos_machine_configuration" "worker" {
-  cluster_name     = local.config.talos.cluster
+  cluster_name     = local.config.talos.cluster_name
   cluster_endpoint = "https://${local.config.talos.ip_address}:${local.config.talos.control_plane[0].port}"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
