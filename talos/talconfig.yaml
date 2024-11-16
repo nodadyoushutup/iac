@@ -6,10 +6,10 @@ kubernetesVersion: v1.30.0
 clusterName: talos-proxmox
 endpoint: https://192.168.1.200:6443
 additionalApiServerCertSans:
-  - 192.168.1.199
+  # - 192.168.1.199
   - 127.0.0.1
 additionalMachineCertSans:
-  - 192.168.1.199
+  # - 192.168.1.199
   - 127.0.0.1
 nodes:
   - hostname: talos-cp-0
@@ -20,8 +20,8 @@ nodes:
       - deviceSelector:
           hardwareAddr: "0a:00:00:00:12:00"
         dhcp: true
-        vip:
-          ip: 192.168.1.199
+        # vip:
+        #   ip: 192.168.1.199
 
   - hostname: talos-cp-1
     controlPlane: true
@@ -31,8 +31,8 @@ nodes:
       - deviceSelector:
           hardwareAddr: "0a:00:00:00:12:01"
         dhcp: true
-        vip:
-          ip: 192.168.1.199
+        # vip:
+        #   ip: 192.168.1.199
 
   - hostname: talos-cp-2
     controlPlane: true
@@ -42,8 +42,8 @@ nodes:
       - deviceSelector:
           hardwareAddr: "0a:00:00:00:12:02"
         dhcp: true
-        vip:
-          ip: 192.168.1.199
+        # vip:
+        #   ip: 192.168.1.199
 
   - hostname: talos-wk-0
     controlPlane: false
