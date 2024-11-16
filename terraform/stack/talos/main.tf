@@ -20,7 +20,7 @@ data "talos_machine_configuration" "worker" {
 
 data "talos_client_configuration" "this" {
     depends_on = [ 
-        talos_machine_secrets.this.client_configuration, 
+        talos_machine_secrets.this, 
         data.talos_machine_configuration.controlplane, 
         data.talos_machine_configuration.worker 
     ]
@@ -34,7 +34,7 @@ data "talos_client_configuration" "this" {
 
 resource "talos_machine_configuration_apply" "controlplane" {
     depends_on = [ 
-        talos_machine_secrets.this.client_configuration,
+        talos_machine_secrets.this,
         data.talos_machine_configuration.controlplane 
     ]
     client_configuration        = talos_machine_secrets.this.client_configuration
@@ -45,7 +45,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
 
 resource "talos_machine_configuration_apply" "worker" {
     depends_on = [ 
-        talos_machine_secrets.this.client_configuration,
+        talos_machine_secrets.this,
         data.talos_machine_configuration.worker 
     ]
     client_configuration        = talos_machine_secrets.this.client_configuration
