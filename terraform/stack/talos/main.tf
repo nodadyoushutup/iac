@@ -58,7 +58,3 @@ data "talos_cluster_kubeconfig" "this" {
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = "${local.config.talos.control_plane[0].ip_address}:${local.config.talos.control_plane[0].port}"
 }
-
-output "kubeconfig" {
-  value = data.talos_cluster_kubeconfig.this
-}
