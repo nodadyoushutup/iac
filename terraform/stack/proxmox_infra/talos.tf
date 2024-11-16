@@ -6,6 +6,17 @@ resource "proxmox_virtual_environment_download_file" "talos_cloud_image" {
   url = "https://factory.talos.dev/image/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515/v1.8.3/metal-amd64.qcow2"
 }
 
+resource "talos_machine_secrets" "machine_secrets" {
+    talos_version = "1.8.3"
+}
+
+data "talos_machine_configuration" "controlplane" {
+  cluster_name     = var.cluster_name
+  cluster_endpoint = var.cluster_endpoint
+  machine_type     = "controlplane"
+  machine_secrets  = talos_machine_secrets.this.machine_secrets
+}
+
 resource "proxmox_virtual_environment_vm" "talos_cp_0" {
     depends_on = [ proxmox_virtual_environment_download_file.talos_cloud_image ]
     name      = "talos-cp-0"
@@ -322,3 +333,4 @@ resource "proxmox_virtual_environment_vm" "talos_wk_3" {
         mac_address = "0a:00:00:00:12:06"
     }
 }
+
