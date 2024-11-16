@@ -25,13 +25,7 @@ data "talos_client_configuration" "this" {
   ]
 }
 
-resource "random_id" "trigger" {
-  byte_length = 8
-}
 
-output "debug" {
-  value = data.talos_client_configuration.this.nodes
-}
 
 # data "talos_machine_configuration" "talos_cp_0" {
 #   cluster_name     = local.config.talos.cluster_name
