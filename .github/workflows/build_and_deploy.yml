@@ -2,6 +2,9 @@ name: Build and Deploy
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - "packer/base.pkr.hcl"
 
 env:
   HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
