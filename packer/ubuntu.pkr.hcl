@@ -15,7 +15,7 @@ variable "ubuntu_version" {
 
 source "qemu" "ubuntu" {
   accelerator      = "none"
-  cd_files         = ["./cloud-init/*"]
+  cd_files         = ["packer/cloud-init/*"]
   cd_label         = "cidata"
   disk_compression = true
   disk_image       = true
