@@ -52,10 +52,10 @@ build {
       "DEBIAN_FRONTEND=noninteractive"
     ]
     scripts = [
-      "script/cloud-init.sh",
-      "script/install/apt.sh",
-      "script/install/docker.sh",
-      "script/cleanup.sh"
+      "packer/script/cloud-init.sh",
+      "packer/script/install/apt.sh",
+      "packer/script/install/docker.sh",
+      "packer/script/cleanup.sh"
     ]
   }
 }
