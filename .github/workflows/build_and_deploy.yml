@@ -30,11 +30,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Packer Init
-        run: packer init .
+        run: packer init packer/ubuntu.pkr.hcl
 
       - name: Packer Build - Branches
         if: startsWith(github.ref, 'refs/heads/')
-        run: packer build .
+        run: packer build packer/ubuntu.pkr.hcl
 
       - name: Packer Build - Tags
         if: startsWith(github.ref, 'refs/tags/v')
