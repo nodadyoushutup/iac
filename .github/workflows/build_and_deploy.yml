@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "packer/base.pkr.hcl"
+      - "packer/ubuntu.pkr.hcl"
 
 env:
   HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
