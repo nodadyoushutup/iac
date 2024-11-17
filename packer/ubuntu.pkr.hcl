@@ -65,4 +65,5 @@ build {
     custom_data = {
       version_fingerprint = packer.versionFingerprint
     }
+  }
 }
