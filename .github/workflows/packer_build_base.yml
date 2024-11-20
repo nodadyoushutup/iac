@@ -49,7 +49,6 @@ jobs:
           fi
       
           echo "Validated tag: $TAG"
-          echo "tag=$TAG" >> $GITHUB_ENV
 
       - name: Packer Init
         run: |
@@ -67,7 +66,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$TAG" --title "Release $TAG" --notes "Automated release of the Packer image."
+          echo "Creating release for tag: ${{ github.event.inputs.tag }}"
+          gh release create ${{ github.event.inputs.tag }} --title "Release ${{ github.event.inputs.tag }}" --notes "Automated release of the Packer image."
+        
 
       - name: Upload Artifact to Release
         env:
@@ -78,4 +79,4 @@ jobs:
             echo "No artifact found to upload."
             exit 1
           fi
-          gh release upload "$TAG" "$ARTIFACT_PATH"
+          gh release upload "${{ github.event.inputs.tag }}" "$ARTIFACT_PATH"
