@@ -10,7 +10,8 @@ on:
 env:
   HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
   HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
-  
+  PACKER_LOG: 1
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
