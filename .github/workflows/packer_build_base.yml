@@ -1,12 +1,14 @@
 name: Build and Release Packer Image
 
 on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+" # Matches tags like 1.0.0, 2.3.4, etc.
   workflow_dispatch:
     inputs:
-      version:
-        description: "Semantic version for the release (X.X.X). If not provided, auto-increment the patch version."
-        required: false
-        default: ""
+      tag:
+        description: "Semantic version tag for the release (e.g., 1.0.0)."
+        required: true
 env:
   HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
   HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
@@ -31,6 +33,23 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Validate Tag
+        id: validate_tag
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            TAG="${GITHUB_REF#refs/tags/}"
+          fi
+
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Invalid tag format. Use semantic versioning (e.g., v1.0.0)."
+            exit 1
+          fi
+
+          echo "Validated tag: $TAG"
+          echo "tag=$TAG" >> $GITHUB_ENV
+
       - name: Packer Init
         run: |
           echo "DEBUG: Initializing packer..."
@@ -39,49 +58,15 @@ jobs:
 
       - name: Packer Build
         run: |
-          echo "DEBUG: Starting packer build for branch ${GITHUB_REF}."
+          echo "DEBUG: Starting packer build for tag $TAG."
           packer build packer/ubuntu.pkr.hcl
           echo "DEBUG: Packer build completed."
-
-      - name: Install GitHub CLI
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-
-      - name: Determine Next Version
-        id: version
-        run: |
-          VERSION_INPUT="${{ github.event.inputs.version }}"
-          
-          # Fetch the latest release tag
-          LATEST_VERSION=$(gh release list --limit 1 --json tagName -q '.[0].tagName' 2>/dev/null || echo "")
-          
-          # Default to 0.0.1 if no releases exist
-          if [[ -z "$LATEST_VERSION" ]]; then
-            LATEST_VERSION="0.0.0"
-          fi
-
-          if [[ -z "$VERSION_INPUT" ]]; then
-            # Check if the latest version is semantic
-            if [[ $LATEST_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              IFS='.' read -r -a PARTS <<< "$LATEST_VERSION"
-              PATCH=$((PARTS[2] + 1))
-              VERSION="${PARTS[0]}.${PARTS[1]}.$PATCH"
-            else
-              VERSION="0.0.1"
-            fi
-          else
-            VERSION="$VERSION_INPUT"
-          fi
-
-          echo "Determined version: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "$VERSION" --title "Release $VERSION" --notes "Automated release of the Packer image."
+          gh release create "$TAG" --title "Release $TAG" --notes "Automated release of the Packer image."
 
       - name: Upload Artifact to Release
         env:
@@ -92,4 +77,4 @@ jobs:
             echo "No artifact found to upload."
             exit 1
           fi
-          gh release upload "$VERSION" "$ARTIFACT_PATH"
+          gh release upload "$TAG" "$ARTIFACT_PATH"
