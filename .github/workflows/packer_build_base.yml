@@ -16,9 +16,7 @@ jobs:
       - name: Install Packages
         run: |
           sudo apt-get update && sudo apt-get install -y qemu-system xorriso jq
-          
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+          echo "DEBUG: Installed required packages."
 
       - name: Setup Packer
         uses: hashicorp/setup-packer@main
@@ -26,6 +24,21 @@ jobs:
         with:
           version: "latest"
 
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Packer Init
+        run: |
+          echo "DEBUG: Initializing packer..."
+          packer init packer/ubuntu.pkr.hcl
+          echo "DEBUG: Packer initialized."
+
+      - name: Packer Build
+        run: |
+          echo "DEBUG: Starting packer build for branch ${GITHUB_REF}."
+          packer build packer/ubuntu.pkr.hcl
+          echo "DEBUG: Packer build completed."
+          
       - name: Install GitHub CLI
         uses: actions/setup-node@v3
         with:
