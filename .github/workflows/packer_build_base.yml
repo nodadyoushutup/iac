@@ -7,7 +7,10 @@ on:
         description: "Semantic version for the release (X.X.X). If not provided, auto-increment the patch version."
         required: false
         default: ""
-
+env:
+  HCP_CLIENT_ID: ${{ secrets.HCP_CLIENT_ID }}
+  HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
+  
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
@@ -38,7 +41,7 @@ jobs:
           echo "DEBUG: Starting packer build for branch ${GITHUB_REF}."
           packer build packer/ubuntu.pkr.hcl
           echo "DEBUG: Packer build completed."
-          
+
       - name: Install GitHub CLI
         uses: actions/setup-node@v3
         with:
