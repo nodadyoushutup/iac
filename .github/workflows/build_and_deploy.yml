@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Install Packages
         run: |
-          sudo apt-get update && sudo apt-get install -y qemu-system xorriso
+          sudo apt-get update && sudo apt-get install -y qemu-system xorriso jq
           echo "DEBUG: Installed required packages."
 
       - name: Setup Packer
@@ -41,18 +41,10 @@ jobs:
           packer init packer/ubuntu.pkr.hcl
           echo "DEBUG: Packer initialized."
 
-      - name: Packer Build - Branches
-        if: startsWith(github.ref, 'refs/heads/')
+      - name: Packer Build
         run: |
           echo "DEBUG: Starting packer build for branch ${GITHUB_REF}."
           packer build packer/ubuntu.pkr.hcl
-          echo "DEBUG: Packer build completed."
-
-      - name: Packer Build - Tags
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo "DEBUG: Starting packer build for tag ${GITHUB_REF}."
-          HCP_PACKER_BUILD_FINGERPRINT=$(date +'%m%d%YT%H%M%S') packer build .
           echo "DEBUG: Packer build completed."
 
       - name: Get HCP Packer version fingerprint from Packer Manifest
@@ -60,7 +52,7 @@ jobs:
         run: |
           echo "DEBUG: Reading packer_manifest.json..."
           cat ./packer_manifest.json
-          
+
           last_run_uuid=$(jq -r '.last_run_uuid' "./packer_manifest.json")
           echo "DEBUG: last_run_uuid = $last_run_uuid"
 

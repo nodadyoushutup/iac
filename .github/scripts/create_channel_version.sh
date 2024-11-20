@@ -63,6 +63,35 @@ fi
 
 bearer=$(echo "$response" | jq -r '.access_token')
 
+# Check if version exists
+echo "Checking if version ${version_fingerprint} exists"
+response=$(curl --request GET --silent \
+  --url "$base_url/buckets/$bucket_slug/versions/$version_fingerprint" \
+  --header "authorization: Bearer $bearer")
+echo "DEBUG: Version fetch response: $response"
+
+version_status=$(echo "$response" | jq -r '.status')
+if [ "$version_status" == "null" ]; then
+  echo "DEBUG: No version found with fingerprint $version_fingerprint. Creating a new version."
+  
+  response=$(curl --request POST --silent \
+    --url "$base_url/buckets/$bucket_slug/versions" \
+    --header "authorization: Bearer $bearer" \
+    --header "Content-Type: application/json" \
+    --data-raw '{
+      "description": "Initial version for the bucket"
+    }')
+  
+  version_fingerprint=$(echo "$response" | jq -r '.fingerprint')
+  echo "DEBUG: Created version with fingerprint: $version_fingerprint"
+
+  # Finalize the version
+  curl --request POST --silent \
+    --url "$base_url/buckets/$bucket_slug/versions/$version_fingerprint/actions/complete" \
+    --header "authorization: Bearer $bearer"
+  echo "DEBUG: Version finalized."
+fi
+
 # Get or create channel
 echo "Getting channel ${channel_name}"
 response=$(curl --request GET --silent \
@@ -72,17 +101,12 @@ echo "DEBUG: Channel fetch response: $response"
 
 api_error=$(echo "$response" | jq -r '.message')
 if [ "$api_error" != null ]; then
-  echo "Channel ${channel_name} like doesn't exist, creating new channel"
-  # Channel likely doesn't exist, create it
-  api_error=$(curl --request POST --silent \
+  echo "Channel ${channel_name} likely doesn't exist, creating new channel."
+  response=$(curl --request POST --silent \
     --url "$base_url/buckets/$bucket_slug/channels" \
     --data-raw '{"name":"'"$channel_name"'"}' \
-    --header "authorization: Bearer $bearer" | jq -r '.error')
-  echo "DEBUG: Channel creation response: $api_error"
-  if [ "$api_error" != null ]; then
-    echo "Error creating channel: $api_error"
-    exit 1
-  fi
+    --header "authorization: Bearer $bearer")
+  echo "DEBUG: Channel creation response: $response"
 fi
 
 # Update channel to point to version
@@ -95,6 +119,6 @@ echo "DEBUG: Channel update response: $response"
 
 api_error=$(echo "$response" | jq -r '.message')
 if [ "$api_error" != null ]; then
-    echo "Error updating channel: $api_error"
-    exit 1
+  echo "Error updating channel: $api_error"
+  exit 1
 fi
