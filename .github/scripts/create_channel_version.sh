@@ -30,6 +30,13 @@ auth_url="${HCP_AUTH_URL:-https://auth.hashicorp.com}"
 api_host="${HCP_API_HOST:-https://api.cloud.hashicorp.com}"
 base_url="$api_host/packer/2023-01-01/organizations/$HCP_ORGANIZATION_ID/projects/$HCP_PROJECT_ID"
 
+echo "DEBUG: bucket_slug = $bucket_slug"
+echo "DEBUG: channel_name = $channel_name"
+echo "DEBUG: version_fingerprint = $version_fingerprint"
+echo "DEBUG: auth_url = $auth_url"
+echo "DEBUG: api_host = $api_host"
+echo "DEBUG: base_url = $base_url"
+
 # If on main branch, set channel to release
 if [ "$channel_name" == "main" ]; then
   channel_name="release"

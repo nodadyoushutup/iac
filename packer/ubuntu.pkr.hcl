@@ -39,8 +39,8 @@ build {
   sources = ["source.qemu.ubuntu"]
 
   hcp_packer_registry {
-    bucket_name = "cloud-image"
-    description = "Cloud image"
+    bucket_name   = "cloud-image"   # Ensure this bucket exists in your HCP project
+    description   = "Cloud image"
     bucket_labels = {
       "cloud-image" = "cloud-image",
     }
