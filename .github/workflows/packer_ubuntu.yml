@@ -74,8 +74,10 @@ jobs:
         with:
           name: built-images
           path: |
+            echo "DEBUG: Uploading artifacts."
             output-focal/nodadyoushutup-cloud-image-focal.img
             output-jammy/nodadyoushutup-cloud-image-jammy.img
+            echo "DEBUG: Artifacts uploaded."
 
   release:
     needs: build
