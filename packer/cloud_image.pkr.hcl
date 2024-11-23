@@ -33,13 +33,13 @@ locals {
 variable "build_type" {
   type = string
   default = "local"
-  description = "Building local or remote (GHA)"
+  description = "Build local or remote"
 }
 
 variable "ubuntu_version" {
   type        = string
   default     = "focal"
-  description = "Ubuntu codename version (i.e. 20.04 is focal and 22.04 is jammy)"
+  description = "Ubuntu codename version"
 }
 
 source "qemu" "ubuntu" {
