@@ -38,7 +38,7 @@ variable "build_type" {
 
 variable "ubuntu_version" {
   type        = string
-  default     = "jammy"
+  default     = "focal"
   description = "Ubuntu codename version (i.e. 20.04 is focal and 22.04 is jammy)"
 }
 
@@ -56,7 +56,7 @@ source "qemu" "ubuntu" {
   shutdown_command = "echo 'packer' | sudo -S shutdown -P now"
   ssh_password     = "ubuntu"
   ssh_username     = "ubuntu"
-  vm_name          = "ubuntu-${var.ubuntu_version}.img"
+  vm_name          = "nodadyoushutup-cloud-image-${var.ubuntu_version}.img"
   qemuargs = [
     ["-m", "2048M"],
     ["-smp", "2"],
