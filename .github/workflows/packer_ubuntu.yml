@@ -42,12 +42,22 @@ jobs:
           else
             TAG="${GITHUB_REF#refs/tags/}"
           fi
-      
+          
           # Validate the tag format as X.X.X (semantic versioning)
           if [[ ! "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Invalid tag format. Use semantic versioning (e.g., 1.0.0)."
             exit 1
           fi
+
+          echo "DEBUG: Tag format is valid."
+
+          # Fetch all tags from the repository
+          git fetch --tags
+          if git tag --list | grep -q "^${TAG}$"; then
+            echo "Error: Tag $TAG already exists. Please use a unique version tag."
+            exit 1
+          fi
+
           echo "Validated tag: $TAG"
 
       - name: Packer init
