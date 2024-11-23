@@ -5,7 +5,6 @@ on:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
     paths:
-      - .github/workflows/**
       - packer/**
   workflow_dispatch:
     inputs:
@@ -63,19 +62,19 @@ jobs:
       - name: Packer init
         run: |
           echo "DEBUG: Initializing packer..."
-          packer init packer/ubuntu.pkr.hcl
+          packer init packer/cloud-image.pkr.hcl
           echo "DEBUG: Packer initialized."
 
       - name: Packer build focal
         run: |
           echo "DEBUG: Starting packer build for tag $TAG."
-          packer build -var "build_type=remote" -var "ubuntu_version=focal" packer/ubuntu.pkr.hcl
+          packer build -var "build_type=remote" -var "ubuntu_version=focal" packer/cloud-image.pkr.hcl
           echo "DEBUG: Packer build completed."
 
       - name: Packer build jammy
         run: |
           echo "DEBUG: Starting packer build for tag $TAG."
-          packer build -var "build_type=remote" -var "ubuntu_version=jammy" packer/ubuntu.pkr.hcl
+          packer build -var "build_type=remote" -var "ubuntu_version=jammy" packer/cloud-image.pkr.hcl
           echo "DEBUG: Packer build completed."
 
       - name: Create GitHub release
