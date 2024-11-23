@@ -59,7 +59,7 @@ jobs:
       - name: Packer Build
         run: |
           echo "DEBUG: Starting packer build for tag $TAG."
-          packer build packer/ubuntu.pkr.hcl
+          packer build -var "build_type=remote" packer/ubuntu.pkr.hcl
           echo "DEBUG: Packer build completed."
 
       - name: Create GitHub Release
