@@ -3,7 +3,7 @@ name: Build and Release Images
 on:
   push:
     tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+" # Trigger on semantic version tags
   workflow_dispatch:
     inputs:
       tag:
@@ -13,7 +13,7 @@ env:
   PACKER_LOG: 1
 
 jobs:
-  build-and-release:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,41 +39,56 @@ jobs:
           else
             TAG="${GITHUB_REF#refs/tags/}"
           fi
-          
-          # Validate the tag format as X.X.X (semantic versioning)
           if [[ ! "$TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Error: Invalid tag format. Use semantic versioning (e.g., 1.0.0)."
             exit 1
           fi
-
           echo "DEBUG: Tag format is valid."
-
-          # Fetch all tags from the repository
           git fetch --tags
           if git tag --list | grep -q "^${TAG}$"; then
             echo "Error: Tag $TAG already exists. Please use a unique version tag."
             exit 1
           fi
-
           echo "Validated tag: $TAG"
 
       - name: Packer init
         run: |
           echo "DEBUG: Initializing packer..."
-          packer init packer/cloud-image.pkr.hcl
+          packer init packer/cloud_image.pkr.hcl
           echo "DEBUG: Packer initialized."
 
       - name: Packer build focal
         run: |
           echo "DEBUG: Starting packer build for tag $TAG."
-          packer build -var "build_type=remote" -var "ubuntu_version=focal" packer/cloud-image.pkr.hcl
+          packer build -var "build_type=remote" -var "ubuntu_version=focal" packer/cloud_image.pkr.hcl
           echo "DEBUG: Packer build completed."
 
       - name: Packer build jammy
         run: |
           echo "DEBUG: Starting packer build for tag $TAG."
-          packer build -var "build_type=remote" -var "ubuntu_version=jammy" packer/cloud-image.pkr.hcl
+          packer build -var "build_type=remote" -var "ubuntu_version=jammy" packer/cloud_image.pkr.hcl
           echo "DEBUG: Packer build completed."
+
+      - name: Upload artifacts to workspace
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-images
+          path: |
+            output-focal/nodadyoushutup-cloud-image-focal.img
+            output-jammy/nodadyoushutup-cloud-image-jammy.img
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: built-images
 
       - name: Create GitHub release
         env:
@@ -86,8 +101,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          FOCAL_ARTIFACT_PATH=$(ls output-focal/nodadyoushutup-cloud-image-focal.img | head -n 1)
-          JAMMY_ARTIFACT_PATH=$(ls output-jammy/nodadyoushutup-cloud-image-jammy.img | head -n 1)
+          FOCAL_ARTIFACT_PATH=$(ls nodadyoushutup-cloud-image-focal.img | head -n 1)
+          JAMMY_ARTIFACT_PATH=$(ls nodadyoushutup-cloud-image-jammy.img | head -n 1)
           if [[ -z "$FOCAL_ARTIFACT_PATH" ]]; then
             echo "No focal artifact found to upload."
             exit 1
