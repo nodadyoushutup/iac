@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     depends_on = [ proxmox_virtual_environment_download_file.cloud_image ]
     name      = "development"
     node_name = "pve"
-    vm_id = "1102"
+    vm_id = "1101"
 
     agent {
         enabled = true
@@ -40,7 +40,7 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     network_device {
         bridge = "vmbr0"
-        mac_address = "0a:00:00:00:11:02"
+        mac_address = "0a:00:00:00:11:01"
     }
 
 }
