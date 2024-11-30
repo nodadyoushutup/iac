@@ -1,5 +1,4 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [ proxmox_virtual_environment_download_file.cloud_image ]
     name      = "vm"
     node_name = "pve"
     vm_id = "1103"
