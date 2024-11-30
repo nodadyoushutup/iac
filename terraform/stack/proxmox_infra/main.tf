@@ -1,4 +1,4 @@
-module "proxmox_infra" {
+module "virtual_machine_docker" {
     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"
 }
 
