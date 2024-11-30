@@ -3,7 +3,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     node_name = local.config.proxmox.ssh.node.name
 
     # OPTIONAL
-
     name = var.name
     vm_id = var.vm_id
     # agent {

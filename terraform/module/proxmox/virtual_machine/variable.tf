@@ -10,7 +10,7 @@ variable "name" {
   default = null
 }
 
-variable "name" {
+variable "vm_id" {
   type = number
   description = "Virtual machine ID"
   default = null
