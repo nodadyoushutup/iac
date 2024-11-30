@@ -37,7 +37,7 @@ resource "spacelift_module" "virtual_machine" {
     description = "Proxmox virtual machine"
     enable_local_preview = false
     labels = ["proxmox"]
-    name = "virtual_machine"
+    name = "virtual-machine"
     project_root = "terraform/module/proxmox/virtual_machine"
     public = true
     repository = var.GIT_REPOSITORY

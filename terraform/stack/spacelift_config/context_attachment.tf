@@ -37,6 +37,6 @@ resource "spacelift_context_attachment" "config_spacelift_init" {
 resource "spacelift_context_attachment" "config_virtual_machine" {
     count = var.FLAG_CONFIG >=1 && var.GIT_BRANCH != null && var.GIT_REPOSITORY != null ? 1 : 0
     context_id = "config"
-    module_id   = "virtual_machine"
+    module_id   = "terraform-proxmox-virtual-machine"
     priority   = 0
 }
