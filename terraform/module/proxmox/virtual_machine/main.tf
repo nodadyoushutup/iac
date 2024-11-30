@@ -14,13 +14,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    # agent {
-    #     enabled = true
-    # }
-    # cpu {
-    #     cores = 2
-    #     type = "x86-64-v2-AES"
-    # }
+    dynamic "cpu" {
+        for_each = var.cpu != null ? [var.cpu] : []
+        content {
+            cores = cpu.value.cores
+            type = cpu.value.type
+        }
+    }
+
+    
 
     # memory {
     #     dedicated = 4096

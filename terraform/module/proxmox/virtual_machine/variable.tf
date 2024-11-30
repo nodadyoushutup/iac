@@ -29,3 +29,12 @@ variable "agent" {
   description = "Agent"
   default = null
 }
+
+variable "cpu" {
+  type = object({
+    cores = number
+    type = string
+  })
+  description = "Agent"
+  default = null
+}
