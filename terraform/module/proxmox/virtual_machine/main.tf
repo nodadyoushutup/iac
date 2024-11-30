@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     # OPTIONAL
 
     name = var.name
-    # vm_id = "1103"
+    vm_id = var.vm_id
     # agent {
     #     enabled = true
     # }
@@ -16,11 +16,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     # memory {
     #     dedicated = 4096
-    # }
-
-    # tpm_state {
-    #     datastore_id = "virtualization"
-    #     version = "v2.0"
     # }
 
     # disk {

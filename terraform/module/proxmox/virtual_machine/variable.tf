@@ -9,3 +9,9 @@ variable "name" {
   description = "Virtual machine name"
   default = null
 }
+
+variable "name" {
+  type = number
+  description = "Virtual machine ID"
+  default = null
+}
