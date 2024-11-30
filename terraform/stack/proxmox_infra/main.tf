@@ -9,10 +9,14 @@ module "virtual_machine_docker" {
         enabled = true
     }
 
-    # cpu  = {
-    #     cores = 2
-    #     type = "x86-64-v2-AES"
-    # }
+    cpu = {
+        cores = 2
+        type = "x86-64-v2-AES"
+    }
+
+    memory = {
+        dedicated = 8192
+    }
 }
 
 

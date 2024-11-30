@@ -35,6 +35,14 @@ variable "cpu" {
     cores = number
     type = string
   })
-  description = "Agent"
+  description = "CPU"
+  default = null
+}
+
+variable "memory" {
+  type = object({
+    dedicated = number
+  })
+  description = "Memory"
   default = null
 }

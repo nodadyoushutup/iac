@@ -22,11 +22,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    
-
-    # memory {
-    #     dedicated = 4096
-    # }
+    dynamic "memory" {
+        for_each = var.memory != null ? [var.memory] : []
+        content {
+            dedicated = memory.value.dedicated
+        }
+    }
 
     disk {
         datastore_id = "virtualization"
