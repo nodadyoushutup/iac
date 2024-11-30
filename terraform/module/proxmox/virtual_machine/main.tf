@@ -45,8 +45,3 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
 }
 
-resource "spacelift_context_attachment" "config_virtual_machine" {
-    context_id = "config"
-    module_id   = "virtual_machine"
-    priority   = 0
-}
