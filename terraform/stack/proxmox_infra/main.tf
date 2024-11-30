@@ -15,7 +15,7 @@ module "virtual_machine_docker" {
     }
 
     memory = {
-        dedicated = 8192
+        dedicated = 16384
     }
 }
 
