@@ -26,24 +26,24 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     #     dedicated = 4096
     # }
 
-    # disk {
-    #     datastore_id = "virtualization"
-    #     file_id      = "local:iso/cloud_image_x86_64_jammy.img"
-    #     interface    = "scsi0"
-    #     discard      = "on"
-    #     size         = 100
-    # }
+    disk {
+        datastore_id = "virtualization"
+        file_id      = "local:iso/cloud_image_x86_64_jammy.img"
+        interface    = "scsi0"
+        discard      = "on"
+        size         = 100
+    }
 
-    # initialization {
-    #     ip_config {
-    #         ipv4 {
-    #             address = "dhcp"
-    #         }
-    #         ipv6 {
-    #             address = "dhcp"
-    #         }
-    #     }
-    # }
+    initialization {
+        ip_config {
+            ipv4 {
+                address = "dhcp"
+            }
+            ipv6 {
+                address = "dhcp"
+            }
+        }
+    }
 
     # network_device {
     #     bridge = "vmbr0"
