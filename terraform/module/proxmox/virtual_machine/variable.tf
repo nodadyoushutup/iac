@@ -21,3 +21,11 @@ variable "vm_id" {
   description = "Virtual machine ID"
   default = null
 }
+
+variable "agent" {
+  type = object({
+    enabled = string
+  })
+  description = "Agent"
+  default = null
+}

@@ -4,6 +4,10 @@ module "virtual_machine_docker" {
     name = "test"
     stop_on_destroy = true
     vm_id = 1104
+
+    agent = {
+        enabled = true
+    }
 }
 
 

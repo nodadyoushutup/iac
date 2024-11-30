@@ -6,6 +6,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     name = var.name
     stop_on_destroy = var.stop_on_destroy
     vm_id = var.vm_id
+
+    dynamic "agent" {
+        for_each = var.agent != null ? [var.agent] : []
+        content {
+            enabled = agent.value.enabled
+        }
+    }
+
     # agent {
     #     enabled = true
     # }
