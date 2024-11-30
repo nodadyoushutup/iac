@@ -31,4 +31,19 @@ resource "spacelift_module" "stack" {
     workflow_tool = "TERRAFORM_FOSS"
 }
 
+resource "spacelift_module" "virtual_machine" {
+    administrative = false
+    branch = var.GIT_BRANCH
+    description = "Proxmox virtual machine"
+    enable_local_preview = false
+    labels = ["proxmox"]
+    name = "virtual_machine"
+    project_root = "terraform/module/proxmox/virtual_machine"
+    public = true
+    repository = var.GIT_REPOSITORY
+    shared_accounts = null
+    space_id = data.spacelift_space.root.id
+    terraform_provider = "proxmox"
+    workflow_tool = "TERRAFORM_FOSS"
+}
 
