@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     disk {
         datastore_id = "virtualization"
-        file_id      = data.proxmox_virtual_environment_download_file.cloud_image.id
+        file_id      = "local:iso/cloud_image_x86_64_jammy.img"
         interface    = "scsi0"
         discard      = "on"
         size         = 100
