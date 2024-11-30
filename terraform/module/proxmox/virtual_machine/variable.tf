@@ -10,6 +10,12 @@ variable "name" {
   default = null
 }
 
+variable "stop_on_destroy" {
+  type = bool
+  description = "Virtual machine ID"
+  default = true
+}
+
 variable "vm_id" {
   type = number
   description = "Virtual machine ID"

@@ -2,6 +2,7 @@ module "virtual_machine_docker" {
     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"
 
     name = "test"
+    stop_on_destroy = true
     vm_id = 1104
 }
 

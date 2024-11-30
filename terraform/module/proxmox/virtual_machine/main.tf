@@ -4,6 +4,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     # OPTIONAL
     name = var.name
+    stop_on_destroy = var.stop_on_destroy
     vm_id = var.vm_id
     # agent {
     #     enabled = true
