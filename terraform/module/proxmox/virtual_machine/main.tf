@@ -40,6 +40,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "network_device" {
+        for_each = var.network_device != null ? [var.network_device] : []
+        content {
+            bridge = network_device.value.bridge
+            mac_address = network_device.value.mac_address
+        }
+    }
+
     initialization {
         ip_config {
             ipv4 {
@@ -51,10 +59,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    # network_device {
-    #     bridge = "vmbr0"
-    #     mac_address = "0a:00:00:00:11:02"
-    # }
+    
 
 }
 

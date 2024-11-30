@@ -58,3 +58,12 @@ variable "disk" {
   description = "Disk"
   default = null
 }
+
+variable "network_device" {
+  type = object({
+    bridge = string
+    mac_address = string
+  })
+  description = "Network device"
+  default = null
+}
