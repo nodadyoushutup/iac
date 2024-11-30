@@ -1,6 +1,7 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
+    node_name = local.config.proxmox.ssh.node.name
     # name      = "vm"
-    # node_name = "pve"
+    
     # vm_id = "1103"
 
     # agent {
