@@ -29,12 +29,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    disk {
-        datastore_id = "virtualization"
-        file_id      = "local:iso/cloud_image_x86_64_jammy.img"
-        interface    = "scsi0"
-        discard      = "on"
-        size         = 100
+    dynamic "disk" {
+        for_each = var.disk != null ? [var.disk] : []
+        content {
+            datastore_id = disk.value.datastore_id
+            file_id = disk.value.file_id
+            interface = disk.value.interface
+            discard = disk.value.discard
+            size = disk.value.size
+        }
     }
 
     initialization {

@@ -17,6 +17,14 @@ module "virtual_machine_docker" {
     memory = {
         dedicated = 16384
     }
+
+    disk = {
+        datastore_id = "virtualization"
+        file_id = "local:iso/cloud_image_x86_64_jammy.img"
+        interface = "scsi0"
+        discard = "on"
+        size = 150
+    }
 }
 
 

@@ -46,3 +46,15 @@ variable "memory" {
   description = "Memory"
   default = null
 }
+
+variable "disk" {
+  type = object({
+    datastore_id = string
+    file_id = string
+    interface = string
+    discard = string
+    size = string
+  })
+  description = "Disk"
+  default = null
+}
