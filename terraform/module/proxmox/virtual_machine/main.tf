@@ -1,13 +1,14 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
+    # REQUIRED
     node_name = local.config.proxmox.ssh.node.name
-    # name      = "vm"
-    
-    # vm_id = "1103"
 
+    # OPTIONAL
+
+    name = var.name
+    # vm_id = "1103"
     # agent {
     #     enabled = true
     # }
-
     # cpu {
     #     cores = 2
     #     type = "x86-64-v2-AES"
