@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     # OPTIONAL
     acpi = var.acpi
-
+    
     dynamic "agent" {
         for_each = var.agent != null ? [var.agent] : []
         content {

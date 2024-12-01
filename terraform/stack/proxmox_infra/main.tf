@@ -9,27 +9,25 @@ module "virtual_machine_docker" {
     ################################################
     acpi = true
 
-
+    agent = {
+        enabled = true
+        timeout = "5m"
+        trim = false
+        type = "virtio"
+    }
 
 
 
     name = "test"
     stop_on_destroy = true
     vm_id = 1104
-
-    agent = {
-        enabled = true
-    }
-
     cpu = {
         cores = 2
         type = "x86-64-v2-AES"
     }
-
     memory = {
         dedicated = 16384
     }
-
     disk = {
         datastore_id = "virtualization"
         file_id = "local:iso/cloud_image_x86_64_jammy.img"
@@ -37,7 +35,6 @@ module "virtual_machine_docker" {
         discard = "on"
         size = 150
     }
-
     network_device = {
         bridge = "vmbr0"
         mac_address = "0a:00:00:00:11:02"
