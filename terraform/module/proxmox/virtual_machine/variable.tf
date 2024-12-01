@@ -62,7 +62,7 @@ variable "cdrom" {
 
 variable "clone" {
   type = object({
-    datastore_id = optional(bool)
+    datastore_id = optional(string)
     node_name = optional(string)
     retries = optional(number)
     vm_id = number
