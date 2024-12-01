@@ -146,6 +146,31 @@ variable "tpm_state" {
   default = null
 }
 
+variable "hostpci" {
+  type = object({
+    device = string
+    id = optional(string)
+    mapping = optional(string)
+    mdev = optional(string)
+    pcie = optional(bool)
+    rombar = optional(true)
+    rom_file = optional(string)
+    xvga = optional(bool)
+  })
+  description = "PCI device mapping"
+  default = null
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

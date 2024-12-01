@@ -117,6 +117,26 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "hostpci" {
+        for_each = var.hostpci != null ? [var.hostpci] : []
+        content {
+            device = hostpci.value.device
+            id = hostpci.value.id
+            mapping = hostpci.value.mapping
+            mdev = hostpci.value.mdev
+            pcie = hostpci.value.pcie
+            rombar = hostpci.value.rombar
+            rom_file = hostpci.value.rom_file
+            xvga = hostpci.value.xvga
+        }
+    }
+
+
+
+
+
+
+
 
 
 

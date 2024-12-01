@@ -89,11 +89,21 @@ module "virtual_machine_docker" {
     #     pre_enrolled_keys = false
     # }
 
-    tpm_state = {
-        datastore_id = "local-lvm"
-        version = "v2.0"
-    }
+    # tpm_state = {
+    #     datastore_id = "local-lvm"
+    #     version = "v2.0"
+    # }
 
+    hostpci = {
+        device = "hostpci0"
+        id = "0000:01:00.0"
+        mapping = null
+        mdev = false
+        pcie = false
+        rombar = false
+        rom_file = null
+        xvga = true
+    }
 
 
 
