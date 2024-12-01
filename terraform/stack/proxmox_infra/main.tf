@@ -50,16 +50,17 @@ module "virtual_machine_docker" {
 
 
 
-    name = "test"
+    # name = "test"
+    
+    # vm_id = 1104
+    # cpu = {
+    #     cores = 2
+    #     type = "x86-64-v2-AES"
+    # }
+    # memory = {
+    #     dedicated = 16384
+    # }
     stop_on_destroy = true
-    vm_id = 1104
-    cpu = {
-        cores = 2
-        type = "x86-64-v2-AES"
-    }
-    memory = {
-        dedicated = 16384
-    }
     disk = {
         datastore_id = "virtualization"
         file_id = "local:iso/cloud_image_x86_64_jammy.img"
