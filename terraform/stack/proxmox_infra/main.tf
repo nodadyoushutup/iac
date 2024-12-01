@@ -82,6 +82,13 @@ module "virtual_machine_docker" {
         ssd = true
     }
 
+    efi_disk = {
+        datastore_id = "local-lvm"
+        file_format = "raw"
+        type = "4m"
+        pre_enrolled_keys = false
+    }
+
 
 
 

@@ -122,10 +122,20 @@ variable "disk" {
     }))
     ssd = optional(bool)
   })
-  description = "Disk"
+  description = "Disk configuration"
   default = null
 }
 
+variable "efi_disk" {
+  type = object({
+    datastore_id = optional(string)
+    file_format = optional(string)
+    type = optional(string)
+    pre_enrolled_keys = optional(bool)
+  })
+  description = "EFI disk configuration"
+  default = null
+}
 
 
 

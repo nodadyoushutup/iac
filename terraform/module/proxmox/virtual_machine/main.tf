@@ -99,6 +99,16 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
             }
         }
     }
+
+    dynamic "efi_disk" {
+        for_each = var.efi_disk != null ? [var.efi_disk] : []
+        content {
+            datastore_id = efi_disk.value.datastore_id
+            file_format = efi_disk.value.file_format
+            type = efi_disk.value.type
+            pre_enrolled_keys = efi_disk.value.pre_enrolled_keys
+        }
+    }
 }
 
 
