@@ -95,6 +95,36 @@ variable "description" {
   default = null
 }
 
+variable "disk" {
+  type = object({
+    aio = optional(string)
+    backup = optional(bool)
+    cache = optional(string)
+    datastore_id = optional(string)
+    path_in_datastore = optional(string)
+    discard = optional(string)
+    file_format = optional(string)
+    file_id = optional(string)
+    interface = string
+    iothread = optional(bool)
+    replicate = optional(bool)
+    serial = optional(string)
+    size = optional(number)
+    speed = optional(object({
+      iops_read = optional(number)
+      iops_read_burstable = optional(number)
+      iops_write = optional(number)
+      iops_write_burstable = optional(number)
+      read = optional(number)
+      read_burstable = optional(number)
+      write = optional(number)
+      write_burstable = optional(number)
+    }))
+    ssd = optional(bool)
+  })
+  description = "Disk"
+  default = null
+}
 
 
 
@@ -143,17 +173,7 @@ variable "memory" {
   default = null
 }
 
-variable "disk" {
-  type = object({
-    datastore_id = string
-    file_id = string
-    interface = string
-    discard = string
-    size = string
-  })
-  description = "Disk"
-  default = null
-}
+
 
 variable "network_device" {
   type = object({

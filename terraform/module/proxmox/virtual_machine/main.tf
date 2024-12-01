@@ -66,7 +66,26 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     description = var.description
 
-
+    dynamic "disk" {
+        for_each = var.disk != null ? [var.disk] : []
+        content {
+            aio = disk.value.aio
+            backup = disk.value.backup
+            cache = disk.value.cache
+            datastore_id = disk.value.datastore_id
+            path_in_datastore = disk.value.path_in_datastore
+            discard = disk.value.discard
+            file_format = disk.value.file_format
+            file_id = disk.value.file_id
+            interface = disk.value.interface
+            iothread = disk.value.iothread
+            replicate = disk.value.replicate
+            serial = disk.value.serial
+            size = disk.value.size
+            speed = disk.value.speed
+            ssd = disk.value.ssd
+        }
+    }
 
 
 
@@ -117,16 +136,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    dynamic "disk" {
-        for_each = var.disk != null ? [var.disk] : []
-        content {
-            datastore_id = disk.value.datastore_id
-            file_id = disk.value.file_id
-            interface = disk.value.interface
-            discard = disk.value.discard
-            size = disk.value.size
-        }
-    }
+    
 
     dynamic "network_device" {
         for_each = var.network_device != null ? [var.network_device] : []

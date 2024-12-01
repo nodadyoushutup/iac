@@ -53,9 +53,25 @@ module "virtual_machine_docker" {
     #     affinity = null
     # }
 
-    description = "testing1234"
+    # description = "testing1234"
 
-
+    disk = {
+        aio = "io_uring"
+        backup = true
+        cache = "none"
+        datastore_id = "virtualization"
+        path_in_datastore = null
+        discard = "on"
+        file_format = "qcow2"
+        file_id = "local:iso/cloud_image_x86_64_jammy.img"
+        interface = "scsi0"
+        iothread = false
+        replicate = true
+        serial = null
+        size = 10
+        speed = null
+        ssd = true
+    }
 
 
 
@@ -100,13 +116,7 @@ module "virtual_machine_docker" {
     #     dedicated = 16384
     # }
     stop_on_destroy = true
-    disk = {
-        datastore_id = "virtualization"
-        file_id = "local:iso/cloud_image_x86_64_jammy.img"
-        interface = "scsi0"
-        discard = "on"
-        size = 10
-    }
+    
     # network_device = {
     #     bridge = "vmbr0"
     #     mac_address = "0a:00:00:00:11:02"
