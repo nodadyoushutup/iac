@@ -67,35 +67,34 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     description = var.description
 
     dynamic "disk" {
-    for_each = var.disk != null ? [var.disk] : []
-    content {
-        aio = disk.value.aio
-        backup = disk.value.backup
-        cache = disk.value.cache
-        datastore_id = disk.value.datastore_id
-        path_in_datastore = disk.value.path_in_datastore
-        discard = disk.value.discard
-        file_format = disk.value.file_format
-        file_id = disk.value.file_id
-        interface = disk.value.interface
-        iothread = disk.value.iothread
-        replicate = disk.value.replicate
-        serial = disk.value.serial
-        size = disk.value.size
-        ssd = disk.value.ssd
-
-        # Define speed as a block
-        dynamic "speed" {
-            for_each = disk.value.speed != null ? [disk.value.speed] : []
-            content {
-                iops_read = speed.value.iops_read
-                iops_read_burstable = speed.value.iops_read_burstable
-                iops_write = speed.value.iops_write
-                iops_write_burstable = speed.value.iops_write_burstable
-                read = speed.value.read
-                read_burstable = speed.value.read_burstable
-                write = speed.value.write
-                write_burstable = speed.value.write_burstable
+        for_each = var.disk != null ? [var.disk] : []
+        content {
+            aio = disk.value.aio
+            backup = disk.value.backup
+            cache = disk.value.cache
+            datastore_id = disk.value.datastore_id
+            path_in_datastore = disk.value.path_in_datastore
+            discard = disk.value.discard
+            file_format = disk.value.file_format
+            file_id = disk.value.file_id
+            interface = disk.value.interface
+            iothread = disk.value.iothread
+            replicate = disk.value.replicate
+            serial = disk.value.serial
+            size = disk.value.size
+            ssd = disk.value.ssd
+            dynamic "speed" {
+                for_each = disk.value.speed != null ? [disk.value.speed] : []
+                content {
+                    iops_read = speed.value.iops_read
+                    iops_read_burstable = speed.value.iops_read_burstable
+                    iops_write = speed.value.iops_write
+                    iops_write_burstable = speed.value.iops_write_burstable
+                    read = speed.value.read
+                    read_burstable = speed.value.read_burstable
+                    write = speed.value.write
+                    write_burstable = speed.value.write_burstable
+                }
             }
         }
     }
@@ -109,7 +108,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
             pre_enrolled_keys = efi_disk.value.pre_enrolled_keys
         }
     }
-}
 
 
 
