@@ -32,13 +32,13 @@ module "virtual_machine_docker" {
     #     interface = "ide0"
     # }
 
-    clone = {
-        datastore_id = "local-lvm"
-        node_name = "pve"
-        retries = 1
-        vm_id = 900
-        full = true
-    }
+    # clone = {
+    #     datastore_id = "local-lvm"
+    #     node_name = "pve"
+    #     retries = 1
+    #     vm_id = 900
+    #     full = true
+    # }
 
 
 
