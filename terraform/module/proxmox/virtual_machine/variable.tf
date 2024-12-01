@@ -72,6 +72,27 @@ variable "clone" {
   default = null
 }
 
+variable "cpu" {
+  type = object({
+    architecture = optional(string)
+    cores = optional(number)
+    flags = optional(list(string))
+    hotplugged = optional(number)
+    limit = optional(number)
+    numa = optional(bool)
+    sockets = optional(number)
+    type = optional(string)
+    units = optional(number)
+    affinity = optional(string)
+  })
+  description = "CPU configuration"
+  default = null
+}
+
+
+
+
+
 
 
 

@@ -40,7 +40,18 @@ module "virtual_machine_docker" {
     #     full = true
     # }
 
-
+    cpu = {
+        architecture = "x86_64"
+        cores = 2
+        flags = []
+        hotplugged = 0
+        limit = 0
+        numa = false
+        sockets = 1
+        type = "x86-64-v2-AES"
+        units = 1024
+        affinity = null
+    }
 
 
 
@@ -61,10 +72,7 @@ module "virtual_machine_docker" {
     # name = "test"
     
     # vm_id = 1104
-    # cpu = {
-    #     cores = 2
-    #     type = "x86-64-v2-AES"
-    # }
+    
     # memory = {
     #     dedicated = 16384
     # }

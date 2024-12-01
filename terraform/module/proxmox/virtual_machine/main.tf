@@ -48,7 +48,21 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-
+    dynamic "cpu" {
+        for_each = var.cpu != null ? [var.cpu] : []
+        content {
+            architecture = cpu.value.architecture
+            cores = cpu.value.cores
+            flags = cpu.value.flags
+            hotplugged = cpu.value.hotplugged
+            limit = cpu.value.limit
+            numa = cpu.value.numa
+            sockets = cpu.value.sockets
+            type = cpu.value.type
+            units = cpu.value.units
+            affinity = cpu.value.affinity
+        }
+    }
 
 
 
@@ -71,13 +85,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     
 
-    dynamic "cpu" {
-        for_each = var.cpu != null ? [var.cpu] : []
-        content {
-            cores = cpu.value.cores
-            type = cpu.value.type
-        }
-    }
+    
 
     dynamic "memory" {
         for_each = var.memory != null ? [var.memory] : []

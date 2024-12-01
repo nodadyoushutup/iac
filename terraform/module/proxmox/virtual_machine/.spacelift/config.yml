@@ -1,4 +1,4 @@
 ---
 version: "1"
-module_version: 0.0.40
+module_version: 0.0.41
 runner_image: spacelift/runner:latest
