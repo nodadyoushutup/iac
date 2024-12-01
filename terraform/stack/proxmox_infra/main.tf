@@ -22,6 +22,27 @@ module "virtual_machine_docker" {
     #     enabled = false
     # }
 
+    # bios = "seabios"
+
+    # boot_order = ["scsi0" "ide0"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     name = "test"
     stop_on_destroy = true

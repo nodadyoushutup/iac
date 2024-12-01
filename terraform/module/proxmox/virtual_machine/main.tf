@@ -24,6 +24,26 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    bios = var.bios
+
+    boot_order = var.boot_order
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

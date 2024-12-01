@@ -19,10 +19,10 @@ variable "acpi" {
 
 variable "agent" {
   type = object({
-    enabled = optional(bool, false)
-    timeout = optional(string, "15m")
-    trim = optional(bool, false)
-    type = optional(string, "virtio")
+    enabled = optional(bool)
+    timeout = optional(string)
+    trim = optional(bool)
+    type = optional(string)
   })
   description = "QEMU agent configuration"
   default = null
@@ -30,13 +30,47 @@ variable "agent" {
 
 variable "audio_device" {
   type = object({
-    device = optional(string, "intel-hda")
-    driver = optional(string, "spice")
-    enabled = optional(bool, true)
+    device = optional(string)
+    driver = optional(string)
+    enabled = optional(bool)
   })
   description = "Audio device"
   default = null
 }
+
+variable "bios" {
+  type = string
+  description = "BIOS implementation"
+  default = null
+}
+
+variable "boot_order" {
+  type = list(string)
+  description = "Devices to boot from"
+  default = null
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
