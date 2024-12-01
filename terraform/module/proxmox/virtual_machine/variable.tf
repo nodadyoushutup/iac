@@ -147,6 +147,7 @@ variable "disk" {
 
 
 
+
 variable "name" {
   type = string
   description = "Virtual machine name"
