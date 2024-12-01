@@ -7,20 +7,20 @@ module "virtual_machine_docker" {
 
     # OPTIONAL
     ################################################
-    acpi = true
+    # acpi = true
 
-    agent = {
-        enabled = true
-        timeout = "5m"
-        trim = false
-        type = "virtio"
-    }
+    # agent = {
+    #     enabled = true
+    #     timeout = "5m"
+    #     trim = false
+    #     type = "virtio"
+    # }
 
-    audio_device = {
-        device = "intel-hda"
-        driver = "spice"
-        enabled = false
-    }
+    # audio_device = {
+    #     device = "intel-hda"
+    #     driver = "spice"
+    #     enabled = false
+    # }
 
 
     name = "test"
