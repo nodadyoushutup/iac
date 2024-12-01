@@ -1,6 +1,6 @@
 ---
 version: "1"
-module_version: 0.0.46
+module_version: 0.0.47
 runner_image: spacelift/runner:latest
 tests:
   - name: Test VM
@@ -8,4 +8,4 @@ tests:
     environment:
       TF_VAR_CONFIG_PATH: /mnt/workspace/config.yaml
       TF_VAR_node_name: pve
-      TF_VAR_boot_order: ["scsi0"]
+      TF_VAR_name: "module-test"
