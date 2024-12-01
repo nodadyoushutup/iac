@@ -95,7 +95,7 @@ module "virtual_machine_docker" {
     # }
 
     hostpci = {
-        device = "hostpci0"
+        device = "hostpci1"
         id = "0000:01:00.0"
         mapping = null
         mdev = false
