@@ -36,7 +36,7 @@ module "virtual_machine_docker" {
         datastore_id = "local-lvm"
         node_name = "pve"
         retries = 1
-        vm_id = 999
+        vm_id = 1101
         full = true
     }
 
