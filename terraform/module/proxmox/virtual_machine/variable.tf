@@ -36,13 +36,13 @@ variable "agent" {
 variable "audio_device" {
   type = object({
     device = optional(string, "intel-hda")
-    driver = optional(string, "spice")
+    driver = optional(string, "none")
     enabled = optional(bool, true)
   })
   description = "Audio device"
   default = {
     device = "intel-hda"
-    driver = "spice"
+    driver = "none"
     enabled = true
   }
 }
