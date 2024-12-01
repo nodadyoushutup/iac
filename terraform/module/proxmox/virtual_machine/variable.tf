@@ -14,7 +14,7 @@ variable "node_name" {
 variable "acpi" {
   type = bool
   description = "Enable ACPI"
-  default = true
+  default = null
 }
 
 variable "agent" {
@@ -25,26 +25,17 @@ variable "agent" {
     type = optional(string, "virtio")
   })
   description = "QEMU agent configuration"
-  default = {
-    enabled = true
-    timeout = "15m"
-    trim = false
-    type = "virtio"
-  }
+  default = null
 }
 
 variable "audio_device" {
   type = object({
     device = optional(string, "intel-hda")
-    driver = optional(string)
+    driver = optional(string, "spice")
     enabled = optional(bool, true)
   })
   description = "Audio device"
-  default = {
-    device = "intel-hda"
-    driver = null
-    enabled = true
-  }
+  default = null
 }
 
 

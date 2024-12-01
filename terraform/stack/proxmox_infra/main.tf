@@ -16,11 +16,11 @@ module "virtual_machine_docker" {
         type = "virtio"
     }
 
-    # audio_device = {
-    #     device = "audio_device.value.device"
-    #     driver = audio_device.value.driver
-    #     enabled = audio_device.value.enabled
-    # }
+    audio_device = {
+        device = "intel-hda"
+        driver = "spice"
+        enabled = false
+    }
 
 
     name = "test"
