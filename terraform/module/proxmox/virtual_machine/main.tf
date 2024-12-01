@@ -15,14 +15,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
     
-    dynamic "audio_device" {
-        for_each = var.audio_device != null ? [var.audio_device] : []
-        content {
-            device = audio_device.value.device
-            driver = audio_device.value.driver
-            enabled = audio_device.value.enabled
-        }
-    }
+    # dynamic "audio_device" {
+    #     for_each = var.audio_device != null ? [var.audio_device] : []
+    #     content {
+    #         device = audio_device.value.device
+    #         driver = audio_device.value.driver
+    #         enabled = audio_device.value.enabled
+    #     }
+    # }
 
 
 

@@ -42,7 +42,7 @@ variable "audio_device" {
   description = "Audio device"
   default = {
     device = "intel-hda"
-    driver = "none"
+    driver = null
     enabled = true
   }
 }
