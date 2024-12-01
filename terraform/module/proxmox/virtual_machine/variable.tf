@@ -60,6 +60,17 @@ variable "cdrom" {
   default = null
 }
 
+variable "clone" {
+  type = object({
+    datastore_id = optional(bool)
+    node_name = optional(string)
+    retries = optional(number)
+    vm_id = number
+    full = optional(bool)
+  })
+  description = "Cloning configuration"
+  default = null
+}
 
 
 

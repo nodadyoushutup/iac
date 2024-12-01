@@ -37,6 +37,17 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "clone" {
+        for_each = var.clone != null ? [var.clone] : []
+        content {
+            datastore_id = clone.value.datastore_id
+            node_name = clone.value.node_name
+            retries = clone.value.retries
+            vm_id = clone.value.vm_id
+            full = clone.value.full
+        }
+    }
+
 
 
 
