@@ -24,7 +24,7 @@ variable "agent" {
     trim = optional(bool, false)
     type = optional(string, "virtio")
   })
-  description = "Agent"
+  description = "QEMU agent configuration"
   default = {
     enabled = true
     timeout = "15m"
@@ -33,7 +33,19 @@ variable "agent" {
   }
 }
 
-
+variable "audio_device" {
+  type = object({
+    device = optional(string, "intel-hda")
+    driver = optional(string, "spice")
+    enabled = optional(bool, true)
+  })
+  description = "Audio device"
+  default = {
+    device = "intel-hda"
+    driver = "spice"
+    enabled = true
+  }
+}
 
 
 
