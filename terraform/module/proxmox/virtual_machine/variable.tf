@@ -132,17 +132,6 @@ variable "vm_id" {
   default = null
 }
 
-
-
-variable "cpu" {
-  type = object({
-    cores = number
-    type = string
-  })
-  description = "CPU"
-  default = null
-}
-
 variable "memory" {
   type = object({
     dedicated = number
