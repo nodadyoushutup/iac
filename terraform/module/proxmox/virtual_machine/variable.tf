@@ -153,7 +153,7 @@ variable "hostpci" {
     mapping = optional(string)
     mdev = optional(string)
     pcie = optional(bool)
-    rombar = optional(true)
+    rombar = optional(bool)
     rom_file = optional(string)
     xvga = optional(bool)
   })
