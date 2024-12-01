@@ -3,7 +3,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     node_name = var.node_name
 
     # OPTIONAL
-    # acpi = var.acpi
+    acpi = var.acpi
 
     dynamic "agent" {
         for_each = var.agent != null ? [var.agent] : []
