@@ -22,7 +22,7 @@ module "virtual_machine_docker" {
     #     enabled = false
     # }
 
-    bios = "ovmf"
+    # bios = "ovmf"
 
     # boot_order = ["scsi0" "ide0"]
 
@@ -82,11 +82,16 @@ module "virtual_machine_docker" {
         ssd = true
     }
 
-    efi_disk = {
+    # efi_disk = {
+    #     datastore_id = "local-lvm"
+    #     file_format = "raw"
+    #     type = "4m"
+    #     pre_enrolled_keys = false
+    # }
+
+    tpm_state = {
         datastore_id = "local-lvm"
-        file_format = "raw"
-        type = "4m"
-        pre_enrolled_keys = false
+        version = "v2.0"
     }
 
 

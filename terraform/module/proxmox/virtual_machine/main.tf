@@ -109,6 +109,13 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "tpm_state" {
+        for_each = var.tpm_state != null ? [var.tpm_state] : []
+        content {
+            datastore_id = tpm_state.value.datastore_id
+            version = tpm_state.value.version
+        }
+    }
 
 
 

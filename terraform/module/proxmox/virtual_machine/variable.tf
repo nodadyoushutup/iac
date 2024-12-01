@@ -137,6 +137,14 @@ variable "efi_disk" {
   default = null
 }
 
+variable "tpm_state" {
+  type = object({
+    datastore_id = optional(string)
+    version = optional(string)
+  })
+  description = "TPM state device"
+  default = null
+}
 
 
 
