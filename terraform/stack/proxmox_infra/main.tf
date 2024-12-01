@@ -1,6 +1,18 @@
 module "virtual_machine_docker" {
     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"
 
+    # REQUIRED
+    ################################################
+    node_name = "pve"
+
+    # OPTIONAL
+    ################################################
+    acpi = true
+
+
+
+
+
     name = "test"
     stop_on_destroy = true
     vm_id = 1104

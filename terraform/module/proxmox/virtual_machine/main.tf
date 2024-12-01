@@ -1,18 +1,24 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
     # REQUIRED
-    node_name = local.config.proxmox.ssh.node.name
+    node_name = var.node_name
 
     # OPTIONAL
-    name = var.name
-    stop_on_destroy = var.stop_on_destroy
-    vm_id = var.vm_id
-
+    acpi = var.acpi
     dynamic "agent" {
         for_each = var.agent != null ? [var.agent] : []
         content {
             enabled = agent.value.enabled
         }
     }
+
+
+
+
+    name = var.name
+    stop_on_destroy = var.stop_on_destroy
+    vm_id = var.vm_id
+
+    
 
     dynamic "cpu" {
         for_each = var.cpu != null ? [var.cpu] : []

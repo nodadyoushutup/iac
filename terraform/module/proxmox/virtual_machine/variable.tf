@@ -4,22 +4,17 @@ variable "PATH_CONFIG" {
   default = null
 }
 
-variable "name" {
+# REQUIRED
+variable "node_name" {
   type = string
-  description = "Virtual machine name"
-  default = null
+  description = "Proxmox Node Name"
 }
 
-variable "stop_on_destroy" {
+# OPTIONAL
+variable "acpi" {
   type = bool
-  description = "Virtual machine ID"
+  description = "Enable ACPI"
   default = true
-}
-
-variable "vm_id" {
-  type = number
-  description = "Virtual machine ID"
-  default = null
 }
 
 variable "agent" {
@@ -29,6 +24,30 @@ variable "agent" {
   description = "Agent"
   default = null
 }
+
+
+
+
+
+variable "name" {
+  type = string
+  description = "Virtual machine name"
+  default = null
+}
+
+variable "stop_on_destroy" {
+  type = bool
+  description = "Force stop on destroy"
+  default = true
+}
+
+variable "vm_id" {
+  type = number
+  description = "Virtual machine ID"
+  default = null
+}
+
+
 
 variable "cpu" {
   type = object({
