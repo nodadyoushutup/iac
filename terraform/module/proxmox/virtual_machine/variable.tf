@@ -25,7 +25,12 @@ variable "agent" {
     type = optional(string, "virtio")
   })
   description = "Agent"
-  default = null
+  default = {
+    enabled = true
+    timeout = "15m"
+    trim = false
+    type = "virtio"
+  }
 }
 
 
