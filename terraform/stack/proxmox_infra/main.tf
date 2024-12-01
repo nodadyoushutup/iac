@@ -69,7 +69,16 @@ module "virtual_machine_docker" {
         replicate = true
         serial = null
         size = 10
-        speed = null
+        speed = {
+            iops_read = 100 
+            iops_read_burstable = 100
+            iops_write = 100
+            iops_write_burstable = 100
+            read = 100
+            read_burstable = 100
+            write = 100
+            write_burstable = 100
+        }
         ssd = true
     }
 
