@@ -19,7 +19,10 @@ variable "acpi" {
 
 variable "agent" {
   type = object({
-    enabled = string
+    enabled = optional(bool, false)
+    timeout = optional(string, "15m")
+    trim = optional(bool, false)
+    type = optional(string, "virtio")
   })
   description = "Agent"
   default = null
