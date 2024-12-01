@@ -22,7 +22,7 @@ module "virtual_machine_docker" {
     #     enabled = false
     # }
 
-    # bios = "seabios"
+    bios = "ovmf"
 
     # boot_order = ["scsi0" "ide0"]
 
