@@ -26,6 +26,12 @@ module "virtual_machine_docker" {
 
     # boot_order = ["scsi0" "ide0"]
 
+    # cdrom = {
+    #     enabled = true
+    #     file_id = "none"
+    #     interface = "ide0"
+    # }
+
 
 
 

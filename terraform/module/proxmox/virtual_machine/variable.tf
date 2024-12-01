@@ -50,7 +50,15 @@ variable "boot_order" {
   default = null
 }
 
-
+variable "cdrom" {
+  type = object({
+    enabled = optional(bool)
+    file_id = optional(string)
+    interface = optional(string)
+  })
+  description = "Audio device"
+  default = null
+}
 
 
 

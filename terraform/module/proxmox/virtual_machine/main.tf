@@ -28,7 +28,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     boot_order = var.boot_order
 
-
+    dynamic "cdrom" {
+        for_each = var.cdrom != null ? [var.cdrom] : []
+        content {
+            enabled = cdrom.value.enabled
+            file_id = cdrom.value.file_id
+            interface = cdrom.value.interface
+        }
+    }
 
 
 
