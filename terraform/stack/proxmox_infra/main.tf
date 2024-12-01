@@ -37,7 +37,7 @@ module "virtual_machine_docker" {
         node_name = "pve"
         retries = 1
         vm_id = 999
-        full = clone.value.full
+        full = true
     }
 
 
