@@ -62,7 +62,7 @@ module "virtual_machine_docker" {
         datastore_id = "virtualization"
         path_in_datastore = null
         discard = "on"
-        file_format = "qcow2"
+        file_format = "raw"
         file_id = "local:iso/cloud_image_x86_64_jammy.img"
         interface = "scsi0"
         iothread = false
