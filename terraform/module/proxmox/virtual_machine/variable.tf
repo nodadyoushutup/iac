@@ -11,11 +11,11 @@ variable "node_name" {
 }
 
 # OPTIONAL
-variable "acpi" {
-  type = bool
-  description = "Enable ACPI"
-  default = null
-}
+# variable "acpi" {
+#   type = bool
+#   description = "Enable ACPI"
+#   default = null
+# }
 
 variable "agent" {
   type = object({
