@@ -53,6 +53,29 @@ module "virtual_machine_docker" {
     #     affinity = null
     # }
 
+    description = "testing1234"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

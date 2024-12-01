@@ -64,6 +64,29 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    description = var.description
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

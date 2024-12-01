@@ -89,8 +89,11 @@ variable "cpu" {
   default = null
 }
 
-
-
+variable "description" {
+  type = string
+  description = "Description"
+  default = null
+}
 
 
 
