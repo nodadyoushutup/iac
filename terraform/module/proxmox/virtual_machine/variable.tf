@@ -200,11 +200,15 @@ variable "initialization" {
     vendor_data_file_id = optional(string)
     meta_data_file_id = optional(string)
   })
-  description = "Disk configuration"
+  description = "Initialization configuration"
   default = null
 }
 
-
+variable "keyboard_layout" {
+  type = string
+  description = "keyboard layout"
+  default = null
+}
 
 
 
