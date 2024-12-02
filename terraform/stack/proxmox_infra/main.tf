@@ -162,7 +162,9 @@ module "virtual_machine_docker" {
 
     on_boot = true
 
-    operating_system = "l26"
+    operating_system = {
+        type = "l26"
+    }
 
 
 

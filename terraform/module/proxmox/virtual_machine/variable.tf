@@ -278,6 +278,14 @@ variable "operating_system" {
   default = null
 }
 
+variable "operating_system" {
+  description = "Operating System configuration"
+  type = object({
+    type = string
+  })
+  default = null
+}
+
 
 
 
