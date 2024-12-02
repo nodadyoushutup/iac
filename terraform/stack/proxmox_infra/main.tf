@@ -128,9 +128,9 @@ module "virtual_machine_docker" {
 
     # keyboard_layout = "en-us"
 
-    kvm_arguments = "-cpu host"
+    # kvm_arguments = "-cpu host"
 
-
+    machine = "q35"
 
 
 

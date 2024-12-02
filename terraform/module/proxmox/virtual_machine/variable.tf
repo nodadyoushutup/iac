@@ -216,7 +216,11 @@ variable "kvm_arguments" {
   default = null
 }
 
-
+variable "machine" {
+  type = string
+  description = "VM machine type"
+  default = null
+}
 
 
 

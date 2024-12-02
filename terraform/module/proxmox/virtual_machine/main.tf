@@ -191,6 +191,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     kvm_arguments = var.kvm_arguments
 
+    machine = var.machine
 
 
 
