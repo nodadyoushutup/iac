@@ -354,7 +354,11 @@ variable "tags" {
   default = null
 }
 
-
+variable "template" {
+  type = bool
+  description = "Create a template"
+  default = null
+}
 
 
 

@@ -198,7 +198,9 @@ module "virtual_machine_docker" {
 
     # tablet_device = true
 
-    tags = ["terraform", "cloud-image"]
+    # tags = ["terraform", "cloud-image"]
+
+    template = true
 
 
 

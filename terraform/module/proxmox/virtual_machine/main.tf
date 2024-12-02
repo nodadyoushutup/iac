@@ -279,7 +279,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     tags = var.tags
 
-
+    template = var.template
 
 
 
