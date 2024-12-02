@@ -306,7 +306,11 @@ variable "serial_device" {
   default = null
 }
 
-
+variable "scsi_hardware" {
+  type = string
+  description = "SCSI hardware type"
+  default = null
+}
 
 
 

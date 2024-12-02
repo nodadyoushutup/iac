@@ -172,9 +172,11 @@ module "virtual_machine_docker" {
 
     # reboot = false
 
-    serial_device = {
-        device = "socket"
-    }
+    # serial_device = {
+    #     device = "socket"
+    # }
+
+    scsi_hardware = "virtio-scsi-pci"
 
 
 

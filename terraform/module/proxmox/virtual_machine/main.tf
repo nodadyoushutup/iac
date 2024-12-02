@@ -249,7 +249,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-
+    scsi_hardware = var.scsi_hardware
 
 
 
