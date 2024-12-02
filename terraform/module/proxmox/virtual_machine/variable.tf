@@ -171,7 +171,38 @@ variable "usb" {
   default = null
 }
 
-
+variable "initialization" {
+  type = object({
+    datastore_id = optional(string)
+    interface = optional(bool)
+    dns = optional(object({
+      domain = optional(string)
+      server = optional(string)
+      servers = optional(string)
+    }))
+    ip_config = optional(object({
+      ipv4 = optional(object({
+        address = optional(string)
+        gateway = optional(string)
+      }))
+      ipv6 = optional(object({
+        address = optional(string)
+        gateway = optional(string)
+      }))
+    }))
+    user_account = optional(object({
+      keys = optional(string)
+      password = optional(string)
+      username = optional(string)
+    }))
+    network_data_file_id = optional(string)
+    user_data_file_id = optional(string)
+    vendor_data_file_id = optional(string)
+    meta_data_file_id = optional(string)
+  })
+  description = "Disk configuration"
+  default = null
+}
 
 
 

@@ -140,6 +140,54 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "initialization" {
+        for_each = var.initialization != null ? [var.initialization] : []
+        content {
+            datastore_id          = initialization.value.datastore_id
+            interface             = initialization.value.interface
+            network_data_file_id  = initialization.value.network_data_file_id
+            user_data_file_id     = initialization.value.user_data_file_id
+            vendor_data_file_id   = initialization.value.vendor_data_file_id
+            meta_data_file_id     = initialization.value.meta_data_file_id
+            dynamic "dns" {
+                for_each = initialization.value.dns != null ? [initialization.value.dns] : []
+                content {
+                    domain  = dns.value.domain
+                    server  = dns.value.server
+                    servers = dns.value.servers
+                }
+            }
+            dynamic "ip_config" {
+                for_each = initialization.value.ip_config != null ? [initialization.value.ip_config] : []
+                content {
+                    dynamic "ipv4" {
+                        for_each = ip_config.value.ipv4 != null ? [ip_config.value.ipv4] : []
+                        content {
+                            address = ipv4.value.address
+                            gateway = ipv4.value.gateway
+                        }
+                    }
+                    dynamic "ipv6" {
+                        for_each = ip_config.value.ipv6 != null ? [ip_config.value.ipv6] : []
+                        content {
+                            address = ipv6.value.address
+                            gateway = ipv6.value.gateway
+                        }
+                    }
+                }
+            }
+            dynamic "user_account" {
+                for_each = initialization.value.user_account != null ? [initialization.value.user_account] : []
+                content {
+                    keys     = user_account.value.keys
+                    password = user_account.value.password
+                    username = user_account.value.username
+                }
+            }
+        }
+    }
+
+
 
 
 

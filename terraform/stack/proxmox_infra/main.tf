@@ -105,10 +105,18 @@ module "virtual_machine_docker" {
     #     xvga = true
     # }
 
-    usb = {
-        host = "046d:c31d"
-        mapping = null
-        usb3 = true
+    # usb = {
+    #     host = "046d:c31d"
+    #     mapping = null
+    #     usb3 = true
+    # }
+
+    initialization = {
+        ip_config = {
+            ipv4 = {
+                address = "dhcp"
+            }
+        }
     }
 
 
