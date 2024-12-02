@@ -360,28 +360,72 @@ variable "template" {
   default = null
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 variable "stop_on_destroy" {
   type = bool
   description = "Force stop on destroy"
-  default = true
+  default = null
 }
+
+variable "timeout_clone" {
+  type = number
+  description = "Timeout for cloning a VM in seconds"
+  default = null
+}
+
+variable "timeout_create" {
+  type = number
+  description = "Timeout for creating a VM in seconds"
+  default = null
+}
+
+variable "timeout_migrate" {
+  type = number
+  description = "Timeout for migrating the VM in seconds"
+  default = null
+}
+
+variable "timeout_reboot" {
+  type = number
+  description = "Timeout for rebooting a VM in seconds"
+  default = null
+}
+
+variable "timeout_shutdown_vm" {
+  type = number
+  description = "Timeout for shutting down a VM in seconds"
+  default = null
+}
+
+variable "timeout_start_vm" {
+  type = number
+  description = "Timeout for starting a VM in seconds"
+  default = null
+}
+
+variable "timeout_stop_vm" {
+  type = number
+  description = "Timeout for stopping a VM in seconds"
+  default = null
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 variable "vm_id" {
   type = number

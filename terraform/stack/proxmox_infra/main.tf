@@ -200,9 +200,23 @@ module "virtual_machine_docker" {
 
     # tags = ["terraform", "cloud-image"]
 
-    template = true
+    # template = true
 
+    stop_on_destroy = true
 
+    timeout_clone = 330
+
+    timeout_create = 330
+
+    timeout_migrate = 330
+
+    timeout_reboot = 330
+
+    timeout_shutdown_vm = 330
+
+    timeout_start_vm = 330
+
+    timeout_stop_vm = 330
 
 
 
@@ -225,7 +239,6 @@ module "virtual_machine_docker" {
     # memory = {
     #     dedicated = 16384
     # }
-    stop_on_destroy = true
     
     
 }

@@ -281,22 +281,25 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     template = var.template
 
+    stop_on_destroy = var.stop_on_destroy
 
+    timeout_clone = var.timeout_clone
 
+    timeout_create = var.timeout_create
 
+    timeout_migrate = var.timeout_migrate
 
+    timeout_reboot = var.timeout_reboot
 
+    timeout_shutdown_vm = var.timeout_shutdown_vm
 
+    timeout_start_vm = var.timeout_start_vm
 
-
-
-
-
+    timeout_stop_vm = var.timeout_stop_vm
 
 
 
     
-    stop_on_destroy = var.stop_on_destroy
     vm_id = var.vm_id
     
 
