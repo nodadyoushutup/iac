@@ -273,12 +273,6 @@ variable "on_boot" {
 }
 
 variable "operating_system" {
-  type = string
-  description = "Operating System configuration"
-  default = null
-}
-
-variable "operating_system" {
   description = "Operating System configuration"
   type = object({
     type = string
