@@ -27,7 +27,7 @@ module "virtual_machine_docker" {
     cpu = {
         architecture = "x86_64"
         cores = 2
-        flags = ["+aes"]
+        flags = ["+aes", "+hv-evmcs"]
         hotplugged = 0
         limit = 0
         numa = false
