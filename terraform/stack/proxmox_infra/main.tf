@@ -27,7 +27,7 @@ module "virtual_machine_docker" {
     cpu = {
         architecture = "x86_64"
         cores = 2
-        flags = ["+aes", "+hv-evmcs"]
+        flags = ["+aes"]
         hotplugged = 0
         limit = 0
         numa = false
@@ -73,11 +73,6 @@ module "virtual_machine_docker" {
         pre_enrolled_keys = false
     }
 
-    tpm_state = {
-        datastore_id = "local-lvm"
-        version = "v2.0"
-    }
-
     initialization = {
         ip_config = {
             ipv4 = {
@@ -111,7 +106,7 @@ module "virtual_machine_docker" {
         enabled = true
         firewall = false
         mac_address = "0a:00:00:00:11:02"
-        model = "e1000e"
+        model = "virtio"
         mtu = null
         queues = null
         rate_limit = null
