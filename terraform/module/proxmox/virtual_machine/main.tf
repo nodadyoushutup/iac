@@ -244,18 +244,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     name = var.name
     stop_on_destroy = var.stop_on_destroy
     vm_id = var.vm_id
-
-    
-
-    
-
-    dynamic "memory" {
-        for_each = var.memory != null ? [var.memory] : []
-        content {
-            dedicated = memory.value.dedicated
-        }
-    }
-
     
 
     dynamic "network_device" {
