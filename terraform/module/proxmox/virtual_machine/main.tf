@@ -143,12 +143,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     dynamic "initialization" {
         for_each = var.initialization != null ? [var.initialization] : []
         content {
-            datastore_id          = initialization.value.datastore_id
-            interface             = initialization.value.interface
-            network_data_file_id  = initialization.value.network_data_file_id
-            user_data_file_id     = initialization.value.user_data_file_id
-            vendor_data_file_id   = initialization.value.vendor_data_file_id
-            meta_data_file_id     = initialization.value.meta_data_file_id
+            datastore_id = initialization.value.datastore_id
+            interface = initialization.value.interface
+            network_data_file_id = initialization.value.network_data_file_id
+            user_data_file_id = initialization.value.user_data_file_id
+            vendor_data_file_id = initialization.value.vendor_data_file_id
+            meta_data_file_id = initialization.value.meta_data_file_id
             dynamic "dns" {
                 for_each = initialization.value.dns != null ? [initialization.value.dns] : []
                 content {
