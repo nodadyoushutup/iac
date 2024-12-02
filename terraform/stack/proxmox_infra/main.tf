@@ -190,11 +190,11 @@ module "virtual_machine_docker" {
 
     # started = true
 
-    startup = {
-        order = 1
-        up_delay = 15
-        down_delay = 15
-    }
+    # startup = {
+    #     order = 1
+    #     up_delay = 15
+    #     down_delay = 15
+    # }
 
 
 
