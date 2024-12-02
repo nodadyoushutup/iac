@@ -188,8 +188,13 @@ module "virtual_machine_docker" {
     #     version = "1.0"
     # }
 
-    started = true
+    # started = true
 
+    smbios = {
+        order = 1
+        up_delay = 15
+        down_delay = 15
+    }
 
 
 

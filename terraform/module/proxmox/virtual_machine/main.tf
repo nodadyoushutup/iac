@@ -266,7 +266,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     started = var.started
 
-
+    dynamic "startup" {
+        for_each = var.startup != null ? [var.startup] : []
+        content {
+            order = startup.value.order
+            up_delay = startup.value.up_delay
+            down_delay = startup.value.down_delay
+        }
+    }
 
 
 

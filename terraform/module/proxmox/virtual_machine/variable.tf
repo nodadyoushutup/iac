@@ -332,6 +332,20 @@ variable "started" {
   default = null
 }
 
+variable "startup" {
+  description = "Startup and shutdown behavior"
+  type = object({
+    order = optional(number)
+    up_delay = optional(number)
+    down_delay = optional(number)
+  })
+  default = null
+}
+
+
+
+
+
 
 
 
