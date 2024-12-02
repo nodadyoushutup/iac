@@ -218,11 +218,21 @@ variable "kvm_arguments" {
 
 variable "machine" {
   type = string
-  description = "VM machine type"
+  description = "Machine type"
   default = null
 }
 
-
+variable "memory" {
+  type = object({
+    dedicated = optional(number)
+    floating = optional(number)
+    shared = optional(number)
+    hugepages = optional(string)
+    keep_hugepages = optional(bool)
+  })
+  description = "Memory configuration"
+  default = null
+}
 
 
 
@@ -270,15 +280,6 @@ variable "vm_id" {
   description = "Virtual machine ID"
   default = null
 }
-
-variable "memory" {
-  type = object({
-    dedicated = number
-  })
-  description = "Memory"
-  default = null
-}
-
 
 
 variable "network_device" {

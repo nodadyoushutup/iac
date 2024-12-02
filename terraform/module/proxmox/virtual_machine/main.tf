@@ -193,7 +193,16 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     machine = var.machine
 
-
+    dynamic "memory" {
+        for_each = var.memory != null ? [var.memory] : []
+        content {
+            dedicated = memory.value.dedicated
+            floating = memory.value.floating
+            shared = memory.value.shared
+            hugepages = memory.value.hugepages
+            keep_hugepages = memory.value.keep_hugepages
+        }
+    }
 
 
 

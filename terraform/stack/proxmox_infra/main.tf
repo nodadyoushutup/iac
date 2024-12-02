@@ -132,7 +132,13 @@ module "virtual_machine_docker" {
 
     machine = "q35"
 
-
+    memory = {
+        dedicated = 8192
+        floating = 0
+        shared = 0
+        hugepages = "disable"
+        keep_hugepages = false
+    }
 
 
 
