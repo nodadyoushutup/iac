@@ -179,7 +179,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
             dynamic "user_account" {
                 for_each = initialization.value.user_account != null ? [initialization.value.user_account] : []
                 content {
-                    keys     = user_account.value.keys
+                    keys = user_account.value.keys
                     password = user_account.value.password
                     username = user_account.value.username
                 }
