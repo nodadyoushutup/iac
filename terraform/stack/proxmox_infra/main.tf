@@ -188,7 +188,7 @@ module "virtual_machine_docker" {
     #     version = "1.0"
     # }
 
-    started = false
+    started = true
 
 
 
