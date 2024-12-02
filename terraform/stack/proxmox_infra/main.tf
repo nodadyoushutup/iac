@@ -168,8 +168,9 @@ module "virtual_machine_docker" {
 
     # pool_id = "debug"
 
-    protection = true
+    # protection = false
 
+    reboot = true
 
 
 

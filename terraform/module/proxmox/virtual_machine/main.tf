@@ -240,6 +240,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     protection = var.protection
 
+    reboot = var.reboot
+
 
 
 

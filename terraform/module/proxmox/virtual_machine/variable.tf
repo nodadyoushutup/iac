@@ -292,6 +292,19 @@ variable "protection" {
   default = null
 }
 
+variable "reboot" {
+  type = bool
+  description = "Reboot after initial creation"
+  default = null
+}
+
+
+
+
+
+
+
+
 
 
 
