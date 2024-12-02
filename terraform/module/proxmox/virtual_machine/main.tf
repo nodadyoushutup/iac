@@ -297,7 +297,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     timeout_stop_vm = var.timeout_stop_vm
 
-
+    dynamic "vga" {
+        for_each = var.vga != null ? [var.vga] : []
+        content {
+            memory = vga.value.memory
+            type = vga.value.type
+            clipboard = vga.value.clipboard
+        }
+    }
 
     
     vm_id = var.vm_id

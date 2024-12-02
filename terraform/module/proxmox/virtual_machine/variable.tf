@@ -408,17 +408,15 @@ variable "timeout_stop_vm" {
   default = null
 }
 
-
-
-
-
-
-
-
-
-
-
-
+variable "vga" {
+  description = "VGA configuration"
+  type = object({
+    memory = optional(number)
+    type = optional(string)
+    clipboard = optional(string)
+  })
+  default = null
+}
 
 
 
@@ -432,5 +430,16 @@ variable "vm_id" {
   description = "Virtual machine ID"
   default = null
 }
+
+
+
+
+
+
+
+
+
+
+
 
 

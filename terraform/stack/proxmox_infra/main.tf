@@ -204,23 +204,27 @@ module "virtual_machine_docker" {
 
     stop_on_destroy = true
 
-    timeout_clone = 330
+    # timeout_clone = 330
 
-    timeout_create = 330
+    # timeout_create = 330
 
-    timeout_migrate = 330
+    # timeout_migrate = 330
 
-    timeout_reboot = 330
+    # timeout_reboot = 330
 
-    timeout_shutdown_vm = 330
+    # timeout_shutdown_vm = 330
 
-    timeout_start_vm = 330
+    # timeout_start_vm = 330
 
-    timeout_stop_vm = 330
+    # timeout_stop_vm = 330
 
+    vm_id = 1102
 
-
-
+    vga = {
+        memory = 16
+        type = "qxl"
+        clipboard = "vnc"
+    }
 
 
 
@@ -234,7 +238,7 @@ module "virtual_machine_docker" {
 
 
     
-    # vm_id = 1104
+    
     
     # memory = {
     #     dedicated = 16384
