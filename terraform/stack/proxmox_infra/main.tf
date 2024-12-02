@@ -69,16 +69,16 @@ module "virtual_machine_docker" {
         replicate = true
         serial = "SN123456789012345678"
         size = 10
-        speed = {
-            iops_read = 0 
-            iops_read_burstable = 0
-            iops_write = 0
-            iops_write_burstable = 0
-            read = 0
-            read_burstable = 0
-            write = 0
-            write_burstable = 0
-        }
+        # speed = {
+        #     iops_read = null 
+        #     iops_read_burstable = null
+        #     iops_write = null
+        #     iops_write_burstable = null
+        #     read = null
+        #     read_burstable = null
+        #     write = null
+        #     write_burstable = null
+        # }
         ssd = true
     }
 
