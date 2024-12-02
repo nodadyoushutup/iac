@@ -315,13 +315,13 @@ variable "scsi_hardware" {
 variable "smbios" {
   description = "SMBIOS (type1) configuration"
   type = object({
-    family = string
-    manufacturer = string
-    product = string
-    serial = string
-    sku = string
-    uuid = string
-    version = string
+    family = optional(string)
+    manufacturer = optional(string)
+    product = optional(string)
+    serial = optional(string)
+    sku = optional(string)
+    uuid = optional(string)
+    version = optional(string)
   })
   default = null
 }
