@@ -160,7 +160,9 @@ module "virtual_machine_docker" {
         trunks = null
     }
 
-    on_boot = false
+    on_boot = true
+
+    operating_system = "l26"
 
 
 

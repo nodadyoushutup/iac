@@ -272,7 +272,11 @@ variable "on_boot" {
   default = null
 }
 
-
+variable "operating_system" {
+  type = string
+  description = "Operating System configuration"
+  default = null
+}
 
 
 
