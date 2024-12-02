@@ -137,7 +137,7 @@ module "virtual_machine_docker" {
         floating = 0
         shared = 0
         hugepages = null
-        keep_hugepages = false
+        keep_hugepages = null
     }
 
 
