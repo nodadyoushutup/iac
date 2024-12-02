@@ -161,8 +161,8 @@ module "virtual_machine_docker" {
     # }
     stop_on_destroy = true
     
-    # network_device = {
-    #     bridge = "vmbr0"
-    #     mac_address = "0a:00:00:00:11:02"
-    # }
+    network_device = {
+        bridge = "vmbr0"
+        mac_address = "0a:00:00:00:11:02"
+    }
 }
