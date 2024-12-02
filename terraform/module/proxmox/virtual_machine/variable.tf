@@ -298,7 +298,13 @@ variable "reboot" {
   default = null
 }
 
-
+variable "serial_device" {
+  description = "Serial device"
+  type = object({
+    device = string
+  })
+  default = null
+}
 
 
 

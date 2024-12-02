@@ -242,7 +242,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     reboot = var.reboot
 
-
+    dynamic "serial_device" {
+        for_each = var.serial_device != null ? [var.serial_device] : []
+        content {
+            device = serial_device.value.device
+        }
+    }
 
 
 

@@ -170,8 +170,11 @@ module "virtual_machine_docker" {
 
     # protection = false
 
-    reboot = true
+    # reboot = false
 
+    serial_device = {
+        device = "socket"
+    }
 
 
 
