@@ -191,7 +191,7 @@ variable "initialization" {
       }))
     }))
     user_account = optional(object({
-      keys = optional(string)
+      keys = optional(list(string))
       password = optional(string)
       username = optional(string)
     }))
