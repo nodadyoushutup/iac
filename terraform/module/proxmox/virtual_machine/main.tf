@@ -234,7 +234,9 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         content {
             type = operating_system.value.type
         }
-    }  
+    }
+
+    pool_id = var.pool_id
 
 
 

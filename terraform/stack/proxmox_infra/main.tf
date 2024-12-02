@@ -166,6 +166,7 @@ module "virtual_machine_docker" {
         type = "l26"
     }
 
+    pool_id = "debug"
 
 
 

@@ -280,6 +280,12 @@ variable "operating_system" {
   default = null
 }
 
+variable "pool_id" {
+  type = string
+  description = "Pool to assign"
+  default = null
+}
+
 
 
 
