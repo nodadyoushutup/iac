@@ -176,9 +176,17 @@ module "virtual_machine_docker" {
     #     device = "socket"
     # }
 
-    scsi_hardware = "virtio-scsi-pci"
+    # scsi_hardware = "virtio-scsi-pci"
 
-
+    smbios = {
+        family       = "VirtualMachine"
+        manufacturer = "TerraformProxmox"
+        product      = "ProxmoxVirtualMachine"
+        serial       = "SMB1234567890"
+        sku          = "TEST-VM-SKU"
+        uuid         = "123e4567-e89b-12d3-a456-426614174000"
+        version      = "1.0"
+    }
 
 
 

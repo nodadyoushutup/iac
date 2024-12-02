@@ -250,17 +250,17 @@ variable "name" {
 
 variable "network_device" {
   type = object({
-    bridge = string
-    disconnected = bool
-    enabled = bool
-    firewall = bool
-    mac_address = string
-    model = string
-    mtu = number
-    queues = number
-    rate_limit = number
-    vlan_id = number
-    trunks = string
+    bridge = optional(string)
+    disconnected = optional(bool)
+    enabled = optional(bool)
+    firewall = optional(bool)
+    mac_address = optional(string)
+    model = optional(string)
+    mtu = optional(number)
+    queues = optional(number)
+    rate_limit = optional(number)
+    vlan_id = optional(number)
+    trunks = optional(string)
   })
   description = "Network device"
   default = null
@@ -275,7 +275,7 @@ variable "on_boot" {
 variable "operating_system" {
   description = "Operating System configuration"
   type = object({
-    type = string
+    type = optional(string)
   })
   default = null
 }
@@ -301,7 +301,7 @@ variable "reboot" {
 variable "serial_device" {
   description = "Serial device"
   type = object({
-    device = string
+    device = optional(string)
   })
   default = null
 }
@@ -312,7 +312,19 @@ variable "scsi_hardware" {
   default = null
 }
 
-
+variable "smbios" {
+  description = "SMBIOS (type1) configuration"
+  type = object({
+    family = string
+    manufacturer = string
+    product = string
+    serial = string
+    sku = string
+    uuid = string
+    version = string
+  })
+  default = null
+}
 
 
 

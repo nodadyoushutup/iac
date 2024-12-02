@@ -251,7 +251,18 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     scsi_hardware = var.scsi_hardware
 
-
+    dynamic "smbios" {
+        for_each = var.smbios != null ? [var.smbios] : []
+        content {
+            family = smbios.value.family
+            manufacturer = smbios.value.manufacturer
+            product = smbios.value.product
+            serial = smbios.value.serial
+            sku = smbios.value.sku
+            uuid = smbios.value.uuid
+            version = smbios.value.version
+        }
+    }
 
 
 
