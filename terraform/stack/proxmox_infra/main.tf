@@ -142,11 +142,23 @@ module "virtual_machine_docker" {
 
     # TODO: NUMA configuration
 
-    migrate = true
+    # migrate = false
 
-    name = "module-debug"
+    # name = "module-debug"
 
-
+    network_device = {
+        bridge = "vmbr0"
+        disconnected = false
+        enabled = true
+        firewall = false
+        mac_address = "0a:00:00:00:11:02"
+        model = "e1000e"
+        mtu = null
+        queues = null
+        rate_limit = null
+        vlan_id = null
+        trunks = null
+    }
 
 
 
@@ -182,8 +194,5 @@ module "virtual_machine_docker" {
     # }
     stop_on_destroy = true
     
-    network_device = {
-        bridge = "vmbr0"
-        mac_address = "0a:00:00:00:11:02"
-    }
+    
 }

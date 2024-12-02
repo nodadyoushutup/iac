@@ -210,7 +210,22 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     name = var.name
 
-
+    dynamic "network_device" {
+        for_each = var.network_device != null ? [var.network_device] : []
+        content {
+            bridge = network_device.value.bridge
+            disconnected = network_device.value.disconnected
+            enabled = network_device.value.enabled
+            firewall = network_device.value.firewall
+            mac_address = network_device.value.mac_address
+            model = network_device.value.model
+            mtu = network_device.value.mtu
+            queues = network_device.value.queues
+            rate_limit = network_device.value.rate_limit
+            vlan_id = network_device.value.vlan_id
+            trunks = network_device.value.trunks
+        }
+    }   
 
 
 
@@ -248,13 +263,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     vm_id = var.vm_id
     
 
-    dynamic "network_device" {
-        for_each = var.network_device != null ? [var.network_device] : []
-        content {
-            bridge = network_device.value.bridge
-            mac_address = network_device.value.mac_address
-        }
-    }   
+    
 
 }
 

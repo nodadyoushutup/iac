@@ -248,7 +248,23 @@ variable "name" {
   default = null
 }
 
-
+variable "network_device" {
+  type = object({
+    bridge = string
+    disconnected = bool
+    enabled = bool
+    firewall = bool
+    mac_address = string
+    model = string
+    mtu = number
+    queues = number
+    rate_limit = number
+    vlan_id = number
+    trunks = string
+  })
+  description = "Network device"
+  default = null
+}
 
 
 
@@ -288,11 +304,3 @@ variable "vm_id" {
 }
 
 
-variable "network_device" {
-  type = object({
-    bridge = string
-    mac_address = string
-  })
-  description = "Network device"
-  default = null
-}
