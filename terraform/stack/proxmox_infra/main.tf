@@ -114,7 +114,8 @@ module "virtual_machine_docker" {
     initialization = {
         ip_config = {
             ipv4 = {
-                address = "dhcp"
+                address = "192.168.1.101/24"
+                gateway = "192.198.1.1"
             }
         }
     }
