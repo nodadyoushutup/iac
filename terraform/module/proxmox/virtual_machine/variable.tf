@@ -342,7 +342,11 @@ variable "startup" {
   default = null
 }
 
-
+variable "tablet_device" {
+  type = bool
+  description = "Enable the USB tablet device"
+  default = null
+}
 
 
 

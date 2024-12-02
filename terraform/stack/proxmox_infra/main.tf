@@ -196,6 +196,11 @@ module "virtual_machine_docker" {
     #     down_delay = 15
     # }
 
+    tablet_device = true
+
+
+
+
 
 
 
