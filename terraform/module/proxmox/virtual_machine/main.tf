@@ -250,20 +250,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
             bridge = network_device.value.bridge
             mac_address = network_device.value.mac_address
         }
-    }
-
-    initialization {
-        ip_config {
-            ipv4 {
-                address = "dhcp"
-            }
-            ipv6 {
-                address = "dhcp"
-            }
-        }
-    }
-
-    
+    }   
 
 }
 
