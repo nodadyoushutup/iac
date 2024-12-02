@@ -326,7 +326,11 @@ variable "smbios" {
   default = null
 }
 
-
+variable "started" {
+  type = bool
+  description = "Start the virtual machine"
+  default = null
+}
 
 
 
