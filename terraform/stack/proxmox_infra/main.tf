@@ -120,6 +120,10 @@ module "virtual_machine_docker" {
                 address = "dhcp"
             }
         }
+        user_account = {
+            password = "ubuntu"
+            username = "ubuntu"
+        }
     }
 
 
