@@ -160,7 +160,7 @@ module "virtual_machine_docker" {
         trunks = null
     }
 
-
+    on_boot = false
 
 
 

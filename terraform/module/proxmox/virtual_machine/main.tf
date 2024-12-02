@@ -227,6 +227,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }   
 
+    on_boot = var.on_boot
 
 
 

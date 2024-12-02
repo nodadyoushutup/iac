@@ -266,7 +266,11 @@ variable "network_device" {
   default = null
 }
 
-
+variable "on_boot" {
+  type = bool
+  description = "Started during system boot"
+  default = null
+}
 
 
 
