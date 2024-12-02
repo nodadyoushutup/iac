@@ -94,18 +94,22 @@ module "virtual_machine_docker" {
     #     version = "v2.0"
     # }
 
-    hostpci = {
-        device = "hostpci1"
-        id = "0000:01:00.0"
+    # hostpci = {
+    #     device = "hostpci0"
+    #     id = "0000:01:00.0"
+    #     mapping = null
+    #     mdev = false
+    #     pcie = false
+    #     rombar = false
+    #     rom_file = null
+    #     xvga = true
+    # }
+
+    usb = {
+        host = "046d:c31d"
         mapping = null
-        mdev = false
-        pcie = false
-        rombar = false
-        rom_file = null
-        xvga = true
+        usb3 = true
     }
-
-
 
 
 

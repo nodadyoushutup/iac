@@ -131,6 +131,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    dynamic "usb" {
+        for_each = var.usb != null ? [var.usb] : []
+        content {
+            host = usb.value.host
+            mapping = usb.value.mapping
+            usb3 = usb.value.usb3
+        }
+    }
+
 
 
 

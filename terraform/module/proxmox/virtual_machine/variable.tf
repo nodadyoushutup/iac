@@ -161,6 +161,15 @@ variable "hostpci" {
   default = null
 }
 
+variable "usb" {
+  type = object({
+    host = optional(string)
+    mapping = optional(string)
+    usb3 = optional(bool)
+  })
+  description = "USB device mapping"
+  default = null
+}
 
 
 
