@@ -160,13 +160,15 @@ module "virtual_machine_docker" {
         trunks = null
     }
 
-    on_boot = true
+    # on_boot = true
 
-    operating_system = {
-        type = "l26"
-    }
+    # operating_system = {
+    #     type = "l26"
+    # }
 
-    pool_id = "debug"
+    # pool_id = "debug"
+
+    protection = true
 
 
 

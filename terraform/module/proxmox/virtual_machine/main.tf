@@ -238,6 +238,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     pool_id = var.pool_id
 
+    protection = var.protection
 
 
 

@@ -286,7 +286,11 @@ variable "pool_id" {
   default = null
 }
 
-
+variable "protection" {
+  type = bool
+  description = "Disable the remove VM and remove disk operations"
+  default = null
+}
 
 
 
