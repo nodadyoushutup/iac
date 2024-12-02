@@ -126,7 +126,9 @@ module "virtual_machine_docker" {
         }
     }
 
-    keyboard_layout = "en-us"
+    # keyboard_layout = "en-us"
+
+    kvm_arguments = "-cpu host"
 
 
 

@@ -210,6 +210,20 @@ variable "keyboard_layout" {
   default = null
 }
 
+variable "kvm_arguments" {
+  type = string
+  description = "Arbitrary arguments passed to kvm"
+  default = null
+}
+
+
+
+
+
+
+
+
+
 
 
 

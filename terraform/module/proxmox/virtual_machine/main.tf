@@ -189,6 +189,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     keyboard_layout = var.keyboard_layout
 
+    kvm_arguments = var.kvm_arguments
+
 
 
 
