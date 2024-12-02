@@ -218,31 +218,15 @@ module "virtual_machine_docker" {
 
     # timeout_stop_vm = 330
 
+    # vga = {
+    #     memory = 16
+    #     type = "qxl"
+    #     clipboard = "vnc"
+    # }
+
     vm_id = 1102
 
-    vga = {
-        memory = 16
-        type = "qxl"
-        clipboard = "vnc"
-    }
+    # hook_script_file_id = null
 
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    # memory = {
-    #     dedicated = 16384
-    # }
-    
-    
+    # TODO: Watchdog
 }

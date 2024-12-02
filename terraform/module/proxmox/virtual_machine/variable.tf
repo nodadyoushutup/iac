@@ -418,28 +418,16 @@ variable "vga" {
   default = null
 }
 
-
-
-
-
-
-
-
 variable "vm_id" {
   type = number
   description = "Virtual machine ID"
   default = null
 }
 
+variable "hook_script_file_id" {
+  type = string
+  description = "Identifier for a file containing a hook script"
+  default = null
+}
 
-
-
-
-
-
-
-
-
-
-
-
+# TODO: Watchdog

@@ -305,12 +305,10 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
             clipboard = vga.value.clipboard
         }
     }
-
     
     vm_id = var.vm_id
-    
 
+    hook_script_file_id = var.hook_script_file_id
     
-
+    # TODO: Watchdog
 }
-
