@@ -111,42 +111,40 @@ module "virtual_machine_docker" {
     #     usb3 = true
     # }
 
-    initialization = {
-        ip_config = {
-            ipv4 = {
-                address = "dhcp"
-            }
-            ipv6 = {
-                address = "dhcp"
-            }
-        }
-        user_account = {
-            password = "ubuntu"
-            username = "ubuntu"
-        }
-    }
+    # initialization = {
+    #     ip_config = {
+    #         ipv4 = {
+    #             address = "dhcp"
+    #         }
+    #         ipv6 = {
+    #             address = "dhcp"
+    #         }
+    #     }
+    #     user_account = {
+    #         password = "ubuntu"
+    #         username = "ubuntu"
+    #     }
+    # }
 
     # keyboard_layout = "en-us"
 
     # kvm_arguments = "-cpu host"
 
-    machine = "q35"
+    # machine = "q35"
 
-    memory = {
-        dedicated = 8192
-        floating = 0
-        shared = 0
-        hugepages = null
-        keep_hugepages = null
-    }
+    # memory = {
+    #     dedicated = 8192
+    #     floating = 0
+    #     shared = 0
+    #     hugepages = null
+    #     keep_hugepages = null
+    # }
 
+    # TODO: NUMA configuration
 
+    migrate = true
 
-
-
-
-
-
+    name = "module-debug"
 
 
 
@@ -167,7 +165,15 @@ module "virtual_machine_docker" {
 
 
 
-    # name = "test"
+
+
+
+
+
+
+
+
+
     
     # vm_id = 1104
     

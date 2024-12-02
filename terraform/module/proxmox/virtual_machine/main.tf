@@ -204,44 +204,46 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
+    # TODO: NUMA configuration
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    migrate = var.migrate
 
     name = var.name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     stop_on_destroy = var.stop_on_destroy
     vm_id = var.vm_id
     
