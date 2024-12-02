@@ -277,7 +277,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     tablet_device = var.tablet_device
 
-
+    tags = var.tags
 
 
 

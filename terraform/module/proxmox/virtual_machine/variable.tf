@@ -348,6 +348,11 @@ variable "tablet_device" {
   default = null
 }
 
+variable "tags" {
+  type = list(string)
+  description = "Tags"
+  default = null
+}
 
 
 
