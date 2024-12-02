@@ -7,6 +7,8 @@ module "virtual_machine_docker" {
 
     # OPTIONAL
     ################################################
+    acpi = true
+
     agent = {
         enabled = true
         timeout = "5m"
@@ -17,12 +19,26 @@ module "virtual_machine_docker" {
     audio_device = {
         device = "intel-hda"
         driver = "spice"
-        enabled = true
+        enabled = false
     }
 
     bios = "ovmf"
 
     boot_order = ["scsi0"]
+
+    cdrom = {
+        enabled = true
+        file_id = "none"
+        interface = "ide0"
+    }
+
+    clone = {
+        datastore_id = "local-lvm"
+        node_name = "pve"
+        retries = 1
+        vm_id = 900
+        full = true
+    }
 
     cpu = {
         architecture = "x86_64"
@@ -37,7 +53,7 @@ module "virtual_machine_docker" {
         affinity = null
     }
 
-    description = "module-debug"
+    description = "testing1234"
 
     disk = {
         aio = "io_uring"
@@ -51,18 +67,18 @@ module "virtual_machine_docker" {
         interface = "scsi0"
         iothread = false
         replicate = true
-        serial = null
+        serial = "SN123456789012345678"
         size = 10
-        # speed = {
-        #     iops_read = null 
-        #     iops_read_burstable = null
-        #     iops_write = null
-        #     iops_write_burstable = null
-        #     read = null
-        #     read_burstable = null
-        #     write = null
-        #     write_burstable = null
-        # }
+        speed = {
+            iops_read = null 
+            iops_read_burstable = null
+            iops_write = null
+            iops_write_burstable = null
+            read = null
+            read_burstable = null
+            write = null
+            write_burstable = null
+        }
         ssd = true
     }
 
@@ -76,6 +92,23 @@ module "virtual_machine_docker" {
     tpm_state = {
         datastore_id = "local-lvm"
         version = "v2.0"
+    }
+
+    hostpci = {
+        device = "hostpci0"
+        id = "0000:01:00.0"
+        mapping = null
+        mdev = false
+        pcie = false
+        rombar = false
+        rom_file = null
+        xvga = true
+    }
+
+    usb = {
+        host = "046d:c31d"
+        mapping = null
+        usb3 = true
     }
 
     initialization = {
@@ -93,15 +126,23 @@ module "virtual_machine_docker" {
         }
     }
 
+    keyboard_layout = "en-us"
+
+    kvm_arguments = "-cpu host"
+
     machine = "q35"
 
     memory = {
-        dedicated = 16384
+        dedicated = 8192
         floating = 0
         shared = 0
         hugepages = null
         keep_hugepages = null
     }
+
+    # #TODO: NUMA configuration
+
+    migrate = false
 
     name = "module-debug"
 
@@ -125,17 +166,57 @@ module "virtual_machine_docker" {
         type = "l26"
     }
 
-    pool_id = "cloud-image"
+    pool_id = "debug"
+
+    protection = false
+
+    reboot = false
+
+    serial_device = {
+        device = "socket"
+    }
+
+    scsi_hardware = "virtio-scsi-pci"
+
+    smbios = {
+        family = "VirtualMachine"
+        manufacturer = "TerraformProxmox"
+        product = "ProxmoxVirtualMachine"
+        serial = "SMB1234567890"
+        sku = "TEST-VM-SKU"
+        uuid = "123e4567-e89b-12d3-a456-426614174000"
+        version = "1.0"
+    }
+
+    started = true
 
     startup = {
         order = 1
-        up_delay = 0
-        down_delay = 0
+        up_delay = 15
+        down_delay = 15
     }
+
+    tablet_device = true
 
     tags = ["terraform", "cloud-image"]
 
+    template = true
+
     stop_on_destroy = true
+
+    timeout_clone = 330
+
+    timeout_create = 330
+
+    timeout_migrate = 330
+
+    timeout_reboot = 330
+
+    timeout_shutdown_vm = 330
+
+    timeout_start_vm = 330
+
+    timeout_stop_vm = 330
 
     vga = {
         memory = 16
@@ -144,4 +225,8 @@ module "virtual_machine_docker" {
     }
 
     vm_id = 1102
+
+    hook_script_file_id = null
+
+    # #TODO: Watchdog
 }
