@@ -32,6 +32,6 @@ resource "spacelift_context" "cloud_init" {
     description = "Cloud-init"
     space_id = data.spacelift_space.root.id
     after_run = [
-        "mv /tmp/fstab /etc/fstab"
+        # "mv /tmp/fstab /etc/fstab"
     ]
 }

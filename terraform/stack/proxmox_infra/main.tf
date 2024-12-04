@@ -38,17 +38,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         - path: /tmp/cloud-config.done
             content: |
                 Cloud configuration is done.
-            permissions: '0644'
-        - path: /tmp/fstab
-            content: |
-                LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
-                LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
-
-                192.168.1.100:/mnt/epool/media /mnt/media nfs defaults 0 0
-                192.168.1.100:/mnt/config /mnt/config nfs defaults 0 0
-            permissions: '0644'
-
-      
+            permissions: '0644'      
     runcmd:
       %{ for cmd in data.spacelift_context.spacectl.after_run }
       - ${cmd}
