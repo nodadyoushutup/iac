@@ -1,3 +1,33 @@
+data "local_file" "ssh_public_key" {
+  filename = "./id_rsa.pub"
+}
+
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = "local"
+  node_name    = "pve"
+
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    users:
+      - default
+      - name: ubuntu
+        groups:
+          - sudo
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ${trimspace(data.local_file.ssh_public_key.content)}
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    runcmd:
+        - echo "cloud config test" > /tmp/test.txt
+        - echo "done" > /tmp/cloud-config.done
+    EOF
+
+    file_name = "cloud-config.yaml"
+  }
+}
+
 module "virtual_machine_docker" {
     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"
 
@@ -82,10 +112,7 @@ module "virtual_machine_docker" {
                 address = "dhcp"
             }
         }
-        user_account = {
-            password = "ubuntu"
-            username = "ubuntu"
-        }
+        user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
     }
 
     machine = "q35"
