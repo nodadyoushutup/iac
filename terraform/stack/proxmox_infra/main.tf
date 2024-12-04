@@ -1,7 +1,3 @@
-data "spacelift_context" "spacectl" {
-  context_id = "cloud_init"
-}
-
 locals {
   public_key = fileset("/mnt/workspace", "*.pub")
 
