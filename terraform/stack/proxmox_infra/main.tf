@@ -5,12 +5,11 @@ data "spacelift_context" "spacectl" {
 locals {
   public_key = fileset("/mnt/workspace", "*.pub")
 
-  # Define a map of runcmd lists, allowing referencing via local.runcmd.<variant>
+  runcmd_base = [
+    "echo 'Base cloud-config commands' > /tmp/base.txt"
+  ]
   runcmd = {
-    base = [
-      "echo 'Base cloud-config commands' > /tmp/base.txt"
-    ]
-    docker = concat(local.runcmd.base, [
+    docker = concat(local.runcmd_base, [
       "echo 'Docker runcmd' > /tmp/docker.txt"
     ])
   }
