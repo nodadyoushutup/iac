@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
             content: |
                 Cloud configuration is done.
             permissions: '0644'
-        - path: /etc/fstab
+        - path: /tmp/fstab
             content: |
                 LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
                 LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1

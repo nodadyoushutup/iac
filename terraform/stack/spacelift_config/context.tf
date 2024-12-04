@@ -32,7 +32,6 @@ resource "spacelift_context" "cloud_init" {
     description = "Cloud-init"
     space_id = data.spacelift_space.root.id
     after_run = [
-        "echo 'spacelift context test' > /tmp/context.txt",
-        "echo 'spacelift context test 2' > /tmp/context2.txt"
+        "mv /tmp/fstab /etc/fstab"
     ]
 }
