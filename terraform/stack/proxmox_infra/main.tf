@@ -44,7 +44,10 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         content: |
           Cloud configuration is done.
         permissions: '0644'
-    runcmd: ${data.spacelift_context.spacectl.after_run}
+    runcmd:
+      %{ for cmd in data.spacelift_context.spacectl.after_run }
+      - ${cmd}
+      %{ endfor }
     EOF
 
     file_name = "cloud-config.yaml"
