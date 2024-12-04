@@ -1,3 +1,11 @@
+data "spacelift_context" "spacectl" {
+  context_id = "spacectl"
+}
+
+output "spacectl" {
+  value = data.spacelift_context.spacectl.after_apply
+}
+
 locals {
   public_keys = fileset("/mnt/workspace", "*.pub")
 }
