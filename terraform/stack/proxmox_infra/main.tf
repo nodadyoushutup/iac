@@ -1,5 +1,5 @@
 data "spacelift_context" "spacectl" {
-  context_id = "spacectl"
+  context_id = "cloud_init"
 }
 
 output "spacectl" {
@@ -44,8 +44,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         content: |
           Cloud configuration is done.
         permissions: '0644'
-    runcmd:
-        - echo "test"
+    runcmd: ${data.spacelift_context.spacectl.after_run}
     EOF
 
     file_name = "cloud-config.yaml"

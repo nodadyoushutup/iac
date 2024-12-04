@@ -26,3 +26,13 @@ resource "spacelift_context" "config" {
         "chmod 600 ${var.PATH_PRIVATE_KEY}"
     ]
 }
+
+resource "spacelift_context" "cloud_init" {
+    name = "cloud_init"
+    description = "Cloud-init"
+    space_id = data.spacelift_space.root.id
+    after_run = [
+        "echo 'spacelift context test' > /tmp/context.txt",
+        "echo 'spacelift context test 2' > /tmp/context2.txt"
+    ]
+}
