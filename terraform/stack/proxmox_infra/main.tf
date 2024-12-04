@@ -107,7 +107,7 @@ module "virtual_machine_docker" {
         ip_config = {
             ipv4 = {
                 address = "192.168.1.102/24"
-                gateway = " 192.168.1.1"
+                gateway = "192.168.1.1"
             }
             ipv6 = {
                 address = "dhcp"
