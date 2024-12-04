@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     write_files:
         - path: /tmp/cloud-config.done
             content: |
-                Cloud configuration is done.
+              Cloud configuration is done.
             permissions: '0644'      
     runcmd:
       %{ for cmd in data.spacelift_context.spacectl.after_run }
