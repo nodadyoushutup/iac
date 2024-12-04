@@ -19,9 +19,18 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         ssh_authorized_keys:
           - ${trimspace(data.local_file.ssh_public_key.content)}
         sudo: ALL=(ALL) NOPASSWD:ALL
+    write_files:
+      - path: /tmp/test.txt
+        content: |
+          This is a test file created by cloud-init.
+        permissions: '0644'
+
+      - path: /tmp/cloud-config.done
+        content: |
+          Cloud configuration is done.
+        permissions: '0644'
     runcmd:
-        - echo "cloud config test" > /tmp/test.txt
-        - echo "done" > /tmp/cloud-config.done
+        - echo "test"
     EOF
 
     file_name = "cloud-config.yaml"
