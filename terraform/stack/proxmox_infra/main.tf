@@ -35,15 +35,16 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
           %{ endfor }
         sudo: ALL=(ALL) NOPASSWD:ALL
     write_files:
-      - path: /tmp/test.txt
-        content: |
-          This is a test file created by cloud-init.
-        permissions: '0644'
+        - path: /tmp/cloud-config.done
+            content: |
+                Cloud configuration is done.
+            permissions: '0644'
+        - path: /tmp/test.txt
+            content: |
+                This is a test file created by cloud-init.
+            permissions: '0644'
 
-      - path: /tmp/cloud-config.done
-        content: |
-          Cloud configuration is done.
-        permissions: '0644'
+      
     runcmd:
       %{ for cmd in data.spacelift_context.spacectl.after_run }
       - ${cmd}
