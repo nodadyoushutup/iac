@@ -106,7 +106,8 @@ module "virtual_machine_docker" {
     initialization = {
         ip_config = {
             ipv4 = {
-                address = "dhcp"
+                address = "192.168.1.102/24"
+                gateway = " 192.168.1.1"
             }
             ipv6 = {
                 address = "dhcp"
@@ -132,7 +133,7 @@ module "virtual_machine_docker" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = "0a:00:00:00:11:02"
+        # mac_address = "0a:00:00:00:11:02"
         model = "virtio"
         mtu = null
         queues = null
