@@ -2,16 +2,22 @@ data "spacelift_context" "spacectl" {
   context_id = "cloud_init"
 }
 
-output "spacectl" {
-  value = data.spacelift_context.spacectl.after_apply
-}
-
 locals {
-  public_keys = fileset("/mnt/workspace", "*.pub")
+  public_key = fileset("/mnt/workspace", "*.pub")
+
+  # Define a map of runcmd lists, allowing referencing via local.runcmd.<variant>
+  runcmd = {
+    base = [
+      "echo 'Base cloud-config commands' > /tmp/base.txt"
+    ]
+    docker = concat(local.runcmd.base, [
+      "echo 'Docker runcmd' > /tmp/docker.txt"
+    ])
+  }
 }
 
-data "local_file" "ssh_public_keys" {
-  for_each = toset(local.public_keys)
+data "local_file" "ssh_public_key" {
+  for_each = toset(local.public_key)
   filename = each.value
 }
 
@@ -30,7 +36,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
           - sudo
         shell: /bin/bash
         ssh_authorized_keys:
-          %{ for key in data.local_file.ssh_public_keys }
+          %{ for key in data.local_file.ssh_public_key }
           - ${trimspace(key.content)}
           %{ endfor }
         sudo: ALL=(ALL) NOPASSWD:ALL
@@ -40,7 +46,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
           Cloud configuration is done.
         permissions: '0644'      
     runcmd:
-      %{ for cmd in data.spacelift_context.spacectl.after_run }
+      %{ for cmd in local.runcmd.docker }
       - ${cmd}
       %{ endfor }
     EOF
