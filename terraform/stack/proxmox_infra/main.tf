@@ -50,7 +50,6 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 }
 
 module "virtual_machine_docker" {
-    depends_on = [ proxmox_virtual_environment_file.cloud_config ]
     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"
 
     # REQUIRED
