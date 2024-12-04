@@ -1,5 +1,10 @@
-data "local_file" "ssh_public_key" {
-  filename = "./id_rsa.pub"
+locals {
+  public_keys = fileset("/mnt/workspace", "*.pub")
+}
+
+data "local_file" "ssh_public_keys" {
+  for_each = toset(local.public_keys)
+  filename = each.value
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
@@ -17,7 +22,9 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
           - sudo
         shell: /bin/bash
         ssh_authorized_keys:
-          - ${trimspace(data.local_file.ssh_public_key.content)}
+          %{ for key in data.local_file.ssh_public_keys }
+          - ${trimspace(key.content)}
+          %{ endfor }
         sudo: ALL=(ALL) NOPASSWD:ALL
     write_files:
       - path: /tmp/test.txt
