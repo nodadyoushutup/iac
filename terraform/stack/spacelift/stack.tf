@@ -8,7 +8,7 @@ resource "spacelift_stack" "proxmox" {
     project_root = "terraform/stack/proxmox"
     repository = local.config.github.repository
     terraform_version = "1.5.7"
-    labels = ["spacelift", "init"]
+    labels = ["proxmox"]
     additional_project_globs = [ 
         "script/**",
         "config/**"
