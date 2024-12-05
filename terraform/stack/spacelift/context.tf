@@ -18,11 +18,17 @@
 #     ]
 # }
 
-resource "spacelift_context" "config" {
-    name = "config"
-    description = "Configuration"
+# resource "spacelift_context" "config" {
+#     name = "config"
+#     description = "Configuration"
+#     space_id = "root"
+#     # before_init = [
+#     #     "chmod 600 ${var.PATH_PRIVATE_KEY}"
+#     # ]
+# }
+
+resource "spacelift_context" "proxmox" {
+    name = "proxmox"
+    description = "Proxmox configuration"
     space_id = "root"
-    # before_init = [
-    #     "chmod 600 ${var.PATH_PRIVATE_KEY}"
-    # ]
 }
