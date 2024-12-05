@@ -23,7 +23,7 @@ resource "spacelift_environment_variable" "CONFIG_PATH" {
     name        = "TF_VAR_CONFIG_PATH" 
     value       = local.config_path
     write_only  = false 
-    description = ""
+    description = "Configuration path"
 }
 
 resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" { 
