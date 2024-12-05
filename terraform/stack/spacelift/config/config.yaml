@@ -6,8 +6,8 @@ default:
   private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
 ########################################
 github:
-    branch: main
-    repository: iac
+  branch: main
+  repository: iac
 proxmox:
   auth:
     password: *password
