@@ -54,3 +54,13 @@
 
 
 
+resource "spacelift_environment_variable" "proxmox_ve_username" { 
+    depends_on = [spacelift_context.proxmox]
+    context_id  = spacelift_context.proxmox.id
+    name        = "PROXMOX_VE_USERNAME"
+    write_only  = false 
+    description = "Proxmox username"
+}
+
+
+
