@@ -56,6 +56,24 @@ resource "spacelift_environment_variable" "GITHUB_REPOSITORY" {
     description = "Environment repository"
 }
 
+resource "spacelift_environment_variable" "PROXMOX_VE_ENDPOINT" { 
+    depends_on = [spacelift_context.proxmox]
+    context_id = spacelift_context.proxmox.id
+    name = "TF_VAR_PROXMOX_VE_ENDPOINT"
+    value = local.proxmox.endpoint
+    write_only = false 
+    description = "Proxmox endpoint"
+}
+
+resource "spacelift_environment_variable" "PROXMOX_VE_INSECURE" { 
+    depends_on = [spacelift_context.proxmox]
+    context_id = spacelift_context.proxmox.id
+    name = "TF_VAR_PROXMOX_VE_INSECURE"
+    value = local.proxmox.insecure
+    write_only = false 
+    description = "Proxmox insecure"
+}
+
 resource "spacelift_environment_variable" "PROXMOX_VE_USERNAME" { 
     depends_on = [spacelift_context.proxmox]
     context_id = spacelift_context.proxmox.id
@@ -63,6 +81,15 @@ resource "spacelift_environment_variable" "PROXMOX_VE_USERNAME" {
     value = local.proxmox.username
     write_only = false 
     description = "Proxmox username"
+}
+
+resource "spacelift_environment_variable" "PROXMOX_VE_PASSWORD" { 
+    depends_on = [spacelift_context.proxmox]
+    context_id = spacelift_context.proxmox.id
+    name = "TF_VAR_PROXMOX_VE_PASSWORD"
+    value = local.proxmox.password
+    write_only = false 
+    description = "Proxmox password"
 }
 
 

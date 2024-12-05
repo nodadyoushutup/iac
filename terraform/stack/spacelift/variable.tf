@@ -42,8 +42,26 @@ variable "GITHUB_REPOSITORY" {
     default = null
 }
 
+variable "PROXMOX_VE_ENDPOINT" {
+  type = string
+  description = "Proxmox endpoint"
+  default = null
+}
+
+variable "PROXMOX_VE_INSECURE" {
+  type = string
+  description = "Proxmox insecure"
+  default = null
+}
+
 variable "PROXMOX_VE_USERNAME" {
   type = string
   description = "Proxmox username"
+  default = null
+}
+
+variable "PROXMOX_VE_PASSWORD" {
+  type = string
+  description = "Proxmox password"
   default = null
 }

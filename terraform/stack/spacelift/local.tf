@@ -21,6 +21,9 @@ locals {
         repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
     }
     proxmox = {
+        endpoint = var.PROXMOX_VE_ENDPOINT
+        insecure = var.PROXMOX_VE_INSECURE
         username = var.PROXMOX_VE_USERNAME
+        password = var.PROXMOX_VE_PASSWORD
     }
 }
