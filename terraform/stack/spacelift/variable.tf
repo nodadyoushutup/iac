@@ -1,3 +1,9 @@
+variable "CONFIG_PATH" {
+  type = string
+  description = "Configuration path"
+  default = "/mnt/workspace/source/terraform/stack/spacelift/config/config.yaml"
+}
+
 variable "FLAG_DEPLOY" {
   type = number
   description = "Deployment ID"
