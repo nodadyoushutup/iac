@@ -2,7 +2,7 @@ locals {
   public_key = fileset("/mnt/workspace", "*.pub")
 
   runcmd_base = [
-    "echo 'Base cloud-config commands' > /tmp/base.txt"
+    "echo 'Base cloud-config commands'"
   ]
   runcmd = {
     docker = concat(local.runcmd_base, [
