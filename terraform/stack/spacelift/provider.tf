@@ -30,6 +30,6 @@ provider "proxmox" {
   password = local.proxmox.password
   ssh {
     agent = true
-    private_key = file(local.proxmox.ssh.private_key)
+    private_key = file(local.proxmox.private_key)
   }
 }
