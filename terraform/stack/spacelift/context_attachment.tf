@@ -1,4 +1,11 @@
-resource "spacelift_context_attachment" "config_spacelift" {
+resource "spacelift_context_attachment" "github_spacelift" {
+    depends_on = [spacelift_context.github]
+    context_id = spacelift_context.github.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
+
+resource "spacelift_context_attachment" "proxmox_spacelift" {
     depends_on = [spacelift_context.proxmox]
     context_id = spacelift_context.proxmox.id
     stack_id   = data.spacelift_stack.spacelift.id

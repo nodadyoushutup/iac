@@ -27,6 +27,12 @@
 #     # ]
 # }
 
+resource "spacelift_context" "github" {
+    name = "github"
+    description = "Github configuration"
+    space_id = "root"
+}
+
 resource "spacelift_context" "proxmox" {
     name = "proxmox"
     description = "Proxmox configuration"
