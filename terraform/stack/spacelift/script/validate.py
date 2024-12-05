@@ -49,8 +49,10 @@ def validate_public_key(key_path):
         return e
  
 if __name__ == "__main__": 
+    current_file_path = os.path.abspath(__file__)
+    parent_dir = os.path.dirname(os.path.dirname(current_file_path))
     validation_results = { 
-        "debug": f"{os.path.abspath(__file__)}",
+        "debug": f"{os.path.join(parent_dir, 'config', 'config.yaml')}",
         "config_path": validate_config_path(CONFIG_PATH), 
         "yaml": validate_yaml(CONFIG_PATH), 
         "private_key": validate_private_key(PRIVATE_KEY),
