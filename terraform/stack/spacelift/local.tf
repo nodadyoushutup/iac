@@ -47,4 +47,9 @@ locals {
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
     }
+    config = try(yamldecode(file("/mnt/workspace/config.yaml")))
+}
+
+output "debug" {
+    value = local.config
 }
