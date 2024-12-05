@@ -16,7 +16,3 @@ locals {
     }
     config = try(yamldecode(file("/mnt/workspace/config.yaml")))
 }
-
-output "debug" {
-    value = local.flag
-}
