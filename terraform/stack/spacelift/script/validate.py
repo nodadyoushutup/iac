@@ -8,7 +8,7 @@ import re
 PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY") 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
-CONFIG_PATH = os.path.join(PARENT_DIR, 'config.yaml')
+CONFIG_PATH = os.path.join(PARENT_DIR, 'config.sub.yaml')
  
 def validate_config_path(path): 
     if not path or not os.path.isfile(path): 
