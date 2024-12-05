@@ -48,7 +48,3 @@ locals {
         ip_address = var.DEFAULT_IP_ADDRESS
     }
 }
-
-output "debug" {
-    value = local.base64.private_key
-}
