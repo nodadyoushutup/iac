@@ -52,3 +52,7 @@ locals {
         repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
     }
 }
+
+output "debug" {
+    value = local.base64.private_key.content
+}
