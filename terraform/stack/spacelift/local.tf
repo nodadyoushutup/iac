@@ -23,8 +23,14 @@ locals {
     proxmox = {
         endpoint = var.PROXMOX_VE_ENDPOINT
         insecure = var.PROXMOX_VE_INSECURE
-        username = var.PROXMOX_VE_USERNAME
         password = var.PROXMOX_VE_PASSWORD
-        private_key = var.PROXMOX_VE_PRIVATE_KEY
+        username = var.PROXMOX_VE_USERNAME
+        ssh = {
+            agent = {
+                enabled = true
+            }
+            private_key = var.PROXMOX_VE_PRIVATE_KEY
+        }
+        
     }
 }

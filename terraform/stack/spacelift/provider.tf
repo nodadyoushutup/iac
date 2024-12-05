@@ -12,24 +12,18 @@ terraform {
 
 
 provider "proxmox" {
-  # endpoint = "${local.config.proxmox.endpoint.protocol}://${local.config.proxmox.endpoint.ip_address}:${local.config.proxmox.endpoint.port}"
-  # insecure  = local.config.proxmox.endpoint.insecure
-  # username = "${local.config.proxmox.auth.username}@${local.config.proxmox.auth.realm}"
-  # password = local.config.proxmox.auth.password
-  # ssh {
-  #   private_key = file(local.config.proxmox.ssh.private_key)
-  #   node {
-  #     name = local.config.proxmox.ssh.node.name
-  #     address = local.config.proxmox.ssh.node.address
-  #     port = local.config.proxmox.ssh.node.port
-  #   }
-  # }
-  endpoint = local.proxmox.endpoint
-  insecure = local.proxmox.insecure
-  username = local.proxmox.username
-  password = local.proxmox.password
+  endpoint = "${local.proxmox.endpoint.protocol}://${local.proxmox.endpoint.ip_address}:${local.proxmox.endpoint.port}"
+  insecure  = local.proxmox.endpoint.insecure
+  password = local.proxmox.auth.password
+  username = "${local.proxmox.auth.username}@${local.proxmox.auth.realm}"
   ssh {
-    agent = true
-    private_key = file(local.proxmox.private_key)
+    agent = local.proxmox.ssh.agent.enabled
+    agent_socket = local.proxmox.ssh.agent.socket
+    private_key = coalesce(try(file(local.proxmox.ssh.private_key), null), var.PATH_PRIVATE_KEY)
+    node {
+      name = local.proxmox.ssh.node.name
+      address = local.proxmox.ssh.node.address
+      port = local.proxmox.ssh.node.port
+    }
   }
 }
