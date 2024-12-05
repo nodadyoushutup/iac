@@ -205,5 +205,5 @@ resource "proxmox_virtual_environment_vm" "data_vm" {
 }
 
 output "virtual_machine_docker" {
-  value = proxmox_virtual_environment_vm.data_vm.path_in_datastore
+  value = proxmox_virtual_environment_vm.data_vm.disk.path_in_datastore
 }
