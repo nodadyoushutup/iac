@@ -39,3 +39,9 @@
 #   description = "Deployment ID"
 #   default = 0
 # }
+
+variable "proxmox_ve_username" {
+  type = string
+  description = "Proxmox username"
+  default = null
+}
