@@ -11,7 +11,7 @@ proxmox:
     password: *password
     realm: pve
     username: root
-  datastore_id: local
+  datastore_id: virtualization
   endpoint: 
     ip_address: *ip_address
     port: 1086
