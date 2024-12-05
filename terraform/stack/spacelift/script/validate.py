@@ -6,6 +6,8 @@ import paramiko
 import re
  
 PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY") 
+CURRENT_FILE_PATH = os.path.abspath(__file__)
+PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
 CONFIG_PATH = "./config.sub.yaml"
  
 def validate_config_path(path): 
@@ -49,10 +51,9 @@ def validate_public_key(key_path):
         return e
  
 if __name__ == "__main__": 
-    current_file_path = os.path.abspath(__file__)
-    parent_dir = os.path.dirname(os.path.dirname(current_file_path))
+    
     validation_results = { 
-        "debug": f"{os.path.join(parent_dir, 'config', 'config.yaml')}",
+        "debug": f"{os.path.join(PARENT_DIR, 'config.yaml')}",
         "config_path": validate_config_path(CONFIG_PATH), 
         "yaml": validate_yaml(CONFIG_PATH), 
         "private_key": validate_private_key(PRIVATE_KEY),
