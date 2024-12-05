@@ -17,6 +17,15 @@ resource "spacelift_environment_variable" "FLAG_DEPLOY" {
     description = "Deployment ID"
 }
 
+resource "spacelift_environment_variable" "CONFIG_PATH" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_CONFIG_PATH" 
+    value       = local.config_path
+    write_only  = false 
+    description = ""
+}
+
 resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
