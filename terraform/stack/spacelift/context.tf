@@ -23,7 +23,8 @@ resource "spacelift_context" "config" {
     description = "Configuration"
     space_id = "root"
     before_init = [
-        "echo 'The value is: $TF_VAR_PATH_CONFIG' | envsubst"
+        "envsubst < /mnt/workspace/source/config/config.yaml > /mnt/workspace/config.yaml",
+        "cat /mnt/workspace/config.yaml"
     ]
 }
 

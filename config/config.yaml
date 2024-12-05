@@ -1,0 +1,6 @@
+---
+#########################################
+default:
+  ip_address: &ip_address ${TF_VAR_DEFAULT_IP_ADDRESS}
+  password: &password ${TF_VAR_DEFAULT_PASSWORD}
+#########################################

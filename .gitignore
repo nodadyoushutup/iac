@@ -36,8 +36,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-config/config*.yaml
-config/config.*yml
+config/*.bak
 
 virtual_machine.yaml
 virtual_machine.yaml
@@ -47,8 +46,8 @@ config/inventory
 Dockerfile
 config/.env
 _old
-config/** */
 !terraform/config
 ignore/
 .sops.yaml
 talsecret.sops.yaml
+*.bak
