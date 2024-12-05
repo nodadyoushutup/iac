@@ -44,8 +44,8 @@ resource "spacelift_environment_variable" "DEFAULT_IP_ADDRESS" {
 }
 
 resource "spacelift_environment_variable" "GITHUB_BRANCH" { 
-    depends_on = [spacelift_context.github]
-    context_id  = spacelift_context.github.id
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
     name        = "TF_VAR_GITHUB_BRANCH" 
     value       = local.github.branch
     write_only  = false 
@@ -53,8 +53,8 @@ resource "spacelift_environment_variable" "GITHUB_BRANCH" {
 }
 
 resource "spacelift_environment_variable" "GITHUB_REPOSITORY" { 
-    depends_on = [spacelift_context.github]
-    context_id  = spacelift_context.github.id
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
     name        = "TF_VAR_GITHUB_REPOSITORY" 
     value       = local.github.repository
     write_only  = false 
