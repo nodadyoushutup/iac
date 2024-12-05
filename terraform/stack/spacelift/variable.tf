@@ -1,17 +1,5 @@
 
 
-# variable "PATH_CONFIG" {
-#     type = string
-#     description = "Configuration path"
-#     default = "/mnt/workspace/config.yaml"
-# }
-
-# variable "PATH_PRIVATE_KEY" {
-#   type = string
-#   description = "Private key"
-#   default = "/mnt/workspace/id_rsa"
-# }
-
 # variable "FLAG_PYVENV" {
 #   type = number
 #   description = "Python virtual envrionment flag"
@@ -30,44 +18,32 @@
 #   default = 0
 # }
 
-# variable "GITHUB_BRANCH" {
-#   type = string
-#   description = "Environment branch"
-#   default = null
-# }
+variable "DEFAULT_PRIVATE_KEY" {
+  type = string
+  description = "Default private key"
+  default = "/mnt/workspace/id_rsa"
+}
 
-# variable "GITHUB_REPOSITORY" {
-#   type = string
-#   description = "Environment repository"
-#   default = null
-# }
+variable "DEFAULT_PASSWORD" {
+  type = string
+  description = "Default password"
+  default = null
+}
 
-# variable "PROXMOX_VE_ENDPOINT" {
-#   type = string
-#   description = "Proxmox endpoint"
-#   default = null
-# }
+variable "DEFAULT_IP_ADDRESS" {
+  type = string
+  description = "Default IP Address"
+  default = null
+}
 
-# variable "PROXMOX_VE_INSECURE" {
-#   type = string
-#   description = "Proxmox insecure"
-#   default = null
-# }
+variable "GITHUB_BRANCH" {
+  type = string
+  description = "Environment branch"
+  default = null
+}
 
-# variable "PROXMOX_VE_USERNAME" {
-#   type = string
-#   description = "Proxmox username"
-#   default = null
-# }
-
-# variable "PROXMOX_VE_PASSWORD" {
-#   type = string
-#   description = "Proxmox password"
-#   default = null
-# }
-
-# variable "PROXMOX_VE_PRIVATE_KEY" {
-#   type = string
-#   description = "Proxmox private key"
-#   default = "/mnt/workspace/id_rsa"
-# }
+variable "GITHUB_REPOSITORY" {
+  type = string
+  description = "Environment repository"
+  default = null
+}
