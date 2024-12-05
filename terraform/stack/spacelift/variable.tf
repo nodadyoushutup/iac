@@ -1,22 +1,14 @@
-
-
-# variable "FLAG_PYVENV" {
-#   type = number
-#   description = "Python virtual envrionment flag"
-#   default = 0
-# }
-
-# variable "FLAG_CONFIG" {
-#   type = number
-#   description = "Spacelift configuration flag"
-#   default = 0
-# }
-
 # variable "FLAG_DEPLOY" {
 #   type = number
 #   description = "Deployment ID"
 #   default = 0
 # }
+
+variable "FLAG_VALID_CONFIG" {
+  type = number
+  description = "Spacelift valid configuration flag"
+  default = 0
+}
 
 variable "DEFAULT_PRIVATE_KEY" {
   type = string

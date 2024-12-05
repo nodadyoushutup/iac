@@ -10,9 +10,12 @@ locals {
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
     }
+    flag = {
+        config = var.FLAG_VALID_CONFIG
+    }
     config = try(yamldecode(file("/mnt/workspace/config.yaml")))
 }
 
 output "debug" {
-    value = local.config
+    value = local.flag
 }
