@@ -54,5 +54,5 @@ locals {
 }
 
 output "debug" {
-    value = local.base64.private_key.content
+    value = local.base64.private_key
 }
