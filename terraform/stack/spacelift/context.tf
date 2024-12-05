@@ -21,7 +21,7 @@
 resource "spacelift_context" "config" {
     name = "config"
     description = "Configuration"
-    space_id = data.spacelift_space.root.id
+    space_id = "root"
     # before_init = [
     #     "chmod 600 ${var.PATH_PRIVATE_KEY}"
     # ]
