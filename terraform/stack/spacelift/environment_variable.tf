@@ -92,5 +92,13 @@ resource "spacelift_environment_variable" "PROXMOX_VE_PASSWORD" {
     description = "Proxmox password"
 }
 
+resource "spacelift_environment_variable" "PROXMOX_VE_PRIVATE_KEY" { 
+    depends_on = [spacelift_context.proxmox]
+    context_id = spacelift_context.proxmox.id
+    name = "TF_VAR_PROXMOX_VE_PRIVATE_KEY"
+    value = local.proxmox.private_key
+    write_only = false 
+    description = "Proxmox private key"
+}
 
 
