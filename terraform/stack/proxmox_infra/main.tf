@@ -190,20 +190,3 @@ module "virtual_machine_docker" {
 
     vm_id = 1102
 }
-
-resource "proxmox_virtual_environment_vm" "data_vm" {
-  node_name = "pve"
-  started = false
-  on_boot = false
-
-  disk {
-    datastore_id = "virtualization"
-    file_format  = "raw"
-    interface    = "scsi0"
-    size         = 10
-  }
-}
-
-output "virtual_machine_docker" {
-  value = proxmox_virtual_environment_vm.data_vm.disk[0].path_in_datastore
-}
