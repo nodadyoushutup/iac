@@ -11,7 +11,7 @@ locals {
         ip_address = var.DEFAULT_IP_ADDRESS
     }
     flag = {
-        deploy = var.FLAG_DEPLOY
+        deploy = var.FLAG_DEPLOY + 1
     }
     config = try(yamldecode(file("/mnt/workspace/config.yaml")))
 }
