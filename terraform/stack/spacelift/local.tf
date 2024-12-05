@@ -16,3 +16,7 @@ locals {
         deploy = var.FLAG_DEPLOY + 1
     }
 }
+
+output "debug" {
+  value = local.config
+}
