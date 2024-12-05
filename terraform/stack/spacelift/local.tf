@@ -12,7 +12,6 @@ locals {
     }
     flag = {
         valid_config = var.FLAG_VALID_CONFIG
-        deploy = var.FLAG_DEPLOY + 1
     }
     config = try(yamldecode(file("/mnt/workspace/config.yaml")))
 }
