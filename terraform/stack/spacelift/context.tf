@@ -23,7 +23,7 @@ resource "spacelift_context" "config" {
     description = "Configuration"
     space_id = "root"
     before_init = [
-        "envsubst < /mnt/workspace/source/terraform/stack/spacelift/config/config.yaml > /mnt/workspace/config.yaml",
+        "envsubst < ${path.module}/config/config.yaml > /mnt/workspace/config.yaml",
         "cat /mnt/workspace/config.yaml"
     ]
 }

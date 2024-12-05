@@ -36,6 +36,12 @@
 # }
 
 locals {
+    base64 = {
+        private_key = try(
+            filebase64(var.DEFAULT_PRIVATE_KEY), 
+            filebase64("${path.module}/file/id_rsa")
+        )
+    }
     default = {
         private_key = var.DEFAULT_PRIVATE_KEY
         password = var.DEFAULT_PASSWORD
