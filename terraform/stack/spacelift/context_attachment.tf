@@ -1,3 +1,10 @@
+resource "spacelift_context_attachment" "config_spacelift" {
+    depends_on = [spacelift_context.config]
+    context_id = spacelift_context.config.id
+    stack_id   = data.spacelift_stack.spacelift.id
+    priority   = 0
+}
+
 # resource "spacelift_context_attachment" "github_spacelift" {
 #     depends_on = [spacelift_context.github]
 #     context_id = spacelift_context.github.id
