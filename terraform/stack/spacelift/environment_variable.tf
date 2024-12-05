@@ -88,7 +88,7 @@ resource "spacelift_environment_variable" "PROXMOX_VE_PASSWORD" {
     context_id = spacelift_context.proxmox.id
     name = "TF_VAR_PROXMOX_VE_PASSWORD"
     value = local.proxmox.password
-    write_only = false 
+    write_only = true 
     description = "Proxmox password"
 }
 

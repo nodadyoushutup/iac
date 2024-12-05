@@ -69,5 +69,5 @@ variable "PROXMOX_VE_PASSWORD" {
 variable "PROXMOX_VE_PRIVATE_KEY" {
   type = string
   description = "Proxmox private key"
-  default = null
+  default = "/mnt/workspace/id_rsa"
 }
