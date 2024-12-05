@@ -1,6 +1,6 @@
-# data "spacelift_stack" "spacelift_config" {
-#   stack_id = "spacelift_config"
-# }
+data "spacelift_stack" "spacelift" {
+  stack_id = "spacelift"
+}
 
 # resource "random_id" "trigger" {
 #   count = var.FLAG_DEPLOY >= 1 ? 1 : 0
