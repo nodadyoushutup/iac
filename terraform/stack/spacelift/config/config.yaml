@@ -4,11 +4,10 @@ default:
   ip_address: &ip_address ${TF_VAR_DEFAULT_IP_ADDRESS}
   password: &password ${TF_VAR_DEFAULT_PASSWORD}
   private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
-  
 ########################################
 github:
-    branch: &github_branch ${TF_VAR_GITHUB_BRANCH}
-    repository: &github_repository ${TF_VAR_GITHUB_REPOSITORY}
+    branch: main
+    repository: iac
 proxmox:
   auth:
     password: *password
