@@ -35,15 +35,3 @@ variable "DEFAULT_IP_ADDRESS" {
   description = "Default IP Address"
   default = null
 }
-
-variable "GITHUB_BRANCH" {
-  type = string
-  description = "Environment branch"
-  default = null
-}
-
-variable "GITHUB_REPOSITORY" {
-  type = string
-  description = "Environment repository"
-  default = null
-}

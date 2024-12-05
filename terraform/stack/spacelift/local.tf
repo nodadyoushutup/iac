@@ -47,10 +47,6 @@ locals {
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
     }
-    github = {
-        branch = coalesce(var.GITHUB_BRANCH, data.spacelift_stack.spacelift.branch)
-        repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
-    }
 }
 
 output "debug" {
