@@ -11,7 +11,7 @@ resource "spacelift_context_attachment" "config_proxmox" {
         spacelift_context.config,
         spacelift_stack.proxmox
     ]
-    context_id = spacelift_context.spacectl.id
+    context_id = spacelift_context.config.id
     stack_id   = spacelift_stack.proxmox[0].id
     priority   = 0
 }
