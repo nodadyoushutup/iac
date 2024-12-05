@@ -30,44 +30,44 @@
 #   default = 0
 # }
 
-variable "GITHUB_BRANCH" {
-  type = string
-  description = "Environment branch"
-  default = null
-}
+# variable "GITHUB_BRANCH" {
+#   type = string
+#   description = "Environment branch"
+#   default = null
+# }
 
-variable "GITHUB_REPOSITORY" {
-  type = string
-  description = "Environment repository"
-  default = null
-}
+# variable "GITHUB_REPOSITORY" {
+#   type = string
+#   description = "Environment repository"
+#   default = null
+# }
 
-variable "PROXMOX_VE_ENDPOINT" {
-  type = string
-  description = "Proxmox endpoint"
-  default = null
-}
+# variable "PROXMOX_VE_ENDPOINT" {
+#   type = string
+#   description = "Proxmox endpoint"
+#   default = null
+# }
 
-variable "PROXMOX_VE_INSECURE" {
-  type = string
-  description = "Proxmox insecure"
-  default = null
-}
+# variable "PROXMOX_VE_INSECURE" {
+#   type = string
+#   description = "Proxmox insecure"
+#   default = null
+# }
 
-variable "PROXMOX_VE_USERNAME" {
-  type = string
-  description = "Proxmox username"
-  default = null
-}
+# variable "PROXMOX_VE_USERNAME" {
+#   type = string
+#   description = "Proxmox username"
+#   default = null
+# }
 
-variable "PROXMOX_VE_PASSWORD" {
-  type = string
-  description = "Proxmox password"
-  default = null
-}
+# variable "PROXMOX_VE_PASSWORD" {
+#   type = string
+#   description = "Proxmox password"
+#   default = null
+# }
 
-variable "PROXMOX_VE_PRIVATE_KEY" {
-  type = string
-  description = "Proxmox private key"
-  default = "/mnt/workspace/id_rsa"
-}
+# variable "PROXMOX_VE_PRIVATE_KEY" {
+#   type = string
+#   description = "Proxmox private key"
+#   default = "/mnt/workspace/id_rsa"
+# }
