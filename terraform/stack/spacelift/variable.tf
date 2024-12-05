@@ -1,8 +1,8 @@
-# variable "FLAG_DEPLOY" {
-#   type = number
-#   description = "Deployment ID"
-#   default = 0
-# }
+variable "FLAG_DEPLOY" {
+  type = number
+  description = "Deployment ID"
+  default = 0
+}
 
 variable "FLAG_VALID_CONFIG" {
   type = number
