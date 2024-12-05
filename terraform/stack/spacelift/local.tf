@@ -1,6 +1,6 @@
 locals {
     config_path = coalesce(var.CONFIG_PATH, "/mnt/workspace/source/terraform/stack/spacelift/config/config.yaml")
-    config = try(yamldecode(file(local.config_path)), {})
+    config = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
 
     base64 = {
         private_key = try(
