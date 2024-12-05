@@ -1,6 +1,6 @@
 locals {
     config_path = var.CONFIG_PATH
-    config = try(yamldecode(file(local.config_path)))
+    config = try(yamldecode(file(local.config_path)), "/mnt/workspace/source/terraform/stack/spacelift/config/config.yaml")
     base64 = {
         private_key = try(
             filebase64(var.DEFAULT_PRIVATE_KEY), 
