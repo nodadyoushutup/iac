@@ -19,11 +19,3 @@ locals {
         deploy = var.FLAG_DEPLOY + 1
     }
 }
-
-output "config_path" {
-    value = local.config_path
-}
-
-output "config_content" {
-    value = local.config
-}
