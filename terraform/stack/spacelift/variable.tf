@@ -40,7 +40,7 @@
 #   default = 0
 # }
 
-variable "proxmox_ve_username" {
+variable "PROXMOX_VE_USERNAME" {
   type = string
   description = "Proxmox username"
   default = null
