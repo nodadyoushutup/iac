@@ -1,6 +1,6 @@
 ---
 version: "1"
-module_version: 0.0.93
+module_version: 0.0.94
 runner_image: spacelift/runner:latest
 # tests:
 #   - name: Test VM
