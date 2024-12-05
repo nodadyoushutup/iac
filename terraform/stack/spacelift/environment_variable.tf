@@ -1,4 +1,5 @@
 resource "spacelift_environment_variable" "FLAG_VALID_CONFIG" { 
+    count = var.FLAG_DEPLOY >= 1 ? 1 : 0
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_FLAG_VALID_CONFIG" 
