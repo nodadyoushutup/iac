@@ -30,7 +30,7 @@ resource "spacelift_environment_variable" "DEFAULT_PASSWORD" {
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_DEFAULT_PASSWORD" 
     value       = local.default.password
-    write_only  = false 
+    write_only  = true 
     description = "Default password"
 }
 
@@ -39,7 +39,7 @@ resource "spacelift_environment_variable" "DEFAULT_IP_ADDRESS" {
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_DEFAULT_IP_ADDRESS" 
     value       = local.default.ip_address
-    write_only  = false 
+    write_only  = true 
     description = "Default IP Address"
 }
 
