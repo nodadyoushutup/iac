@@ -1,14 +1,14 @@
 locals {
-    # base64 = {
-    #     config = try(
-    #         filebase64(var.PATH_CONFIG), 
-    #         filebase64("/mnt/workspace/source/config/default/config.yaml")
-    #     )
-    #     private_key = try(
-    #         filebase64(var.PATH_PRIVATE_KEY), 
-    #         filebase64("/mnt/workspace/source/config/default/id_rsa")
-    #     )
-    # }
+    base64 = {
+        # config = try(
+        #     filebase64(var.PATH_CONFIG), 
+        #     filebase64("/mnt/workspace/source/config/default/config.yaml")
+        # )
+        private_key = try(
+            filebase64(var.PROXMOX_VE_PRIVATE_KEY), 
+            filebase64("/mnt/workspace/source/config/default/id_rsa")
+        )
+    }
     # flag = {
     #     deploy = var.FLAG_DEPLOY + 1
     #     config = var.FLAG_DEPLOY >= 1 && try(

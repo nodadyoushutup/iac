@@ -65,3 +65,9 @@ variable "PROXMOX_VE_PASSWORD" {
   description = "Proxmox password"
   default = null
 }
+
+variable "PROXMOX_VE_PRIVATE_KEY" {
+  type = string
+  description = "Proxmox private key"
+  default = null
+}
