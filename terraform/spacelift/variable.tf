@@ -37,13 +37,13 @@ variable "DEFAULT_IP_ADDRESS" {
 variable "GITHUB_BRANCH" {
   type = string
   description = "Github branch"
-  default = data.spacelift_stack.spacelift.branch
+  default = null
 }
 
 variable "GITHUB_REPOSITORY" {
   type = string
   description = "Github repository"
-  default = data.spacelift_stack.spacelift.repository
+  default = null
 }
 
 variable "SPACELIFT_RUNNER_IMAGE" {

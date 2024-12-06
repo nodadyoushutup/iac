@@ -20,8 +20,8 @@ locals {
     }
 
     github = {
-        branch = var.GITHUB_BRANCH
-        repository = var.GITHUB_REPOSITORY
+        branch = coalesce(var.GITHUB_BRANCH, data.spacelift_stack.spacelift.branch)
+        repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
     }
 
     spacelift = {
