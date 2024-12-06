@@ -22,7 +22,7 @@ resource "spacelift_environment_variable" "CONFIG_PATH_PUBLIC_KEY" {
     name        = "TF_VAR_CONFIG_PATH_PUBLIC_KEY" 
     value       = local.config.path.public_key
     write_only  = false 
-    description = "Configuration path"
+    description = "Public SSH keys directory path"
 }
 
 resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" { 
