@@ -7,6 +7,14 @@ default:
   private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
   public_key_dir: &public_key_dir ${TF_VAR_DEFAULT_PUBLIC_KEY_DIR}
 ########################################
+truenas:
+  ip_address:
+    external: *ip_address
+    internal: 192.168.1.100
+  port:
+    external: 10080
+    internal: 80
+  mac_address: 0a:00:00:00:11:00
 proxmox:
   auth:
     password: *password
