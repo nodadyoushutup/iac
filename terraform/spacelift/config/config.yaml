@@ -39,7 +39,7 @@ proxmox:
       address: *ip_address
       port: 1022
 talos:
-  cluster_name: "talos-proxmox"
+  cluster_name: "talos"
   control_plane:
     - ip_address: *ip_address
       port: 1200
