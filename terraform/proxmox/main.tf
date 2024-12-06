@@ -77,11 +77,11 @@ resource "proxmox_virtual_environment_vm" "development" {
         aio = "io_uring"
         backup = true
         cache = "none"
-        datastore_id = "virtualization"
+        datastore_id = local.config.data.proxmox.datastore.disk
         path_in_datastore = null
         discard = "on"
         file_format = "raw"
-        file_id = "local:iso/cloud_image_x86_64_jammy.img"
+        file_id = "${local.config.data.proxmox.datastore.iso}:iso/cloud_image_x86_64_jammy.img"
         interface = "scsi0"
         iothread = false
         replicate = true
@@ -101,7 +101,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     efi_disk {
-        datastore_id = "virtualization"
+        datastore_id = local.config.data.proxmox.datastore.disk
         file_format = "raw"
         type = "4m"
         pre_enrolled_keys = false
