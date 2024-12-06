@@ -1,32 +1,34 @@
 resource "proxmox_virtual_environment_file" "cloud_config" {
-    content_type = "snippets"
-    datastore_id = local.config.data.proxmox.datastore.snippet
-    node_name = local.config.data.proxmox.ssh.node.name
-    source_raw {
-        file_name = "cloud-config.yaml"
-        data = <<-EOF
-        #cloud-config
-        users:
-            - default
-            - name: ${local.config.data.default.username}
-              groups:
-                - sudo
-              sudo: ALL=(ALL) NOPASSWD:ALL
-              shell: /bin/bash
-              %{ if length(data.local_file.ssh_public_key) > 0 }
-              ssh_authorized_keys:
-                %{ for key in data.local_file.ssh_public_key }
-                - ${trimspace(key.content)}
-                 %{ endfor }
-              %{ endif }
-        write_files:
-            - path: /tmp/cloud-config.done
-            content: |
-                Cloud configuration is done.
-            permissions: '0644'
-        EOF
-    }
+  content_type = "snippets"
+  datastore_id = local.config.data.proxmox.datastore.snippet
+  node_name    = local.config.data.proxmox.ssh.node.name
+
+  source_raw {
+    file_name = "cloud-config.yaml"
+    data = <<-EOF
+      #cloud-config
+      users:
+        - default
+        - name: ${local.config.data.default.username}
+          groups:
+            - sudo
+          sudo: ALL=(ALL) NOPASSWD:ALL
+          shell: /bin/bash
+          %{ if length(data.local_file.ssh_public_key) > 0 }
+          ssh_authorized_keys:
+            %{ for key in data.local_file.ssh_public_key }
+            - ${trimspace(key.content)}
+            %{ endfor }
+          %{ endif }
+      write_files:
+        - path: /tmp/cloud-config.done
+          content: |
+            Cloud configuration is done.
+          permissions: '0644'
+    EOF
+  }
 }
+
 
 resource "proxmox_virtual_environment_vm" "development" {
     depends_on = [
