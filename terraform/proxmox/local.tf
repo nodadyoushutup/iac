@@ -19,6 +19,6 @@ locals {
   }
 }
 
-# output "config" {
-#   value = local.config.data
-# }
+output "locals" {
+  value = locals
+}
