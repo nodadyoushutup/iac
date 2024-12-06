@@ -52,3 +52,21 @@ resource "spacelift_environment_variable" "DEFAULT_IP_ADDRESS" {
     write_only  = true 
     description = "Default IP Address"
 }
+
+resource "spacelift_environment_variable" "GITHUB_BRANCH" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_GITHUB_BRANCH" 
+    value       = local.github.branch
+    write_only  = true 
+    description = "Github branch"
+}
+
+resource "spacelift_environment_variable" "GITHUB_REPOSITORY" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_GITHUB_REPOSITORY" 
+    value       = local.github.repository
+    write_only  = true 
+    description = "Github repository"
+}

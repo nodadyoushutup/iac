@@ -18,4 +18,9 @@ locals {
     flag = {
         deploy = var.FLAG_DEPLOY + 1
     }
+
+    github = {
+        branch = coalesce(var.GITHUB_BRANCH, data.spacelift_stack.config.branch)
+        repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.config.repository)
+    }
 }
