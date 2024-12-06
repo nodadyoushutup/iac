@@ -18,7 +18,7 @@ proxmox:
   auth:
     password: *password
     realm: pve
-    username: root
+    username: *username
   datastore_id: virtualization
   endpoint: 
     ip_address: *ip_address
