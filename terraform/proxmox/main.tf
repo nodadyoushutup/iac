@@ -1,21 +1,3 @@
-# locals {
-#   public_key = fileset("/mnt/workspace", "*.pub")
-
-#   runcmd_base = [
-#     "echo 'Base cloud-config commands'"
-#   ]
-#   runcmd = {
-#     docker = concat(local.runcmd_base, [
-#       "echo 'Docker runcmd' > /tmp/docker.txt"
-#     ])
-#   }
-# }
-
-# data "local_file" "ssh_public_key" {
-#   for_each = toset(local.public_key)
-#   filename = each.value
-# }
-
 # resource "proxmox_virtual_environment_file" "cloud_config" {
 #   content_type = "snippets"
 #   datastore_id = "local"
