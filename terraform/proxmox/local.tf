@@ -20,5 +20,5 @@ locals {
 }
 
 output "locals" {
-  value = locals
+  value = local.public_key
 }
