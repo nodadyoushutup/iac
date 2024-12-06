@@ -4,12 +4,6 @@ variable "CONFIG_PATH_CONFIG" {
   default = "/mnt/workspace/source/terraform/spacelift/config/config.yaml"
 }
 
-variable "FLAG_DEPLOY" {
-  type = number
-  description = "Deployment ID"
-  default = 0
-}
-
 variable "DEFAULT_PRIVATE_KEY" {
   type = string
   description = "Default private key"
@@ -56,4 +50,10 @@ variable "SPACELIFT_RUNNER_IMAGE" {
   type = string
   description = "Spacelift runner image"
   default = "ghcr.io/nodadyoushutup/spacelift-runner:latest"
+}
+
+variable "FLAG_DEPLOY" {
+  type = number
+  description = "Deployment ID"
+  default = 0
 }
