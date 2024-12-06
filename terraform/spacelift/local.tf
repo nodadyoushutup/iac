@@ -25,6 +25,6 @@ locals {
     }
 
     spacelift = {
-        runner_immage = var.SPACELIFT_RUNNER_IMAGE
+        runner_image = var.SPACELIFT_RUNNER_IMAGE
     }
 }
