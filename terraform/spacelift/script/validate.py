@@ -7,9 +7,13 @@ import paramiko
 import re
 from pathlib import Path
 
-PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
+
 CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH_CONFIG")
-PUBLIC_KEY_DIR = os.environ.get("TF_VAR_DEFAULT_PUBLIC_KEY_DIR")
+
+DEFAULT_PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
+DEFAULT_PUBLIC_KEY_DIR = os.environ.get("TF_VAR_DEFAULT_PUBLIC_KEY_DIR")
+DEFAULT_USERNAME = os.environ.get("TF_VAR_DEFAULT_USERNAME")
+DEFAULT_PASSWORD = os.environ.get("TF_VAR_DEFAULT_PASSWORD")
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
@@ -77,14 +81,27 @@ def validate_public_key_dir(directory):
         return "; ".join(results)
     return "valid"
 
+def validate_username(username):
+    if not username:
+        return "Username not set"
+    return "valid"
+
+
+def validate_password(password):
+    if not password:
+        return "Password not set"
+    return "valid"
+
 
 if __name__ == "__main__":
     validation_results = {
         "debug": f"valid",
         "config_path": validate_config_path(CONFIG_ORIG_PATH),
         "config_yaml_syntax": validate_yaml_syntax(CONFIG_SUB_PATH),
-        "private_key": validate_private_key(PRIVATE_KEY),
-        "public_key": validate_public_key_dir(PUBLIC_KEY_DIR),
+        "default_private_key": validate_private_key(DEFAULT_PRIVATE_KEY),
+        "default_public_key_dir": validate_public_key_dir(DEFAULT_PUBLIC_KEY_DIR),
+        "default_username": validate_username(DEFAULT_USERNAME),
+        "default_password": validate_password(DEFAULT_PASSWORD),
     }
     valid = all(value == "valid" for value in validation_results.values())
     result = {
