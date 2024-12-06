@@ -10,12 +10,6 @@ variable "FLAG_DEPLOY" {
   default = 0
 }
 
-variable "FLAG_VALID_CONFIG" {
-  type = number
-  description = "Spacelift valid configuration flag"
-  default = 0
-}
-
 variable "DEFAULT_PRIVATE_KEY" {
   type = string
   description = "Default private key"

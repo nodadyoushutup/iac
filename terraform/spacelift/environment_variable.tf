@@ -1,12 +1,3 @@
-resource "spacelift_environment_variable" "FLAG_VALID_CONFIG" { 
-    depends_on = [spacelift_context.config]
-    context_id  = spacelift_context.config.id
-    name        = "TF_VAR_FLAG_VALID_CONFIG" 
-    value       = local.config.valid
-    write_only  = false 
-    description = "Valid configuration"
-}
-
 resource "spacelift_environment_variable" "FLAG_DEPLOY" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
