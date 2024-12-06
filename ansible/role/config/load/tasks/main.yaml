@@ -1,7 +1,0 @@
----
-- name: Load configuration
-  include_vars:
-    file: "{{ lookup('env', 'TF_VAR_CONFIG') }}"
-    name: config
-  delegate_to: localhost
-  run_once: true

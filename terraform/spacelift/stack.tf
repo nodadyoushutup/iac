@@ -5,7 +5,7 @@ resource "spacelift_stack" "proxmox" {
     branch = local.github.branch
     description = "Proxmox"
     name = "proxmox"
-    project_root = "terraform/stack/proxmox"
+    project_root = "terraform/proxmox"
     repository = local.github.repository
     terraform_version = "1.5.7"
     labels = ["proxmox"]

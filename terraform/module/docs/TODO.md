@@ -1,2 +1,0 @@
-- Proxmox Virtual Machine NUMA configuration
-- Proxmox Virtual Machine Watchdog configuration
