@@ -18,8 +18,8 @@ output "validate_default_private_key" {
   value = data.external.validate.result["default_private_key"]
 }
 
-output "validate_default_public_key" {
-  value = data.external.validate.result["default_public_key"]
+output "validate_default_public_key_dir" {
+  value = data.external.validate.result["default_public_key_dir"]
 }
 
 output "validate_username" {
