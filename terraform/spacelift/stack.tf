@@ -7,7 +7,7 @@ resource "spacelift_stack" "proxmox" {
     name = "proxmox"
     project_root = "terraform/proxmox"
     repository = local.github.repository
-    runner_image = "ghcr.io/nodadyoushutup/spacelift-runner:latest"
+    runner_image = local.github.runner_image
     terraform_version = "1.5.7"
     labels = ["proxmox"]
     additional_project_globs = [ 

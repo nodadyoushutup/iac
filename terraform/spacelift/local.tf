@@ -1,5 +1,5 @@
 locals {
-    config_path = coalesce("/mnt/workspace/source/terraform/spacelift/config/config.yaml")
+    config_path = var.CONFIG_PATH
     config = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
 
     base64 = {
@@ -20,7 +20,11 @@ locals {
     }
 
     github = {
-        branch = coalesce(var.GITHUB_BRANCH, data.spacelift_stack.spacelift.branch)
-        repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
+        branch = var.GITHUB_BRANCH
+        repository = var.GITHUB_REPOSITORY
+    }
+
+    spacelift = {
+        runner_immage = var.SPACELIFT_RUNNER_IMAGE
     }
 }

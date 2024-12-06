@@ -70,3 +70,12 @@ resource "spacelift_environment_variable" "GITHUB_REPOSITORY" {
     write_only  = false 
     description = "Github repository"
 }
+
+resource "spacelift_environment_variable" "SPACELIFT_RUNNER_IMAGE" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_SPACELIFT_RUNNER_IMAGE" 
+    value       = local.spacelift.runner_image
+    write_only  = false 
+    description = "Spacelift runner image"
+}

@@ -1,7 +1,7 @@
 variable "CONFIG_PATH" {
   type = string
   description = "Configuration path"
-  default = null
+  default = "/mnt/workspace/source/terraform/spacelift/config/config.yaml"
 }
 
 variable "FLAG_DEPLOY" {
@@ -37,11 +37,17 @@ variable "DEFAULT_IP_ADDRESS" {
 variable "GITHUB_BRANCH" {
   type = string
   description = "Github branch"
-  default = null
+  default = data.spacelift_stack.spacelift.branch
 }
 
 variable "GITHUB_REPOSITORY" {
   type = string
   description = "Github repository"
-  default = null
+  default = data.spacelift_stack.spacelift.repository
+}
+
+variable "SPACELIFT_RUNNER_IMAGE" {
+  type = string
+  description = "Spacelift runner image"
+  default = "ghcr.io/nodadyoushutup/spacelift-runner:latest"
 }
