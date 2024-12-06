@@ -1,9 +1,8 @@
 resource "spacelift_environment_variable" "FLAG_VALID_CONFIG" { 
-    # count = var.FLAG_DEPLOY >= 1 ? 1 : 0
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_FLAG_VALID_CONFIG" 
-    value       = data.external.validate.result["valid"] == "true" ? var.FLAG_VALID_CONFIG + 1 : 0
+    value       = local.config.valid
     write_only  = false 
     description = "Valid configuration"
 }
@@ -21,7 +20,7 @@ resource "spacelift_environment_variable" "CONFIG_PATH" {
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_CONFIG_PATH" 
-    value       = local.config_path
+    value       = local.config.datapath
     write_only  = false 
     description = "Configuration path"
 }

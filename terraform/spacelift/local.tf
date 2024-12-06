@@ -1,6 +1,9 @@
 locals {
-    config_path = var.CONFIG_PATH
-    config = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
+    config = {
+        path = var.CONFIG_PATH
+        data = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
+        valid = data.external.validate.result["valid"] == "true" ? var.FLAG_VALID_CONFIG + 1 : 0
+    }
 
     base64 = {
         private_key = try(
