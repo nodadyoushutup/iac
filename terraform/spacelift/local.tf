@@ -1,9 +1,6 @@
 locals {
     config = {
-        path = {
-            config = var.CONFIG_PATH_CONFIG
-            public_key = var.CONFIG_PATH_PUBLIC_KEY
-        }
+        path = var.CONFIG_PATH_CONFIG         
         data = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
     }
 
@@ -16,6 +13,7 @@ locals {
 
     default = {
         private_key = var.DEFAULT_PRIVATE_KEY
+        public_key_dir = var.DEFAULT_PUBLIC_KEY_DIR
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
     }

@@ -4,12 +4,6 @@ variable "CONFIG_PATH_CONFIG" {
   default = "/mnt/workspace/source/terraform/spacelift/config/config.yaml"
 }
 
-variable "CONFIG_PATH_PUBLIC_KEY" {
-  type = string
-  description = "Public SSH keys directory"
-  default = "/mnt/workspace/"
-}
-
 variable "FLAG_DEPLOY" {
   type = number
   description = "Deployment ID"
@@ -20,6 +14,12 @@ variable "DEFAULT_PRIVATE_KEY" {
   type = string
   description = "Default private key"
   default = "/mnt/workspace/id_rsa"
+}
+
+variable "DEFAULT_PUBLIC_KEY_DIR" {
+  type = string
+  description = "Public SSH keys directory"
+  default = "/mnt/workspace/"
 }
 
 variable "DEFAULT_PASSWORD" {

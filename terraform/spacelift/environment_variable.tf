@@ -11,18 +11,9 @@ resource "spacelift_environment_variable" "CONFIG_PATH_CONFIG" {
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_CONFIG_PATH_CONFIG" 
-    value       = local.config.path.config
+    value       = local.config.path
     write_only  = false 
     description = "Configuration path"
-}
-
-resource "spacelift_environment_variable" "CONFIG_PATH_PUBLIC_KEY" { 
-    depends_on = [spacelift_context.config]
-    context_id  = spacelift_context.config.id
-    name        = "TF_VAR_CONFIG_PATH_PUBLIC_KEY" 
-    value       = local.config.path.public_key
-    write_only  = false 
-    description = "Public SSH keys directory path"
 }
 
 resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" { 
@@ -32,6 +23,15 @@ resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" {
     value       = local.default.private_key
     write_only  = false 
     description = "Default private key"
+}
+
+resource "spacelift_environment_variable" "DEFAULT_PUBLIC_KEY_DIR" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_DEFAULT_PUBLIC_KEY_DIR" 
+    value       = local.default.public_key_dir
+    write_only  = false 
+    description = "Public SSH keys directory path"
 }
 
 resource "spacelift_environment_variable" "DEFAULT_PASSWORD" { 

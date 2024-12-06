@@ -9,7 +9,7 @@ from pathlib import Path
 
 PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
 CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH_CONFIG")
-PUBLIC_KEY_DIR = os.environ.get("TF_VAR_CONFIG_PATH_PUBLIC_KEY")
+PUBLIC_KEY_DIR = os.environ.get("TF_VAR_DEFAULT_PUBLIC_KEY_DIR")
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
