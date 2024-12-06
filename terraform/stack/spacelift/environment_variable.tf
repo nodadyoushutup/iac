@@ -58,7 +58,7 @@ resource "spacelift_environment_variable" "GITHUB_BRANCH" {
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_GITHUB_BRANCH" 
     value       = local.github.branch
-    write_only  = true 
+    write_only  = false 
     description = "Github branch"
 }
 
@@ -67,6 +67,6 @@ resource "spacelift_environment_variable" "GITHUB_REPOSITORY" {
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_GITHUB_REPOSITORY" 
     value       = local.github.repository
-    write_only  = true 
+    write_only  = false 
     description = "Github repository"
 }
