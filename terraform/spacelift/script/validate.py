@@ -34,6 +34,8 @@ def validate_yaml(path):
 
 
 def validate_private_key(path, password=None):
+    if not path or not os.path.isfile(path):
+        return "No file detected at path provided"
     try:
         try:
             paramiko.RSAKey.from_private_key_file(path, password=password)
