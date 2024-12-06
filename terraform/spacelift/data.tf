@@ -15,7 +15,7 @@ data "external" "validate" {
     "${path.module}/script/validate.py"
   ]
   query = {
-    trigger = random_id.trigger[0].hex
+    trigger = random_id.trigger.hex
   }
 }
 
