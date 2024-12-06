@@ -16,9 +16,6 @@ truenas:
   nfs:
     - /mnt/epool/media
     - /mnt/epool/config
-  smb:
-    - /mnt/epool/media
-    - /mnt/epool/config
   iscsi:
     - docker
 ##################################################################
