@@ -47,7 +47,7 @@ def validate_private_key(path, password=None):
                     paramiko.Ed25519Key.from_private_key_file(path, password=password)
         return "valid"
     except Exception as e:
-        return e
+        return e.capitalize()
 
 
 def validate_public_key(key_path):
