@@ -1,5 +1,5 @@
 output "_validate_results" {
-  value = data.external.validate.result["valid"] != "false" ? "Deploment ${var.FLAG_DEPLOY} - Validation checks have passed" : "Deploment ${var.FLAG_DEPLOY} - Some validation checks failed"
+  value = data.external.validate.result["valid"] != "false" ? "Deploment ${var.FLAG_DEPLOY}: Validation checks have passed" : "Deploment ${var.FLAG_DEPLOY} - Some validation checks failed"
 }
 
 output "validate_debug" {
