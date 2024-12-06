@@ -80,7 +80,6 @@ def validate_public_key_dir(directory):
 
 
 if __name__ == "__main__":
-
     validation_results = {
         "debug": f"valid",
         "config_path": validate_config_path(CONFIG_ORIG_PATH),
