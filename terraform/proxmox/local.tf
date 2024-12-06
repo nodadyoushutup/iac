@@ -10,7 +10,7 @@ locals {
     password = var.DEFAULT_PASSWORD
     ip_address = var.DEFAULT_IP_ADDRESS
   }
-  public_key = fileset(local.config.data.default.public_key_dir, "*.pub")
+  public_key = [for file in fileset(local.config.data.default.public_key_dir, "*.pub") : abspath("${local.config.data.default.public_key_dir}/${file}")]
   runcmd_base = ["echo 'Base cloud-config commands'"]
   runcmd = {
     docker = concat(local.runcmd_base, [
