@@ -7,25 +7,24 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         data = <<-EOF
         #cloud-config
         users:
-        - default
-        - name: ${local.config.data.default.username}
-            groups:
-                - sudo
-            shell: /bin/bash
-            %{ if length(data.local_file.ssh_public_key) > 0 }
-            ssh_authorized_keys:
-                %{ for key in data.local_file.ssh_public_key }
-                - ${trimspace(key.content)}
-                %{ endfor }
-            %{ endif }
-            sudo: ALL=(ALL) NOPASSWD:ALL
+            - default
+            - name: ${local.config.data.default.username}
+                groups:
+                    - sudo
+                sudo: ALL=(ALL) NOPASSWD:ALL
+                shell: /bin/bash
+                %{ if length(data.local_file.ssh_public_key) > 0 }
+                ssh_authorized_keys:
+                    %{ for key in data.local_file.ssh_public_key }
+                    - ${trimspace(key.content)}
+                    %{ endfor }
+                %{ endif }
         write_files:
             - path: /tmp/cloud-config.done
             content: |
                 Cloud configuration is done.
             permissions: '0644'
         EOF
-        
     }
 }
 
