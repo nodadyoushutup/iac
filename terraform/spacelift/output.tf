@@ -23,7 +23,7 @@ output "validate_default_public_key" {
 }
 
 output "validate_username" {
-  value = data.external.validate.result["username"]
+  value = data.external.validate.result["default_username"]
 }
 
 output "validate_default_password" {
