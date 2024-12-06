@@ -20,6 +20,7 @@ proxmox:
     realm: pve
     username: *username
   datastore_id: virtualization
+  cloud_image_version: 0.1.1
   endpoint: 
     ip_address: *ip_address
     port: 1086
