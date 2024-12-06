@@ -22,7 +22,7 @@ output "validate_default_public_key_dir" {
   value = data.external.validate.result["default_public_key_dir"]
 }
 
-output "validate_username" {
+output "validate_default_username" {
   value = data.external.validate.result["default_username"]
 }
 
