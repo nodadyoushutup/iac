@@ -47,7 +47,7 @@ def validate_private_key(path, password=None):
                     paramiko.Ed25519Key.from_private_key_file(path, password=password)
         return "valid"
     except Exception as e:
-        return e.capitalize()
+        return str(e).capitalize()
 
 
 def validate_public_key(key_path):
@@ -57,7 +57,7 @@ def validate_public_key(key_path):
             key_pattern = re.compile(r"^(ssh-(rsa|dss|ed25519|ecdsa) [A-Za-z0-9+/=]+ ?.*)$")
             return bool(key_pattern.match(key_data))
     except Exception as e:
-        return e
+        return str(e).capitalize()
 
 
 def validate_public_key_dir(directory):
