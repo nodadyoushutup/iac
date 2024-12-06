@@ -1,36 +1,34 @@
-# resource "proxmox_virtual_environment_file" "cloud_config" {
-#   content_type = "snippets"
-#   datastore_id = "local"
-#   node_name    = "pve"
+resource "proxmox_virtual_environment_file" "cloud_config" {
+    content_type = "snippets"
+    datastore_id = local.config.data.proxmox.datastore.snippet
+    node_name = local.config.data.proxmox.ssh.node.name
 
-#   source_raw {
-#     data = <<-EOF
-#     #cloud-config
-#     users:
-#       - default
-#       - name: ubuntu
-#         groups:
-#           - sudo
-#         shell: /bin/bash
-#         ssh_authorized_keys:
-#           %{ for key in data.local_file.ssh_public_key }
-#           - ${trimspace(key.content)}
-#           %{ endfor }
-#         sudo: ALL=(ALL) NOPASSWD:ALL
-#     write_files:
-#       - path: /tmp/cloud-config.done
-#         content: |
-#           Cloud configuration is done.
-#         permissions: '0644'      
-#     runcmd:
-#       %{ for cmd in local.runcmd.docker }
-#       - ${cmd}
-#       %{ endfor }
-#     EOF
+    source_raw {
+        data = <<-EOF
+        #cloud-config
+        users:
+        - default
+        - name: ubuntu
+            groups:
+                - sudo
+            shell: /bin/bash
+            %{ if length(data.local_file.ssh_public_key) > 0 }
+            ssh_authorized_keys:
+                %{ for key in data.local_file.ssh_public_key }
+                - ${trimspace(key.content)}
+                %{ endfor }
+            %{ endif }
+            sudo: ALL=(ALL) NOPASSWD:ALL
+        write_files:
+            - path: /tmp/cloud-config.done
+            content: |
+                Cloud configuration is done.
+            permissions: '0644'
+        EOF
 
-#     file_name = "cloud-config.yaml"
-#   }
-# }
+        file_name = "cloud-config.yaml"
+    }
+}
 
 # # module "virtual_machine_docker" {
 # #     source  = "spacelift.io/nodadyoushutup/virtual-machine/proxmox"

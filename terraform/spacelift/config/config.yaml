@@ -24,7 +24,10 @@ proxmox:
     password: *password
     realm: pve
     username: *username
-  datastore_id: virtualization
+  datastore:
+    disk: virtualization
+    snippet: local
+    iso: local
   cloud_image_version: 0.1.1
   endpoint: 
     ip_address: *ip_address

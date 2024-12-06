@@ -1,8 +1,8 @@
 # CLOUD IMAGE
 resource "proxmox_virtual_environment_download_file" "cloud_image" {
   content_type = "iso"
-  datastore_id = "local"
-  node_name    = "pve"
+  datastore_id = local.config.data.proxmox.datastore.iso
+  node_name    = local.config.data.proxmox.ssh.node.name
   url = "https://github.com/nodadyoushutup/cloud-image/releases/download/${local.config.data.proxmox.cloud_image_version}/cloud_image_x86_64_jammy.img"
 }
 
