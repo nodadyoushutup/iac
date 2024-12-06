@@ -1,9 +1,9 @@
-data "spacelift_stack" "spacelift" {
-  stack_id = "spacelift"
-}
-
 resource "random_id" "trigger" {
   byte_length = 8
+}
+
+data "spacelift_stack" "spacelift" {
+  stack_id = "spacelift"
 }
 
 data "external" "validate" {

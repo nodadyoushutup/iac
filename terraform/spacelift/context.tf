@@ -3,6 +3,6 @@ resource "spacelift_context" "config" {
     description = "Configuration"
     space_id = "root"
     before_init = [
-        "envsubst < ${local.config.path} > ./config.sub.yaml"
+        "envsubst < ${local.config.path.config} > ./config.sub.yaml"
     ]
 }
