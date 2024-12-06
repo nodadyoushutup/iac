@@ -1,5 +1,5 @@
 locals {
-    config_path = coalesce(var.CONFIG_PATH, "/mnt/workspace/source/terraform/spacelift/config/config.yaml")
+    config_path = coalesce("/mnt/workspace/source/terraform/spacelift/config/config.yaml")
     config = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
 
     base64 = {
