@@ -23,7 +23,7 @@ proxmox:
   auth:
     password: *password
     realm: pve
-    username: *username
+    username: root
   datastore:
     disk: virtualization
     snippet: local
