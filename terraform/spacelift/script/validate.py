@@ -71,7 +71,7 @@ def validate_public_key_dir(directory):
     for key_file in public_keys:
         result = validate_public_key(key_file)
         if result is not True:  # Validation failed
-            results.append(f"Invalid public key - {key_file}")
+            results.append(f"Invalid public key: {key_file}")
     if results:
         return "; ".join(results)
     return "valid"
