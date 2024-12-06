@@ -24,7 +24,3 @@ locals {
         repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
     }
 }
-
-output "github" {
-  value = local.github
-}
