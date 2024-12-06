@@ -1,5 +1,5 @@
 data "local_file" "ssh_public_key" {
-  for_each = toset(local.config.data.default.public_key_dir)
+  for_each = toset(local.public_key)
   filename = each.value
 }
 

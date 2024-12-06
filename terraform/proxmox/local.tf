@@ -10,7 +10,7 @@ locals {
     password = var.DEFAULT_PASSWORD
     ip_address = var.DEFAULT_IP_ADDRESS
   }
-  public_key = fileset("/mnt/workspace", "*.pub")
+  public_key = fileset(local.config.data.default.public_key_dir, "*.pub")
   runcmd_base = ["echo 'Base cloud-config commands'"]
   runcmd = {
     docker = concat(local.runcmd_base, [
