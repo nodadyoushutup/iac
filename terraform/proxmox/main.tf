@@ -9,16 +9,16 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         users:
             - default
             - name: ${local.config.data.default.username}
-                groups:
-                    - sudo
-                sudo: ALL=(ALL) NOPASSWD:ALL
-                shell: /bin/bash
-                %{ if length(data.local_file.ssh_public_key) > 0 }
-                ssh_authorized_keys:
-                    %{ for key in data.local_file.ssh_public_key }
-                    - ${trimspace(key.content)}
-                    %{ endfor }
-                %{ endif }
+              groups:
+                - sudo
+              sudo: ALL=(ALL) NOPASSWD:ALL
+              shell: /bin/bash
+              %{ if length(data.local_file.ssh_public_key) > 0 }
+              ssh_authorized_keys:
+                %{ for key in data.local_file.ssh_public_key }
+                - ${trimspace(key.content)}
+                 %{ endfor }
+              %{ endif }
         write_files:
             - path: /tmp/cloud-config.done
             content: |
