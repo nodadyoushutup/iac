@@ -6,7 +6,6 @@ terraform {
   }
 }
 
-
 provider "proxmox" {
   endpoint = "${local.proxmox.endpoint.protocol}://${local.proxmox.endpoint.ip_address}:${local.proxmox.endpoint.port}"
   insecure  = local.proxmox.endpoint.insecure
