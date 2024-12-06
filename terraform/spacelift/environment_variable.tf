@@ -20,7 +20,7 @@ resource "spacelift_environment_variable" "CONFIG_PATH" {
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_CONFIG_PATH" 
-    value       = local.config.datapath
+    value       = local.config.path
     write_only  = false 
     description = "Configuration path"
 }
