@@ -17,3 +17,7 @@ output "validate_yaml" {
 output "validate_private_key" {
   value = data.external.validate.result["private_key"]
 }
+
+output "validate_public_key" {
+  value = data.external.validate.result["public_key"]
+}

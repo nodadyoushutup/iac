@@ -1,32 +1,38 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 
-import json 
-import os 
+import json
+import os
 import yaml
 import paramiko
 import re
- 
-PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY") 
+from pathlib import Path
+
+PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
+CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH_CONFIG")
+PUBLIC_KEY_DIR = os.environ.get("TF_VAR_CONFIG_PATH_PUBLIC_KEY")
+
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
-CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH") 
 CONFIG_SUB_PATH = os.path.join(PARENT_DIR, 'config.sub.yaml')
- 
-def validate_config_path(path): 
-    if not path or not os.path.isfile(path): 
-        return "No file detected at path provided" 
-    return "valid" 
- 
-def validate_yaml(path): 
-    if not path or not os.path.isfile(path): 
-        return "No file detected at path provided" 
-    try: 
-        with open(path, 'r') as file: 
-            yaml.safe_load(file) 
-    except yaml.YAMLError as e: 
-        return f"YAML format is not valid: {e}" 
-    return "valid" 
- 
+
+
+def validate_config_path(path):
+    if not path or not os.path.isfile(path):
+        return "No file detected at path provided"
+    return "valid"
+
+
+def validate_yaml(path):
+    if not path or not os.path.isfile(path):
+        return "No file detected at path provided"
+    try:
+        with open(path, 'r') as file:
+            yaml.safe_load(file)
+    except yaml.YAMLError as e:
+        return f"YAML format is not valid: {e}"
+    return "valid"
+
+
 def validate_private_key(path, password=None):
     try:
         try:
@@ -43,6 +49,7 @@ def validate_private_key(path, password=None):
     except Exception as e:
         return e
 
+
 def validate_public_key(key_path):
     try:
         with open(key_path, "r") as file:
@@ -51,18 +58,37 @@ def validate_public_key(key_path):
             return bool(key_pattern.match(key_data))
     except Exception as e:
         return e
- 
-if __name__ == "__main__": 
+
+
+def validate_public_key_dir(directory):
+    if not directory or not os.path.isdir(directory):
+        return "No directory detected at path provided"
+    public_keys = list(Path(directory).glob("*.pub"))
+    if not public_keys:
+        return "No public key files (.pub) found in directory"
     
-    validation_results = { 
+    results = []
+    for key_file in public_keys:
+        result = validate_public_key(key_file)
+        if result is not True:  # Validation failed
+            results.append(f"{key_file}: Invalid public key")
+    if results:
+        return "; ".join(results)
+    return "valid"
+
+
+if __name__ == "__main__":
+
+    validation_results = {
         "debug": f"valid",
-        "config_path": validate_config_path(CONFIG_ORIG_PATH), 
-        "yaml": validate_yaml(CONFIG_SUB_PATH), 
+        "config_path": validate_config_path(CONFIG_ORIG_PATH),
+        "yaml": validate_yaml(CONFIG_SUB_PATH),
         "private_key": validate_private_key(PRIVATE_KEY),
-    } 
-    valid = all(value == "valid" for value in validation_results.values()) 
-    result = { 
-        "valid": "true" if valid else "false", 
-        **{key: str(value) for key, value in validation_results.items()} 
-    } 
-    print(json.dumps(result)) 
+        "public_key": validate_public_key_dir(PUBLIC_KEY_DIR),
+    }
+    valid = all(value == "valid" for value in validation_results.values())
+    result = {
+        "valid": "true" if valid else "false",
+        **{key: str(value) for key, value in validation_results.items()}
+    }
+    print(json.dumps(result))
