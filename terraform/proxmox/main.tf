@@ -2,8 +2,8 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     content_type = "snippets"
     datastore_id = local.config.data.proxmox.datastore.snippet
     node_name = local.config.data.proxmox.ssh.node.name
-    file_name = "cloud-config.yaml"
     source_raw {
+        file_name = "cloud-config.yaml"
         data = <<-EOF
         #cloud-config
         users:
