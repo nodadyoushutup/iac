@@ -68,11 +68,10 @@ def validate_public_key_dir(directory):
     public_keys = list(Path(directory).glob("*.pub"))
     if not public_keys:
         return "No public key files (.pub) found in directory"
-    
     results = []
     for key_file in public_keys:
         result = validate_public_key(key_file)
-        if result is not True:  # Validation failed
+        if not result:
             results.append(f"Invalid public key: {key_file}")
     if results:
         return "; ".join(results)
