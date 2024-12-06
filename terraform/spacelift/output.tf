@@ -11,7 +11,7 @@ output "validate_config_path" {
 }
 
 output "validate_yaml" {
-  value = data.external.validate.result["yaml"]
+  value = data.external.validate.result["config_yaml_syntax"]
 }
 
 output "validate_private_key" {

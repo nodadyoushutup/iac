@@ -22,7 +22,7 @@ def validate_config_path(path):
     return "valid"
 
 
-def validate_yaml(path):
+def validate_yaml_syntax(path):
     if not path or not os.path.isfile(path):
         return "No file detected at path provided"
     try:
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     validation_results = {
         "debug": f"valid",
         "config_path": validate_config_path(CONFIG_ORIG_PATH),
-        "yaml": validate_yaml(CONFIG_SUB_PATH),
+        "config_yaml_syntax": validate_yaml_syntax(CONFIG_SUB_PATH),
         "private_key": validate_private_key(PRIVATE_KEY),
         "public_key": validate_public_key_dir(PUBLIC_KEY_DIR),
     }
