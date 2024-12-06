@@ -34,6 +34,16 @@ resource "spacelift_environment_variable" "DEFAULT_PUBLIC_KEY_DIR" {
     description = "Public SSH keys directory path"
 }
 
+resource "spacelift_environment_variable" "DEFAULT_USERNAME" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_DEFAULT_USERNAME" 
+    value       = local.default.username
+    write_only  = true 
+    description = "Default username"
+}
+
+
 resource "spacelift_environment_variable" "DEFAULT_PASSWORD" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id

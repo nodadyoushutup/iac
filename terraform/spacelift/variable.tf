@@ -22,6 +22,12 @@ variable "DEFAULT_PUBLIC_KEY_DIR" {
   default = "/mnt/workspace/"
 }
 
+variable "DEFAULT_USERNAME" {
+  type = string
+  description = "Default username"
+  default = null
+}
+
 variable "DEFAULT_PASSWORD" {
   type = string
   description = "Default password"

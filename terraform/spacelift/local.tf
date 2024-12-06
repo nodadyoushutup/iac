@@ -14,6 +14,7 @@ locals {
     default = {
         private_key = var.DEFAULT_PRIVATE_KEY
         public_key_dir = var.DEFAULT_PUBLIC_KEY_DIR
+        username = var.DEFAULT_USERNAME
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
     }

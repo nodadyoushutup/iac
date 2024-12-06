@@ -2,6 +2,7 @@
 ########################################
 default:
   ip_address: &ip_address ${TF_VAR_DEFAULT_IP_ADDRESS}
+  username: &username ${TF_VAR_DEFAULT_USERNAME}
   password: &password ${TF_VAR_DEFAULT_PASSWORD}
   private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
   public_key_dir: &public_key_dir ${TF_VAR_DEFAULT_PUBLIC_KEY_DIR}
