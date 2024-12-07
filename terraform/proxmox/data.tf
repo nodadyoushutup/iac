@@ -9,7 +9,7 @@ data "local_file" "ssh_public_key" {
 
 data "external" "hash_password" {
   depends_on = [random_id.trigger]
-  program = ["sh", "${path.module}/hash_password.sh", local.config.data.default.password]
+  program = ["bash", "${path.module}/hash_password.sh", local.config.data.default.password]
   query = {
     trigger = random_id.trigger.hex
   }
