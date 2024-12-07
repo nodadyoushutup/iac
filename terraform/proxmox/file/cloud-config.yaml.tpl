@@ -26,6 +26,4 @@ write_files:
       ${truenas.ip_address.internal}:${share.src} ${share.dest} nfs defaults 0 0
       %{ endfor }
       %{ endif }
-      192.168.1.100:/mnt/epool/media /mnt/epool/media nfs defaults 0 0
-      192.168.1.100:/mnt/epool/config /mnt/epool/config nfs defaults 0 0
     permissions: '0644'
