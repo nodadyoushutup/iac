@@ -17,22 +17,3 @@ write_files:
     content: |
       Cloud configuration is done.
     permissions: '0644'
-  - path: /etc/fstab
-    content: |
-      LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
-      LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
-      %{ if length(truenas.nfs) > 0 }
-      %{ for share in truenas.nfs }
-      ${truenas.ip_address.internal}:${share.src} ${share.dest} nfs defaults 0 0
-      %{ endfor }
-      %{ endif }
-    permissions: '0644'
-runcmd:
-  - echo 'cloud-config runcmd'
-  %{ if length(truenas.nfs) > 0 }
-  %{ for share in truenas.nfs }
-  - mkdir -p ${share.dest}
-  %{ endfor }
-  %{ endif }
-  - chmod +x /tmp/iscsi.sh
-  - mount -a
