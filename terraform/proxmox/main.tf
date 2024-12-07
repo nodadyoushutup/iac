@@ -159,22 +159,3 @@ resource "proxmox_virtual_environment_vm" "development" {
     vm_id = 1101
 }
 
-resource "linux_file" "test" {
-    depends_on = [proxmox_virtual_environment_vm.development]
-    provider_override {
-        id = "development"
-        host = local.config.data.development.ip_address.external
-        port = local.config.data.development.port.external
-        user = local.config.data.development.username
-        private_key = file(local.config.data.development.private_key)
-    }
-
-    path = "/tmp/test.txt"
-    content = <<-EOF
-        hello world test
-    EOF
-    owner = 1000
-    group = 1000
-    mode = "777"
-    overwrite = true
-}
