@@ -12,3 +12,7 @@ provider "linux" {
     user = local.config.data.development.username
     private_key = file(local.config.data.development.private_key)
 }
+
+output "debug" {
+  value = local.config.data.development
+}
