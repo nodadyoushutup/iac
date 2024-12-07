@@ -17,7 +17,7 @@ write_files:
     content: |
       Cloud configuration is done.
     permissions: '0644'
-  - path: /tmp/fstab
+  - path: /etc/fstab
     content: |
       LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
       LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
@@ -27,3 +27,11 @@ write_files:
       %{ endfor }
       %{ endif }
     permissions: '0644'
+runcmd:
+  - echo 'cloud-config runcmd'
+  %{ if length(truenas.nfs) > 0 }
+  %{ for share in truenas.nfs }
+  - mkdir -p ${share.dest}
+  %{ endfor }
+  %{ endif }
+  - mount -a
