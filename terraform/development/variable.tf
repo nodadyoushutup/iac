@@ -39,3 +39,15 @@ variable "DEFAULT_GATEWAY" {
   description = "Default internal gateway address"
   default = null
 }
+
+variable "GITHUB_BRANCH" {
+  type = string
+  description = "Github branch"
+  default = null
+}
+
+variable "GITHUB_REPOSITORY" {
+  type = string
+  description = "Github repository"
+  default = null
+}
