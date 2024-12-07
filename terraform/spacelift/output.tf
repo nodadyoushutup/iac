@@ -29,3 +29,11 @@ output "validate_default_username" {
 output "validate_default_password" {
   value = data.external.validate.result["default_password"]
 }
+
+output "validate_default_gateway" {
+  value = data.external.validate.result["default_gateway"]
+}
+
+output "validate_default_ip_address" {
+  value = data.external.validate.result["default_ip_address"]
+}
