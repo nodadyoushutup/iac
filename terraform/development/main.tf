@@ -1,7 +1,4 @@
 resource "linux_file" "test" {
-    depends_on = [proxmox_virtual_environment_vm.development]
-    
-
     path = "/tmp/test.txt"
     content = <<-EOF
         hello world test
