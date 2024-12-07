@@ -4,6 +4,7 @@ resource "spacelift_context" "config" {
     space_id = "root"
     before_init = [
         "envsubst < ${local.config.path} > ./config.sub.yaml",
-        "chmod 600 ${local.default.private_key}"
+        "chmod 600 ${local.default.private_key}",
+        "ssh-keyscan -p ${local.config.data.development.port.external} ${local.config.data.default.ip_address} >> ~/.ssh/known_hosts"
     ]
 }
