@@ -26,7 +26,7 @@ development:
   ip_address:
     external: *ip_address
     gateway: *gateway
-    internal: "192.168.1.101"
+    internal: 192.168.1.101
   port:
     external: 10122
     internal: 22
