@@ -14,3 +14,18 @@ resource "spacelift_stack" "proxmox" {
     ]
 }
 
+resource "spacelift_stack" "development" {
+    administrative = true
+    autodeploy = true
+    branch = local.github.branch
+    description = "Development"
+    name = "development"
+    project_root = "terraform/development"
+    repository = local.github.repository
+    runner_image = local.spacelift.runner_image
+    terraform_version = "1.5.7"
+    labels = ["development"]
+    # additional_project_globs = [ 
+    #     "file/**",
+    # ]
+}
