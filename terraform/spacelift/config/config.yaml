@@ -14,10 +14,10 @@ truenas:
     external: 10080
     internal: 80
   nfs:
-    - src: &nfs_media /mnt/epool/media
-      dest: *nfs_media
-    - src: &nfs_config /mnt/epool/config
-      dest: *nfs_config
+    - src: /mnt/epool/media
+      dest: /mnt/media
+    - src: /mnt/epool/config
+      dest: /mnt/config
   iscsi:
     - docker
 ##################################################################

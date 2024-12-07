@@ -93,6 +93,8 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     initialization {
+        datastore_id = local.config.data.proxmox.datastore.disk
+        user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         ip_config {
             ipv4 {
                 address = "192.168.1.101/24"
@@ -102,7 +104,6 @@ resource "proxmox_virtual_environment_vm" "development" {
                 address = "dhcp"
             }
         }
-        user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
     }
 
     machine = "q35"
