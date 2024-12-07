@@ -29,3 +29,15 @@ resource "spacelift_stack" "development" {
     #     "file/**",
     # ]
 }
+
+resource "spacelift_stack" "debug" {
+    administrative = true
+    autodeploy = true
+    branch = local.github.branch
+    description = "debug"
+    name = "debug"
+    project_root = "terraform/debug"
+    repository = local.github.repository
+    terraform_version = "1.5.7"
+    labels = ["debug"]
+}
