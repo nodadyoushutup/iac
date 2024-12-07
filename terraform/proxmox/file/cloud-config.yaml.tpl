@@ -21,9 +21,11 @@ write_files:
     content: |
       LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
       LABEL=UEFI      /boot/efi       vfat    umask=0077      0 1
+      %{ if length(truenas.nfs) > 0 }
       %{ for share in truenas.nfs }
       ${truenas.ip_address.internal}:${share.src} ${share.dest} nfs defaults 0 0
       %{ endfor }
+      %{ endif }
       192.168.1.100:/mnt/epool/media /mnt/epool/media nfs defaults 0 0
       192.168.1.100:/mnt/epool/config /mnt/epool/config nfs defaults 0 0
     permissions: '0644'
