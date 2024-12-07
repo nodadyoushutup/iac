@@ -17,7 +17,6 @@ locals {
       "echo 'Docker runcmd' > /tmp/docker.txt"
     ])
   }
-  hashed_password = data.external.hash_password.result["password"]
 }
 
 # output "locals" {

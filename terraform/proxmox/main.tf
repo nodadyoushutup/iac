@@ -93,7 +93,12 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     initialization {
         datastore_id = local.config.data.proxmox.datastore.disk
-        user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+        # user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+        user_account {
+            # keys = data.local_file.ssh_public_key
+            password = local.config.data.development.password
+            username = local.config.data.development.username
+        }
         ip_config {
             ipv4 {
                 address = "192.168.1.101/24"
