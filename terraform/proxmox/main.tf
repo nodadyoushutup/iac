@@ -160,6 +160,7 @@ resource "proxmox_virtual_environment_vm" "development" {
 }
 
 resource "linux_file" "test" {
+    depends_on = [proxmox_virtual_environment_vm.development]
     provider_override {
         id = "development"
         host = local.config.data.development.ip_address.external
