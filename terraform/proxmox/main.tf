@@ -1,17 +1,17 @@
-resource "proxmox_virtual_environment_file" "cloud_config" {
-    content_type = "snippets"
-    datastore_id = local.config.data.proxmox.datastore.snippet
-    node_name = local.config.data.proxmox.ssh.node.name
+# resource "proxmox_virtual_environment_file" "cloud_config" {
+#     content_type = "snippets"
+#     datastore_id = local.config.data.proxmox.datastore.snippet
+#     node_name = local.config.data.proxmox.ssh.node.name
 
-    source_raw {
-        file_name = "cloud-config.yaml"
-        data = templatefile("${path.module}/file/cloud-config.yaml.tpl", {
-            username = local.config.data.default.username
-            ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
-            hashed_password = local.hashed_password
-        })
-    }
-}
+#     source_raw {
+#         file_name = "cloud-config.yaml"
+#         data = templatefile("${path.module}/file/cloud-config.yaml.tpl", {
+#             username = local.config.data.default.username
+#             ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
+#             hashed_password = local.hashed_password
+#         })
+#     }
+# }
 
 resource "proxmox_virtual_environment_vm" "development" {
     depends_on = [
