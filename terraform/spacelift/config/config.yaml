@@ -21,6 +21,16 @@ truenas:
   iscsi:
     - docker
 ##################################################################
+development:
+  ip_address:
+    external: *ip_address
+    internal: 192.168.1.101
+  port:
+    external: 10122
+    internal: 22
+  private_key: *private_key
+  username: *username
+  mac_address: 0a:00:00:00:11:01
 proxmox:
   auth:
     password: *password

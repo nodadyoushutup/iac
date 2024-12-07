@@ -3,6 +3,9 @@ terraform {
     proxmox = {
       source = "bpg/proxmox"
     }
+    linux = {
+      source = "TelkomIndonesia/linux"
+    }
   }
 }
 

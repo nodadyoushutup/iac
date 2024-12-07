@@ -14,10 +14,6 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     }
 }
 
-output "debug" {
-  value = file("${path.module}/file/iscsi.sh")
-}
-
 resource "proxmox_virtual_environment_vm" "development" {
     depends_on = [
         proxmox_virtual_environment_download_file.cloud_image,
@@ -127,7 +123,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = "0a:00:00:00:11:01"
+        mac_address = local.config.data.development.mac_address
         model = "virtio"
         mtu = null
         queues = null
@@ -161,4 +157,23 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     vm_id = 1101
+}
+
+resource "linux_file" "test" {
+    provider_override {
+        id = "development"
+        host = local.config.data.development.ip_address.external
+        port = local.config.data.development.port.external
+        user = local.config.data.development.username
+        private_key = try(file(local.config.development.private_key))
+    }
+
+    path = "/tmp/test.txt"
+    content = <<-EOF
+        hello world test
+    EOF
+    owner = 1000
+    group = 1000
+    mode = "777"
+    overwrite = true
 }
