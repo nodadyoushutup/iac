@@ -8,8 +8,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         data = templatefile("${path.module}/file/cloud-config.yaml.tpl", {
             username = local.config.data.default.username
             ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
-            # truenas = local.config.data.truenas
-            # iscsi = file("${path.module}/file/iscsi.sh")
+            hashed_password = local.hashed_password
         })
     }
 }
