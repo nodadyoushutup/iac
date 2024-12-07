@@ -12,7 +12,7 @@ locals {
         gateway = var.DEFAULT_GATEWAY
     }
     github = {
-        branch = coalesce(var.GITHUB_BRANCH, data.spacelift_stack.spacelift.branch)
-        repository = coalesce(var.GITHUB_REPOSITORY, data.spacelift_stack.spacelift.repository)
+        branch = var.GITHUB_BRANCH
+        repository = var.GITHUB_REPOSITORY
     }
 }
