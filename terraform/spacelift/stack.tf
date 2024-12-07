@@ -10,8 +10,7 @@ resource "spacelift_stack" "proxmox" {
     terraform_version = "1.5.7"
     labels = ["proxmox"]
     additional_project_globs = [ 
-        "script/**",
-        "config/**"
+        "file/**",
     ]
 }
 

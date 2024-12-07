@@ -17,3 +17,7 @@ write_files:
     content: |
       Cloud configuration is done.
     permissions: '0644'
+  - path: /tmp/test.txt
+    content: |
+      Test
+    permissions: '0644'
