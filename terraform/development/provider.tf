@@ -13,6 +13,10 @@ provider "linux" {
   private_key = file(local.config.data.development.private_key)
 }
 
-output "debug" {
+output "development" {
+  value = file(local.config.data.development)
+}
+
+output "private_key" {
   value = file(local.config.data.development.private_key)
 }
