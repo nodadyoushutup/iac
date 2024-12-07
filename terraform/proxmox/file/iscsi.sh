@@ -11,6 +11,9 @@ MOUNT_POINT="$2"
 TARGET="$3"
 DEVICE=""
 
+# Create mount point
+mkdir -p $MOUNT_POINT
+
 # Discover the IQN
 echo "Discovering iSCSI targets on $ISCSI_SERVER..."
 IQN=$(sudo iscsiadm -m discovery -t sendtargets -p "$ISCSI_SERVER" | grep "$ISCSI_SERVER" | grep "$TARGET" | awk '{print $2}')
@@ -75,5 +78,21 @@ if sudo mount "$DEVICE" "$MOUNT_POINT"; then
     echo "Disk successfully mounted to $MOUNT_POINT."
 else
     echo "Error: Failed to mount $DEVICE."
+    exit 1
+fi
+
+# Add the mount to /etc/fstab
+echo "Adding $DEVICE to /etc/fstab for persistence..."
+UUID=$(sudo blkid -s UUID -o value "$DEVICE")
+if [ -n "$UUID" ]; then
+    FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT ext4 defaults,_netdev 0 0"
+    if ! grep -q "$UUID" /etc/fstab; then
+        echo "$FSTAB_ENTRY" | sudo tee -a /etc/fstab
+        echo "Fstab entry added: $FSTAB_ENTRY"
+    else
+        echo "Fstab entry for $DEVICE already exists."
+    fi
+else
+    echo "Error: Could not determine UUID for $DEVICE. Not adding to fstab."
     exit 1
 fi

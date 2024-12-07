@@ -17,6 +17,10 @@ write_files:
     content: |
       Cloud configuration is done.
     permissions: '0644'
+  - path: /tmp/iscsi.sh
+    content: |
+      ${iscsi.content}
+    permissions: '0644'
   - path: /etc/fstab
     content: |
       LABEL=cloudimg-rootfs   /        ext4   discard,errors=remount-ro       0 1  
@@ -34,4 +38,5 @@ runcmd:
   - mkdir -p ${share.dest}
   %{ endfor }
   %{ endif }
+  - chmod +x /tmp/iscsi.sh
   - mount -a

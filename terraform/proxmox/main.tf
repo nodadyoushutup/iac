@@ -9,6 +9,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
             username = local.config.data.default.username
             ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
             truenas = local.config.data.truenas
+            iscsi = file("${path.module}/file.iscsi.sh")
         })
     }
 }
