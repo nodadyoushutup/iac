@@ -7,7 +7,8 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         file_name = "cloud-config.yaml"
         data = templatefile("${path.module}/file/cloud-config.yaml.tpl", {
             username = local.config.data.default.username
-            ssh_public_keys = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
+            ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
+            truenas = local.config.data.truenas
         })
     }
 }
