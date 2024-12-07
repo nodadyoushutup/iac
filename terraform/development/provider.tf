@@ -14,7 +14,7 @@ provider "linux" {
 }
 
 output "development" {
-  value = file(local.config.data.development)
+  value = local.config.data.development
 }
 
 output "private_key" {
