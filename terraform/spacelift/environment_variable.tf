@@ -59,7 +59,16 @@ resource "spacelift_environment_variable" "DEFAULT_IP_ADDRESS" {
     name        = "TF_VAR_DEFAULT_IP_ADDRESS" 
     value       = local.default.ip_address
     write_only  = true 
-    description = "Default IP Address"
+    description = "Default external IP address"
+}
+
+resource "spacelift_environment_variable" "DEFAULT_GATEWAY" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_DEFAULT_GATEWAY" 
+    value       = local.default.gateway
+    write_only  = true 
+    description = "Default internal gateway address"
 }
 
 resource "spacelift_environment_variable" "GITHUB_BRANCH" { 

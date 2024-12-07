@@ -17,6 +17,7 @@ locals {
         username = var.DEFAULT_USERNAME
         password = var.DEFAULT_PASSWORD
         ip_address = var.DEFAULT_IP_ADDRESS
+        gateway = var.DEFAULT_GATEWAY
     }
 
     flag = {

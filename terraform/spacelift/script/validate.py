@@ -14,6 +14,8 @@ DEFAULT_PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
 DEFAULT_PUBLIC_KEY_DIR = os.environ.get("TF_VAR_DEFAULT_PUBLIC_KEY_DIR")
 DEFAULT_USERNAME = os.environ.get("TF_VAR_DEFAULT_USERNAME")
 DEFAULT_PASSWORD = os.environ.get("TF_VAR_DEFAULT_PASSWORD")
+DEFAULT_GATEWAY = os.environ.get("TF_VAR_DEFAULT_GATEWAY")
+DEFAULT_IP_ADDRESS = os.environ.get("TF_VAR_DEFAULT_IP_ADDRESS")
 
 CURRENT_FILE_PATH = os.path.abspath(__file__)
 PARENT_DIR = os.path.dirname(os.path.dirname(CURRENT_FILE_PATH))
@@ -92,6 +94,17 @@ def validate_password(password):
         return "Password not set"
     return "valid"
 
+def validate_gateway(gateway):
+    if not gateway:
+        return "Gateway not set"
+    return "valid"
+
+def validate_ip_address(ip_address):
+    if not ip_address:
+        return "IP address not set"
+    return "valid"
+
+
 
 if __name__ == "__main__":
     validation_results = {
@@ -102,6 +115,8 @@ if __name__ == "__main__":
         "default_public_key_dir": validate_public_key_dir(DEFAULT_PUBLIC_KEY_DIR),
         "default_username": validate_username(DEFAULT_USERNAME),
         "default_password": validate_password(DEFAULT_PASSWORD),
+        "default_gateway": validate_gateway(DEFAULT_GATEWAY),
+        "default_ip_address": validate_ip_address(DEFAULT_IP_ADDRESS),
     }
     valid = all(value == "valid" for value in validation_results.values())
     result = {

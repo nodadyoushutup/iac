@@ -2,6 +2,7 @@
 ##################################################################
 default:
   ip_address: &ip_address ${TF_VAR_DEFAULT_IP_ADDRESS}
+  gateway: &ip_address ${TF_VAR_DEFAULT_GATEWAY}
   username: &username ${TF_VAR_DEFAULT_USERNAME}
   password: &password ${TF_VAR_DEFAULT_PASSWORD}
   private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
@@ -24,6 +25,7 @@ truenas:
 development:
   ip_address:
     external: *ip_address
+    gateway: *gateway
     internal: 192.168.1.101
   port:
     external: 10122

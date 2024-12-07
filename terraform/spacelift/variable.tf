@@ -30,7 +30,13 @@ variable "DEFAULT_PASSWORD" {
 
 variable "DEFAULT_IP_ADDRESS" {
   type = string
-  description = "Default IP Address"
+  description = "Default public IP address"
+  default = null
+}
+
+variable "DEFAULT_GATEWAY" {
+  type = string
+  description = "Default internal gateway address"
   default = null
 }
 
