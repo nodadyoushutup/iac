@@ -91,7 +91,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         datastore_id = local.config.data.proxmox.datastore.disk
         # user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         user_account {
-            keys = data.local_file.ssh_public_key
+            keys = [for pk in data.local_file.ssh_public_key : pk.content]
             password = local.config.data.development.password
             username = local.config.data.development.username
         }
