@@ -1,0 +1,82 @@
+---
+##################################################################
+default:
+  ip_address: &ip_address ${TF_VAR_DEFAULT_IP_ADDRESS}
+  gateway: &gateway ${TF_VAR_DEFAULT_GATEWAY}
+  username: &username ${TF_VAR_DEFAULT_USERNAME}
+  password: &password ${TF_VAR_DEFAULT_PASSWORD}
+  private_key: &private_key ${TF_VAR_DEFAULT_PRIVATE_KEY}
+  public_key_dir: &public_key_dir ${TF_VAR_DEFAULT_PUBLIC_KEY_DIR}
+truenas:
+  ip_address:
+    external: *ip_address
+    internal: 192.168.1.100
+  port:
+    external: 10080
+    internal: 80
+  nfs:
+    - src: /mnt/epool/media
+      dest: /mnt/media
+    - src: /mnt/epool/config
+      dest: /mnt/config
+  iscsi:
+    - docker
+##################################################################
+development:
+  ip_address:
+    external: *ip_address
+    gateway: *gateway
+    internal: 192.168.1.101
+  port:
+    external: 10122
+    internal: 22
+  private_key: *private_key
+  username: *username
+  password: *password
+  mac_address: 0a:00:00:00:11:01
+proxmox:
+  auth:
+    password: *password
+    realm: pve
+    username: root
+  datastore:
+    disk: virtualization
+    snippet: local
+    iso: local
+  cloud_image_version: 0.1.4
+  endpoint: 
+    ip_address: *ip_address
+    port: 1086
+    protocol: "https"
+    insecure: true
+  random_vm:
+    enabled: true
+    start: 120
+    end: 199
+  ssh:
+    agent:
+      enabled: true
+      socket: 1022
+    private_key: *private_key
+    node:
+      name: pve
+      address: *ip_address
+      port: 1022
+talos:
+  cluster_name: "talos"
+  control_plane:
+    - ip_address: *ip_address
+      port: 1200
+    - ip_address: *ip_address
+      port: 1201
+    - ip_address: *ip_address
+      port: 1202
+  worker:
+    - ip_address: *ip_address
+      port: 1203
+    - ip_address: *ip_address
+      port: 1204
+    - ip_address: *ip_address
+      port: 1205
+    - ip_address: *ip_address
+      port: 1206
