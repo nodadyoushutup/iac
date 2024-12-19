@@ -43,7 +43,7 @@ proxmox:
     disk: virtualization
     snippet: local
     iso: local
-  cloud_image_version: 0.1.1
+  cloud_image_version: 0.1.4
   endpoint: 
     ip_address: *ip_address
     port: 1086
