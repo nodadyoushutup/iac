@@ -10,10 +10,10 @@
 # }
 
 resource "proxmox_virtual_environment_vm" "development" {
-    depends_on = [
-        proxmox_virtual_environment_download_file.cloud_image,
-        # proxmox_virtual_environment_file.cloud_config
-    ]
+    # depends_on = [
+    #     proxmox_virtual_environment_download_file.cloud_image,
+    #     # proxmox_virtual_environment_file.cloud_config
+    # ]
     
     # REQUIRED
     ################################################
