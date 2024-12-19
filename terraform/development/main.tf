@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     boot_order = ["scsi0"]
 
     cpu {
-        architecture = "x86_64"
+        # architecture = "x86_64"
         cores = 2
         flags = ["+aes"]
         hotplugged = 0
