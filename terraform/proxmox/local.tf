@@ -20,5 +20,5 @@ locals {
 }
 
 output "locals" {
-  value = local.config.proxmox.cloud_image_version
+  value = local.config.data.proxmox.cloud_image_version
 }
