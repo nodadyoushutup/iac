@@ -19,6 +19,6 @@ locals {
   }
 }
 
-# output "locals" {
-#   value = local.public_key
-# }
+output "locals" {
+  value = local.config.proxmox.cloud_image_version
+}
