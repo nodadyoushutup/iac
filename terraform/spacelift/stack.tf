@@ -25,9 +25,9 @@ resource "spacelift_stack" "development" {
     runner_image = local.spacelift.runner_image
     terraform_version = "1.5.7"
     labels = ["development"]
-    # additional_project_globs = [ 
-    #     "file/**",
-    # ]
+    additional_project_globs = [ 
+        "config/**",
+    ]
 }
 
 # resource "spacelift_stack" "debug" {
