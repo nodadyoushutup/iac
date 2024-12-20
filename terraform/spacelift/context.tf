@@ -12,7 +12,7 @@ resource "spacelift_context" "virtual_machine" {
     name = "virtual_machine"
     description = "Virtual machine"
     space_id = "root"
-    before_plan = [
+    before_init = [
         "terraform state rm linux_file.test"
     ]
 }
