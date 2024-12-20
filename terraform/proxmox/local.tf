@@ -9,6 +9,7 @@ locals {
     username = var.DEFAULT_USERNAME
     password = var.DEFAULT_PASSWORD
     ip_address = var.DEFAULT_IP_ADDRESS
+    gateway = var.DEFAULT_GATEWAY
   }
   public_key = [for file in fileset(local.config.data.default.public_key_dir, "*.pub") : abspath("${local.config.data.default.public_key_dir}/${file}")]
   runcmd_base = ["echo 'Base cloud-config commands'"]
@@ -17,8 +18,4 @@ locals {
       "echo 'Docker runcmd' > /tmp/docker.txt"
     ])
   }
-}
-
-output "locals" {
-  value = local.config.data.proxmox.cloud_image_version
 }

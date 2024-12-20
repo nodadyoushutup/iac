@@ -14,6 +14,7 @@ provider "proxmox" {
   insecure  = local.config.data.proxmox.endpoint.insecure
   password = local.config.data.proxmox.auth.password
   username = "${local.config.data.proxmox.auth.username}@${local.config.data.proxmox.auth.realm}"
+  random_vm_ids = true
   ssh {
     agent = local.config.data.proxmox.ssh.agent.enabled
     agent_socket = local.config.data.proxmox.ssh.agent.socket
