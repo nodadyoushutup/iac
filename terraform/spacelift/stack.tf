@@ -38,7 +38,7 @@ resource "spacelift_stack" "init" {
     name = "init"
     project_root = "ansible/init"
     repository = local.github.repository
-    runner_image = local.spacelift.runner_image
+    # runner_image = local.spacelift.runner_image
     labels = ["ansible", "init"]
     ansible {
         playbook = "main.yaml"
