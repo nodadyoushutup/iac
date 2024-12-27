@@ -89,11 +89,20 @@ resource "spacelift_environment_variable" "GITHUB_REPOSITORY" {
     description = "Github repository"
 }
 
-resource "spacelift_environment_variable" "SPACELIFT_RUNNER_IMAGE" { 
+resource "spacelift_environment_variable" "SPACELIFT_RUNNER_IMAGE_TERRAFORM" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id
     name        = "TF_VAR_SPACELIFT_RUNNER_IMAGE" 
-    value       = local.spacelift.runner_image
+    value       = local.spacelift.runner_image.terraform
     write_only  = false 
-    description = "Spacelift runner image"
+    description = "Spacelift runner image for Terraform"
+}
+
+resource "spacelift_environment_variable" "SPACELIFT_RUNNER_IMAGE_ANSIBLE" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_SPACELIFT_RUNNER_IMAGE" 
+    value       = local.spacelift.runner_image.terraform
+    write_only  = false 
+    description = "Spacelift runner image for Ansible"
 }
