@@ -73,5 +73,5 @@ variable "FLAG_DEPLOY" {
 variable "INVENTORY_PATH" {
   type = string
   description = "Ansible Inventory path"
-  default = "./inventory.sub.ini"
+  default = "/mnt/workspace/source/ansible/inventory.ini"
 }
