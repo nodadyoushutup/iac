@@ -1,10 +1,12 @@
 ---
-- name: Hello World example
+- name: List directory contents
   hosts: localhost
   become: false
   gather_facts: false
 
   tasks:
-    - name: Print Hello World
-      debug:
-        msg: "Hello World"
+    - name: Show current directory contents
+      command: ls -la .
+
+    - name: Show parent directory contents
+      command: ls -la ..
