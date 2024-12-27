@@ -27,3 +27,13 @@ resource "spacelift_context_attachment" "config_development" {
     stack_id   = spacelift_stack.development.id
     priority   = 0
 }
+
+resource "spacelift_context_attachment" "config_init" {
+    depends_on = [
+        spacelift_context.config,
+        spacelift_stack.init
+    ]
+    context_id = spacelift_context.config.id
+    stack_id   = spacelift_stack.init.id
+    priority   = 0
+}
