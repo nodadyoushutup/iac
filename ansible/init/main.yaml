@@ -6,7 +6,4 @@
 
   tasks:
     - name: Show current directory contents
-      command: ls -la .
-
-    - name: Show parent directory contents
-      command: ls -la ..
+      command: cat inventory.sub.ini
