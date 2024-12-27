@@ -1,18 +1,25 @@
----
-- name: Load variables and debug
+- name: Conditional approach
   hosts: all
   become: false
   gather_facts: false
 
   tasks:
-    - name: Include YAML variables from local file
+    - name: Ping host to see if it's reachable
+      ping:
+      register: ping_result
+      ignore_unreachable: true   # This ensures the play doesn't die if host is offline
+
+    - name: Include YAML variables only if host is reachable
       include_vars:
         file: "{{ playbook_dir }}/config.sub.yaml"
         name: config
+      when: ping_result.ping is defined and ping_result.ping == 'pong'
 
-    - name: Print the loaded variables
+    - name: Debug variables
       debug:
         var: config.default
+      when: ping_result.ping is defined and ping_result.ping == 'pong'
 
-    - name: See files
+    - name: List directory contents
       command: ls -la
+      when: ping_result.ping is defined and ping_result.ping == 'pong'
