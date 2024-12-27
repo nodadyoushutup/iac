@@ -1,4 +1,5 @@
-- name: Free strategy with ping check
+---
+- name: Free strategy with ping check and custom "skip reason"
   hosts: all
   strategy: free
   gather_facts: false
@@ -7,9 +8,14 @@
     - name: Ping each host
       ping:
       register: ping_result
-      ignore_unreachable: true
+      ignore_unreachable: true  # Don't fail the play if a host is unreachable
 
     - name: Run only if host is reachable
       debug:
         msg: "Host is reachable"
       when: ping_result.ping is defined and ping_result.ping == 'pong'
+
+    - name: Explain why tasks are effectively skipped for this host
+      debug:
+        msg: "Host is unreachable, skipping tasks."
+      when: ping_result.ping is not defined or ping_result.ping != 'pong'
