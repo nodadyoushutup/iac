@@ -1,9 +1,9 @@
 ---
-- name: List directory contents
-  hosts: localhost
+- name: Debug
+  hosts: all
   become: false
   gather_facts: false
 
   tasks:
-    - name: Show current directory contents
+    - name: Debug
       command: cat inventory.sub.ini
