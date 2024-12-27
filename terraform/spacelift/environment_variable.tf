@@ -16,6 +16,15 @@ resource "spacelift_environment_variable" "CONFIG_PATH_CONFIG" {
     description = "Configuration path"
 }
 
+resource "spacelift_environment_variable" "INVENTORY_PATH" { 
+    depends_on = [spacelift_context.config]
+    context_id  = spacelift_context.config.id
+    name        = "TF_VAR_INVENTORY_PATH" 
+    value       = local.config.path
+    write_only  = false 
+    description = "Inevntory path"
+}
+
 resource "spacelift_environment_variable" "DEFAULT_PRIVATE_KEY" { 
     depends_on = [spacelift_context.config]
     context_id  = spacelift_context.config.id

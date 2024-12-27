@@ -69,3 +69,9 @@ variable "FLAG_DEPLOY" {
   description = "Deployment ID"
   default = 0
 }
+
+variable "INVENTORY_PATH" {
+  type = string
+  description = "Ansible Inventory path"
+  default = "./inventory.sub.ini"
+}

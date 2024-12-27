@@ -4,6 +4,7 @@ resource "spacelift_context" "config" {
     space_id = "root"
     before_init = [
         "envsubst < ${local.config.path} > ./config.sub.yaml",
+        "envsubst < ${local.inventory.path} > ./inventory.sub.ini",
         "chmod 600 ${local.default.private_key}",
     ]
 }

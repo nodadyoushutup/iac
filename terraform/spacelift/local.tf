@@ -4,6 +4,10 @@ locals {
         data = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
     }
 
+    inventory = {
+        path = var.INVENTORY_PATH
+    }
+
     base64 = {
         private_key = try(
         filebase64(var.DEFAULT_PRIVATE_KEY), 
