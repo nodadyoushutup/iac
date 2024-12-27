@@ -1,4 +1,4 @@
-variable "CONFIG_PATH_CONFIG" {
+variable "CONFIG_PATH" {
   type = string
   description = "Configuration path"
   default = "/mnt/workspace/source/terraform/spacelift/config/config.yaml"

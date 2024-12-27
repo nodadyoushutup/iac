@@ -1,6 +1,6 @@
 locals {
   config = {
-    path = var.CONFIG_PATH_CONFIG         
+    path = var.CONFIG_PATH         
     data = try(yamldecode(file("${path.module}/config.sub.yaml")), {})
   }
   default = {

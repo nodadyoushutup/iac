@@ -8,7 +8,7 @@ import re
 from pathlib import Path
 
 
-CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH_CONFIG")
+CONFIG_ORIG_PATH = os.environ.get("TF_VAR_CONFIG_PATH")
 
 DEFAULT_PRIVATE_KEY = os.environ.get("TF_VAR_DEFAULT_PRIVATE_KEY")
 DEFAULT_PUBLIC_KEY_DIR = os.environ.get("TF_VAR_DEFAULT_PUBLIC_KEY_DIR")
