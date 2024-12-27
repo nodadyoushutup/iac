@@ -6,7 +6,7 @@ resource "spacelift_stack" "proxmox" {
     name = "proxmox"
     project_root = "terraform/proxmox"
     repository = local.github.repository
-    runner_image = local.spacelift.runner_image
+    runner_image = local.spacelift.runner_image.terraform
     terraform_version = "1.5.7"
     labels = ["terraform", "proxmox"]
     additional_project_globs = [ 
