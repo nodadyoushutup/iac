@@ -7,7 +7,7 @@
   tasks:
     - name: Include YAML variables from local file
       include_vars:
-        file: "{{ playbook_dir }}/inventory.sub.ini"
+        file: "{{ playbook_dir }}/config.sub.yaml"
         name: config
 
     - name: Print the loaded variables
