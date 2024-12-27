@@ -1,25 +1,15 @@
-- name: Conditional approach
+- name: Free strategy with ping check
   hosts: all
-  become: false
+  strategy: free
   gather_facts: false
 
   tasks:
-    - name: Ping host to see if it's reachable
+    - name: Ping each host
       ping:
       register: ping_result
-      ignore_unreachable: true   # This ensures the play doesn't die if host is offline
+      ignore_unreachable: true
 
-    - name: Include YAML variables only if host is reachable
-      include_vars:
-        file: "{{ playbook_dir }}/config.sub.yaml"
-        name: config
-      when: ping_result.ping is defined and ping_result.ping == 'pong'
-
-    - name: Debug variables
+    - name: Run only if host is reachable
       debug:
-        var: config.default
-      when: ping_result.ping is defined and ping_result.ping == 'pong'
-
-    - name: List directory contents
-      command: ls -la
+        msg: "Host is reachable"
       when: ping_result.ping is defined and ping_result.ping == 'pong'
