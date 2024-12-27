@@ -1,9 +1,15 @@
 ---
-- name: Debug
+- name: Load YAML variables and debug
   hosts: all
   become: false
   gather_facts: false
 
   tasks:
-    - name: Debug
-      command: ls -la
+    - name: Include YAML variables from environment path
+      include_vars:
+        file: "{{ lookup('env', 'TF_VAR_CONFIG_PATH') }}"
+        name: config
+
+    - name: Print all variables loaded from the YAML file
+      debug:
+        var: config
