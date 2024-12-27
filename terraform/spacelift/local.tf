@@ -30,6 +30,9 @@ locals {
     }
 
     spacelift = {
-        runner_image = var.SPACELIFT_RUNNER_IMAGE
+        runner_image = {
+            terraform = var.SPACELIFT_RUNNER_IMAGE_TERRAFORM
+            ansible = var.SPACELIFT_RUNNER_IMAGE_ANSIBLE
+        }
     }
 }

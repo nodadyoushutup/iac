@@ -52,10 +52,16 @@ variable "GITHUB_REPOSITORY" {
   default = null
 }
 
-variable "SPACELIFT_RUNNER_IMAGE" {
+variable "SPACELIFT_RUNNER_IMAGE_TERRAFORM" {
   type = string
-  description = "Spacelift runner image"
-  default = "ghcr.io/nodadyoushutup/spacelift-runner:latest"
+  description = "Spacelift runner image for Terraform"
+  default = "ghcr.io/nodadyoushutup/spacelift-runner-terraform:latest"
+}
+
+variable "SPACELIFT_RUNNER_IMAGE_ANSIBLE" {
+  type = string
+  description = "Spacelift runner image for Ansible"
+  default = "ghcr.io/nodadyoushutup/spacelift-runner-ansible:latest"
 }
 
 variable "FLAG_DEPLOY" {

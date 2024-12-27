@@ -22,7 +22,7 @@ resource "spacelift_stack" "development" {
     name = "development"
     project_root = "terraform/development"
     repository = local.github.repository
-    runner_image = local.spacelift.runner_image
+    runner_image = local.spacelift.runner_image.terraform
     terraform_version = "1.5.7"
     labels = ["terraform", "development"]
     # additional_project_globs = [ 
@@ -38,7 +38,7 @@ resource "spacelift_stack" "init" {
     name = "init"
     project_root = "ansible/init"
     repository = local.github.repository
-    # runner_image = local.spacelift.runner_image
+    runner_image = local.spacelift.runner_image.ansible
     labels = ["ansible", "init"]
     ansible {
         playbook = "main.yaml"
