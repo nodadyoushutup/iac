@@ -1,15 +1,15 @@
 ---
-- name: Load YAML variables and debug
+- name: Load variables and debug
   hosts: all
   become: false
   gather_facts: false
 
   tasks:
-    - name: Include YAML variables from environment path
+    - name: Include YAML variables from local file
       include_vars:
-        file: "{{ lookup('env', 'TF_VAR_CONFIG_PATH') }}"
+        file: "{{ playbook_dir }}/inventory.sub.ini"
         name: config
 
-    - name: Print all variables loaded from the YAML file
+    - name: Print the loaded variables
       debug:
         var: config
