@@ -1,21 +1,21 @@
 ---
-- name: Free strategy with ping check and custom "skip reason"
+- name: Init
   hosts: all
   strategy: free
   gather_facts: false
 
   tasks:
-    - name: Ping each host
+    - name: Load config
+      include_vars:
+        file: "{{ playbook_dir }}/config.sub.yaml"
+        name: config
+
+    - name: Ping host
       ping:
       register: ping_result
-      ignore_unreachable: true  # Don't fail the play if a host is unreachable
+      ignore_unreachable: true
 
-    - name: Run only if host is reachable
-      debug:
-        msg: "Host is reachable"
+    - name: Init fstab
+      import_role:
+        name: ../role/fstab
       when: ping_result.ping is defined and ping_result.ping == 'pong'
-
-    - name: Explain why tasks are effectively skipped for this host
-      debug:
-        msg: "Host is unreachable, skipping tasks."
-      when: ping_result.ping is not defined or ping_result.ping != 'pong'
