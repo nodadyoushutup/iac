@@ -6,4 +6,4 @@
 
   tasks:
     - name: Debug
-      command: cat inventory.sub.ini
+      command: ls -la
