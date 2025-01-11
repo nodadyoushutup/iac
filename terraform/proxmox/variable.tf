@@ -1,41 +1,19 @@
-variable "CONFIG_PATH" {
+variable "PROXMOX_VE_USERNAME" {
   type = string
-  description = "Configuration path"
-  default = "/mnt/workspace/source/terraform/spacelift/config/config.yaml"
-}
-
-variable "DEFAULT_PRIVATE_KEY" {
-  type = string
-  description = "Default private key"
-  default = "/mnt/workspace/id_rsa"
-}
-
-variable "DEFAULT_PUBLIC_KEY_DIR" {
-  type = string
-  description = "Public SSH keys directory"
-  default = "/mnt/workspace/"
-}
-
-variable "DEFAULT_USERNAME" {
-  type = string
-  description = "Default username"
   default = null
 }
 
-variable "DEFAULT_PASSWORD" {
+variable "PROXMOX_VE_PASSWORD" {
   type = string
-  description = "Default password"
   default = null
 }
 
-variable "DEFAULT_IP_ADDRESS" {
+variable "PROXMOX_VE_ENDPOINT" {
   type = string
-  description = "Default IP Address"
   default = null
 }
 
-variable "DEFAULT_GATEWAY" {
+variable "PROXMOX_VE_SSH_NODE_ADDRESS" {
   type = string
-  description = "Default internal gateway address"
   default = null
 }

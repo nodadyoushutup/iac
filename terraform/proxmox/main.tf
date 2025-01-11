@@ -1,27 +1,12 @@
-# resource "proxmox_virtual_environment_file" "cloud_config" {
-#     content_type = "snippets"
-#     datastore_id = local.config.data.proxmox.datastore.snippet
-#     node_name = local.config.data.proxmox.ssh.node.name
-
-#     source_raw {
-#         file_name = "cloud-config.yaml"
-#         data = templatefile("${path.module}/file/cloud-config.yaml.tpl", {
-#             username = local.config.data.default.username
-#             ssh_public_key = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
-#             hashed_password = local.hashed_password
-#         })
-#     }
-# }
-
 resource "proxmox_virtual_environment_vm" "development" {
-    depends_on = [
-        proxmox_virtual_environment_download_file.cloud_image,
-        # proxmox_virtual_environment_file.cloud_config
-    ]
+    # depends_on = [
+    #     proxmox_virtual_environment_download_file.cloud_image,
+    #     # proxmox_virtual_environment_file.cloud_config
+    # ]
     
     # REQUIRED
     ################################################
-    node_name = local.config.data.proxmox.ssh.node.name
+    node_name = "pve"
 
     # OPTIONAL
     ################################################
@@ -44,7 +29,7 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     cpu {
         # architecture = "x86_64" # Can only be set running terraform as root
-        cores = 2
+        cores = 4
         flags = ["+aes"]
         hotplugged = 0
         limit = 0
@@ -55,18 +40,17 @@ resource "proxmox_virtual_environment_vm" "development" {
         affinity = null
     }
 
-    description = "module-debug"
+    description = "cicd"
 
     disk {
         aio = "io_uring"
         backup = true
         cache = "none"
-        datastore_id = local.config.data.proxmox.datastore.disk
+        datastore_id = "virtualization"
         path_in_datastore = null
         discard = "on"
         file_format = "raw"
-        # file_id = "${local.config.data.proxmox.datastore.iso}:iso/cloud_image_x86_64_jammy.img"
-        file_id = proxmox_virtual_environment_download_file.cloud_image.id
+        file_id = "local:iso/cloud_image_x86_64_jammy.img"
         interface = "scsi0"
         iothread = false
         replicate = true
@@ -86,19 +70,19 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     efi_disk {
-        datastore_id = local.config.data.proxmox.datastore.disk
+        datastore_id = "virtualization"
         file_format = "raw"
         type = "4m"
         pre_enrolled_keys = false
     }
 
     initialization {
-        datastore_id = local.config.data.proxmox.datastore.disk
+        datastore_id = "virtualization"
         # user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         user_account {
-            keys = [for key in data.local_file.ssh_public_key : trimspace(key.content)]
-            password = local.config.data.development.password
-            username = local.config.data.development.username
+            keys = []
+            password = "ubuntu"
+            username = "ubuntu"
         }
         ip_config {
             ipv4 {
@@ -128,7 +112,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = local.config.data.development.mac_address
+        mac_address = "0a:00:00:00:11:01"
         model = "virtio"
         mtu = null
         queues = null
@@ -145,8 +129,10 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     pool_id = "development"
 
+    started = true
+
     startup {
-        order = 1
+        order = 2
         up_delay = 0
         down_delay = 0
     }
