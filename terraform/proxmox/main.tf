@@ -146,7 +146,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = "0a:00:00:00:11:01"
+        mac_address = "0a:00:00:00:11:02"
         model = "virtio"
         mtu = null
         queues = null
