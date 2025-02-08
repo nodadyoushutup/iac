@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_download_file" "cloud_image_jammy_0_1_12" 
   url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.12/cloud-image-x86-64-jammy-0.1.12.img"
 }
 
-resource "proxmox_virtual_environment_file" "cicd_cloud_config" {
+resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
   node_name    = "pve"
@@ -30,6 +30,6 @@ resource "proxmox_virtual_environment_file" "cicd_cloud_config" {
       - echo "done" > /tmp/cloud-config.done
     EOF
 
-    file_name = "cicd-cloud-config.yaml"
+    file_name = "cloud-config.yaml"
   }
 }
