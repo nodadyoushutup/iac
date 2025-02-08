@@ -4,22 +4,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // This will check out the repo into the directory you set (terraform/proxmox)
                 checkout scm
-            }
-        }
-        stage('Debug') {
-            steps {
-                // Print the current directory and list files to verify where the code is
-                sh 'pwd'
-                sh 'ls -la'
-                // Optionally list the contents of the checkout directory
-                sh 'ls -la terraform/proxmox'
             }
         }
         stage('Terraform Init') {
             steps {
-                // Change directory to where the .tf files are located
                 dir('terraform/proxmox') {
                     echo 'Initializing Terraform...'
                     sh 'terraform init'
