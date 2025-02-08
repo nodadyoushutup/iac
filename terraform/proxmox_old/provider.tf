@@ -14,11 +14,8 @@ provider "proxmox" {
   insecure = true
   ssh {
     agent = true
-    # agent_socket = 1022
-    username = var.PROXMOX_VE_SSH_USERNAME
-    private_key = file(var.SSH_PRIVATE_KEY)
     node {
-      name    = var.PROXMOX_VE_SSH_NODE_NAME
+      name    = "pve"
       address = var.PROXMOX_VE_SSH_NODE_ADDRESS
     }
   }
