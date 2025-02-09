@@ -15,6 +15,7 @@ resource "docker_container" "grafana" {
     image = docker_image.grafana.image_id
     restart = "unless-stopped"
     privileged = true
+    wait = true
 
     env = [
         "GF_SECURITY_ADMIN_USER=grafana",
@@ -29,5 +30,11 @@ resource "docker_container" "grafana" {
     volumes {
         volume_name = docker_volume.grafana.name
         container_path = "/var/lib/grafana"
+    }
+
+    healthcheck {
+        test = ["CMD", "curl", "-f", "http://192.168.1.102:3000/healthz"]
+        interval = "5s"
+        retries = 12
     }
 }
