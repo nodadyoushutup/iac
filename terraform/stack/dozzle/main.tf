@@ -2,7 +2,7 @@ resource "docker_image" "dozzle" {
   name = "amir20/dozzle:v8.10.6"
 }
 
-resource "docker_container" "jenkins" {
+resource "docker_container" "dozzle" {
   depends_on = [docker_image.dozzle]
   name  = "dozzle"
   image = docker_image.dozzle.image_id
