@@ -3,7 +3,7 @@ resource "docker_image" "dozzle" {
 }
 
 resource "docker_container" "jenkins" {
-  depends_on = [docker_volume.dozzle]
+  depends_on = [docker_image.dozzle]
   name  = "dozzle"
   image = docker_image.dozzle.image_id
   restart = "unless-stopped"
