@@ -146,3 +146,27 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     vm_id = 1103
 }
+
+resource "null_resource" "exec" {
+    depends_on = [proxmox_virtual_environment_vm.development]
+    triggers = {
+        always_run = timestamp()
+    }
+  
+    connection {
+        type = local.exec.connection.development.type
+        user = local.exec.connection.development.user
+        private_key = local.exec.connection.development.private_key
+        host = local.exec.connection.development.host
+        port = local.exec.connection.development.port
+    }
+
+    provisioner "remote-exec" {
+        inline = concat(
+            local.exec.inline.hostname.development, 
+            local.exec.inline.hostname.restart, 
+            local.exec.inline.gitconfig,
+            local.exec.inline.private_key
+        )
+    }
+}
