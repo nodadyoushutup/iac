@@ -38,6 +38,16 @@ variable "VIRTUAL_MACHINE_USERNAME_GLOBAL" {
   default = null
 }
 
+variable "VIRTUAL_MACHINE_DATASTORE_ID_DISK" {
+  type = string
+  default = null
+}
+
+variable "VIRTUAL_MACHINE_DATASTORE_ID_ISO" {
+  type = string
+  default = null
+}
+
 variable "VIRTUAL_MACHINE_IP_ADDRESS_DOCKER" {
   type = string
   default = null

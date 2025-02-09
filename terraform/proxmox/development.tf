@@ -47,7 +47,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         aio = "io_uring"
         backup = true
         cache = "none"
-        datastore_id = "virtualization"
+        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
         path_in_datastore = null
         discard = "on"
         file_format = "raw"
@@ -71,14 +71,14 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     efi_disk {
-        datastore_id = "virtualization"
+        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
         file_format = "raw"
         type = "4m"
         pre_enrolled_keys = false
     }
 
     initialization {
-        datastore_id = "virtualization"
+        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
         user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         
         ip_config {
