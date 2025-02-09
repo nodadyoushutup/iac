@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_vm" "development" {
+resource "proxmox_virtual_environment_vm" "docker" {
     depends_on = [
         proxmox_virtual_environment_download_file.cloud_image,
         proxmox_virtual_environment_file.cloud_config
@@ -30,7 +30,7 @@ resource "proxmox_virtual_environment_vm" "development" {
 
     cpu {
         # architecture = "x86_64" # Can only be set running terraform as root
-        cores = 4
+        cores = var.VIRTUAL_MACHINE_DOCKER_CPU_CORES
         flags = ["+aes"]
         hotplugged = 0
         limit = 0
@@ -41,13 +41,13 @@ resource "proxmox_virtual_environment_vm" "development" {
         affinity = null
     }
 
-    description = "development"
+    description = "docker"
 
     disk {
         aio = "io_uring"
         backup = true
         cache = "none"
-        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
+        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         path_in_datastore = null
         discard = "on"
         file_format = "raw"
@@ -56,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         iothread = false
         replicate = true
         serial = null
-        size = 10
+        size = var.VIRTUAL_MACHINE_DOCKER_DISK_SIZE
         # speed = {
         #     iops_read = null 
         #     iops_read_burstable = null
@@ -71,20 +71,20 @@ resource "proxmox_virtual_environment_vm" "development" {
     }
 
     efi_disk {
-        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
+        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         file_format = "raw"
         type = "4m"
         pre_enrolled_keys = false
     }
 
     initialization {
-        datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_DISK
+        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         
         ip_config {
             ipv4 {
-                address = "${var.VIRTUAL_MACHINE_IP_ADDRESS_DEVELOPMENT}/24"
-                gateway = "192.168.1.1"
+                address = "${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}/24"
+                gateway = var.VIRTUAL_MACHINE_GLOBAL_GATEWAY
             }
             ipv6 {
                 address = "dhcp"
@@ -95,21 +95,21 @@ resource "proxmox_virtual_environment_vm" "development" {
     machine = "q35"
 
     memory {
-        dedicated = 16384
+        dedicated = var.VIRTUAL_MACHINE_DOCKER_MEMORY_DEDICATED
         floating = 0
         shared = 0
         hugepages = null
         keep_hugepages = null
     }
 
-    name = "development"
+    name = "docker"
 
     network_device {
         bridge = "vmbr0"
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = "0a:00:00:00:11:03"
+        mac_address = var.VIRTUAL_MACHINE_DOCKER_MAC_ADDRESS
         model = "virtio"
         mtu = null
         queues = null
@@ -124,7 +124,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         type = "l26"
     }
 
-    # pool_id = "development"
+    # pool_id = "docker"
 
     started = true
 
@@ -134,7 +134,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         down_delay = 0
     }
 
-    tags = ["terraform", "cloud-image", "development"]
+    tags = ["terraform", "cloud-image", "docker"]
 
     stop_on_destroy = true
 
@@ -144,26 +144,26 @@ resource "proxmox_virtual_environment_vm" "development" {
         clipboard = "vnc"
     }
 
-    vm_id = var.VIRTUAL_MACHINE_VMID_DEVELOPMENT
+    vm_id = var.VIRTUAL_MACHINE_DOCKER_VMID
 }
 
-resource "null_resource" "exec_development" {
-    depends_on = [proxmox_virtual_environment_vm.development]
+resource "null_resource" "exec_docker" {
+    depends_on = [proxmox_virtual_environment_vm.docker]
     triggers = {
         always_run = timestamp()
     }
   
     connection {
-        type = local.exec.connection.development.type
-        user = local.exec.connection.development.user
-        private_key = local.exec.connection.development.private_key
-        host = local.exec.connection.development.host
-        port = local.exec.connection.development.port
+        type = local.exec.connection.docker.type
+        user = local.exec.connection.docker.user
+        private_key = local.exec.connection.docker.private_key
+        host = local.exec.connection.docker.host
+        port = local.exec.connection.docker.port
     }
 
     provisioner "remote-exec" {
         inline = concat(
-            local.exec.inline.hostname.development, 
+            local.exec.inline.hostname.docker, 
             local.exec.inline.hostname.restart, 
             local.exec.inline.gitconfig,
             local.exec.inline.private_key

@@ -24,16 +24,16 @@ locals {
         connection = {
             docker = {
                 type = "ssh"
-                user = var.VIRTUAL_MACHINE_USERNAME_GLOBAL
+                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
                 private_key = file(var.SSH_PRIVATE_KEY)
-                host = var.VIRTUAL_MACHINE_IP_ADDRESS_DOCKER
+                host = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
                 port = 22
             }
             development = {
                 type = "ssh"
-                user = var.VIRTUAL_MACHINE_USERNAME_GLOBAL
+                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
                 private_key = file(var.SSH_PRIVATE_KEY)
-                host = var.VIRTUAL_MACHINE_IP_ADDRESS_DEVELOPMENT
+                host = var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
                 port = 22
             }
         }
@@ -47,8 +47,8 @@ locals {
                 "cat <<EOF > /tmp/.gitconfig",
                 "${local.template.gitconfig}",
                 "EOF",
-                "cp -p /tmp/.gitconfig /home/${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}/.gitconfig",
-                "chown ${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}:${var.VIRTUAL_MACHINE_USERNAME_GLOBAL} /home/${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}/.gitconfig",
+                "cp -p /tmp/.gitconfig /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.gitconfig",
+                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.gitconfig",
                 "rm -rf /tmp/.gitconfig",
             ]
             private_key = [
@@ -56,9 +56,9 @@ locals {
                 "${local.template.private_key}",
                 "EOF",
                 "chmod 600 /tmp/id_rsa",
-                "cp -p /tmp/id_rsa /home/${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}/.ssh/id_rsa",
-                "chown ${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}:${var.VIRTUAL_MACHINE_USERNAME_GLOBAL} /home/${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}/.ssh/id_rsa",
-                "chmod 600 /home/${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}/.ssh/id_rsa",
+                "cp -p /tmp/id_rsa /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
+                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
+                "chmod 600 /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
                 "rm -rf /tmp/id_rsa",
             ]
         }   
