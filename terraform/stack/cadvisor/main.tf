@@ -2,7 +2,7 @@ resource "docker_image" "cadvisor" {
     name = "gcr.io/cadvisor/cadvisor:v0.49.2"
 }
 
-resource "docker_container" "jenkins" {
+resource "docker_container" "cadvisor" {
     depends_on = [docker_image.cadvisor]
     name  = "cadvisor"
     image = docker_image.cadvisor.image_id
