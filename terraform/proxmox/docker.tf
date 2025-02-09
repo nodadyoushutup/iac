@@ -146,3 +146,27 @@ resource "proxmox_virtual_environment_vm" "docker" {
 
     vm_id = 1102
 }
+
+resource "null_resource" "exec" {
+    depends_on = [proxmox_virtual_environment_vm.docker]
+    triggers = {
+        always_run = timestamp()
+    }
+  
+    connection {
+        type = local.exec.connection.docker.type
+        user = local.exec.connection.docker.user
+        private_key = local.exec.connection.docker.private_key
+        host = local.exec.connection.docker.host
+        port = local.exec.connection.docker.port
+    }
+
+    provisioner "remote-exec" {
+        inline = concat(
+            local.exec.inline.hostname.docker, 
+            local.exec.inline.hostname.restart, 
+            local.exec.inline.gitconfig,
+            local.exec.inline.private_key
+        )
+    }
+}
