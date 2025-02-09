@@ -9,7 +9,7 @@ resource "docker_container" "cadvisor" {
     restart = "unless-stopped"
     privileged = true
     wait = true
-    network_mode = "host"
+    network_mode = "bridge"
   
     ports {
         internal = "8080"
@@ -46,7 +46,7 @@ resource "docker_container" "cadvisor" {
     }
 
     healthcheck {
-        test = ["CMD", "curl", "-f", "http://localhost:8082/healthz"]
+        test = ["CMD", "curl", "-f", "http://192.168.1.102:8082/healthz"]
         interval = "5s"
         retries = 12
     }
