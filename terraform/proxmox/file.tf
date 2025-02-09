@@ -1,15 +1,15 @@
 resource "proxmox_virtual_environment_download_file" "cloud_image" {
   content_type = "iso"
-  datastore_id = "local"
-  node_name = "pve"
+  datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_ISO
+  node_name = var.PROXMOX_VE_SSH_NODE_NAME
   overwrite = true
   url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.12/cloud-image-x86-64-jammy-0.1.12.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
-  datastore_id = "local"
-  node_name    = "pve"
+  datastore_id = var.VIRTUAL_MACHINE_DATASTORE_ID_SNIPPET
+  node_name = var.PROXMOX_VE_SSH_NODE_NAME
 
   source_raw {
     data = <<-EOF
