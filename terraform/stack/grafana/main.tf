@@ -8,7 +8,8 @@ resource "docker_volume" "grafana" {
 
 resource "docker_container" "grafana" {
     depends_on = [
-        docker_image.grafana
+        docker_image.grafana,
+        docker_volume.grafana
     ]
     name  = "grafana"
     image = docker_image.grafana.image_id
