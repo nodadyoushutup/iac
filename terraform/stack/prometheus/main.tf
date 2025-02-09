@@ -37,7 +37,7 @@ resource "docker_container" "prometheus" {
   }
 
   volumes {
-    host_path = "./prometheus.yml"
+    host_path = "/home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
 
