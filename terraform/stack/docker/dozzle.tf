@@ -7,7 +7,7 @@ resource "docker_container" "jenkins" {
   name  = "dozzle"
   image = docker_image.dozzle.image_id
   restart = "unless-stopped"
-#   wait = true
+  wait = true
   
   ports {
     internal = "8080"
