@@ -144,7 +144,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         clipboard = "vnc"
     }
 
-    vm_id = 1103
+    vm_id = var.VIRTUAL_MACHINE_VMID_DEVELOPMENT
 }
 
 resource "null_resource" "exec_development" {

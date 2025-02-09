@@ -58,7 +58,6 @@ variable "VIRTUAL_MACHINE_DATASTORE_ID_SNIPPET" {
   default = null
 }
 
-
 variable "VIRTUAL_MACHINE_IP_ADDRESS_DOCKER" {
   type = string
   default = null
@@ -69,13 +68,23 @@ variable "VIRTUAL_MACHINE_IP_ADDRESS_DEVELOPMENT" {
   default = null
 }
 
-variable "NAS_IP_ADDRESS" {
+variable "VIRTUAL_MACHINE_IP_ADDRESS_TRUENAS" {
   type = string
   default = null
 }
 
-variable "NAS_NFS_MEDIA" {
+variable "VIRTUAL_MACHINE_NFS_MEDIA" {
   type = string
+  default = null
+}
+
+variable "VIRTUAL_MACHINE_VMID_DOCKER" {
+  type = number
+  default = null
+}
+
+variable "VIRTUAL_MACHINE_VMID_DEVELOPMENT" {
+  type = number
   default = null
 }
 

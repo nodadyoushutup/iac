@@ -144,7 +144,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
         clipboard = "vnc"
     }
 
-    vm_id = 1102
+    vm_id = var.VIRTUAL_MACHINE_VMID_DOCKER
 }
 
 resource "null_resource" "exec_docker" {
