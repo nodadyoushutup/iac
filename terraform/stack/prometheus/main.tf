@@ -39,4 +39,10 @@ resource "docker_container" "prometheus" {
     host_path = "/home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
+
+  healthcheck {
+    test = ["CMD", "curl", "-f", "http://192.168.1.102:9090/-/healthy"]
+    interval = "5s"
+    retries = 12
+  }
 }
