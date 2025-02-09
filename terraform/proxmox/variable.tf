@@ -33,6 +33,11 @@ variable "PROXMOX_VE_SSH_NODE_NAME" {
   default = null
 }
 
+variable "PROXMOX_VE_CLOUD_IMAGE_URL" {
+  type = string
+  default = null
+}
+
 variable "VIRTUAL_MACHINE_USERNAME_GLOBAL" {
   type = string
   default = null

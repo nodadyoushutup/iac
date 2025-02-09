@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
   node_name = var.PROXMOX_VE_SSH_NODE_NAME
   overwrite = true
   overwrite_unmanaged = true
-  url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.12/cloud-image-x86-64-jammy-0.1.12.img"
+  url = var.PROXMOX_VE_CLOUD_IMAGE_URL
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
