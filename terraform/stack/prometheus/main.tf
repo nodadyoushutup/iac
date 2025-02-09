@@ -42,7 +42,7 @@ resource "docker_container" "prometheus" {
   }
 
   healthcheck {
-    test = ["CMD", "curl", "-f", "http://192.168.1.102:9090/-/healthy"]
+    test = ["CMD", "curl", "-f", "http://localhost:9090/-/healthy"]
     interval = "5s"
     retries = 12
   }
