@@ -8,7 +8,7 @@ resource "docker_container" "cadvisor" {
     image = docker_image.cadvisor.image_id
     restart = "unless-stopped"
     privileged = true
-#   wait = true
+    wait = true
   
     ports {
         internal = "8080"
