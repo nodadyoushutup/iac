@@ -1,4 +1,0 @@
----
-- name: Print a message
-  debug:
-    msg: "Running tasks in 'free' strategy mode."
