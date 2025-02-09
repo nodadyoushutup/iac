@@ -29,6 +29,7 @@ resource "docker_container" "prometheus" {
   image = docker_image.prometheus.image_id
   restart = "unless-stopped"
   privileged = true
+  wait = true
   
   ports {
     internal = "9090"
