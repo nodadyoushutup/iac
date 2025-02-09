@@ -29,7 +29,6 @@ resource "docker_container" "prometheus" {
   image = docker_image.prometheus.image_id
   restart = "unless-stopped"
   privileged = true
-#   wait = true
   
   ports {
     internal = "9090"
@@ -40,10 +39,4 @@ resource "docker_container" "prometheus" {
     host_path = "/home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
-
-#   healthcheck {
-#     test = ["CMD", "/dozzle", "healthcheck"]
-#     interval = "5s"
-#     retries = 12
-#   }
 }
