@@ -45,9 +45,9 @@ resource "docker_container" "cadvisor" {
     }
 
 
-  healthcheck {
-    test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:8082/healthz"]
-    interval = "5s"
-    retries = 12
-  }
+#   healthcheck {
+#     test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:8082/healthz"]
+#     interval = "5s"
+#     retries = 12
+#   }
 }
