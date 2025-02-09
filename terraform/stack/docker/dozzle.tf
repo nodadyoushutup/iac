@@ -19,9 +19,9 @@ resource "docker_container" "jenkins" {
     container_path = "/var/run/docker.sock"
   }
 
-#   healthcheck {
-#     test = ["CMD", "curl", "-f", "http://192.168.1.101:8080/whoAmI/api/json?tree=authenticated"]
-#     interval = "5s"
-#     retries = 12
-#   }
+  healthcheck {
+    test = ["CMD", "/dozzle", "healthcheck"]
+    interval = "5s"
+    retries = 12
+  }
 }
