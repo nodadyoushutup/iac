@@ -8,7 +8,7 @@ resource "docker_container" "cadvisor" {
     image = docker_image.cadvisor.image_id
     restart = "unless-stopped"
     privileged = true
-    # wait = true
+    wait = true
   
     ports {
         internal = "8080"
@@ -44,10 +44,9 @@ resource "docker_container" "cadvisor" {
         host_path = "/dev/kmsg"
     }
 
-
-#   healthcheck {
-#     test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:8082/healthz"]
-#     interval = "5s"
-#     retries = 12
-#   }
+    healthcheck {
+        test = ["CMD", "curl", "-f", "http://192.168.1.102:8082/healthz"]
+        interval = "5s"
+        retries = 12
+    }
 }
