@@ -1,5 +1,5 @@
 resource "docker_image" "dozzle" {
-    name = "amir20/dozzle:v8.10.6"
+  name = "amir20/dozzle:v8.10.6"
 }
 
 resource "docker_container" "jenkins" {
