@@ -33,22 +33,22 @@ variable "PROXMOX_VE_SSH_NODE_NAME" {
   default = null
 }
 
-variable "VIRTUAL_MACHINE_USERNAME" {
+variable "VIRTUAL_MACHINE_USERNAME_GLOBAL" {
   type = string
   default = null
 }
 
-variable "VIRTUAL_MACHINE_DOCKER_IP" {
+variable "VIRTUAL_MACHINE_IP_ADDRESS_DOCKER" {
   type = string
   default = null
 }
 
-variable "VIRTUAL_MACHINE_DEVELOPMENT_IP" {
+variable "VIRTUAL_MACHINE_IP_ADDRESS_DEVELOPMENT" {
   type = string
   default = null
 }
 
-variable "NAS_LOCAL_IP" {
+variable "NAS_IP_ADDRESS" {
   type = string
   default = null
 }

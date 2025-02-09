@@ -15,19 +15,19 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     data = <<-EOF
     #cloud-config
     groups:
-      - docker: [${var.VIRTUAL_MACHINE_USERNAME}]
+      - docker: [${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}]
     users:
       - default
-      - name: ${var.VIRTUAL_MACHINE_USERNAME}
+      - name: ${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}
         groups: sudo
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
     mounts:
-      - ["${var.NAS_LOCAL_IP}:${var.NAS_NFS_MEDIA}", "${var.NAS_NFS_MEDIA}", "nfs", "defaults,nofail", "0", "2"]
+      - ["${var.NAS_IP_ADDRESS}:${var.NAS_NFS_MEDIA}", "${var.NAS_NFS_MEDIA}", "nfs", "defaults,nofail", "0", "2"]
     runcmd:
-      - su - ${var.VIRTUAL_MACHINE_USERNAME} -c "ssh-import-id gh:${var.GITHUB_USERNAME}"
+      - su - ${var.VIRTUAL_MACHINE_USERNAME_GLOBAL} -c "ssh-import-id gh:${var.GITHUB_USERNAME}"
       - mkdir -p ${var.NAS_NFS_MEDIA}
-      - chown ${var.VIRTUAL_MACHINE_USERNAME}:${var.VIRTUAL_MACHINE_USERNAME} ${var.NAS_NFS_MEDIA}
+      - chown ${var.VIRTUAL_MACHINE_USERNAME_GLOBAL}:${var.VIRTUAL_MACHINE_USERNAME_GLOBAL} ${var.NAS_NFS_MEDIA}
       - echo "done" > /tmp/cloud-config.done
     EOF
 

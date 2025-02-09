@@ -83,7 +83,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
         
         ip_config {
             ipv4 {
-                address = "${var.VIRTUAL_MACHINE_DOCKER_IP}/24"
+                address = "${var.VIRTUAL_MACHINE_IP_ADDRESS_DOCKER}/24"
                 gateway = "192.168.1.1"
             }
             ipv6 {
