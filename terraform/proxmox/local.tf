@@ -2,12 +2,15 @@ locals {
     template = {
         gitconfig = templatefile(
             "${path.module}/template/.gitconfig.tpl", 
-            {}
+            {
+                GITCONFIG_NAME=var.GITCONFIG_NAME,
+                GITCONFIG_EMAIL=var.GITCONFIG_EMAIL
+            }
         )
         private_key = templatefile(
             "${path.module}/template/id_rsa.tpl", 
             {
-            ID_RSA=file(var.SSH_PRIVATE_KEY)
+                ID_RSA=file(var.SSH_PRIVATE_KEY)
             }
         )
     }
@@ -64,9 +67,6 @@ locals {
                 "chmod 600 /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
                 "rm -rf /tmp/id_rsa",
             ]
-        }
-        
+        }   
     }
-    
-    
 }

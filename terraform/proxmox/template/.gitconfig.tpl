@@ -1,3 +1,3 @@
 [user]
-    name = nodadyoushutup
-    email = admin@nodadyoushutup.com
+    name = ${GITCONFIG_NAME}
+    email = ${GITCONFIG_EMAIL}
