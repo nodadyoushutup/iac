@@ -48,6 +48,12 @@ variable "VIRTUAL_MACHINE_DATASTORE_ID_ISO" {
   default = null
 }
 
+variable "VIRTUAL_MACHINE_DATASTORE_ID_SNIPPET" {
+  type = string
+  default = null
+}
+
+
 variable "VIRTUAL_MACHINE_IP_ADDRESS_DOCKER" {
   type = string
   default = null
