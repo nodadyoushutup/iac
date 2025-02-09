@@ -147,7 +147,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     vm_id = 1103
 }
 
-resource "null_resource" "exec" {
+resource "null_resource" "exec_development" {
     depends_on = [proxmox_virtual_environment_vm.development]
     triggers = {
         always_run = timestamp()

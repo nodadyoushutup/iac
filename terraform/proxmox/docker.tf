@@ -147,7 +147,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
     vm_id = 1102
 }
 
-resource "null_resource" "exec" {
+resource "null_resource" "exec_docker" {
     depends_on = [proxmox_virtual_environment_vm.docker]
     triggers = {
         always_run = timestamp()
