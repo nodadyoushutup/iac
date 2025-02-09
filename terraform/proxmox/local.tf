@@ -26,14 +26,14 @@ locals {
                 type = "ssh"
                 user = var.VIRTUAL_MACHINE_USERNAME
                 private_key = file(var.SSH_PRIVATE_KEY)
-                host = "192.168.1.102"
+                host = VIRTUAL_MACHINE_DOCKER_IP
                 port = 22
             }
             development = {
                 type = "ssh"
                 user = var.VIRTUAL_MACHINE_USERNAME
                 private_key = file(var.SSH_PRIVATE_KEY)
-                host = "192.168.1.103"
+                host = var.VIRTUAL_MACHINE_DEVELOPMENT_IP
                 port = 22
             }
         }

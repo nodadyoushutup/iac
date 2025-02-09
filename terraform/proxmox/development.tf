@@ -6,7 +6,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     
     # REQUIRED
     ################################################
-    node_name = "pve"
+    node_name = var.PROXMOX_VE_SSH_NODE_NAME
 
     # OPTIONAL
     ################################################
@@ -83,7 +83,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         
         ip_config {
             ipv4 {
-                address = "192.168.1.103/24"
+                address = "${var.VIRTUAL_MACHINE_DEVELOPMENT_IP}/24"
                 gateway = "192.168.1.1"
             }
             ipv6 {

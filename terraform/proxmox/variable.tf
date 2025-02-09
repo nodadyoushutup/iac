@@ -38,6 +38,16 @@ variable "VIRTUAL_MACHINE_USERNAME" {
   default = null
 }
 
+variable "VIRTUAL_MACHINE_DOCKER_IP" {
+  type = string
+  default = null
+}
+
+variable "VIRTUAL_MACHINE_DEVELOPMENT_IP" {
+  type = string
+  default = null
+}
+
 variable "NAS_LOCAL_IP" {
   type = string
   default = null

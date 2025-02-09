@@ -6,7 +6,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
     
     # REQUIRED
     ################################################
-    node_name = "pve"
+    node_name = var.PROXMOX_VE_SSH_NODE_NAME
 
     # OPTIONAL
     ################################################
@@ -83,7 +83,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
         
         ip_config {
             ipv4 {
-                address = "192.168.1.102/24"
+                address = "${var.VIRTUAL_MACHINE_DOCKER_IP}/24"
                 gateway = "192.168.1.1"
             }
             ipv6 {
