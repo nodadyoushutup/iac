@@ -30,6 +30,7 @@ resource "docker_container" "prometheus" {
   restart = "unless-stopped"
   privileged = true
   wait = true
+  network_mode = "host"
   
   ports {
     internal = "9090"
