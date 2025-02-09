@@ -26,45 +26,47 @@ locals {
                 host = "192.168.1.102"
                 port = 22
             }
+            development = {
+                type = "ssh"
+                user = var.VIRTUAL_MACHINE_USERNAME
+                private_key = file(var.SSH_PRIVATE_KEY)
+                host = "192.168.1.103"
+                port = 22
+            }
         }
-        development = {
-            type = "ssh"
-            user = var.VIRTUAL_MACHINE_USERNAME
-            private_key = file(var.SSH_PRIVATE_KEY)
-            host = "192.168.1.103"
-            port = 22
+        inline = {
+            hostname = {
+                docker = [
+                    "sudo hostnamectl set-hostname docker",
+                ]
+                development = [
+                    "sudo hostnamectl set-hostname development",
+                ]
+                restart = [
+                    "sudo systemctl restart systemd-hostnamed"
+                ]
+            }
+            gitconfig = [
+                "cat <<EOF > /tmp/.gitconfig",
+                "${local.template.gitconfig}",
+                "EOF",
+                "cp -p /tmp/.gitconfig /home/${var.VIRTUAL_MACHINE_USERNAME}/.gitconfig",
+                "chown ${var.VIRTUAL_MACHINE_USERNAME}:${var.VIRTUAL_MACHINE_USERNAME} /home/${var.VIRTUAL_MACHINE_USERNAME}/.gitconfig",
+                "rm -rf /tmp/.gitconfig",
+            ]
+            private_key = [
+                "cat <<EOF > /tmp/id_rsa",
+                "${local.template.private_key}",
+                "EOF",
+                "chmod 600 /tmp/id_rsa",
+                "cp -p /tmp/id_rsa /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
+                "chown ${var.VIRTUAL_MACHINE_USERNAME}:${var.VIRTUAL_MACHINE_USERNAME} /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
+                "chmod 600 /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
+                "rm -rf /tmp/id_rsa",
+            ]
         }
+        
     }
     
-    inline = {
-        hostname = {
-            docker = [
-                "sudo hostnamectl set-hostname docker",
-            ]
-            development = [
-                "sudo hostnamectl set-hostname development",
-            ]
-            restart = [
-                "sudo systemctl restart systemd-hostnamed"
-            ]
-        }
-        gitconfig = [
-            "cat <<EOF > /tmp/.gitconfig",
-            "${local.template.gitconfig}",
-            "EOF",
-            "cp -p /tmp/.gitconfig /home/${var.VIRTUAL_MACHINE_USERNAME}/.gitconfig",
-            "chown ${var.VIRTUAL_MACHINE_USERNAME}:${var.VIRTUAL_MACHINE_USERNAME} /home/${var.VIRTUAL_MACHINE_USERNAME}/.gitconfig",
-            "rm -rf /tmp/.gitconfig",
-        ]
-        private_key = [
-            "cat <<EOF > /tmp/id_rsa",
-            "${local.template.private_key}",
-            "EOF",
-            "chmod 600 /tmp/id_rsa",
-            "cp -p /tmp/id_rsa /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
-            "chown ${var.VIRTUAL_MACHINE_USERNAME}:${var.VIRTUAL_MACHINE_USERNAME} /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
-            "chmod 600 /home/${var.VIRTUAL_MACHINE_USERNAME}/.ssh/id_rsa",
-            "rm -rf /tmp/id_rsa",
-        ]
-    }
+    
 }
