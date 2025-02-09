@@ -15,6 +15,11 @@ resource "docker_container" "grafana" {
     image = docker_image.grafana.image_id
     restart = "unless-stopped"
     privileged = true
+
+    env = [
+        "GF_SECURITY_ADMIN_USER=grafana",
+        "GF_SECURITY_ADMIN_PASSWORD=grafana"
+    ]
     
     ports {
         internal = "3000"
