@@ -51,3 +51,10 @@ resource "grafana_data_source" "prometheus" {
         prometheusVersion = "2.4.0"
     })
 }
+
+resource "grafana_dashboard" "test" {
+  config_json = jsonencode({
+    "title" : "Cadvisor",
+    "uid" : "cadvisor"
+  })
+}
