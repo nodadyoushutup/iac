@@ -28,7 +28,8 @@ locals {
             node_exporter = templatefile(
                 "${path.module}/../grafana/template/node_exporter.json.tpl", 
                 {
-                    datasource = "prometheus"
+                    datasource = "prometheus",
+                    DS_PROMETHEUS = "promteheus"
                 }
             )
         }
