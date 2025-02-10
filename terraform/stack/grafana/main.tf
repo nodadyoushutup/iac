@@ -38,3 +38,13 @@ resource "docker_container" "grafana" {
         retries = 12
     }
 }
+
+resource "grafana_connections_metrics_endpoint_scrape_job" "prometheus" {
+    depends_on = [docker_container.grafana]
+    stack_id = "1"
+    name = "prometheus"
+    enabled = true
+    authentication_method = "basic"
+    url = "http://192.168.1.102:9090"
+    scrape_interval_seconds = 15
+}
