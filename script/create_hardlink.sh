@@ -28,6 +28,13 @@ fi
 for file in "$SRC_DIR"/*; do
     if [ -f "$file" ]; then
         FILENAME=$(basename "$file")
+        
+        # Remove the existing file if it exists.
+        if [ -f "$DEST_DIR/$FILENAME" ]; then
+            rm -f "$DEST_DIR/$FILENAME"
+        fi
+        
+        # Create a new hard link for the file.
         ln "$file" "$DEST_DIR/$FILENAME"
     fi
 done
