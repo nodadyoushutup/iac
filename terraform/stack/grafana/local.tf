@@ -16,12 +16,17 @@ locals {
         prometheus = templatefile(
             "${path.module}/../prometheus/template/prometheus.yml.tpl", 
             {
-                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
+                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS,
+                VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS=var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
             }
         )
         grafana = {
             cadvisor = templatefile(
                 "${path.module}/../grafana/template/cadvisor.json.tpl", 
+                {}
+            )
+            node_exporter = templatefile(
+                "${path.module}/../grafana/template/node_exporter.json.tpl", 
                 {}
             )
         }

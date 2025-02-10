@@ -57,3 +57,8 @@ resource "grafana_dashboard" "cadvisor" {
     depends_on = [grafana_data_source.prometheus]
     config_json = local.template.grafana.cadvisor
 }
+
+resource "grafana_dashboard" "node_exporter" {
+    depends_on = [grafana_data_source.prometheus]
+    config_json = local.template.grafana.node_exporter
+}
