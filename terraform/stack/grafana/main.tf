@@ -33,18 +33,20 @@ resource "docker_container" "grafana" {
     }
 
     healthcheck {
-        test = ["CMD", "curl", "-f", "http://192.168.1.102:3000/healthz"]
+        test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:3000/healthz"]
         interval = "5s"
         retries = 12
     }
 }
 
-resource "grafana_connections_metrics_endpoint_scrape_job" "prometheus" {
-    depends_on = [docker_container.grafana]
-    stack_id = "1"
+resource "grafana_data_source" "prometheus" {
+    type = "prometheus"
     name = "prometheus"
-    enabled = true
-    authentication_method = "basic"
-    url = "http://192.168.1.102:9090"
-    scrape_interval_seconds = 15
+    url = "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"
+
+    json_data_encoded = jsonencode({
+        httpMethod = "POST"
+        prometheusType = "Mimir"
+        prometheusVersion = "2.4.0"
+    })
 }
