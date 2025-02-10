@@ -40,6 +40,7 @@ resource "docker_container" "grafana" {
 }
 
 resource "grafana_data_source" "prometheus" {
+    depends_on = [docker_container.grafana]
     type = "prometheus"
     name = "prometheus"
     url = "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"
