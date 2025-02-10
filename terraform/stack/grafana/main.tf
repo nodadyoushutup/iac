@@ -44,7 +44,8 @@ resource "grafana_data_source" "prometheus" {
     type = "prometheus"
     name = "prometheus"
     url = "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"
-
+    uid = "prometheus"
+    is_default = true
     json_data_encoded = jsonencode({
         httpMethod = "POST"
         prometheusType = "Mimir"
@@ -54,8 +55,5 @@ resource "grafana_data_source" "prometheus" {
 
 resource "grafana_dashboard" "test" {
     depends_on = [grafana_data_source.prometheus]
-    config_json = jsonencode({
-        "title" : "Cadvisor",
-        "uid" : "cadvisor"
-    })
+    config_json = jsonencode(file("${path.module}/template/cadvisor.json"))
 }
