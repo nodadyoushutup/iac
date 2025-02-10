@@ -23,7 +23,9 @@ locals {
         grafana = {
             cadvisor = templatefile(
                 "${path.module}/../grafana/template/cadvisor.json.tpl", 
-                {}
+                {
+                    datasource = "prometheus"
+                }
             )
             node_exporter = templatefile(
                 "${path.module}/../grafana/template/node_exporter.json.tpl", 
