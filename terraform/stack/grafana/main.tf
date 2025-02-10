@@ -55,5 +55,5 @@ resource "grafana_data_source" "prometheus" {
 
 resource "grafana_dashboard" "test" {
     depends_on = [grafana_data_source.prometheus]
-    config_json = jsonencode(file("${path.module}/template/cadvisor.json"))
+    config_json = file("${path.module}/template/cadvisor.json")
 }
