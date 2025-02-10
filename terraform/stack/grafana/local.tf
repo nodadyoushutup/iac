@@ -19,6 +19,12 @@ locals {
                 VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
             }
         )
+        grafana = {
+            cadvisor = templatefile(
+                "${path.module}/../grafana/template/cadvisor.json.tpl", 
+                {}
+            )
+        }
     }
     
     hostname = {
