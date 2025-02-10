@@ -665,7 +665,7 @@
         }
     ],
     "preload": false,
-    "refresh": "15s",
+    "refresh": "5s",
     "schemaVersion": 40,
     "tags": [
         "docker"
