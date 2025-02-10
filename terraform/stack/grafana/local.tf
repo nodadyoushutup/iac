@@ -1,20 +1,20 @@
 locals {
     template = {
         gitconfig = templatefile(
-            "${path.module}/template/.gitconfig.tpl", 
+            "${path.module}/../proxmox/template/.gitconfig.tpl", 
             {
                 GITCONFIG_NAME=var.GITCONFIG_NAME,
                 GITCONFIG_EMAIL=var.GITCONFIG_EMAIL
             }
         )
         private_key = templatefile(
-            "${path.module}/template/id_rsa.tpl", 
+            "${path.module}/../proxmox/template/id_rsa.tpl", 
             {
                 ID_RSA=file(var.SSH_PRIVATE_KEY)
             }
         )
         prometheus = templatefile(
-            "${path.module}/template/prometheus.yml.tpl", 
+            "${path.module}/../prometheus/template/prometheus.yml.tpl", 
             {
                 VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
             }
