@@ -3,22 +3,38 @@ locals {
         gitconfig = templatefile(
             "${path.module}/../proxmox/template/.gitconfig.tpl", 
             {
-                GITCONFIG_NAME=var.GITCONFIG_NAME,
-                GITCONFIG_EMAIL=var.GITCONFIG_EMAIL
+                GITCONFIG_NAME = var.GITCONFIG_NAME,
+                GITCONFIG_EMAIL = var.GITCONFIG_EMAIL
             }
         )
         private_key = templatefile(
             "${path.module}/../proxmox/template/id_rsa.tpl", 
             {
-                ID_RSA=file(var.SSH_PRIVATE_KEY)
+                ID_RSA = file(var.SSH_PRIVATE_KEY)
             }
         )
         prometheus = templatefile(
             "${path.module}/../prometheus/template/prometheus.yml.tpl", 
             {
-                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
+                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS,
+                VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS = var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
             }
         )
+        grafana = {
+            cadvisor = templatefile(
+                "${path.module}/../grafana/template/cadvisor.json.tpl", 
+                {
+                    datasource = "prometheus"
+                }
+            )
+            node_exporter = templatefile(
+                "${path.module}/../grafana/template/node_exporter.json.tpl", 
+                {
+                    datasource = "prometheus",
+                    VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
+                }
+            )
+        }
     }
     
     hostname = {
