@@ -13,4 +13,7 @@ scrape_configs:
 
   - job_name: "node_exporter"
     static_configs:
-      - targets: ["${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9100"]
+      - targets: [
+        "${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9100",
+        "${VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS}:9100"
+      ]
