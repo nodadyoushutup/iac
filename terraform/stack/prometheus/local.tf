@@ -16,7 +16,8 @@ locals {
         prometheus = templatefile(
             "${path.module}/../prometheus/template/prometheus.yml.tpl", 
             {
-                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
+                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS=var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS,
+                VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS=var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
             }
         )
         grafana = {
