@@ -11,6 +11,6 @@ scrape_configs:
     static_configs:
       - targets: ["${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:8082"]
 
-  - job_name: "docker"
+  - job_name: "node_exporter"
     static_configs:
       - targets: ["${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9100"]
