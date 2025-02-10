@@ -53,8 +53,9 @@ resource "grafana_data_source" "prometheus" {
 }
 
 resource "grafana_dashboard" "test" {
-  config_json = jsonencode({
-    "title" : "Cadvisor",
-    "uid" : "cadvisor"
-  })
+    depends_on = [grafana_data_source.prometheus]
+    config_json = jsonencode({
+        "title" : "Cadvisor",
+        "uid" : "cadvisor"
+    })
 }
