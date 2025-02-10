@@ -29,7 +29,7 @@ resource "docker_container" "prometheus" {
   image = docker_image.prometheus.image_id
   restart = "unless-stopped"
   privileged = true
-  wait = true
+  # wait = true
   network_mode = "bridge"
   
   ports {
@@ -42,9 +42,9 @@ resource "docker_container" "prometheus" {
     container_path = "/etc/prometheus/prometheus.yml"
   }
 
-  healthcheck {
-    test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"]
-    interval = "5s"
-    retries = 12
-  }
+  # healthcheck {
+  #   test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"]
+  #   interval = "5s"
+  #   retries = 12
+  # }
 }
