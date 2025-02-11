@@ -134,7 +134,7 @@ resource "proxmox_virtual_environment_vm" "development" {
         down_delay = 0
     }
 
-    tags = ["terraform", "cloud-image", "development"]
+    tags = ["gitops"]
 
     stop_on_destroy = true
 

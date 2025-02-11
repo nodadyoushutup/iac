@@ -134,7 +134,7 @@ resource "proxmox_virtual_environment_vm" "docker" {
         down_delay = 0
     }
 
-    tags = ["terraform", "cloud-image", "docker"]
+    tags = ["gitops"]
 
     stop_on_destroy = true
 
