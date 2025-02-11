@@ -13,28 +13,6 @@ locals {
                 ID_RSA = file(var.SSH_PRIVATE_KEY)
             }
         )
-        prometheus = templatefile(
-            "${path.module}/../prometheus/template/prometheus.yml.tpl", 
-            {
-                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS,
-                VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS = var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
-            }
-        )
-        grafana = {
-            cadvisor = templatefile(
-                "${path.module}/../grafana/template/cadvisor.json.tpl", 
-                {
-                    datasource = "prometheus"
-                }
-            )
-            node_exporter = templatefile(
-                "${path.module}/../grafana/template/node_exporter.json.tpl", 
-                {
-                    datasource = "prometheus",
-                    VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
-                }
-            )
-        }
     }
     
     hostname = {
@@ -82,14 +60,6 @@ locals {
                 "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
                 "chmod 600 /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
                 "rm -rf /tmp/id_rsa",
-            ]
-            prometheus = [
-                "cat <<EOF > /tmp/prometheus.yml",
-                "${local.template.prometheus}",
-                "EOF",
-                "cp -p /tmp/prometheus.yml /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml",
-                "rm -rf /tmp/prometheus.yml",
             ]
         }   
     }
