@@ -41,7 +41,7 @@ resource "docker_container" "cadvisor" {
         container_path = "/dev/disk"
     }
 
-    devices { # forces replacement
+    devices {
         container_path = "/dev/kmsg"
         host_path = "/dev/kmsg"
         permissions = "rwm"
