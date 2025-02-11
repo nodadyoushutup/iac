@@ -6,7 +6,7 @@ URL="https://github.com/prometheus/node_exporter/releases/download/${VERSION}/no
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="node_exporter"
 SERVICE_FILE="/etc/systemd/system/node_exporter.service"
-TEMP_SERVICE_FILE="/tmp/node_exporter.service"
+TEMP_SERVICE_FILE="../template/node_exporter.service"
 
 echo "[INFO] Checking for wget..."
 if ! command -v wget &> /dev/null; then
