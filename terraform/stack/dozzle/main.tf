@@ -8,6 +8,7 @@ resource "docker_container" "dozzle" {
   image = docker_image.dozzle.image_id
   restart = "unless-stopped"
   wait = true
+  network_mode = "bridge"
   
   ports {
     internal = "8080"
