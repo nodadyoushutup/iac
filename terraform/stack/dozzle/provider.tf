@@ -12,6 +12,8 @@ terraform {
             version = "3.18.3"
         }
     }
+
+    backend "s3" {}
 }
 
 provider "proxmox" {
