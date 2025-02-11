@@ -12,6 +12,19 @@ terraform {
             version = "3.18.3"
         }
     }
+
+    backend "s3" {
+        bucket = var.MINIO_BUCKET_TERRAFORM
+        key = "terraform.tfstate"
+        endpoint = var.MINIO_ENDPOINT
+        access_key = var.MINIO_ACCESS_KEY
+        secret_key = var.MINIO_SECRET_KEY
+        region = var.MINIO_REGION
+        skip_credentials_validation = true
+        skip_metadata_api_check = true
+        skip_region_validation = true
+        force_path_style = true
+    }
 }
 
 provider "proxmox" {
