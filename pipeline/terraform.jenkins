@@ -15,8 +15,13 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 dir("${env.SUBDIR}") {
-                    echo 'Initializing Terraform...'
-                    sh 'terraform init'
+                    withCredentials([
+                        file(credentialsId: 'backend', variable: 'BACKEND_TFVARS_FILE')
+                    ]){
+                        echo 'Initializing Terraform...'
+                        sh 'terraform init -backend-config=${BACKEND_TFVARS_FILE}'
+                    }
+                    
                 }
             }
         }
@@ -25,6 +30,7 @@ pipeline {
             steps {
                 dir("${env.SUBDIR}") {
                     withCredentials([
+                        file(credentialsId: 'backend', variable: 'BACKEND_TFVARS_FILE'),
                         file(credentialsId: 'tfvars', variable: 'TFVARS_FILE'),
                         file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY')
                     ]) {
