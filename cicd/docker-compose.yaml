@@ -1,0 +1,46 @@
+services:
+  jenkins-controller:
+    image: ghcr.io/nodadyoushutup/jenkins-controller:2.496
+    container_name: jenkins-controller
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-controller:/var/jenkins_home
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://192.168.1.101:8080/whoAmI/api/json?tree=authenticated"]
+      interval: 5s
+      retries: 12
+    restart: unless-stopped
+
+  jenkins-agent:
+    image: ghcr.io/nodadyoushutup/jenkins-agent:3283.v92c105e0f819-7
+    container_name: jenkins-agent
+    depends_on:
+      - jenkins-controller
+    volumes:
+      - jenkins-agent:/home/jenkins
+    environment:
+      JENKINS_URL: http://192.168.1.101:8080
+      JENKINS_SECRET: REPLACE_WITH_ACTUAL_AGENT_SECRET
+      JENKINS_AGENT_NAME: "simple-agent"
+    restart: unless-stopped
+    init: true
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8081:8080
+    healthcheck:
+      test: ["CMD", "/dozzle", "healthcheck"]
+      interval: 5s
+      retries: 12
+
+volumes:
+  jenkins-controller:
+  jenkins-agent:
