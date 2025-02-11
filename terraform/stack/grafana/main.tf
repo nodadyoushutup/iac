@@ -16,6 +16,7 @@ resource "docker_container" "grafana" {
     restart = "unless-stopped"
     privileged = true
     wait = true
+    network_mode = "bridge"
 
     env = [
         "GF_SECURITY_ADMIN_USER=grafana",
