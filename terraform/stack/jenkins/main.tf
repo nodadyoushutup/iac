@@ -3,5 +3,5 @@ data "jenkins_job" "proxmox2" {
 }
 
 output "proxmox2" {
-  value = data.jenkins_job.proxmox.template
+  value = data.jenkins_job.proxmox2.template
 }
