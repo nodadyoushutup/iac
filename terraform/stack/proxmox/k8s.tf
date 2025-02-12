@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         affinity = null
     }
 
-    description = "talos_cp_1"
+    description = "talos-cp-1"
 
     disk {
         aio = "io_uring"
@@ -102,7 +102,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         keep_hugepages = null
     }
 
-    name = "talos_cp_1"
+    name = "talos-cp-1"
 
     network_device {
         bridge = "vmbr0"
