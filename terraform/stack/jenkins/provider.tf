@@ -1,6 +1,6 @@
 terraform {
     required_providers {
-        docker = {
+        jenkins = {
             source  = "taiidani/jenkins"
             version = "0.10.2"
         }
