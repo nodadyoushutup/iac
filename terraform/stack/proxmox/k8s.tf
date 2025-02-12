@@ -30,7 +30,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
 
     cpu {
         # architecture = "x86_64" # Can only be set running terraform as root
-        cores = 2
+        cores = 4
         flags = ["+aes"]
         hotplugged = 0
         limit = 0
@@ -56,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         iothread = false
         replicate = true
         serial = null
-        size = 20
+        size = 100
         # speed = {
         #     iops_read = null 
         #     iops_read_burstable = null
