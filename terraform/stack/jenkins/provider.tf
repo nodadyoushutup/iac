@@ -12,11 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-  server_url = "http://192.168.0.212:8080/"
-}
-data "jenkins_job" "jenkins" {
-  name        = "job-name"
-}
-output "example" {
-  value = data.jenkins_job.example.template
+  server_url = "http://192.168.1.101:8080/"
 }
