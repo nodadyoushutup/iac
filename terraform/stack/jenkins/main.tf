@@ -10,7 +10,7 @@ locals {
   template = {
     pipeline = {
       proxmox = templatefile(
-        "${path.module}/job.xml.tpl", 
+        "${path.module}/template/job.xml.tpl", 
         {
           subdir = "terraform/stack/proxmox"
           branch = "main"
