@@ -1,8 +1,8 @@
 terraform {
     required_providers {
         docker = {
-            source  = "kreuzwerker/docker"
-            version = "3.0.2"
+            source  = "taiidani/jenkins"
+            version = "0.10.2"
         }
     }
 
@@ -11,7 +11,12 @@ terraform {
     }
 }
 
-provider "docker" {
-    host = "ssh://${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}@${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:22"
-    ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null", "-o", "IdentityFile=${var.SSH_PRIVATE_KEY}"]
+provider "jenkins" {
+  server_url = "http://192.168.0.212:8080/"
+}
+data "jenkins_job" "jenkins" {
+  name        = "job-name"
+}
+output "example" {
+  value = data.jenkins_job.example.template
 }
