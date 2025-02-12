@@ -9,7 +9,7 @@ output "proxmox2" {
 resource "jenkins_job" "example" {
   name = "example"
   template = templatefile(
-    "${path.module}/job.xml", 
+    "${path.module}/job.xml.tpl", 
     {
       description = "An example job created from Terraform"
     }
