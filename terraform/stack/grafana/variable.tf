@@ -181,3 +181,7 @@ variable "VIRTUAL_MACHINE_DEVELOPMENT_DISK_SIZE" {
     type = number
     default = null
 }
+variable "JENKINS_ENDPOINT" {
+    type = string
+    default = null
+}
