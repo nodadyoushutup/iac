@@ -41,7 +41,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         affinity = null
     }
 
-    description = "docker"
+    description = "talos_cp_1"
 
     disk {
         aio = "io_uring"
@@ -102,7 +102,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         keep_hugepages = null
     }
 
-    name = "docker"
+    name = "talos_cp_1"
 
     network_device {
         bridge = "vmbr0"
