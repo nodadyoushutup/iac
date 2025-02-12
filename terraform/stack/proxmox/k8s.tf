@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         enabled = true
     }
 
-    bios = "ovmf"
+    bios = "seabios"
 
     boot_order = ["scsi0"]
 
@@ -70,12 +70,12 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         ssd = true
     }
 
-    efi_disk {
-        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
-        file_format = "raw"
-        type = "4m"
-        pre_enrolled_keys = false
-    }
+    # efi_disk {
+    #     datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
+    #     file_format = "raw"
+    #     type = "4m"
+    #     pre_enrolled_keys = false
+    # }
 
     # initialization {
     #     datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
