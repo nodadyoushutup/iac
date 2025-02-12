@@ -7,6 +7,15 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
   url = var.PROXMOX_VE_CLOUD_IMAGE_URL
 }
 
+resource "proxmox_virtual_environment_download_file" "talos_image" {
+  content_type = "iso"
+  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
+  node_name = var.PROXMOX_VE_SSH_NODE_NAME
+  overwrite = true
+  overwrite_unmanaged = true
+  url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/nocloud-amd64.raw.xz"
+}
+
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_SNIPPET
