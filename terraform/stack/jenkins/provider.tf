@@ -7,10 +7,10 @@ terraform {
     }
 
     backend "s3" {
-        key = "dozzle.tfstate"
+        key = "jenkins.tfstate"
     }
 }
 
 provider "jenkins" {
-  server_url = "http://192.168.1.101:8080/"
+    server_url = "http://192.168.1.101:8080/"
 }
