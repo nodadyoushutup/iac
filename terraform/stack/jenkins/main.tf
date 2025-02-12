@@ -6,12 +6,21 @@ output "proxmox2" {
   value = data.jenkins_job.proxmox2.template
 }
 
-resource "jenkins_job" "example" {
-  name = "example"
-  template = templatefile(
-    "${path.module}/job.xml.tpl", 
-    {
-      description = "An example job created from Terraform"
+locals {
+  template = {
+    pipeline = {
+      proxmox = templatefile(
+        "${path.module}/job.xml.tpl", 
+        {
+          subdir = "terraform/stack/proxmox"
+          branch = "main"
+        }
+      )
     }
-  )
+  }
+}
+
+resource "jenkins_job" "proxmox" {
+  name = "proxmox"
+  template = local.template.pipeline.proxmox
 }
