@@ -1,7 +1,7 @@
-data "jenkins_job" "proxmox" {
+data "jenkins_job" "proxmox2" {
   name = "proxmox"
 }
 
-output "proxmox" {
+output "proxmox2" {
   value = data.jenkins_job.proxmox.template
 }
