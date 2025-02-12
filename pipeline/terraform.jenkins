@@ -19,7 +19,7 @@ pipeline {
                         file(credentialsId: 'backend_tfvars', variable: 'BACKEND_TFVARS_FILE')
                     ]){
                         echo 'Initializing Terraform...'
-                        sh 'terraform init -backend-config=${BACKEND_TFVARS_FILE} -migrate-state'
+                        sh 'terraform init -backend-config=${BACKEND_TFVARS_FILE}'
                     }
                     
                 }
