@@ -13,7 +13,8 @@ resource "proxmox_virtual_environment_download_file" "talos_image" {
   node_name = var.PROXMOX_VE_SSH_NODE_NAME
   overwrite = true
   overwrite_unmanaged = true
-  url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/nocloud-amd64.raw.xz"
+  file_name = "talos-v1.9.3-metal-amd64.img"
+  url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/metal-amd64.qcow2"
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
