@@ -12,8 +12,9 @@ locals {
       proxmox = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          subdir = "terraform/stack/proxmox"
-          branch = "main"
+          SUBDIR = "terraform/stack/proxmox"
+          GIT_REPOSITORY_BRANCH = var.GIT_REPOSITORY_BRANCH
+          GIT_REPOSITORY_URL = var.GIT_REPOSITORY_URL
         }
       )
     }

@@ -15,14 +15,14 @@
 			<abortPrevious>false</abortPrevious>
 		</org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
 		<com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.41.0">
-			<projectUrl>https://github.com/nodadyoushutup/iac/</projectUrl>
+			<projectUrl>${GIT_REPOSITORY_URL}</projectUrl>
 			<displayName/>
 		</com.coravy.hudson.plugins.github.GithubProjectProperty>
 		<hudson.model.ParametersDefinitionProperty>
 			<parameterDefinitions>
 				<hudson.model.StringParameterDefinition>
 					<name>SUBDIR</name>
-					<defaultValue>${subdir}</defaultValue>
+					<defaultValue>${SUBDIR}</defaultValue>
 					<trim>true</trim>
 				</hudson.model.StringParameterDefinition>
 			</parameterDefinitions>
@@ -33,12 +33,12 @@
 			<configVersion>2</configVersion>
 			<userRemoteConfigs>
 				<hudson.plugins.git.UserRemoteConfig>
-					<url>https://github.com/nodadyoushutup/iac</url>
+					<url>${GIT_REPOSITORY_URL}</url>
 				</hudson.plugins.git.UserRemoteConfig>
 			</userRemoteConfigs>
 			<branches>
 				<hudson.plugins.git.BranchSpec>
-					<name>${branch}</name>
+					<name>${GIT_REPOSITORY_BRANCH}</name>
 				</hudson.plugins.git.BranchSpec>
 			</branches>
 			<doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>

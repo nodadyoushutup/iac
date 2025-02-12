@@ -4,6 +4,16 @@ variable "GITHUB_USERNAME" {
     default = null
 }
 
+variable "GIT_REPOSITORY_URL" {
+    type = string
+    default = null
+}
+
+variable "GIT_REPOSITORY_BRANCH" {
+    type = string
+    default = null
+}
+
 variable "GITCONFIG_NAME" {
     type = string
     default = null
@@ -181,8 +191,6 @@ variable "VIRTUAL_MACHINE_DEVELOPMENT_DISK_SIZE" {
     type = number
     default = null
 }
-
-# JENKINS
 variable "JENKINS_ENDPOINT" {
     type = string
     default = null

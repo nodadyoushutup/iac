@@ -4,6 +4,16 @@ variable "GITHUB_USERNAME" {
     default = null
 }
 
+variable "GIT_REPOSITORY_URL" {
+    type = string
+    default = null
+}
+
+variable "GIT_REPOSITORY_BRANCH" {
+    type = string
+    default = null
+}
+
 variable "GITCONFIG_NAME" {
     type = string
     default = null
