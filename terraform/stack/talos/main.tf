@@ -166,4 +166,5 @@ resource "null_resource" "exec_development" {
 
 output "machine_secrets" {
     value = talos_machine_secrets.talos
+    sensitive = true
 }
