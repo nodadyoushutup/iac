@@ -61,22 +61,22 @@ resource "talos_cluster_kubeconfig" "talos" {
 }
 
 resource "null_resource" "exec_development" {
-    depends_on = [talos_cluster_kubeconfig.talos]
-    triggers = {
-        always_run = timestamp()
-    }
-  
-    connection {
-        type = local.exec.connection.development.type
-        user = local.exec.connection.development.user
-        private_key = local.exec.connection.development.private_key
-        host = local.exec.connection.development.host
-        port = local.exec.connection.development.port
-    }
+  depends_on = [talos_cluster_kubeconfig.talos]
+  triggers = {
+    always_run = timestamp()
+  }
 
-    provisioner "remote-exec" {
-        inline = concat(
-            local.exec.inline.talos, 
-        )
-    }
+  connection {
+    type = local.exec.connection.development.type
+    user = local.exec.connection.development.user
+    private_key = local.exec.connection.development.private_key
+    host = local.exec.connection.development.host
+    port = local.exec.connection.development.port
+  }
+
+  provisioner "remote-exec" {
+    inline = concat(
+      local.exec.inline.kubeconfig,
+    )
+  }
 }

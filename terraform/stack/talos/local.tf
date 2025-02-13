@@ -10,7 +10,7 @@ locals {
             }
         }
         inline = {
-            talos = [
+            kubeconfig = [
                 "cat <<EOF > /tmp/config",
                 "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
                 "EOF",
