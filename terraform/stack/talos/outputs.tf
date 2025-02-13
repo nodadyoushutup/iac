@@ -5,5 +5,5 @@
 
 output "kubeconfig" {
   value = data.talos_cluster_kubeconfig.talos
-  sensitive = true
+  sensitive = false
 }
