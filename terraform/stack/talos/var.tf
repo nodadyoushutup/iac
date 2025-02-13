@@ -7,7 +7,7 @@ variable "cluster_name" {
 variable "cluster_endpoint" {
   description = "The endpoint for the Talos cluster"
   type = string
-  default = "https://192.168.1.200:50000"
+  default = "http://192.168.1.200:50000"
 }
 
 variable "node_data" {
