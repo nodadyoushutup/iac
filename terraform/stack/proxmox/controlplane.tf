@@ -1,5 +1,13 @@
 locals {
     talos = {
+        global = {
+            agent = {
+                enabled = true
+                timeout = "5m"
+                trim = false
+                type = "virtio"
+            }
+        }
         controlplane = [
             {
                 ip_address = "192.168.1.200"
@@ -31,16 +39,16 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     for_each = { for idx, cp in local.talos.controlplane : idx => cp }
 
     depends_on = [
+        proxmox_virtual_environment_download_file.talos_cp[each.key],
         proxmox_virtual_environment_file.cloud_config
     ]
-    
     node_name = var.PROXMOX_VE_SSH_NODE_NAME
 
     agent {
         enabled = true
         timeout = "5m"
-        trim    = false
-        type    = "virtio"
+        trim = false
+        type = "virtio"
     }
 
     audio_device {
@@ -73,7 +81,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id  = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard       = "on"
         file_format   = "raw"
-        file_id       = "${var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO}:iso/${format("talos-cp-%d", each.key + 1)}-v1.9.3-metal-amd64.img"
+        file_id       = "local:iso/${format("talos-cp-%d", each.key + 1)}-v1.9.3-metal-amd64.img"
         interface     = "scsi0"
         iothread      = false
         replicate     = true

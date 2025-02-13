@@ -7,34 +7,20 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
   url = var.PROXMOX_VE_CLOUD_IMAGE_URL
 }
 
-resource "proxmox_virtual_environment_download_file" "talos_cp_1" {
-  content_type = "iso"
-  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
-  node_name = var.PROXMOX_VE_SSH_NODE_NAME
-  overwrite = true
-  overwrite_unmanaged = true
-  file_name = "talos-cp-1-v1.9.3-metal-amd64.img"
-  url = "https://factory.talos.dev/image/fd434a92ae30d326c078ae8b2283ecde3b9e17eb95adf759624f5f4098a5b597/v1.9.3/metal-amd64.qcow2"
-}
+resource "proxmox_virtual_environment_download_file" "talos_cp" {
+  for_each = { for idx, cp in local.talos.controlplane : idx => cp }
 
-resource "proxmox_virtual_environment_download_file" "talos_cp_2" {
   content_type = "iso"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
   node_name = var.PROXMOX_VE_SSH_NODE_NAME
   overwrite = true
   overwrite_unmanaged = true
-  file_name = "talos-cp-2-v1.9.3-metal-amd64.img"
-  url = "https://factory.talos.dev/image/e5b668b325eb94ccae097226c3b8d981393138ed4586e05370e224893c9a3d07/v1.9.3/metal-amd64.qcow2"
-}
-
-resource "proxmox_virtual_environment_download_file" "talos_cp_3" {
-  content_type = "iso"
-  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
-  node_name = var.PROXMOX_VE_SSH_NODE_NAME
-  overwrite = true
-  overwrite_unmanaged = true
-  file_name = "talos-cp-3-v1.9.3-metal-amd64.img"
-  url = "https://factory.talos.dev/image/147f8d7596600487451158337e333300604087e30e5f9fa68149d421e45e238b/v1.9.3/metal-amd64.qcow2"
+  file_name = format("talos-cp-%d-v1.9.3-metal-amd64.img", each.key + 1)
+  url = lookup({
+    "0" = "https://factory.talos.dev/image/fd434a92ae30d326c078ae8b2283ecde3b9e17eb95adf759624f5f4098a5b597/v1.9.3/metal-amd64.qcow2"
+    "1" = "https://factory.talos.dev/image/e5b668b325eb94ccae097226c3b8d981393138ed4586e05370e224893c9a3d07/v1.9.3/metal-amd64.qcow2"
+    "2" = "https://factory.talos.dev/image/147f8d7596600487451158337e333300604087e30e5f9fa68149d421e45e238b/v1.9.3/metal-amd64.qcow2"
+  }, tostring(each.key))
 }
 
 resource "proxmox_virtual_environment_download_file" "talos_wk_1" {
