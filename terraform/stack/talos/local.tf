@@ -23,28 +23,45 @@ locals {
     }
 
     TALOS_CONTROLPLANE = [
-        "192.168.1.200",
-        "192.168.1.201",
-        "192.168.1.202",
+        {
+            ip_address = "192.168.1.200"
+            mac_address = "00:11:22:33:44:55"
+            vm_id = "1200"
+        },
+        {
+            ip_address = "192.168.1.201"
+            mac_address = "00:11:22:33:44:66"
+            vm_id = "1201"
+        },
+        {
+            ip_address = "192.168.1.202"
+            mac_address = "00:11:22:33:44:77"
+            vm_id = "1202"
+        },
     ]
+
     TALOS_WORKER = [
-        "192.168.1.203"
+        {
+            ip_address  = "192.168.1.203"
+            mac_address = "00:11:22:33:44:88"
+            vm_id = "1203"
+        }
     ]
 
     node_data = {
         controlplanes = {
-        for idx, ip in local.TALOS_CONTROLPLANE : 
-        ip => {
-            install_disk = "/dev/sda"
-            hostname     = "talos-cp-${idx + 1}"
-        }
+            for idx, cp in local.TALOS_CONTROLPLANE : cp.ip_address => {
+                ip_address = cp.ip_address
+                hostname = format("talos-cp-%d", idx + 1)
+                install_disk = "/dev/sda"
+            }
         }
         workers = {
-        for idx, ip in local.TALOS_WORKER : 
-        ip => {
-            install_disk = "/dev/sda"
-            hostname     = "talos-wk-${idx + 1}"
-        }
+            for idx, wk in local.TALOS_WORKER : wk.ip_address => {
+                ip_address  = wk.ip_addres
+                hostname = format("talos-wk-%d", idx + 1)
+                install_disk = "/dev/sda"
+            }
         }
     }
 }
