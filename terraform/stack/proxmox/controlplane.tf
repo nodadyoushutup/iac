@@ -24,33 +24,33 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     boot_order = ["scsi0"]
 
     cpu {
-        cores      = each.value.cores
-        flags      = ["+aes"]
+        cores = each.value.cores
+        flags = ["+aes"]
         hotplugged = 0
-        limit      = 0
-        numa       = false
-        sockets    = 1
-        type       = "x86-64-v2-AES"
-        units      = 1024
-        affinity   = null
+        limit = 0
+        numa = false
+        sockets = 1
+        type = "x86-64-v2-AES"
+        units = 1024
+        affinity = null
     }
 
     description = format("talos-cp-%d", each.key)
 
     disk {
-        aio           = "io_uring"
-        backup        = true
-        cache         = "none"
-        datastore_id  = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
-        discard       = "on"
-        file_format   = "raw"
-        file_id       = proxmox_virtual_environment_download_file.talos_image.id
-        interface     = "scsi0"
-        iothread      = false
-        replicate     = true
-        serial        = null
-        size          = 100
-        ssd           = true
+        aio = "io_uring"
+        backup = true
+        cache = "none"
+        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
+        discard = "on"
+        file_format = "raw"
+        file_id = proxmox_virtual_environment_download_file.talos_image.id
+        interface = "scsi0"
+        iothread = false
+        replicate = true
+        serial = null
+        size = 100
+        ssd = true
     }
 
     machine = "q35"
@@ -64,12 +64,12 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     name = format("talos-cp-%d", each.key)
 
     network_device {
-        bridge      = "vmbr0"
+        bridge = "vmbr0"
         disconnected = false
-        enabled     = true
-        firewall    = false
+        enabled = true
+        firewall = false
         mac_address = each.value.mac_address
-        model       = "virtio"
+        model = "virtio"
     }
 
     on_boot = true
