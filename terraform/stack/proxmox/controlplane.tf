@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     for_each = { for idx, cp in local.talos.controlplane : idx => cp }
 
     depends_on = [
-        proxmox_virtual_environment_download_file.talos_cp[each.key],
+        proxmox_virtual_environment_download_file.talos_image,
         proxmox_virtual_environment_file.cloud_config
     ]
     node_name = var.PROXMOX_VE_SSH_NODE_NAME
@@ -81,7 +81,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id  = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard       = "on"
         file_format   = "raw"
-        file_id       = "local:iso/${format("talos-cp-%d", each.key)}-v1.9.3-metal-amd64.img"
+        file_id       = proxmox_virtual_environment_download_file.talos_image.id
         interface     = "scsi0"
         iothread      = false
         replicate     = true
