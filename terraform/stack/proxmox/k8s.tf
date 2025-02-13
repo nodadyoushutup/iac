@@ -77,20 +77,20 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
     #     pre_enrolled_keys = false
     # }
 
-    # initialization {
-    #     datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
-    #     # user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
+    initialization {
+        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
+        # user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         
-    #     ip_config {
-    #         ipv4 {
-    #             address = "dhcp"
-    #             gateway = var.VIRTUAL_MACHINE_GLOBAL_GATEWAY
-    #         }
-    #         ipv6 {
-    #             address = "dhcp"
-    #         }
-    #     }
-    # }
+        ip_config {
+            ipv4 {
+                address = "192.168.1.200/24"
+                gateway = var.VIRTUAL_MACHINE_GLOBAL_GATEWAY
+            }
+            ipv6 {
+                address = "dhcp"
+            }
+        }
+    }
 
     machine = "q35"
 
