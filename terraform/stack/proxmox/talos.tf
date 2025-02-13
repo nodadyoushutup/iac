@@ -100,7 +100,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_wk" {
-    for_each = { for idx, wk in var.talos.controlplane : idx => wk }
+    for_each = { for idx, wk in var.talos.worker : idx => wk }
 
     depends_on = [
         proxmox_virtual_environment_download_file.talos_image,
