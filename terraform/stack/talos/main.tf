@@ -172,4 +172,5 @@ data "talos_cluster_kubeconfig" "talos" {
 
 output "kubeconfig" {
     value = talos_cluster_kubeconfig.talos.kubernetes_client_configuration
+    sensitive = true
 }
