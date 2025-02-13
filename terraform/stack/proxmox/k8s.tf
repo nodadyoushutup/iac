@@ -400,7 +400,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_3" {
         keep_hugepages = null
     }
 
-    name = "talos-cp-1"
+    name = "talos-cp-3"
 
     network_device {
         bridge = "vmbr0"
