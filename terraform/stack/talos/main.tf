@@ -164,7 +164,12 @@ resource "null_resource" "exec_development" {
   }
 }
 
-output "machine_secrets" {
-    value = talos_machine_secrets.talos
-    sensitive = true
+data "talos_cluster_kubeconfig" "talos" {
+    depends_on = [talos_machine_bootstrap.talos]
+    client_configuration = talos_machine_secrets.talos.client_configuration
+    node = "192.168.1.200"
+}
+
+output "kubeconfig" {
+    value = talos_cluster_kubeconfig.talos.kubernetes_client_configuration
 }
