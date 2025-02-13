@@ -187,7 +187,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         down_delay = 0
     }
 
-    tags = ["gitops", "talos-controlplane"]
+    tags = ["gitops", "talos-worker"]
 
     stop_on_destroy = true
 
