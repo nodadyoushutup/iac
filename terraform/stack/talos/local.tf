@@ -26,14 +26,14 @@ locals {
         controlplanes = {
             for idx, cp in var.talos.controlplane : cp.ip_address => {
                 ip_address = cp.ip_address
-                hostname = format("talos-cp-%d", idx + 1)
+                hostname = format("talos-cp-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
         workers = {
             for idx, wk in var.talos.worker : wk.ip_address => {
                 ip_address  = wk.ip_address
-                hostname = format("talos-wk-%d", idx + 1)
+                hostname = format("talos-wk-%d", idx)
                 install_disk = "/dev/sda"
             }
         }

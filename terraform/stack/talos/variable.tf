@@ -199,42 +199,54 @@ variable "JENKINS_ENDPOINT" {
 
 variable "talos" {
   description = "Talos node configuration for controlplane and worker nodes."
-  type = object({
-    controlplane = list(object({
-      ip_address  = string
-      mac_address = string
-      vm_id       = string
-    }))
-    worker = list(object({
-      ip_address  = string
-      mac_address = string
-      vm_id       = string
-    }))
-  })
+    type = object({
+        controlplane = list(object({
+            ip_address  = string
+            mac_address = string
+            vm_id = number
+            cores = number
+            memory = number
+        }))
+        worker = list(object({
+            ip_address = string
+            mac_address = string
+            vm_id = number
+            cores = number
+            memory = number
+        }))
+    })
   default = {
     controlplane = [
-      {
-        ip_address  = "192.168.1.200"
-        mac_address = "00:11:22:33:44:55"
-        vm_id       = "1200"
-      },
-      {
-        ip_address  = "192.168.1.201"
-        mac_address = "00:11:22:33:44:66"
-        vm_id       = "1201"
-      },
-      {
-        ip_address  = "192.168.1.202"
-        mac_address = "00:11:22:33:44:77"
-        vm_id       = "1202"
-      },
+        {
+            ip_address = "192.168.1.200"
+            mac_address = "0a:00:00:00:12:00"
+            vm_id = "1200"
+            cores = 4
+            memory = 4096
+        },
+        {
+            ip_address = "192.168.1.201"
+            mac_address = "0a:00:00:00:12:01"
+            vm_id = "1201"
+            cores = 4
+            memory = 4096
+        },
+        {
+            ip_address = "192.168.1.202"
+            mac_address = "0a:00:00:00:12:02"
+            vm_id = "1202"
+            cores = 4
+            memory = 4096
+        },
     ]
     worker = [
-      {
-        ip_address  = "192.168.1.203"
-        mac_address = "00:11:22:33:44:88"
-        vm_id       = "1203"
-      }
+        {
+            ip_address = "192.168.1.203"
+            mac_address = "0a:00:00:00:12:03"
+            vm_id = "1203"
+            cores = 4
+            memory = 16384
+        }
     ]
   }
 }

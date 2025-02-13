@@ -1,42 +1,5 @@
-locals {
-    talos = {
-        global = {
-            agent = {
-                enabled = true
-                timeout = "5m"
-                trim = false
-                type = "virtio"
-            }
-        }
-        controlplane = [
-            {
-                ip_address = "192.168.1.200"
-                mac_address = "0a:00:00:00:12:00"
-                vm_id = "1200"
-            },
-            {
-                ip_address = "192.168.1.201"
-                mac_address = "0a:00:00:00:12:01"
-                vm_id = "1201"
-            },
-            {
-                ip_address = "192.168.1.202"
-                mac_address = "0a:00:00:00:12:02"
-                vm_id = "1202"
-            },
-        ]
-        worker = [
-            {
-                ip_address = "192.168.1.203"
-                mac_address = "0a:00:00:00:12:03"
-                vm_id = "1203"
-            }
-        ]
-    }
-}
-
 resource "proxmox_virtual_environment_vm" "talos_cp" {
-    for_each = { for idx, cp in local.talos.controlplane : idx => cp }
+    for_each = { for idx, cp in var.talos.controlplane : idx => cp }
 
     depends_on = [
         proxmox_virtual_environment_download_file.talos_image,
@@ -61,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     boot_order = ["scsi0"]
 
     cpu {
-        cores      = 4
+        cores      = each.value.cores
         flags      = ["+aes"]
         hotplugged = 0
         limit      = 0
@@ -93,7 +56,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     machine = "q35"
 
     memory {
-        dedicated = 4096
+        dedicated = each.value.memory
         floating  = 0
         shared    = 0
     }
@@ -133,5 +96,5 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         clipboard = "vnc"
     }
 
-    vm_id = tonumber(each.value.vm_id)
+    vm_id = each.value.vm_id
 }
