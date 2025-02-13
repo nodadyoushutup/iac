@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         enabled = true
     }
 
-    bios       = "seabios"
+    bios = "seabios"
     boot_order = ["scsi0"]
 
     cpu {

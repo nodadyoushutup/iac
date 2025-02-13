@@ -220,21 +220,21 @@ variable "talos" {
         {
             ip_address = "192.168.1.200"
             mac_address = "0a:00:00:00:12:00"
-            vm_id = "1200"
+            vm_id = 1200
             cores = 4
             memory = 4096
         },
         {
             ip_address = "192.168.1.201"
             mac_address = "0a:00:00:00:12:01"
-            vm_id = "1201"
+            vm_id = 1201
             cores = 4
             memory = 4096
         },
         {
             ip_address = "192.168.1.202"
             mac_address = "0a:00:00:00:12:02"
-            vm_id = "1202"
+            vm_id = 1202
             cores = 4
             memory = 4096
         },
@@ -243,7 +243,7 @@ variable "talos" {
         {
             ip_address = "192.168.1.203"
             mac_address = "0a:00:00:00:12:03"
-            vm_id = "1203"
+            vm_id = 1203
             cores = 4
             memory = 16384
         }
