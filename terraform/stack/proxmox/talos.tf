@@ -134,7 +134,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_1" {
         down_delay = 0
     }
 
-    tags = ["gitops"]
+    tags = ["gitops", "k8s-controlplane"]
 
     stop_on_destroy = true
 
@@ -283,7 +283,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_2" {
         down_delay = 0
     }
 
-    tags = ["gitops"]
+    tags = ["gitops", "k8s-controlplane"]
 
     stop_on_destroy = true
 
@@ -432,7 +432,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_3" {
         down_delay = 0
     }
 
-    tags = ["gitops"]
+    tags = ["gitops", "k8s-controlplane"]
 
     stop_on_destroy = true
 
@@ -581,7 +581,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk_1" {
         down_delay = 0
     }
 
-    tags = ["gitops"]
+    tags = ["gitops", "k8s-worker"]
 
     stop_on_destroy = true
 
