@@ -21,7 +21,40 @@ locals {
             ]
         }   
     }
+
+  cp_ips = {
+    "talos-cp-1" = "192.168.1.200"
+    "talos-cp-2" = "192.168.1.201"
+    "talos-cp-3" = "192.168.1.202"
+  }
+
+  worker_ips = {
+    "talos-wk-1" = "192.168.1.203"
+  }
+
+  node_data = {
+    controlplanes = {
+      for vm in data.proxmox_virtual_environment_vms.talos_controlplane.vms :
+      lookup(local.cp_ips, vm.name) => {
+        install_disk = "/dev/sda"
+        hostname = vm.name
+      }
+    }
+    workers = {
+      for vm in data.proxmox_virtual_environment_vms.talos_worker.vms :
+      lookup(local.worker_ips, vm.name) => {
+        install_disk = "/dev/sda"
+        hostname = vm.name
+      }
+    }
+  }
 }
+
+locals {
+  # Define a mapping of control plane hostnames to IPs.
+  
+}
+
 
 variable "cluster_name" {
   description = "A name to provide for the Talos cluster"
@@ -33,42 +66,6 @@ variable "cluster_endpoint" {
   description = "The endpoint for the Talos cluster"
   type = string
   default = "https://192.168.1.200:6443"
-}
-
-variable "node_data" {
-    description = "A map of node data"
-    type = object({
-        controlplanes = map(object({
-            install_disk = string
-            hostname = optional(string)
-        }))
-        workers = map(object({
-            install_disk = string
-            hostname = optional(string)
-        }))
-    })
-    default = {
-        controlplanes = {
-            "192.168.1.200" = {
-                install_disk = "/dev/sda"
-                hostname = "talos-cp-1"
-            },
-            "192.168.1.201" = {
-                install_disk = "/dev/sda"
-                hostname = "talos-cp-2"
-            },
-            "192.168.1.202" = {
-                install_disk = "/dev/sda"
-                hostname = "talos-cp-3"
-            }
-        }
-        workers = {
-            "192.168.1.203" = {
-                install_disk = "/dev/sda"
-                hostname = "talos-wk-1"
-            },
-        }
-    }
 }
 
 resource "talos_machine_secrets" "talos" {}
@@ -90,17 +87,17 @@ data "talos_machine_configuration" "worker" {
 data "talos_client_configuration" "talos" {
   cluster_name         = var.cluster_name
   client_configuration = talos_machine_secrets.talos.client_configuration
-  endpoints            = [for k, v in var.node_data.controlplanes : k]
+  endpoints            = [for k, v in local.node_data.controlplanes : k]
 }
 
 resource "talos_machine_configuration_apply" "controlplane" {
   client_configuration        = talos_machine_secrets.talos.client_configuration
   machine_configuration_input = data.talos_machine_configuration.controlplane.machine_configuration
-  for_each                    = var.node_data.controlplanes
+  for_each                    = local.node_data.controlplanes
   node                        = each.key
   config_patches = [
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", {
-      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(var.node_data.controlplanes), each.key)) : each.value.hostname
+      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.cluster_name, index(keys(local.node_data.controlplanes), each.key)) : each.value.hostname
       install_disk = each.value.install_disk
     }),
     file("${path.module}/files/cp-scheduling.yaml"),
@@ -110,11 +107,11 @@ resource "talos_machine_configuration_apply" "controlplane" {
 resource "talos_machine_configuration_apply" "worker" {
   client_configuration        = talos_machine_secrets.talos.client_configuration
   machine_configuration_input = data.talos_machine_configuration.worker.machine_configuration
-  for_each                    = var.node_data.workers
+  for_each                    = local.node_data.workers
   node                        = each.key
   config_patches = [
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", {
-      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(var.node_data.workers), each.key)) : each.value.hostname
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.cluster_name, index(keys(local.node_data.workers), each.key)) : each.value.hostname
       install_disk = each.value.install_disk
     })
   ]
@@ -124,13 +121,13 @@ resource "talos_machine_bootstrap" "talos" {
   depends_on = [talos_machine_configuration_apply.controlplane]
 
   client_configuration = talos_machine_secrets.talos.client_configuration
-  node                 = [for k, v in var.node_data.controlplanes : k][0]
+  node                 = [for k, v in local.node_data.controlplanes : k][0]
 }
 
 resource "talos_cluster_kubeconfig" "talos" {
   depends_on           = [talos_machine_bootstrap.talos]
   client_configuration = talos_machine_secrets.talos.client_configuration
-  node                 = [for k, v in var.node_data.controlplanes : k][0]
+  node                 = [for k, v in local.node_data.controlplanes : k][0]
 }
 
 resource "null_resource" "exec_development" {
