@@ -19,6 +19,15 @@ locals {
                 "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
                 "rm -rf /tmp/config",
             ]
+            talosconfig = [
+                "cat <<EOF > /tmp/config",
+                "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
+                "EOF",
+                "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
+                "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                "rm -rf /tmp/config",
+            ]
         }   
     }
 }
@@ -149,7 +158,12 @@ resource "null_resource" "exec_development" {
 
   provisioner "remote-exec" {
     inline = concat(
-      local.exec.inline.kubeconfig,
+        local.exec.inline.kubeconfig,
+        local.exec.inline.talosconfig,
     )
   }
+}
+
+output "machine_secrets" {
+    value = talos_machine_secrets.talos
 }
