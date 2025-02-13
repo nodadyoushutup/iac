@@ -22,29 +22,28 @@ locals {
         }   
     }
 
-    cp_ips = {
-        "talos-cp-1" = "192.168.1.200"
-        "talos-cp-2" = "192.168.1.201"
-        "talos-cp-3" = "192.168.1.202"
-    }
-
-    worker_ips = {
-        "talos-wk-1" = "192.168.1.203"
-    }
+    TALOS_CONTROLPLANE = [
+        "192.168.1.200",
+        "192.168.1.201",
+        "192.168.1.202",
+    ]
+    TALOS_WORKER = [
+        "192.168.1.203"
+    ]
 
     node_data = {
         controlplanes = {
-        for vm in data.proxmox_virtual_environment_vms.talos_controlplane.vms :
-        lookup(local.cp_ips, vm.name) => {
+        for idx, ip in local.TALOS_CONTROLPLANE : 
+        ip => {
             install_disk = "/dev/sda"
-            hostname = vm.name
+            hostname     = "talos-cp-${idx + 1}"
         }
         }
         workers = {
-        for vm in data.proxmox_virtual_environment_vms.talos_worker.vms :
-        lookup(local.worker_ips, vm.name) => {
+        for idx, ip in local.TALOS_WORKER : 
+        ip => {
             install_disk = "/dev/sda"
-            hostname = vm.name
+            hostname     = "talos-wk-${idx + 1}"
         }
         }
     }
