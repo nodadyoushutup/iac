@@ -22,3 +22,8 @@ resource "jenkins_job" "proxmox" {
   name = "proxmox"
   template = local.template.pipeline.proxmox
 }
+
+resource "jenkins_job" "talos" {
+  name = "talos"
+  template = local.template.pipeline.talos
+}

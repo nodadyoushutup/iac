@@ -41,6 +41,14 @@ locals {
           GIT_REPOSITORY_URL = var.GIT_REPOSITORY_URL
         }
       )
+      talos = templatefile(
+        "${path.module}/template/job.xml.tpl", 
+        {
+          SUBDIR = "terraform/stack/talos"
+          GIT_REPOSITORY_BRANCH = var.GIT_REPOSITORY_BRANCH
+          GIT_REPOSITORY_URL = var.GIT_REPOSITORY_URL
+        }
+      )
     }
   }
 }
