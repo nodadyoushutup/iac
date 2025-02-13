@@ -195,3 +195,46 @@ variable "JENKINS_ENDPOINT" {
     type = string
     default = null
 }
+
+
+variable "talos" {
+  description = "Talos node configuration for controlplane and worker nodes."
+  type = object({
+    controlplane = list(object({
+      ip_address  = string
+      mac_address = string
+      vm_id       = string
+    }))
+    worker = list(object({
+      ip_address  = string
+      mac_address = string
+      vm_id       = string
+    }))
+  })
+  default = {
+    controlplane = [
+      {
+        ip_address  = "192.168.1.200"
+        mac_address = "00:11:22:33:44:55"
+        vm_id       = "1200"
+      },
+      {
+        ip_address  = "192.168.1.201"
+        mac_address = "00:11:22:33:44:66"
+        vm_id       = "1201"
+      },
+      {
+        ip_address  = "192.168.1.202"
+        mac_address = "00:11:22:33:44:77"
+        vm_id       = "1202"
+      },
+    ]
+    worker = [
+      {
+        ip_address  = "192.168.1.203"
+        mac_address = "00:11:22:33:44:88"
+        vm_id       = "1203"
+      }
+    ]
+  }
+}
