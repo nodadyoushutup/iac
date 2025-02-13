@@ -28,7 +28,7 @@ locals {
 }
 
 resource "proxmox_virtual_environment_vm" "talos_cp" {
-    for_each = local.talos.controlplane
+    for_each = { for cp in local.talos.controlplane : cp.ip_address => cp }
 
     depends_on = [
         proxmox_virtual_environment_file.cloud_config
