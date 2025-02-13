@@ -37,6 +37,16 @@ resource "proxmox_virtual_environment_download_file" "talos_cp_3" {
   url = "https://factory.talos.dev/image/147f8d7596600487451158337e333300604087e30e5f9fa68149d421e45e238b/v1.9.3/metal-amd64.qcow2"
 }
 
+resource "proxmox_virtual_environment_download_file" "talos_wk_1" {
+  content_type = "iso"
+  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
+  node_name = var.PROXMOX_VE_SSH_NODE_NAME
+  overwrite = true
+  overwrite_unmanaged = true
+  file_name = "talos-wk-1-v1.9.3-metal-amd64.img"
+  url = "https://factory.talos.dev/image/3b33bebae884868595a8297fce54e65c4b8d250bc8a7758187eea52744e28177/v1.9.3/metal-amd64.qcow2"
+}
+
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_SNIPPET
