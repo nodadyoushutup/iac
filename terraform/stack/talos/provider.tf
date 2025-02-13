@@ -7,7 +7,7 @@ terraform {
     }
 
     backend "s3" {
-      key = "proxmox.tfstate"
+      key = "talos.tfstate"
     }
 }
 
