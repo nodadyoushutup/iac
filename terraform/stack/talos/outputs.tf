@@ -3,7 +3,7 @@
 #   sensitive = true
 # }
 
-output "kubeconfig" {
-  value = data.talos_cluster_kubeconfig.talos
-  sensitive = false
-}
+# output "kubeconfig" {
+#   value = data.talos_cluster_kubeconfig.talos
+#   sensitive = false
+# }

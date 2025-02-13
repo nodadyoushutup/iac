@@ -59,3 +59,24 @@ resource "talos_cluster_kubeconfig" "talos" {
   client_configuration = talos_machine_secrets.talos.client_configuration
   node                 = [for k, v in var.node_data.controlplanes : k][0]
 }
+
+resource "null_resource" "exec_development" {
+    depends_on = [talos_cluster_kubeconfig.talos]
+    triggers = {
+        always_run = timestamp()
+    }
+  
+    connection {
+        type = local.exec.connection.development.type
+        user = local.exec.connection.development.user
+        private_key = local.exec.connection.development.private_key
+        host = local.exec.connection.development.host
+        port = local.exec.connection.development.port
+    }
+
+    provisioner "remote-exec" {
+        inline = concat(
+            local.exec.inline.talos, 
+        )
+    }
+}
