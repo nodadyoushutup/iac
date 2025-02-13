@@ -11,24 +11,24 @@ locals {
         controlplane = [
             {
                 ip_address = "192.168.1.200"
-                mac_address = "00:11:22:33:44:55"
+                mac_address = "0a:00:00:00:12:00"
                 vm_id = "1200"
             },
             {
                 ip_address = "192.168.1.201"
-                mac_address = "00:11:22:33:44:66"
+                mac_address = "0a:00:00:00:12:01"
                 vm_id = "1201"
             },
             {
                 ip_address = "192.168.1.202"
-                mac_address = "00:11:22:33:44:77"
+                mac_address = "0a:00:00:00:12:02"
                 vm_id = "1202"
             },
         ]
         worker = [
             {
                 ip_address = "192.168.1.203"
-                mac_address = "00:11:22:33:44:88"
+                mac_address = "0a:00:00:00:12:03"
                 vm_id = "1203"
             }
         ]
@@ -72,7 +72,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         affinity   = null
     }
 
-    description = format("talos-cp-%d", each.key + 1)
+    description = format("talos-cp-%d", each.key)
 
     disk {
         aio           = "io_uring"
@@ -81,7 +81,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id  = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard       = "on"
         file_format   = "raw"
-        file_id       = "local:iso/${format("talos-cp-%d", each.key + 1)}-v1.9.3-metal-amd64.img"
+        file_id       = "local:iso/${format("talos-cp-%d", each.key)}-v1.9.3-metal-amd64.img"
         interface     = "scsi0"
         iothread      = false
         replicate     = true
@@ -98,7 +98,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         shared    = 0
     }
 
-    name = format("talos-cp-%d", each.key + 1)
+    name = format("talos-cp-%d", each.key)
 
     network_device {
         bridge      = "vmbr0"
