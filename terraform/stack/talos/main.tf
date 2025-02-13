@@ -53,14 +53,14 @@ variable "node_data" {
                 install_disk = "/dev/sda"
                 hostname = "talos-cp-1"
             },
-            # "192.168.1.201" = {
-            #     install_disk = "/dev/sda"
-            #     hostname = "talos-cp-2"
-            # },
-            # "192.168.1.202" = {
-            #     install_disk = "/dev/sda"
-            #     hostname = "talos-cp-3"
-            # }
+            "192.168.1.201" = {
+                install_disk = "/dev/sda"
+                hostname = "talos-cp-2"
+            },
+            "192.168.1.202" = {
+                install_disk = "/dev/sda"
+                hostname = "talos-cp-3"
+            }
         }
         workers = {
             "192.168.1.203" = {
