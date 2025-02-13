@@ -14,7 +14,7 @@ resource "proxmox_virtual_environment_download_file" "talos_image" {
   overwrite = true
   overwrite_unmanaged = true
   file_name = "talos-v1.9.3-metal-amd64.img"
-  url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/metal-amd64.qcow2"
+  url = "https://factory.talos.dev/image/fd434a92ae30d326c078ae8b2283ecde3b9e17eb95adf759624f5f4098a5b597/v1.9.3/metal-amd64.qcow2"
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
