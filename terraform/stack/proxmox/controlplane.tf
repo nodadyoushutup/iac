@@ -30,9 +30,7 @@ locals {
 resource "proxmox_virtual_environment_vm" "talos_cp" {
     for_each = local.talos.controlplane
 
-    # Adjust depends_on as needed; for example, if you have a download file resource per CP:
     depends_on = [
-        proxmox_virtual_environment_download_file.talos_cp_[each.key],
         proxmox_virtual_environment_file.cloud_config
     ]
     
@@ -75,7 +73,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id  = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard       = "on"
         file_format   = "raw"
-        file_id       = proxmox_virtual_environment_download_file.talos_cp_[each.key].id
+        file_id       = "${var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO}:iso/talos-cp-${each.key}-v1.9.3-metal-amd64.img"
         interface     = "scsi0"
         iothread      = false
         replicate     = true
