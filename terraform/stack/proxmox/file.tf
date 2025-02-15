@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_download_file" "cloud_image" {
   content_type = "iso"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
-  node_name = var.PROXMOX_VE_SSH_NODE_NAME
+  node_name = var.terraform_provider.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
   url = var.PROXMOX_VE_CLOUD_IMAGE_URL
@@ -10,7 +10,7 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
 resource "proxmox_virtual_environment_download_file" "talos_image" {
   content_type = "iso"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
-  node_name = var.PROXMOX_VE_SSH_NODE_NAME
+  node_name = var.terraform_provider.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
   file_name = "talos-v1.9.3-metal-amd64.img"
@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_download_file" "talos_image" {
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
   datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_SNIPPET
-  node_name = var.PROXMOX_VE_SSH_NODE_NAME
+  node_name = var.terraform_provider.proxmox.ssh.node.name
 
   source_raw {
     data = <<-EOF
