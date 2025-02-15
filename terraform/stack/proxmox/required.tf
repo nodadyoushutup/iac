@@ -123,8 +123,12 @@ resource "proxmox_virtual_environment_vm" "required" {
     vm_id = each.value.vm_id
 }
 
-resource "null_resource" "exec_docker" {
-    for_each = { for idx, vm in var.machine.required : idx => vm } # ??????
+resource "null_resource" "exec_required" {
+    for_each = { for idx, vm in var.machine.required : idx => vm }
+
+    depends_on = [
+        proxmox_virtual_environment_vm.required
+    ]
 
     triggers = {
         always_run = timestamp()
