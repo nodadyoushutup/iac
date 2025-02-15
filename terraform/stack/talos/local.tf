@@ -39,5 +39,5 @@ locals {
         }
     }
 
-    cluster_endpoint = "https://${local.node_data.controlplane[0].ip_address}:6443"
+    cluster_endpoint = "https://${var.talos.controlplane[0].ip_address}:6443"
 }
