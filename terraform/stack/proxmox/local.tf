@@ -21,22 +21,6 @@ locals {
     }
 
     exec = {
-        connection = {
-            docker = {
-                type = "ssh"
-                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
-                private_key = file(var.SSH_PRIVATE_KEY)
-                host = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
-                port = 22
-            }
-            development = {
-                type = "ssh"
-                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
-                private_key = file(var.SSH_PRIVATE_KEY)
-                host = var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
-                port = 22
-            }
-        }
         inline = {
             hostname = {
                 docker = ["sudo hostnamectl set-hostname docker"]
