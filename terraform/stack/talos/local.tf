@@ -23,7 +23,7 @@ locals {
     }
 
     node_data = {
-        controlplanes = {
+        controlplane = {
             for idx, cp in var.talos.controlplane : cp.ip_address => {
                 ip_address = cp.ip_address
                 hostname = format("talos-cp-%d", idx)
