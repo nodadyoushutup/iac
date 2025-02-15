@@ -144,9 +144,8 @@ resource "null_resource" "exec_required" {
 
     provisioner "remote-exec" {
         inline = concat(
-            [
-                "touch /tmp/test"
-            ]
+            local.exec.inline.gitconfig,
+            local.exec.inline.private_key
         )
     }
 }
