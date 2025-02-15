@@ -6,7 +6,7 @@ resource "proxmox_virtual_environment_vm" "development" {
     
     # REQUIRED
     ################################################
-    node_name = var.PROXMOX_VE_SSH_NODE_NAME
+    node_name = var.terraform_provider.proxmox.ssh.node.name
 
     # OPTIONAL
     ################################################

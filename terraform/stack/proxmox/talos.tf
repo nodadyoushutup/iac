@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         proxmox_virtual_environment_download_file.talos_image,
         proxmox_virtual_environment_file.cloud_config
     ]
-    node_name = var.PROXMOX_VE_SSH_NODE_NAME
+    node_name = var.terraform_provider.proxmox.ssh.node.name
 
     agent {
         enabled = true
@@ -106,7 +106,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         proxmox_virtual_environment_download_file.talos_image,
         proxmox_virtual_environment_file.cloud_config
     ]
-    node_name = var.PROXMOX_VE_SSH_NODE_NAME
+    node_name = var.terraform_provider.proxmox.ssh.node.name
 
     agent {
         enabled = true
