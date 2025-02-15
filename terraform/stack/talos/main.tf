@@ -9,7 +9,7 @@ data "talos_machine_configuration" "controlplane" {
 
 data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = var.cluster_endpoint
+  cluster_endpoint = "${var.talos.controlplane[0].ip_address}:6443"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.talos.machine_secrets
 }
