@@ -122,3 +122,27 @@ resource "proxmox_virtual_environment_vm" "required" {
 
     vm_id = each.value.vm_id
 }
+
+resource "null_resource" "exec_docker" {
+    for_each = { for idx, vm in var.machine.required : idx => vm } # ??????
+
+    triggers = {
+        always_run = timestamp()
+    }
+  
+    connection {
+        type = "ssh"
+        user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
+        private_key = file(var.SSH_PRIVATE_KEY)
+        host = each.value.ipv4.address
+        port = 22
+    }
+
+    provisioner "remote-exec" {
+        inline = concat(
+            [
+                "touch /tmp/test"
+            ]
+        )
+    }
+}
