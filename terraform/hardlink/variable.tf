@@ -196,7 +196,7 @@ variable "JENKINS_ENDPOINT" {
     default = null
 }
 
-variable "provider" {
+variable "terraform_provider" {
   description = "Proxmox provider configuration"
   type = object({
     proxmox = object({
