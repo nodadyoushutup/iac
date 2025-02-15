@@ -144,8 +144,10 @@ resource "null_resource" "exec_required" {
 
     provisioner "remote-exec" {
         inline = concat(
-            "sudo hostnamectl set-hostname ${each.value.name}",
-            "sudo systemctl restart systemd-hostnamed",
+            [
+                "sudo hostnamectl set-hostname ${each.value.name}",
+                "sudo systemctl restart systemd-hostnamed"
+            ],
             local.exec.inline.gitconfig,
             local.exec.inline.private_key
         )
