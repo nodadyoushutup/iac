@@ -5,6 +5,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         proxmox_virtual_environment_download_file.talos_image,
         proxmox_virtual_environment_file.cloud_config
     ]
+    
     node_name = var.terraform.proxmox.ssh.node.name
 
     agent {
@@ -20,7 +21,8 @@ resource "proxmox_virtual_environment_vm" "required" {
         enabled = true
     }
 
-    bios = "seabios"
+    bios = "ovmf"
+
     boot_order = ["scsi0"]
 
     cpu {
