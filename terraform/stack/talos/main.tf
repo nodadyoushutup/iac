@@ -2,14 +2,14 @@ resource "talos_machine_secrets" "talos" {}
 
 data "talos_machine_configuration" "controlplane" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = var.cluster_endpoint
+  cluster_endpoint = local.cluster_endpoint
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.talos.machine_secrets
 }
 
 data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = "https://${local.node_data.controlplane[0].ip_address}:6443"
+  cluster_endpoint = local.cluster_endpoint
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.talos.machine_secrets
 }
