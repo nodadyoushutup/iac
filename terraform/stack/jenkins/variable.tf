@@ -196,6 +196,23 @@ variable "JENKINS_ENDPOINT" {
     default = null
 }
 
+variable "provider" {
+  description = "Proxmox provider configuration"
+  type = object({
+    proxmox = object({
+      endpoint = string
+      password = string
+      username = string
+      ssh = object({
+        username = string
+        node = object({
+          name    = string
+          address = string
+        })
+      })
+    })
+  })
+}
 
 variable "talos" {
   description = "Talos node configuration for controlplane and worker nodes."
