@@ -224,12 +224,20 @@ variable "machine" {
                     mac_address = string
                     gateway = string
                 })
+                name = string
+                network_device = object({
+                    mac_address = string
+                })
             })
             cicd = object({
                 ipv4 = object({
                     address = string
                     mac_address = string
                     gateway = string
+                })
+                name = string
+                network_device = object({
+                    mac_address = string
                 })
             })
         })
@@ -240,6 +248,10 @@ variable "machine" {
                     address = string
                     mac_address = string
                     gateway = string
+                })
+                name = string
+                network_device = object({
+                    mac_address = string
                 })
                 cpu = object({
                     cores = number
@@ -257,6 +269,10 @@ variable "machine" {
                     address = string
                     mac_address = string
                     gateway = string
+                })
+                name = string
+                network_device = object({
+                    mac_address = string
                 })
                 cpu = object({
                     cores = number
@@ -278,6 +294,10 @@ variable "machine" {
                     mac_address = string
                     gateway = string
                 })
+                name = string
+                network_device = object({
+                    mac_address = string
+                })
                 cpu = object({
                     cores = number
                 })
@@ -294,6 +314,10 @@ variable "machine" {
                     address = string
                     mac_address = string
                     gateway = string
+                })
+                name = string
+                network_device = object({
+                    mac_address = string
                 })
                 cpu = object({
                     cores = number
