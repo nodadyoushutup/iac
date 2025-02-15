@@ -221,7 +221,6 @@ variable "machine" {
             nas = object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
@@ -232,7 +231,6 @@ variable "machine" {
             cicd = object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
@@ -246,7 +244,6 @@ variable "machine" {
             docker = object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
@@ -267,7 +264,6 @@ variable "machine" {
             development = object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
@@ -291,7 +287,6 @@ variable "machine" {
             controlplane = list(object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
@@ -312,7 +307,6 @@ variable "machine" {
             worker = list(object({
                 ipv4 = object({
                     address = string
-                    mac_address = string
                     gateway = string
                 })
                 name = string
