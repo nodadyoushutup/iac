@@ -149,7 +149,8 @@ resource "null_resource" "exec_required" {
                 "sudo systemctl restart systemd-hostnamed"
             ],
             local.exec.inline.gitconfig,
-            local.exec.inline.private_key
+            local.exec.inline.private_key,
+            each.value.exec
         )
     }
 }
