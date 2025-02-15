@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         affinity = null
     }
 
-    description = format("talos-wk-%d", each.key)
+    description = each.value.name
 
     disk {
         aio = "io_uring"
@@ -83,7 +83,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         shared    = 0
     }
 
-    name = format("talos-wk-%d", each.key)
+    name = each.value.name
 
     network_device {
         bridge = "vmbr0"
