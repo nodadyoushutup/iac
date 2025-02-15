@@ -49,7 +49,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         iothread = false
         replicate = true
         serial = null
-        size = 100
+        size = 20
         ssd = true
     }
 
@@ -150,7 +150,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         iothread = false
         replicate = true
         serial = null
-        size = 100
+        size = 20
         ssd = true
     }
 
