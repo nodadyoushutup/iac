@@ -11,19 +11,19 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint = var.PROXMOX_VE_ENDPOINT
-  password = var.PROXMOX_VE_PASSWORD
-  username = var.PROXMOX_VE_USERNAME
+  endpoint = var.terraform_provider.proxmox.endpoint
+  password = var.terraform_provider.proxmox.password
+  username = var.terraform_provider.proxmox.username
   random_vm_ids = true
   insecure = true
   ssh {
     agent = true
     # agent_socket = 1022
-    username = var.PROXMOX_VE_SSH_USERNAME
+    username = var.terraform_provider.proxmox.ssh.username
     private_key = file(var.SSH_PRIVATE_KEY)
     node {
-      name    = var.PROXMOX_VE_SSH_NODE_NAME
-      address = var.PROXMOX_VE_SSH_NODE_ADDRESS
+      name = var.terraform_provider.proxmox.ssh.node.name
+      address = var.terraform_provider.proxmox.ssh.node.address
     }
   }
 }
