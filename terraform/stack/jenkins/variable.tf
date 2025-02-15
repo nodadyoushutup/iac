@@ -259,6 +259,7 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
+                exec = list(string)
                 vm_id = number
             })
             development = object({
@@ -279,6 +280,7 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
+                exec = list(string)
                 vm_id = number
             })
         })
@@ -302,6 +304,7 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
+                exec = list(string)
                 vm_id = number
             }))
             worker = list(object({
@@ -322,6 +325,7 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
+                exec = list(string)
                 vm_id = number
             }))
         })
