@@ -76,7 +76,7 @@ resource "null_resource" "exec_development" {
 
   provisioner "remote-exec" {
     inline = concat(
-        local.exec.inline.kubeconfig,
+      local.exec.inline.kubeconfig,
     )
   }
 }
