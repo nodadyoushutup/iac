@@ -14,19 +14,9 @@ locals {
             }
         )
     }
-    
-    hostname = {
-        docker = "docker"
-        development = "development"
-    }
 
     exec = {
         inline = {
-            hostname = {
-                docker = ["sudo hostnamectl set-hostname docker"]
-                development = ["sudo hostnamectl set-hostname development"]
-                restart = ["sudo systemctl restart systemd-hostnamed"]
-            }
             gitconfig = [
                 "cat <<EOF > /tmp/.gitconfig",
                 "${local.template.gitconfig}",
