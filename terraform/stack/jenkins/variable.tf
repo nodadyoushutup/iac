@@ -196,8 +196,27 @@ variable "JENKINS_ENDPOINT" {
     default = null
 }
 
+variable "terraform_provider" {
+    description = "Terraform provider configurations"
+    type = object({
+        proxmox = object({
+        endpoint = string
+        password = string
+        username = string
+        ssh = object({
+            username = string
+            node = object({
+            name = string
+            address = string
+            })
+        })
+        })
+    })
+}
+
+
 variable "talos" {
-  description = "Talos node configuration for controlplane and worker nodes."
+  description = "Talos node configuration for controlplane and worker nodes"
     type = object({
         controlplane = list(object({
             ip_address  = string
