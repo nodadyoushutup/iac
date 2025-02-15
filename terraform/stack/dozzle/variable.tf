@@ -206,8 +206,8 @@ variable "terraform" {
         ssh = object({
             username = string
             node = object({
-            name = string
-            address = string
+                name = string
+                address = string
             })
         })
         })
