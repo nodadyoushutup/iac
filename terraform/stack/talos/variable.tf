@@ -196,7 +196,7 @@ variable "JENKINS_ENDPOINT" {
     default = null
 }
 
-variable "terraform_provider" {
+variable "terraform" {
     description = "Terraform provider configurations"
     type = object({
         proxmox = object({
@@ -214,57 +214,102 @@ variable "terraform_provider" {
     })
 }
 
-
-variable "talos" {
-  description = "Talos node configuration for controlplane and worker nodes"
+variable "machine" {
+    description = "Machine configuration"
     type = object({
-        controlplane = list(object({
-            ip_address  = string
-            mac_address = string
-            vm_id = number
-            cores = number
-            memory = number
-        }))
-        worker = list(object({
-            ip_address = string
-            mac_address = string
-            vm_id = number
-            cores = number
-            memory = number
-        }))
+        clickops = object({
+            nas = object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+            })
+            cicd = object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+            })
+        })
+
+        required = object({
+            docker = object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+                cpu = object({
+                    cores = number
+                })
+                memory = object({
+                    dedicated = number
+                })
+                disk = object({
+                    size = number
+                })
+                vm_id = number
+            })
+            development = object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+                cpu = object({
+                    cores = number
+                })
+                memory = object({
+                    dedicated = number
+                })
+                disk = object({
+                    size = number
+                })
+                vm_id = number
+            })
+        })
+
+        talos = object({
+            controlplane = list(object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+                cpu = object({
+                    cores = number
+                })
+                memory = object({
+                    dedicated = number
+                })
+                disk = object({
+                    size = number
+                })
+                vm_id = number
+            }))
+            worker = list(object({
+                ipv4 = object({
+                    address = string
+                    mac_address = string
+                    gateway = string
+                })
+                cpu = object({
+                    cores = number
+                })
+                memory = object({
+                    dedicated = number
+                })
+                disk = object({
+                    size = number
+                })
+                vm_id = number
+            }))
+        })
+
+        custom = optional(object({}))
+        
+        global = optional(object({}))
     })
-  default = {
-    controlplane = [
-        {
-            ip_address = "192.168.1.200"
-            mac_address = "0a:00:00:00:12:00"
-            vm_id = 1200
-            cores = 4
-            memory = 4096
-        },
-        {
-            ip_address = "192.168.1.201"
-            mac_address = "0a:00:00:00:12:01"
-            vm_id = 1201
-            cores = 4
-            memory = 4096
-        },
-        {
-            ip_address = "192.168.1.202"
-            mac_address = "0a:00:00:00:12:02"
-            vm_id = 1202
-            cores = 4
-            memory = 4096
-        },
-    ]
-    worker = [
-        {
-            ip_address = "192.168.1.203"
-            mac_address = "0a:00:00:00:12:03"
-            vm_id = 1203
-            cores = 4
-            memory = 16384
-        }
-    ]
-  }
 }
