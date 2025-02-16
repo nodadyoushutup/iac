@@ -211,4 +211,5 @@ variable "git" {
     type = object({
         github_username = optional(string, "nodadyoushutup")
     })
+    default = {}
 }
