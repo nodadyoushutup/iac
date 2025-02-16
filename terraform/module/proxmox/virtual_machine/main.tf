@@ -36,8 +36,8 @@ resource "proxmox_virtual_environment_file" "cloud" {
     node_name = var.cloud_config.node_name
 
     source_raw {
-        data = var.image.file_name == "nocloud-amd64.img" ? local.cloud_config.talos : local.cloud_config.cloud
-        file_name = var.image.file_name == "nocloud-amd64.img" ? "${var.name}-cloud-config.yaml" : "${var.name}-cloud-config.yaml"
+        data = can(regex("talos", var.image.file_name)) ? local.cloud_config.talos : local.cloud_config.cloud
+        file_name = "${var.name}-cloud-config.yaml"
     }
 }
 
@@ -72,7 +72,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         affinity = var.cpu.affinity
     }
 
-    description = var.description
+    description = var.description != null ? var.description : var.name
 
     disk {
         aio = var.disk.aio

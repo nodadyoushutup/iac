@@ -123,7 +123,6 @@ variable "memory" {
 variable "name" {
     description = "name"
     type = string
-    default = "virtual-machine"
 }
 
 variable "node_name" {
