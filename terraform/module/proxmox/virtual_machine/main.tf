@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
     node_name = var.cloud_config.node_name
 
     source_raw {
-        data = can(regex("talos", var.image.file_name)) ? local.cloud_config.talos : local.cloud_config.cloud
+        data = can(regex("talos-image", var.image.file_name)) ? local.cloud_config.talos : local.cloud_config.cloud
         file_name = "${var.name}-cloud-config.yaml"
     }
 }
