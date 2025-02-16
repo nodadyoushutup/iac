@@ -208,10 +208,11 @@ variable "cloud_config" {
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
         username = object({
-            github = string
+            github = optional(string, null)
             machine = optional(string, "nodadyoushutup")
         })
     })
+    default = {}
 }
 
 variable "image" {
