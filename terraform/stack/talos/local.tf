@@ -24,20 +24,22 @@ locals {
 
     node_data = {
         controlplane = {
-            for idx, machine in var.machine.talos.controlplane : machine => {
+            for idx, machine in var.machine.talos.controlplane : 
+                machine.name => {
                 address = machine.ipv4.address
                 hostname = format("talos-cp-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
         worker = {
-            for idx, machine in var.machine.talos.controlplane : machine => {
+            for idx, machine in var.machine.talos.worker : 
+                machine.name => {
                 address = machine.ipv4.address
                 hostname = format("talos-wk-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
-    }
+        }
 
     cluster_endpoint = "https://${var.machine.talos.controlplane[0].ipv4.address}:6443"
 }
