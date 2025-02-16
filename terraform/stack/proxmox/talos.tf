@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     boot_order = ["scsi0"]
 
     cpu {
-        cores = each.value.cores
+        cores = each.value.cpu.cores
         flags = ["+aes"]
         hotplugged = 0
         limit = 0
@@ -49,14 +49,14 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         iothread = false
         replicate = true
         serial = null
-        size = 20
+        size = each.value.disk.size
         ssd = true
     }
 
     machine = "q35"
 
     memory {
-        dedicated = each.value.memory
+        dedicated = each.value.memory.dedicated
         floating  = 0
         shared    = 0
     }
@@ -68,7 +68,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = each.value.mac_address
+        mac_address = each.value.network_device.mac_address
         model = "virtio"
     }
 
@@ -125,7 +125,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
     boot_order = ["scsi0"]
 
     cpu {
-        cores = each.value.cores
+        cores = each.value.cpu.cores
         flags = ["+aes"]
         hotplugged = 0
         limit = 0
@@ -150,14 +150,14 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         iothread = false
         replicate = true
         serial = null
-        size = 20
+        size = each.value.disk.size
         ssd = true
     }
 
     machine = "q35"
 
     memory {
-        dedicated = each.value.memory
+        dedicated = each.value.memory.dedicated
         floating  = 0
         shared    = 0
     }
@@ -169,7 +169,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = each.value.mac_address
+        mac_address = each.value.network_device.mac_address
         model = "virtio"
     }
 
