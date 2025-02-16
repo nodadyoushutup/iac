@@ -29,7 +29,6 @@ locals {
                 "cat <<EOF > /tmp/id_rsa",
                 "${local.template.private_key}",
                 "EOF",
-                "chmod 600 /tmp/id_rsa",
                 "cp -p /tmp/id_rsa /home/${var.machine.global.username}/.ssh/id_rsa",
                 "chown ${var.machine.global.username}:${var.machine.global.username} /home/${var.machine.global.username}/.ssh/id_rsa",
                 "chmod 600 /home/${var.machine.global.username}/.ssh/id_rsa",
