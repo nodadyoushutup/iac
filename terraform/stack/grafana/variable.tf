@@ -247,6 +247,11 @@ variable "machine" {
                 type = string
             })
             started = bool
+            startup = object({
+                order = number
+                up_delay = number
+                down_delay = number
+            })
         })
 
         # custom = object({

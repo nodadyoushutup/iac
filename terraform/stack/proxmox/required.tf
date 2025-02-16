@@ -106,9 +106,9 @@ resource "proxmox_virtual_environment_vm" "required" {
     started = try(each.value.started != null, false) ? each.value.started : var.machine.global.started
 
     startup {
-        order    = 2
-        up_delay = 0
-        down_delay = 0
+        order = try(each.value.startup.order != null && each.value.disk.size > 0, false) ? each.value.startup.order : var.machine.global.startup.order
+        up_delay = try(each.value.startup.up_delay != null && each.value.disk.size > 0, false) ? each.value.startup.up_delay : var.machine.global.startup.up_delay
+        down_delay = try(each.value.startup.down_delay != null && each.value.disk.size > 0, false) ? each.value.startup.down_delay : var.machine.global.startup.down_delay
     }
 
     tags = ["gitops", "cloud-image"]
