@@ -43,7 +43,7 @@ resource "docker_container" "prometheus" {
   }
 
   # healthcheck {
-  #   test = ["CMD", "curl", "-f", "http://${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"]
+  #   test = ["CMD", "curl", "-f", "http://${var.machine_required_docker_ipv4_address}:9090"]
   #   interval = "5s"
   #   retries = 12
   # }

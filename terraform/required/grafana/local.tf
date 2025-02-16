@@ -11,7 +11,8 @@ locals {
                 "${path.module}/../grafana/template/node_exporter.json.tpl", 
                 {
                     datasource = "prometheus",
-                    VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
+                    machine_required_docker_ipv4_address = var.machine.required.docker.ipv4.address
+                    machine_required_docker_ipv4_address = var.machine.required.docker.ipv4.address
                 }
             )
         }

@@ -23474,8 +23474,8 @@
       },
       {
         "current": {
-          "text": "${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}",
-          "value": "${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}"
+          "text": "${machine_required_docker_ipv4_address}",
+          "value": "${machine_required_docker_ipv4_address}"
         },
         "datasource": {
           "type": "prometheus",
