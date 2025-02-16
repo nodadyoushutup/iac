@@ -1,13 +1,13 @@
 terraform {
-    required_providers {
-        proxmox = {
-            source = "bpg/proxmox"
-        }
+  required_providers {
+    proxmox = {
+      source = "bpg/proxmox"
     }
+  }
 
-    backend "s3" {
-      key = "proxmox.tfstate"
-    }
+  backend "s3" {
+    key = "proxmox.tfstate"
+  }
 }
 
 provider "proxmox" {
