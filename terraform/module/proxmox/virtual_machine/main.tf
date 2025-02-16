@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_download_file" "cloud" {
     overwrite = true
     overwrite_unmanaged = true
     file_name = "${var.name}-cloud-image-x86-64-jammy-${var.image.version}.img"
-    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/${var.image.version}/cloud-image-x86-64-jammy-${var.image.version}.img"
+    url = "${var.image.repository}/releases/download/${var.image.version}/cloud-image-x86-64-jammy-${var.image.version}.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {

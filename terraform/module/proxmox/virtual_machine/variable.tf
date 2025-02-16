@@ -220,6 +220,7 @@ variable "image" {
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
         version = optional(string, "0.1.13")
+        repository = optional(string, "https://github.com/nodadyoushutup/cloud-image")
     })
     default = {}
 }
