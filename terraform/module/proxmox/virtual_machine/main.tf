@@ -22,7 +22,9 @@ locals {
         )
         talos = templatefile(
             "${path.module}/template/talos_cloud_config.yaml.tpl",
-            {}
+            {
+                hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : var.name
+            }
         )
     }
 }
@@ -35,7 +37,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 
     source_raw {
         data = var.image.file_name == "nocloud-amd64.raw" ? local.cloud_config.talos : local.cloud_config.cloud
-        file_name = "${var.name}-cloud-config.yaml"
+        file_name = var.image.file_name == "nocloud-amd64.raw" ? "${var.name}-talos-cloud-config.yaml" : "${var.name}-cloud-config.yaml"
     }
 }
 

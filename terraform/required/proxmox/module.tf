@@ -31,7 +31,7 @@ module "debug_vm_test" {
     }
   }
 
-  name = "test"
+  name = "talos-cp-0"
   
   vm_id = 190
 }
