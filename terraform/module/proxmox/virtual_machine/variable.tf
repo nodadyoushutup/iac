@@ -210,7 +210,7 @@ variable "cloud_config" {
         username = object({
             github = optional(string, null)
             machine = optional(string, "nodadyoushutup")
-        })
+        }, {})
     })
     default = {}
 }
