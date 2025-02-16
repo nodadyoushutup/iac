@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_vm" "required" {
     boot_order = var.machine.global.boot_order
 
     cpu {
-        cores = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, null) ? each.value.cpu.cores : var.machine.global.cpu.cores
+        cores = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, false) ? each.value.cpu.cores : var.machine.global.cpu.cores
         flags = var.machine.global.cpu.flags
         hotplugged = var.machine.global.cpu.hotplugged
         limit = var.machine.global.cpu.limit
@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         # affinity = var.machine.global.cpu.affinity
     }
 
-    description = try(each.value.description != null && each.value.description > 0, null) ? each.value.description : var.machine.global.description
+    description = try(each.value.description != null && each.value.description > 0, false) ? each.value.description : var.machine.global.description
 
     disk {
         aio = var.machine.global.disk.aio
@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         iothread = var.machine.global.disk.iothread
         replicate = var.machine.global.disk.replicate
         # serial = var.machine.global.disk.serial
-        size = try(each.value.disk.size != null && each.value.disk.size > 0, null) ? each.value.disk.size : var.machine.global.disk.size
+        size = try(each.value.disk.size != null && each.value.disk.size > 0, false) ? each.value.disk.size : var.machine.global.disk.size
         ssd = var.machine.global.disk.ssd
     }
 
