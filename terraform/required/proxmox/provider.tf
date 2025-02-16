@@ -1,3 +1,5 @@
+# terraform/required/proxmox/provider.tf
+
 terraform {
   required_providers {
     proxmox = {
@@ -26,4 +28,8 @@ provider "proxmox" {
       address = var.terraform.proxmox.ssh.node.address
     }
   }
+}
+
+module "debug" {
+    source = "../../module/virtual_machine"
 }
