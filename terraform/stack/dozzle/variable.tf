@@ -192,6 +192,20 @@ variable "machine" {
             }))
         })
 
+        global = object({
+            agent = object({
+                enabled = bool
+                timeout = string
+                trim = bool
+                type = string
+            })
+            audio_device = object({
+                device  = string
+                driver  = string
+                enabled = bool
+            })
+        })
+
         # custom = object({
         #     machine = object({
         #         ipv4 = object({
@@ -215,8 +229,6 @@ variable "machine" {
         #         vm_id = number
         #     })
         # })
-        
-        global = optional(object({}))
     })
 }
 
