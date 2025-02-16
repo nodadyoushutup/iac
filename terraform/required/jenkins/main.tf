@@ -14,8 +14,8 @@ resource "jenkins_folder" "required" {
 resource "jenkins_job" "stack" {
   for_each = toset(local.directories)
 
-  folder   = jenkins_folder.required.id
-  name     = each.value
+  folder = jenkins_folder.required.id
+  name = each.value
   template = local.template.pipeline.dozzle
 }
 
