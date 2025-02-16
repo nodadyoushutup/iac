@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_vm" "required" {
     boot_order = var.machine.global.boot_order
 
     cpu {
-        cores = try(machine.cpu.cores != null && machine.cpu.cores > 0, false) ? machine.cpu.cores : var.machine.global.cpu.cores
+        cores = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, false) ? each.value.cpu.cores : var.machine.global.cpu.cores
         flags = var.machine.global.cpu.flags
         hotplugged = var.machine.global.cpu.hotplugged
         limit = var.machine.global.cpu.limit
@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         # affinity = var.machine.global.cpu.affinity
     }
 
-    description = try(machine.description != null && machine.description > 0, false) ? machine.description : var.machine.global.description
+    description = try(each.value.description != null && each.value.description > 0, false) ? each.value.description : var.machine.global.description
 
     disk {
         aio = var.machine.global.disk.aio
@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         iothread = var.machine.global.disk.iothread
         replicate = var.machine.global.disk.replicate
         # serial = var.machine.global.disk.serial
-        size = try(machine.disk.size != null && machine.disk.size > 0, false) ? machine.disk.size : var.machine.global.disk.size
+        size = try(each.value.disk.size != null && each.value.disk.size > 0, false) ? each.value.disk.size : var.machine.global.disk.size
         ssd = var.machine.global.disk.ssd
     }
 
@@ -68,8 +68,8 @@ resource "proxmox_virtual_environment_vm" "required" {
         
         ip_config {
             ipv4 {
-                address = "${machine.ipv4.address}/24"
-                gateway = machine.ipv4.gateway
+                address = "${each.value.ipv4.address}/24"
+                gateway = each.value.ipv4.gateway
             }
             ipv6 {
                 address = "dhcp"
@@ -80,19 +80,19 @@ resource "proxmox_virtual_environment_vm" "required" {
     machine = "q35"
 
     memory {
-        dedicated = machine.memory.dedicated
+        dedicated = each.value.memory.dedicated
         floating  = 0
         shared    = 0
     }
 
-    name = machine.name
+    name = each.value.name
 
     network_device {
         bridge = "vmbr0"
         disconnected = false
         enabled = true
         firewall = false
-        mac_address = machine.network_device.mac_address
+        mac_address = each.value.network_device.mac_address
         model = "virtio"
     }
 
@@ -120,7 +120,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         clipboard = "vnc"
     }
 
-    vm_id = machine.vm_id
+    vm_id = each.value.vm_id
 }
 
 resource "null_resource" "exec_required" {
@@ -138,19 +138,19 @@ resource "null_resource" "exec_required" {
         type = "ssh"
         user = var.machine.global.username
         private_key = file(var.SSH_PRIVATE_KEY)
-        host = machine.ipv4.address
+        host = each.value.ipv4.address
         port = 22
     }
 
     provisioner "remote-exec" {
         inline = concat(
             [
-                "sudo hostnamectl set-hostname ${machine.name}",
+                "sudo hostnamectl set-hostname ${each.value.name}",
                 "sudo systemctl restart systemd-hostnamed"
             ],
             local.exec.inline.gitconfig,
             local.exec.inline.private_key,
-            machine.exec
+            each.value.exec
         )
     }
 }
