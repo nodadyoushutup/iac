@@ -204,6 +204,19 @@ variable "machine" {
                 driver  = string
                 enabled = bool
             })
+            bios = string
+            boot_order = list(string)
+            cpu = object({
+                cores = number
+                flags = list(string)
+                hotplugged = number
+                limit = number
+                numa = bool
+                sockets = number
+                type = string
+                units = number
+                # affinity = null
+            })
         })
 
         # custom = object({
