@@ -78,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         }
     }
 
-    machine = "q35"
+    machine = each.value.machine
 
     memory {
         dedicated = each.value.memory.dedicated

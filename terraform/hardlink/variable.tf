@@ -228,6 +228,7 @@ variable "machine" {
                 address = string
                 # gateway = string
             })
+            machine = string
         })
 
         # custom = object({
