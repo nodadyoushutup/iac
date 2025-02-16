@@ -3,7 +3,7 @@ locals {
         connection = {
             development = {
                 type = "ssh"
-                user = var.machine.global.user
+                user = var.machine.global.username
                 private_key = file(var.SSH_PRIVATE_KEY)
                 host = var.machine.required.development.ipv4.address
                 port = 22
