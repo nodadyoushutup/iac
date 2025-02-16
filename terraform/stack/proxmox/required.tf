@@ -73,7 +73,7 @@ resource "proxmox_virtual_environment_vm" "required" {
             }
             ipv6 {
                 address = try(each.value.ipv6.address != null, false) ? each.value.ipv6.address : var.machine.global.ipv6.address
-                gateway = try(each.value.ipv6.gateway != null, false) ? each.value.ipv6.gateway : var.machine.global.ipv6.gateway
+                # gateway = try(each.value.ipv6.gateway != null, false) ? each.value.ipv6.gateway : var.machine.global.ipv6.gateway
             }
         }
     }

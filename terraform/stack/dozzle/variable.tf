@@ -226,7 +226,7 @@ variable "machine" {
             })
             ipv6 = object({
                 address = string
-                gateway = string
+                # gateway = string
             })
         })
 
