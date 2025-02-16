@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         # affinity = var.machine.global.cpu.affinity
     }
 
-    description = try(each.value.description != null && each.value.description > 0, false) ? each.value.description : var.machine.global.description
+    description = try(each.value.description != null, false) ? each.value.description : var.machine.global.description
 
     disk {
         aio = var.machine.global.disk.aio
@@ -68,12 +68,12 @@ resource "proxmox_virtual_environment_vm" "required" {
         
         ip_config {
             ipv4 {
-                address = "${each.value.ipv4.address}/24"
-                gateway = each.value.ipv4.gateway
+                address = try(each.value.ipv4.address != null, false) ? "${each.value.ipv4.address}/24" : var.machine.global.ipv4.address
+                gateway = try(each.value.ipv4.gateway != null, false) ? each.value.ipv4.gateway : var.machine.global.ipv4.gateway
             }
             ipv6 {
-                address = each.value.ipv6.address
-                gateway = each.value.ipv6.gateway
+                address = try(each.value.ipv6.address != null, false) ? each.value.ipv6.address : var.machine.global.ipv6.address
+                gateway = try(each.value.ipv6.gateway != null, false) ? each.value.ipv6.gateway : var.machine.global.ipv6.gateway
             }
         }
     }
