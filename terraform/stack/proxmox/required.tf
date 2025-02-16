@@ -34,25 +34,25 @@ resource "proxmox_virtual_environment_vm" "required" {
         sockets = try(each.value.cpu.sockets != null && each.value.cpu.sockets > 0, false) ? each.value.cpu.sockets : var.machine.global.cpu.sockets
         type = try(each.value.cpu.type != null, false) ? each.value.cpu.type : var.machine.global.cpu.type
         units = try(each.value.cpu.units != null && each.value.cpu.units > 0, false) ? each.value.cpu.units : var.machine.global.cpu.units
-        # affinity = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, false) ? each.value.cpu.cores : var.machine.global.cpu.cores
+        # affinity = try(each.value.cpu.affinity != null && each.value.cpu.affinity > 0, false) ? each.value.cpu.affinity : var.machine.global.cpu.affinity
     }
 
     description = try(each.value.description != null, false) ? each.value.description : var.machine.global.description
 
     disk {
-        aio = var.machine.global.disk.aio
-        backup = var.machine.global.disk.backup
-        cache = var.machine.global.disk.cache
+        aio = try(each.value.disk.aio != null, false) ? each.value.disk.aio : var.machine.global.disk.aio
+        backup = try(each.value.disk.backup != null, false) ? each.value.disk.backup : var.machine.global.disk.backup
+        cache = try(each.value.disk.cache != null, false) ? each.value.disk.cache : var.machine.global.disk.cache
         datastore_id = var.terraform.proxmox.datastore_id.disk
-        discard = var.machine.global.disk.discard
-        file_format = var.machine.global.disk.file_format
+        discard = try(each.value.disk.discard != null, false) ? each.value.disk.discard : var.machine.global.disk.discard
+        file_format = try(each.value.disk.file_format != null, false) ? each.value.disk.file_format : var.machine.global.disk.file_format
         file_id = proxmox_virtual_environment_download_file.cloud.id
-        interface = var.machine.global.disk.interface
-        iothread = var.machine.global.disk.iothread
-        replicate = var.machine.global.disk.replicate
-        # serial = var.machine.global.disk.serial
+        interface = try(each.value.disk.interface != null, false) ? each.value.disk.interface : var.machine.global.disk.interface
+        iothread = try(each.value.disk.iothread != null, false) ? each.value.disk.iothread : var.machine.global.disk.iothread
+        replicate = try(each.value.disk.replicate != null, false) ? each.value.disk.replicate : var.machine.global.disk.replicate
+        # serial = try(each.value.disk.serial != null, false) ? each.value.disk.serial : var.machine.global.disk.serial
         size = try(each.value.disk.size != null && each.value.disk.size > 0, false) ? each.value.disk.size : var.machine.global.disk.size
-        ssd = var.machine.global.disk.ssd
+        ssd = try(each.value.disk.ssd != null, false) ? each.value.disk.ssd : var.machine.global.disk.ssd
     }
 
     efi_disk {
