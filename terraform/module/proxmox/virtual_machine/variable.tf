@@ -99,11 +99,8 @@ variable "initialization" {
                 gateway = optional(string, null)
             }), {})
         }), {})
-        user_account = optional(object({
-            keys = optional(list(string), [])
-            username = optional(string, "nodadyoushutup")
-        }), {})
     })
+    default = {}
 }
 
 variable "machine" {
