@@ -207,9 +207,10 @@ variable "cloud_config" {
     type = object({
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
-        username = optional(object({
+        auth = optional(object({
             github  = optional(string, null)
-            machine = optional(string, "nodadyoushutup")
+            username = optional(string, "nodadyoushutup")
+            ssh_public_key = optional(list(string), [])
         }), {})
     })
     default = {}

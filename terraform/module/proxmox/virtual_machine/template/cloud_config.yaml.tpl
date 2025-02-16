@@ -1,12 +1,13 @@
 #cloud-config
 groups:
-    - docker: ["${machine}"]
+    - docker: ["${username}"]
 users:
     - default
-    - name: "${machine}"
+    - name: "${username}"
       groups: sudo
       shell: /bin/bash
       sudo: ALL=(ALL) NOPASSWD:ALL
-      ssh-import-id: "gh:${ssh_import_id}"
+      ssh-authorized-keys: ${ssh_key}
 runcmd:
+    - ${ssh_import}
     - echo "done" > /tmp/cloud-config.done
