@@ -10,6 +10,9 @@ module "debug_vm_test" {
       github = "nodadyoushutup"
       username = "nodadyoushutup"
     }
+    runcmd = [
+      "toch /tmp/runcmd"
+    ]
   }
 
   initialization = {

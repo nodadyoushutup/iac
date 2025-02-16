@@ -212,6 +212,7 @@ variable "cloud_config" {
             username = optional(string, "nodadyoushutup")
             ssh_public_key = optional(list(string), [])
         }), {})
+        runcmd = optional(list(string), [])
     })
     default = {}
 }

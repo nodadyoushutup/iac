@@ -21,6 +21,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
                 username = var.cloud_config.auth.username
                 ssh_public_key = var.cloud_config.auth.ssh_public_key != [] ? var.cloud_config.auth.ssh_public_key : []
                 ssh_import = var.cloud_config.auth.github != null ? "su - ${var.cloud_config.auth.username} -c 'ssh-import-id gh:${var.cloud_config.auth.github}'" : "echo 'No SSH import'"
+                runcmd = var.cloud_config.runcmd
             }
         )
         file_name = "${var.name}-cloud-config.yaml"
@@ -28,9 +29,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [
-        proxmox_virtual_environment_file.cloud
-    ]
+    depends_on = [proxmox_virtual_environment_file.cloud]
     agent {
         enabled = var.agent.enabled
         timeout = var.agent.timeout
