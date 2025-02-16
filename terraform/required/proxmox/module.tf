@@ -6,7 +6,7 @@ module "debug_vm_test" {
   ]
 
   cloud_config = {
-    username = {
+    auth = {
       github = "nodadyoushutup"
       username = "nodadyoushutup"
     }
