@@ -11,7 +11,7 @@ module "debug_vm_test" {
       username = "nodadyoushutup"
     }
     runcmd = [
-      "toch /tmp/runcmd"
+      "touch /tmp/runcmd"
     ]
   }
 
