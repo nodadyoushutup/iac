@@ -3,7 +3,7 @@ resource "jenkins_folder" "required" {
   description = "Required terraform for base framework operations"
 }
 
-resource "jenkins_job" "stack" {
+resource "jenkins_job" "required" {
   for_each = toset(local.directories)
 
   folder = jenkins_folder.required.id

@@ -1,6 +1,8 @@
 locals {
-  directories = toset([
-    for dir in keys(data.external.list_directories.result) : dir
-    if !can(regex("@", dir)) && !can(regex("jenkins", dir))
-  ])
+  directories = {
+    required = toset([
+      for dir in keys(data.external.list_dir_required.result) : dir
+      if !can(regex("@", dir)) && !can(regex("jenkins", dir))
+    ])
+  }
 }
