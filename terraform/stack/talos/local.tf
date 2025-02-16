@@ -11,13 +11,13 @@ locals {
         }
         inline = {
             kubeconfig = [
-                # "cat <<EOF > /tmp/config",
-                # "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
-                # "EOF",
-                # "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
-                # "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
-                # "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
-                # "rm -rf /tmp/config",
+                "cat <<EOF > /tmp/config",
+                "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
+                "EOF",
+                "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
+                "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                "rm -rf /tmp/config",
             ]
         }   
     }
@@ -25,21 +25,19 @@ locals {
     node_data = {
         controlplane = {
             for idx, machine in var.machine.talos.controlplane : 
-                machine.name => {
-                address = machine.ipv4.address
+                machine.ipv4.address => {
                 hostname = format("talos-cp-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
         worker = {
             for idx, machine in var.machine.talos.worker : 
-                machine.name => {
-                address = machine.ipv4.address
+                machine.ipv4.address => {
                 hostname = format("talos-wk-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
-        }
+    }
 
     cluster_endpoint = "https://${var.machine.talos.controlplane[0].ipv4.address}:6443"
 }
