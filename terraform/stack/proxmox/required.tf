@@ -57,9 +57,9 @@ resource "proxmox_virtual_environment_vm" "required" {
 
     efi_disk {
         datastore_id = var.terraform.proxmox.datastore_id.disk
-        file_format = "raw"
-        type = "4m"
-        pre_enrolled_keys = false
+        file_format = var.machine.global.efi_disk.file_format
+        type = var.machine.global.efi_disk.type
+        pre_enrolled_keys = var.machine.global.efi_disk.pre_enrolled_keys
     }
 
     initialization {

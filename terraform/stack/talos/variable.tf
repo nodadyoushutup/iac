@@ -215,6 +215,11 @@ variable "machine" {
                 size = number
                 ssd = bool
             })
+            efi_disk = object({
+                file_format = string
+                type = string
+                pre_enrolled_keys = bool
+            })
         })
 
         # custom = object({
