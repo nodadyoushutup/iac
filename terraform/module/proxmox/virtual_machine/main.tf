@@ -4,8 +4,8 @@ resource "proxmox_virtual_environment_download_file" "cloud" {
     node_name = var.image.node_name
     overwrite = true
     overwrite_unmanaged = true
-    file_name = "${var.name}-cloud-image-x86-64-jammy-${var.image.version}.img"
-    url = "${var.image.repository}/releases/download/${var.image.version}/cloud-image-x86-64-jammy-${var.image.version}.img"
+    file_name = "${var.name}-${var.image.file_name}"
+    url = var.image.url
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {
