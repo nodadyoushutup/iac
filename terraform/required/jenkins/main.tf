@@ -1,30 +1,21 @@
-resource "null_resource" "list_directories" {
-  provisioner "local-exec" {
-    command = "find ../ -mindepth 1 -maxdepth 1 -type d -printf '%f\n' > dirs.txt"
-  }
-
-  triggers = {
-    always_run = "${timestamp()}"
-  }
+data "external" "list_directories" {
+  program = ["bash", "${path.module}/list_dirs.sh"]
 }
 
 locals {
-  directories = split("\n", file("${path.root}/dirs.txt"))
+  directories = tolist(data.external.list_directories.result.directories)
 }
 
 resource "jenkins_folder" "required" {
-  depends_on = [null_resource.list_directories]
-
-  name = "required"
+  name        = "required"
   description = "Required terraform for base framework operations"
 }
 
 resource "jenkins_job" "stack" {
-  depends_on = [null_resource.list_directories]
   for_each = toset(local.directories)
 
-  folder = jenkins_folder.required.id
-  name = each.value
+  folder   = jenkins_folder.required.id
+  name     = each.value
   template = local.template.pipeline.jenkins
 }
 
