@@ -151,6 +151,7 @@ variable "machine" {
         })
 
         talos = object({
+            name = string
             controlplane = list(object({
                 ipv4 = object({
                     address = string
@@ -191,8 +192,31 @@ variable "machine" {
             }))
         })
 
-        custom = optional(object({}))
+        # custom = object({
+        #     machine = object({
+        #         ipv4 = object({
+        #             address = string
+        #             gateway = string
+        #         })
+        #         name = string
+        #         network_device = object({
+        #             mac_address = string
+        #         })
+        #         cpu = object({
+        #             cores = number
+        #         })
+        #         memory = object({
+        #             dedicated = number
+        #         })
+        #         disk = object({
+        #             size = number
+        #         })
+        #         exec = list(string)
+        #         vm_id = number
+        #     })
+        # })
         
         global = optional(object({}))
     })
 }
+
