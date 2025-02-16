@@ -1,10 +1,10 @@
-name: Download, Unzip, and Release Raw Image 
+name: Build Image - Cloud
  
 on: 
   workflow_dispatch: 
     inputs: 
       version: 
-        description: "Semantic version tag for the release" 
+        description: "Version tag for the release" 
         required: true 
       download_url:
         description: "Download URL for the compressed image"
@@ -14,7 +14,7 @@ on:
 env: 
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
   RAW_FILE: nocloud-amd64.raw 
-  IMG_FILE: talos-image-amd64.img
+  IMG_FILE: "talos-image-amd64-${{ github.event.inputs.version }}.img"
   COMPRESSED_FILE: nocloud-amd64.raw.xz 
   DOWNLOAD_URL: ${{ github.event.inputs.download_url }}
  
