@@ -163,12 +163,12 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         ssd = try(each.value.disk.ssd != null, false) ? each.value.disk.ssd : var.machine.global.disk.ssd
     }
 
-    # efi_disk {
-    #     datastore_id = var.terraform.proxmox.datastore_id.disk
-    #     file_format = var.machine.global.efi_disk.file_format
-    #     type = var.machine.global.efi_disk.type
-    #     pre_enrolled_keys = var.machine.global.efi_disk.pre_enrolled_keys
-    # }
+    efi_disk {
+        datastore_id = var.terraform.proxmox.datastore_id.disk
+        file_format = var.machine.global.efi_disk.file_format
+        type = var.machine.global.efi_disk.type
+        pre_enrolled_keys = var.machine.global.efi_disk.pre_enrolled_keys
+    }
 
     machine = try(each.value.machine != null, false) ? each.value.machine : var.machine.global.machine
 
