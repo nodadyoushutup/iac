@@ -1,5 +1,5 @@
 data "external" "list_directories" {
-  program = ["bash", "${path.module}/list_dirs.sh"]
+  program = ["bash", "${path.module}/script/list_dir_required.sh"]
 }
 
 locals {
@@ -10,7 +10,7 @@ locals {
 }
 
 resource "jenkins_folder" "required" {
-  name        = "required"
+  name = "required"
   description = "Required terraform for base framework operations"
 }
 
@@ -19,7 +19,14 @@ resource "jenkins_job" "stack" {
 
   folder = jenkins_folder.required.id
   name = each.value
-  template = local.template.pipeline.dozzle
+  template = templatefile(
+    "${path.module}/template/job.xml.tpl", 
+    {
+      subdir = "terraform/required/${each.value}"
+      git_repository_branch = var.git.repository.branch
+      git_repository_url = var.git.repository.url
+    }
+  )
 }
 
 # resource "jenkins_job" "dozzle" {

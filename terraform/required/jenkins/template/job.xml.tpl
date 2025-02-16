@@ -21,8 +21,8 @@
 		<hudson.model.ParametersDefinitionProperty>
 			<parameterDefinitions>
 				<hudson.model.StringParameterDefinition>
-					<name>SUBDIR</name>
-					<defaultValue>${SUBDIR}</defaultValue>
+					<name>subdir</name>
+					<defaultValue>${subdir}</defaultValue>
 					<trim>true</trim>
 				</hudson.model.StringParameterDefinition>
 			</parameterDefinitions>
