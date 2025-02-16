@@ -47,16 +47,16 @@ variable "terraform" {
                 iso = string
                 snippet = string
             })
-            image = {
-                cloud = {
+            image = object({
+                cloud = object({
                     file_name = string
                     url = string
-                }
-                talos = {
+                })
+                talos = object({
                     file_name = string
                     url = string
-                }
-            }
+                })
+            })
         })
     })
 }
