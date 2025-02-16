@@ -111,7 +111,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         down_delay = 0
     }
 
-    tags = ["gitops", "talos-worker"]
+    tags = ["gitops", "cloud-image"]
 
     stop_on_destroy = true
 

@@ -246,6 +246,7 @@ variable "machine" {
             operating_system = object({
                 type = string
             })
+            started = bool
         })
 
         # custom = object({
