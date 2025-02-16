@@ -52,6 +52,11 @@ jobs:
           fi
           echo "Renaming ${RAW_FILE} to ${IMG_FILE}"
           mv "${RAW_FILE}" "${IMG_FILE}"
+
+      - name: Generate checksum for the image
+        run: |
+          echo "Generating SHA256 checksum for ${IMG_FILE}"
+          sha256sum "${IMG_FILE}" > "${IMG_FILE}.sha256"
  
       - name: Create GitHub release 
         run: | 
@@ -68,3 +73,12 @@ jobs:
           fi 
           echo "Uploading file: ${IMG_FILE}" 
           gh release upload "talos-${{ github.event.inputs.version }}" "${IMG_FILE}"
+
+      - name: Upload checksum file to release
+        run: |
+          if [ ! -f "${IMG_FILE}.sha256" ]; then
+            echo "Error: Checksum file not found: ${IMG_FILE}.sha256"
+            exit 1
+          fi
+          echo "Uploading checksum file: ${IMG_FILE}.sha256"
+          gh release upload "talos-${{ github.event.inputs.version }}" "${IMG_FILE}.sha256"
