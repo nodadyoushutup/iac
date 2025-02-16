@@ -18,7 +18,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
             "${path.module}/template/cloud_config.yaml.tpl",
             {
                 machine = var.cloud_config.username.machine
-                github = var.cloud_config.username.github
+                ssh_import = var.cloud_config.username.github ? "su - ${machine} -c 'ssh-import-id gh:${github}'" : "echo 'No SSH import'"
             }
         )
         file_name = "${var.name}-cloud-config.yaml"
