@@ -10,7 +10,7 @@ locals {
         private_key = templatefile(
             "${path.module}/../proxmox/template/id_rsa.tpl", 
             {
-                ID_RSA = file(var.SSH_PRIVATE_KEY)
+                id_rsa = file(var.SSH_PRIVATE_KEY)
             }
         )
     }
