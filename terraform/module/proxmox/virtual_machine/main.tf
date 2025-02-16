@@ -1,6 +1,6 @@
 resource "proxmox_virtual_environment_download_file" "cloud" {
     content_type = "iso"
-    datastore_id = var.disk.datastore_id
+    datastore_id = "local"
     node_name = var.node_name
     overwrite = true
     overwrite_unmanaged = true
