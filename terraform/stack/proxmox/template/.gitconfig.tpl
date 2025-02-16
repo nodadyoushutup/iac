@@ -1,3 +1,3 @@
 [user]
-    name = ${git.gitconfig.name}
-    email = ${git.gitconfig.email}
+    name = ${git_gitconfig_name}
+    email = ${git_gitconfig_email}
