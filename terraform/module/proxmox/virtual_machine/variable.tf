@@ -6,7 +6,7 @@ variable "agent" {
         trim = optional(bool)
         type = optional(string)
     })
-    default = null
+    default = {}
 }
 
 variable "audio_device" {
@@ -16,7 +16,7 @@ variable "audio_device" {
         driver  = optional(string)
         enabled = optional(bool)
     })
-    default = null
+    default = {}
 }
 
 variable "bios" {
@@ -44,7 +44,7 @@ variable "cpu" {
         units = optional(number, 1024)
         affinity = optional(string, null)
     })
-    default = null
+    default = {}
 }
 
 variable "description" {
@@ -70,7 +70,7 @@ variable "disk" {
         size = optional(number, 20)
         ssd = optional(bool, true)
     })
-    default = null
+    default = {}
 }
 
 variable "efi_disk" {
@@ -81,7 +81,7 @@ variable "efi_disk" {
         type = optional(string, "4m")
         pre_enrolled_keys = optional(bool, false)
     })
-    default = null
+    default = {}
 }
 
 variable "initialization" {
@@ -100,7 +100,7 @@ variable "initialization" {
             }), null)
         }), null)
     })
-    default = null
+    default = {}
 }
 
 variable "machine" {
@@ -116,7 +116,7 @@ variable "memory" {
         floating = optional(number, 0)
         shared = optional(number, 0)
     })
-    default = null
+    default = {}
 }
 
 variable "name" {
@@ -141,7 +141,7 @@ variable "network_device" {
         mac_address = optional(string, null)
         model = optional(string, "virtio")
     })
-    default = null
+    default = {}
 }
 
 variable "on_boot" {
@@ -155,7 +155,7 @@ variable "operating_system" {
     type = object({
         type = optional(string, "l26")
     })
-    default = null
+    default = {}
 }
 
 variable "started" {
@@ -171,7 +171,7 @@ variable "startup" {
         up_delay = optional(number, 0)
         down_delay = optional(number, 0)
     })
-    default = null
+    default = {}
 }
 
 variable "tags" {
@@ -193,11 +193,11 @@ variable "vga" {
         type = optional(string, "qxl")
         clipboard = optional(string, "vnc")
     })
-    default = null
+    default = {}
 }
 
 variable "vm_id" {
     description = "vm_id"
     type = number
-    default = null
+    default = {}
 }
