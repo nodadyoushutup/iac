@@ -3,7 +3,10 @@ data "external" "list_directories" {
 }
 
 locals {
-  directories = toset(keys(data.external.list_directories.result))
+  directories = toset([
+    for dir in keys(data.external.list_directories.result) : dir
+    if !can(regex("@", dir))
+  ])
 }
 
 resource "jenkins_folder" "required" {
