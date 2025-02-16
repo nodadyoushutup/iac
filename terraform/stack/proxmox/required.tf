@@ -78,12 +78,12 @@ resource "proxmox_virtual_environment_vm" "required" {
         }
     }
 
-    machine = try(each.value.machine != null, false) ? each.value.machine : var.machine.global.machine
+    machine = try(each.value.memory != null, false) ? each.value.memory : var.machine.global.machine
 
     memory {
-        dedicated = each.value.memory.dedicated
-        floating  = 0
-        shared    = 0
+        dedicated = try(each.value.memory.dedicated != null, false) ? each.value.memory.dedicated : var.machine.global.memory.dedicated
+        floating = try(each.value.memory.floating != null, false) ? each.value.memory.floating : var.machine.global.memory.floating
+        shared = try(each.value.memory.shared != null, false) ? each.value.memory.shared : var.machine.global.memory.shared
     }
 
     name = each.value.name

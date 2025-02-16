@@ -229,6 +229,11 @@ variable "machine" {
                 # gateway = string
             })
             machine = string
+            memory = object({
+                dedicated = string
+                floating = string
+                shared = bool
+            })
         })
 
         # custom = object({
