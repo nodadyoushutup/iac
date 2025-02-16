@@ -59,8 +59,9 @@ variable "disk" {
         aio = optional(string, "io_uring")
         backup = optional(bool, true)
         cache = optional(string, "none")
-        datastore_id = optional(string, "local:iso/cloud-image-x86-64-jammy-0.1.13.img")
+        datastore_id = optional(string, "virtualization")
         discard = optional(string, "on")
+        file_id = optional(string, "local:iso/cloud-image-x86-64-jammy-0.1.13.img")
         file_format = optional(string, "raw")
         interface = optional(string, "scsi0")
         iothread = optional(bool, false)
@@ -75,6 +76,7 @@ variable "disk" {
 variable "efi_disk" {
     description = "efi_disk"
     type = object({
+        datastore_id = optional(string, "virtualization")
         file_format = optional(string, "raw")
         type = optional(string, "4m")
         pre_enrolled_keys = optional(bool, false)
@@ -136,6 +138,7 @@ variable "network_device" {
         disconnected = optional(bool, false)
         enabled = optional(bool, true)
         firewall = optional(bool, false)
+        mac_address = optional(string, null)
         model = optional(string, "virtio")
     })
     default = null
