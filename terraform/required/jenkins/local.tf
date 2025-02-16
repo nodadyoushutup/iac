@@ -4,7 +4,7 @@ locals {
       cadvisor = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/cadvisor"
+          SUBDIR = "terraform/required/cadvisor"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
@@ -12,7 +12,7 @@ locals {
       dozzle = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/dozzle"
+          SUBDIR = "terraform/required/dozzle"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
@@ -20,7 +20,7 @@ locals {
       grafana = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/grafana"
+          SUBDIR = "terraform/required/grafana"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
@@ -28,7 +28,7 @@ locals {
       prometheus = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/prometheus"
+          SUBDIR = "terraform/required/prometheus"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
@@ -36,7 +36,7 @@ locals {
       proxmox = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/proxmox"
+          SUBDIR = "terraform/required/proxmox"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
@@ -44,7 +44,7 @@ locals {
       talos = templatefile(
         "${path.module}/template/job.xml.tpl", 
         {
-          SUBDIR = "terraform/stack/talos"
+          SUBDIR = "terraform/required/talos"
           git_repository_branch = var.git.repository.branch
           git_repository_url = var.git.repository.url
         }
