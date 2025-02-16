@@ -1,29 +1,40 @@
+resource "jenkins_folder" "required" {
+  name = "required"
+  description = "Required terraform for base framework operations"
+}
+
 resource "jenkins_job" "cadvisor" {
+  folder = jenkins_folder.required.id
   name = "cadvisor"
   template = local.template.pipeline.cadvisor
 }
 
 resource "jenkins_job" "dozzle" {
+  folder = jenkins_folder.required.id
   name = "dozzle"
   template = local.template.pipeline.dozzle
 }
 
 resource "jenkins_job" "grafana" {
+  folder = jenkins_folder.required.id
   name = "grafana"
   template = local.template.pipeline.grafana
 }
 
 resource "jenkins_job" "prometheus" {
+  folder = jenkins_folder.required.id
   name = "prometheus"
   template = local.template.pipeline.prometheus
 }
 
 resource "jenkins_job" "proxmox" {
+  folder = jenkins_folder.required.id
   name = "proxmox"
   template = local.template.pipeline.proxmox
 }
 
 resource "jenkins_job" "talos" {
+  folder = jenkins_folder.required.id
   name = "talos"
   template = local.template.pipeline.talos
 }
