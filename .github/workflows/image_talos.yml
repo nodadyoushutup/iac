@@ -55,9 +55,9 @@ jobs:
  
       - name: Create GitHub release 
         run: | 
-          echo "Creating release for tag: ${{ github.event.inputs.version }}" 
-          gh release create "${{ github.event.inputs.version }}" \
-            --title "${{ github.event.inputs.version }}" \
+          echo "Creating release for tag: talos-${{ github.event.inputs.version }}" 
+          gh release create "talos-${{ github.event.inputs.version }}" \
+            --title "talos-${{ github.event.inputs.version }}" \
             --notes "Automated release of the raw image" 
  
       - name: Upload img file to release 
@@ -67,4 +67,4 @@ jobs:
             exit 1 
           fi 
           echo "Uploading file: ${IMG_FILE}" 
-          gh release upload "${{ github.event.inputs.version }}" "${IMG_FILE}"
+          gh release upload "talos-${{ github.event.inputs.version }}" "${IMG_FILE}"
