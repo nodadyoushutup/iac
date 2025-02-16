@@ -15,5 +15,5 @@ scrape_configs:
     static_configs:
       - targets: [
         "${machine_required_docker_ipv4_address}:9100",
-        "${VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS}:9100"
+        "${machine_required_development_ipv4_address}:9100"
       ]
