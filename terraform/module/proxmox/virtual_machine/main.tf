@@ -1,4 +1,32 @@
+resource "proxmox_virtual_environment_file" "cloud_config" {
+  content_type = "snippets"
+  datastore_id = var.disk.datastore_id
+  node_name = var.node_name
+
+  source_raw {
+    data = <<-EOF
+    #cloud-config
+    groups:
+      - docker: [${var.inialization.user_account.username}]
+    users:
+      - default
+      - name: ${var.inialization.user_account.username}
+        groups: sudo
+        shell: /bin/bash
+        sudo: ALL=(ALL) NOPASSWD:ALL
+    runcmd:
+      - su - ${var.inialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
+      - echo "done" > /tmp/cloud-config.done
+    EOF
+
+    file_name = "${var.name}-cloud-config.yaml"
+  }
+}
+
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
+    depends_on = [
+        proxmox_virtual_environment_file.cloud_config
+    ]
     agent {
         enabled = var.agent.enabled
         timeout = var.agent.timeout
@@ -37,7 +65,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         datastore_id = var.disk.datastore_id
         discard = var.disk.discard
         file_format = var.disk.file_format
-        file_id = var.disk.file_id
+        file_id = proxmox_virtual_environment_file.cloud_config.id
         interface = var.disk.interface
         iothread = var.disk.iothread
         replicate = var.disk.replicate

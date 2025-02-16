@@ -1,4 +1,4 @@
-module "debug" {
+module "debug_vm_test" {
     source = "../../module/proxmox/virtual_machine"
     depends_on = [
         proxmox_virtual_environment_download_file.cloud,

@@ -92,12 +92,16 @@ variable "initialization" {
         ip_config = optional(object({
             ipv4 = optional(object({
                 address = optional(string, "dhcp")
-                gateway = optional(string, "192.168.1.1")
+                gateway = optional(string, null)
             }), {})
             ipv6 = optional(object({
                 address = optional(string, "dhcp")
                 gateway = optional(string, null)
             }), {})
+        }), {})
+        user_account = optional(object({
+            keys = optional(list(string), [])
+            username = optional(string, "ubuntu")
         }), {})
     })
     default = {}
@@ -200,4 +204,11 @@ variable "vm_id" {
     description = "vm_id"
     type = number
     default = null
+}
+
+variable "git" {
+    description = "Git configuration"
+    type = object({
+        github_username = optional(string, "nodadyoushutup")
+    })
 }
