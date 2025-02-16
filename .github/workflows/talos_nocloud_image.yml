@@ -1,9 +1,6 @@
 name: Download, Unzip, and Release Raw Image 
  
 on: 
-  push: 
-    tags: 
-      - "*" 
   workflow_dispatch: 
     inputs: 
       version: 
