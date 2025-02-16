@@ -113,7 +113,7 @@ resource "proxmox_virtual_environment_vm" "required" {
 
     tags = try(each.value.tags != null, false) ? each.value.tags : var.machine.global.tags
 
-    stop_on_destroy = true
+    stop_on_destroy = try(each.value.stop_on_destroy != null, false) ? each.value.stop_on_destroy : var.machine.global.stop_on_destroy
 
     vga {
         memory = 16

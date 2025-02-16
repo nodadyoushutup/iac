@@ -253,6 +253,7 @@ variable "machine" {
                 down_delay = number
             })
             tags = list(string)
+            stop_on_destroy = bool
         })
 
         # custom = object({
