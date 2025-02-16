@@ -1,4 +1,5 @@
 #cloud-config
+hostname: ${hostname}
 groups:
     - docker: ["${username}"]
 users:
