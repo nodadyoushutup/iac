@@ -102,7 +102,7 @@ variable "initialization" {
         user_account = optional(object({
             keys = optional(list(string), [])
             username = optional(string, "nodadyoushutup")
-        }))
+        }), {})
     })
 }
 

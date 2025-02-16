@@ -14,21 +14,13 @@ resource "proxmox_virtual_environment_file" "cloud" {
     node_name = var.cloud_config.node_name
 
     source_raw {
-        data = <<-EOF
-        #cloud-config
-        groups:
-        - docker: [${var.cloud_config.username.machine}]
-        users:
-        - default
-        - name: ${var.cloud_config.username.machine}
-            groups: sudo
-            shell: /bin/bash
-            sudo: ALL=(ALL) NOPASSWD:ALL
-        runcmd:
-        - su - ${var.cloud_config.username.machine} -c "ssh-import-id gh:${var.cloud_config.username.github}"
-        - echo "done" > /tmp/cloud-config.done
-        EOF
-
+        data = templatefile(
+            "${path.module}/template/cloud_config.yaml.tpl",
+            {
+                machine = var.cloud_config.username.machine
+                github = var.cloud_config.username.github
+            }
+        )
         file_name = "${var.name}-cloud-config.yaml"
     }
 }

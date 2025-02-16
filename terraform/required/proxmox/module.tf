@@ -5,8 +5,6 @@ module "debug_vm_test" {
     proxmox_virtual_environment_file.cloud_config
   ]
 
-  name = "debug"
-
   initialization = {
     user_account = {
       username = "nodadyoushutup"
