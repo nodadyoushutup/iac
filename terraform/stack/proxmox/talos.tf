@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
     for_each = { for idx, cp in var.machine.talos.controlplane : idx => cp }
 
     depends_on = [
-        proxmox_virtual_environment_download_file.talos_image,
+        proxmox_virtual_environment_download_file.talos,
         proxmox_virtual_environment_file.cloud_config
     ]
     node_name = var.terraform.proxmox.ssh.node.name
@@ -44,7 +44,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard = "on"
         file_format = "raw"
-        file_id = proxmox_virtual_environment_download_file.talos_image.id
+        file_id = proxmox_virtual_environment_download_file.talos.id
         interface = "scsi0"
         iothread = false
         replicate = true
@@ -103,7 +103,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
     for_each = { for idx, wk in var.machine.talos.worker : idx => wk }
 
     depends_on = [
-        proxmox_virtual_environment_download_file.talos_image,
+        proxmox_virtual_environment_download_file.talos,
         proxmox_virtual_environment_file.cloud_config
     ]
     node_name = var.terraform.proxmox.ssh.node.name
@@ -145,7 +145,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
         discard = "on"
         file_format = "raw"
-        file_id = proxmox_virtual_environment_download_file.talos_image.id
+        file_id = proxmox_virtual_environment_download_file.talos.id
         interface = "scsi0"
         iothread = false
         replicate = true

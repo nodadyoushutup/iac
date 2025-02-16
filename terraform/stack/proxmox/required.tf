@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "required" {
     for_each = { for idx, machine in var.machine.required : idx => machine }
 
     depends_on = [
-        proxmox_virtual_environment_download_file.talos_image,
+        proxmox_virtual_environment_download_file.cloud,
         proxmox_virtual_environment_file.cloud_config
     ]
     
@@ -136,7 +136,7 @@ resource "null_resource" "exec_required" {
   
     connection {
         type = "ssh"
-        user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
+        user = var.machine.global.username
         private_key = file(var.SSH_PRIVATE_KEY)
         host = each.value.ipv4.address
         port = 22
