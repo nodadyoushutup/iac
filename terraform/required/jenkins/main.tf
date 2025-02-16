@@ -14,6 +14,7 @@ resource "jenkins_job" "required" {
       subdir = "terraform/required/${each.value}"
       git_repository_branch = var.git.repository.branch
       git_repository_url = var.git.repository.url
+      script_path = "terraform/required/jenkins/pipeline/terraform.jenkins"
     }
   )
 }

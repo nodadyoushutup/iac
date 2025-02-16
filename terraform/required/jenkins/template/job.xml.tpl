@@ -45,7 +45,7 @@
 			<submoduleCfg class="empty-list"/>
 			<extensions/>
 		</scm>
-		<scriptPath>terraform/stack/jenkins/pipeline/terraform.jenkins</scriptPath>
+		<scriptPath>${script_path}</scriptPath>
 		<lightweight>true</lightweight>
 	</definition>
 	<triggers/>
