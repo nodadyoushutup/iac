@@ -5,7 +5,7 @@ resource "null_resource" "exec_prometheus" {
 
   connection {
     type = "ssh"
-    user = var.machine.global.user
+    user = var.machine.global.username
     private_key = file(var.SSH_PRIVATE_KEY)
     host = var.machine.required.docker.ipv4.address
     port = 22
