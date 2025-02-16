@@ -12,6 +12,6 @@ terraform {
 }
 
 provider "docker" {
-    host = "ssh://${var.machine.global.user}@${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:22"
+    host = "ssh://${var.machine.global.username}@${var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:22"
     ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null", "-o", "IdentityFile=${var.SSH_PRIVATE_KEY}"]
 }

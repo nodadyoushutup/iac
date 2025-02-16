@@ -14,9 +14,9 @@ locals {
                 "cat <<EOF > /tmp/config",
                 "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
                 "EOF",
-                "mkdir -p /home/${var.machine.global.user}/.kube/",
-                "cp -p /tmp/config /home/${var.machine.global.user}/.kube/config",
-                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/.kube/config",
+                "mkdir -p /home/${var.machine.global.username}/.kube/",
+                "cp -p /tmp/config /home/${var.machine.global.username}/.kube/config",
+                "chown ${var.machine.global.username}:${var.machine.global.username} /home/${var.machine.global.username}/.kube/config",
                 "rm -rf /tmp/config",
             ]
         }   

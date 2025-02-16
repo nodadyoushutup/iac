@@ -24,8 +24,8 @@ locals {
                 "cat <<EOF > /tmp/prometheus.yml",
                 "${local.template.prometheus}",
                 "EOF",
-                "cp -p /tmp/prometheus.yml /home/${var.machine.global.user}/prometheus.yml",
-                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/prometheus.yml",
+                "cp -p /tmp/prometheus.yml /home/${var.machine.global.username}/prometheus.yml",
+                "chown ${var.machine.global.username}:${var.machine.global.username} /home/${var.machine.global.username}/prometheus.yml",
                 "rm -rf /tmp/prometheus.yml",
             ]
         }   
