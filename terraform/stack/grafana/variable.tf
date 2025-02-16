@@ -234,6 +234,7 @@ variable "machine" {
                 floating = number
                 shared = number
             })
+            name = string
         })
 
         # custom = object({

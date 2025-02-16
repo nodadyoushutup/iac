@@ -81,12 +81,12 @@ resource "proxmox_virtual_environment_vm" "required" {
     machine = try(each.value.machine != null, false) ? each.value.machine : var.machine.global.machine
 
     memory {
-        dedicated = try(each.value.memory.dedicated != null, false) ? each.value.memory.dedicated : var.machine.global.memory.dedicated
-        floating = try(each.value.memory.floating != null, false) ? each.value.memory.floating : var.machine.global.memory.floating
-        shared = try(each.value.memory.shared != null, false) ? each.value.memory.shared : var.machine.global.memory.shared
+        dedicated = try(each.value.memory.dedicated != null && each.value.disk.size > 0, false) ? each.value.memory.dedicated : var.machine.global.memory.dedicated
+        floating = try(each.value.memory.floating != null && each.value.disk.size > 0, false) ? each.value.memory.floating : var.machine.global.memory.floating
+        shared = try(each.value.memory.shared != null && each.value.disk.size > 0, false) ? each.value.memory.shared : var.machine.global.memory.shared
     }
 
-    name = each.value.name
+    name = try(each.value.name != null, false) ? each.value.name : var.machine.global.name
 
     network_device {
         bridge = "vmbr0"
