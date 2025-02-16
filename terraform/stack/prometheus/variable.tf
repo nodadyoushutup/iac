@@ -51,6 +51,13 @@ variable "terraform" {
     })
 }
 
+variable "jenkins" {
+    description = "Jenkins configuration"
+    type = object({
+        endpoint = string
+    })
+}
+
 variable "machine" {
     description = "Machine configuration"
     type = object({

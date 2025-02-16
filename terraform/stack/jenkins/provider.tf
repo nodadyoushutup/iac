@@ -12,5 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-    server_url = var.JENKINS_ENDPOINT
+    server_url = var.jenkins.endpoint
 }
