@@ -3,22 +3,13 @@ locals {
         prometheus = templatefile(
             "${path.module}/../prometheus/template/prometheus.yml.tpl", 
             {
-                VIRTUAL_MACHINE_DOCKER_IP_ADDRESS = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS,
-                VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS = var.VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS
+                machine_required_docker_ipv4_address = var.machine.required.docker.ipv4.address,
+                machine_required_development_ipv4_address = var.machine.required.development.ipv4.address
             }
         )
     }
     
     exec = {
-        connection = {
-            docker = {
-                type = "ssh"
-                user = var.machine.global.user
-                private_key = file(var.SSH_PRIVATE_KEY)
-                host = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
-                port = 22
-            }
-        }
         inline = {
             prometheus = [
                 "cat <<EOF > /tmp/prometheus.yml",

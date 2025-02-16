@@ -5,15 +5,15 @@ global:
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
-      - targets: ["${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9090"]
+      - targets: ["${machine_required_docker_ipv4_address}:9090"]
 
   - job_name: "cadvisor"
     static_configs:
-      - targets: ["${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:8082"]
+      - targets: ["${machine_required_docker_ipv4_address}:8082"]
 
   - job_name: "node_exporter"
     static_configs:
       - targets: [
-        "${VIRTUAL_MACHINE_DOCKER_IP_ADDRESS}:9100",
+        "${machine_required_docker_ipv4_address}:9100",
         "${VIRTUAL_MACHINE_DEVELOPMENT_IP_ADDRESS}:9100"
       ]

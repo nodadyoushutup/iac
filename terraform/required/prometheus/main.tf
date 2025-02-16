@@ -4,11 +4,11 @@ resource "null_resource" "exec_prometheus" {
   }
 
   connection {
-    type = local.exec.connection.docker.type
-    user = local.exec.connection.docker.user
-    private_key = local.exec.connection.docker.private_key
-    host = local.exec.connection.docker.host
-    port = local.exec.connection.docker.port
+    type = "ssh"
+    user = var.machine.global.user
+    private_key = file(var.SSH_PRIVATE_KEY)
+    host = var.machine.required.docker.ipv4.address
+    port = 22
   }
 
   provisioner "remote-exec" {
