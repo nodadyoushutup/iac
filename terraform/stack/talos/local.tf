@@ -39,5 +39,5 @@ locals {
         }
     }
 
-    cluster_endpoint = "https://${var.machine.talos.controlplane[0].address}:6443"
+    cluster_endpoint = "https://${var.machine.talos.controlplane[0].ipv4.address}:6443"
 }
