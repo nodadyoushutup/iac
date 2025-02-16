@@ -223,7 +223,7 @@ variable "image" {
     type = object({
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
-        file_name = optional(string, "cloud-image-x86-64.img")
+        file_name = optional(string, null)
         url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
     })
     default = {}
