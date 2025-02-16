@@ -72,7 +72,8 @@ resource "proxmox_virtual_environment_vm" "required" {
                 gateway = each.value.ipv4.gateway
             }
             ipv6 {
-                address = "dhcp"
+                address = each.value.ipv6.address
+                gateway = each.value.ipv6.gateway
             }
         }
     }

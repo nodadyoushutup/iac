@@ -220,6 +220,14 @@ variable "machine" {
                 type = string
                 pre_enrolled_keys = bool
             })
+            ipv4 = object({
+                address = string
+                gateway = string
+            })
+            ipv6 = object({
+                address = string
+                gateway = string
+            })
         })
 
         # custom = object({
