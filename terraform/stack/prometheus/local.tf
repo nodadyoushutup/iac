@@ -13,7 +13,7 @@ locals {
         connection = {
             docker = {
                 type = "ssh"
-                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
+                user = var.machine.global.user
                 private_key = file(var.SSH_PRIVATE_KEY)
                 host = var.VIRTUAL_MACHINE_DOCKER_IP_ADDRESS
                 port = 22
@@ -24,8 +24,8 @@ locals {
                 "cat <<EOF > /tmp/prometheus.yml",
                 "${local.template.prometheus}",
                 "EOF",
-                "cp -p /tmp/prometheus.yml /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/prometheus.yml",
+                "cp -p /tmp/prometheus.yml /home/${var.machine.global.user}/prometheus.yml",
+                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/prometheus.yml",
                 "rm -rf /tmp/prometheus.yml",
             ]
         }   

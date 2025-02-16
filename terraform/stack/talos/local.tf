@@ -3,7 +3,7 @@ locals {
         connection = {
             development = {
                 type = "ssh"
-                user = var.VIRTUAL_MACHINE_GLOBAL_USERNAME
+                user = var.machine.global.user
                 private_key = file(var.SSH_PRIVATE_KEY)
                 host = var.machine.required.development.ipv4.address
                 port = 22
@@ -14,9 +14,9 @@ locals {
                 "cat <<EOF > /tmp/config",
                 "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
                 "EOF",
-                "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
-                "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                "mkdir -p /home/${var.machine.global.user}/.kube/",
+                "cp -p /tmp/config /home/${var.machine.global.user}/.kube/config",
+                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/.kube/config",
                 "rm -rf /tmp/config",
             ]
         }   

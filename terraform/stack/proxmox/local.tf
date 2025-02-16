@@ -21,8 +21,8 @@ locals {
                 "cat <<EOF > /tmp/.gitconfig",
                 "${local.template.gitconfig}",
                 "EOF",
-                "cp -p /tmp/.gitconfig /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.gitconfig",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.gitconfig",
+                "cp -p /tmp/.gitconfig /home/${var.machine.global.user}/.gitconfig",
+                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/.gitconfig",
                 "rm -rf /tmp/.gitconfig",
             ]
             private_key = [
@@ -30,9 +30,9 @@ locals {
                 "${local.template.private_key}",
                 "EOF",
                 "chmod 600 /tmp/id_rsa",
-                "cp -p /tmp/id_rsa /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
-                "chmod 600 /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.ssh/id_rsa",
+                "cp -p /tmp/id_rsa /home/${var.machine.global.user}/.ssh/id_rsa",
+                "chown ${var.machine.global.user}:${var.machine.global.user} /home/${var.machine.global.user}/.ssh/id_rsa",
+                "chmod 600 /home/${var.machine.global.user}/.ssh/id_rsa",
                 "rm -rf /tmp/id_rsa",
             ]
         }   
