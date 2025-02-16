@@ -43,3 +43,7 @@ locals {
 
     cluster_endpoint = "https://${var.machine.talos.controlplane[0].ipv4.address}:6443"
 }
+
+output "debug" {
+    value = local.node_data
+}
