@@ -1,11 +1,11 @@
 resource "proxmox_virtual_environment_download_file" "cloud" {
     content_type = "iso"
-    datastore_id = "local"
-    node_name = var.node_name
+    datastore_id = var.image.datastore_id
+    node_name = var.image.node_name
     overwrite = true
     overwrite_unmanaged = true
-    file_name = "${var.name}-cloud-image-x86-64-jammy-0.1.13.img"
-    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+    file_name = "${var.name}-cloud-image-x86-64-jammy-${var.image.version}}.img"
+    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/${var.image.version}}/cloud-image-x86-64-jammy-${var.image.version}}.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {

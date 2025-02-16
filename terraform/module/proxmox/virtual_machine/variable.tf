@@ -216,3 +216,13 @@ variable "cloud_config" {
         })
     })
 }
+
+variable "image" {
+    description = "Image configuration"
+    type = object({
+        datastore_id = optional(string, "local")
+        node_name = optional(string, "pve")
+        version = optional(string, "0.1.13")
+    })
+    default = {}
+}
