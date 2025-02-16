@@ -7,7 +7,7 @@ users:
       groups: sudo
       shell: /bin/bash
       sudo: ALL=(ALL) NOPASSWD:ALL
-      ssh-authorized-keys: ${ssh_key}
+      ssh-authorized-keys: ${ssh_public_key}
 runcmd:
     - ${ssh_import}
     - echo "done" > /tmp/cloud-config.done
