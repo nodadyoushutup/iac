@@ -78,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         }
     }
 
-    machine = try(each.value.memory != null, false) ? each.value.memory : var.machine.global.machine
+    machine = try(each.value.machine != null, false) ? each.value.machine : var.machine.global.machine
 
     memory {
         dedicated = try(each.value.memory.dedicated != null, false) ? each.value.memory.dedicated : var.machine.global.memory.dedicated
