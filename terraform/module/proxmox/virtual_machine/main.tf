@@ -5,7 +5,12 @@ resource "proxmox_virtual_environment_download_file" "cloud" {
     overwrite = true
     overwrite_unmanaged = true
     file_name = "${var.name}-cloud-image-x86-64-jammy-${var.image.version}}.img"
-    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/${var.image.version}}/cloud-image-x86-64-jammy-${var.image.version}}.img"
+    # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/${var.image.version}}/cloud-image-x86-64-jammy-${var.image.version}}.img"
+    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+}
+
+output "url" {
+  value = "https://github.com/nodadyoushutup/cloud-image/releases/download/${var.image.version}}/cloud-image-x86-64-jammy-${var.image.version}}.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {

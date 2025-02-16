@@ -224,9 +224,5 @@ variable "image" {
         node_name = optional(string, "pve")
         version = optional(string, "0.1.13")
     })
-    default = {
-        datastore_id = "local"
-        node_name = "pve"
-        version = "0.1.13"
-    }
+    default = {}
 }
