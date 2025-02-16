@@ -4,7 +4,7 @@ resource "jenkins_folder" "required" {
 }
 
 resource "jenkins_job" "required" {
-  for_each = toset(local.directories)
+  for_each = toset(local.directory.required)
 
   folder = jenkins_folder.required.id
   name = each.value
