@@ -40,7 +40,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         enabled = var.audio_device.enabled
     }
 
-    bios = var.bios
+    # bios = var.bios
+    bios = "seabios"
 
     boot_order = var.boot_order
 
@@ -74,12 +75,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         ssd = var.disk.ssd
     }
 
-    efi_disk {
-        datastore_id = var.efi_disk.datastore_id
-        file_format = var.efi_disk.file_format
-        type = var.efi_disk.type
-        pre_enrolled_keys = var.efi_disk.pre_enrolled_keys
-    }
+    # efi_disk {
+    #     datastore_id = var.efi_disk.datastore_id
+    #     file_format = var.efi_disk.file_format
+    #     type = var.efi_disk.type
+    #     pre_enrolled_keys = var.efi_disk.pre_enrolled_keys
+    # }
 
     initialization {
         datastore_id = var.initialization.datastore_id
