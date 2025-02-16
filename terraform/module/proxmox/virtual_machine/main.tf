@@ -90,7 +90,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         
         ip_config {
             ipv4 {
-                address = var.initialization.ip_config.ipv4.address
+                address = "${var.initialization.ip_config.ipv4.address}/24"
                 gateway = var.initialization.ip_config.ipv4.gateway
             }
             ipv6 {
