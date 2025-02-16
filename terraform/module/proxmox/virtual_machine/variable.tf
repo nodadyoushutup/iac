@@ -205,6 +205,7 @@ variable "vm_id" {
 variable "cloud_config" {
     description = "Git configuration"
     type = object({
+        hostname = optional(string, null)
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
         auth = optional(object({
