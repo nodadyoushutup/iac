@@ -151,6 +151,7 @@ variable "machine" {
         })
 
         talos = object({
+            name = string
             controlplane = list(object({
                 ipv4 = object({
                     address = string
