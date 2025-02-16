@@ -1,6 +1,4 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    node_name = var.node_name
-
     agent {
         enabled = var.agent.enabled
         timeout = var.agent.timeout
@@ -81,6 +79,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     name = var.name
 
+    node_name = var.node_name
     network_device {
         bridge = var.network_device.bridge
         disconnected = var.network_device.disconnected

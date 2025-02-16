@@ -123,6 +123,12 @@ variable "name" {
     default = "virtual-machine"
 }
 
+variable "node_name" {
+    description = "node_name"
+    type = string
+    default = "pve"
+}
+
 variable "network_device" {
     description = "network_device"
     type = object({
