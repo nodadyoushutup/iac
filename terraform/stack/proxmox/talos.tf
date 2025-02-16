@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         enabled = try(each.value.audio_device.enabled != null, false) ? each.value.audio_device.enabled : var.machine.global.audio_device.enabled
     }
 
-    bios = "seabios"
+    bios = "ovmf"
 
     boot_order = try(each.value.boot_order != null, false) ? each.value.boot_order : var.machine.global.boot_order
 
@@ -129,7 +129,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         enabled = try(each.value.audio_device.enabled != null, false) ? each.value.audio_device.enabled : var.machine.global.audio_device.enabled
     }
 
-    bios = "seabios"
+    bios = try(each.value.bios != null, false) ? each.value.bios : var.machine.global.bios
 
     boot_order = try(each.value.boot_order != null, false) ? each.value.boot_order : var.machine.global.boot_order
 
