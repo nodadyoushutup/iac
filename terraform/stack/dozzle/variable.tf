@@ -243,6 +243,9 @@ variable "machine" {
                 model = string
             })
             on_boot = bool
+            operating_system = object({
+                type = string
+            })
         })
 
         # custom = object({

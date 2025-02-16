@@ -100,7 +100,7 @@ resource "proxmox_virtual_environment_vm" "required" {
     on_boot = try(each.value.on_boot != null, false) ? each.value.on_boot : var.machine.global.on_boot
 
     operating_system {
-        type = "l26"
+        type = try(each.value.operating_system.type != null, false) ? each.value.operating_system.type : var.machine.global.operating_system.type
     }
 
     started = true
