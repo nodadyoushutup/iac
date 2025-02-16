@@ -9,16 +9,16 @@ resource "proxmox_virtual_environment_vm" "required" {
     node_name = var.terraform.proxmox.ssh.node.name
 
     agent {
-        enabled = true
-        timeout = "5m"
-        trim = false
-        type = "virtio"
+        enabled = each.value.agent.enabled
+        timeout = each.value.agent.timeout
+        trim = each.value.agent.trim
+        type = each.value.agent.type
     }
 
     audio_device {
-        device  = "intel-hda"
-        driver  = "spice"
-        enabled = true
+        device = each.value.audio_device.device
+        driver = each.value.audio_device.driver
+        enabled = each.value.audio_device.enabled
     }
 
     bios = "ovmf"
