@@ -6,7 +6,6 @@ module "debug_vm_test" {
   ]
 
   image = {
-    file_name = "nocloud-amd64.img"
     # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
     url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.2/talos-image-amd64-0.1.2.img"
   }
