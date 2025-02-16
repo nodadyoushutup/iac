@@ -8,14 +8,9 @@ resource "proxmox_virtual_environment_download_file" "image" {
     url = var.image.url
 }
 
-resource "proxmox_virtual_environment_file" "cloud" {
-    depends_on = [proxmox_virtual_environment_download_file.image]
-    content_type = "snippets"
-    datastore_id = var.cloud_config.datastore_id
-    node_name = var.cloud_config.node_name
-
-    source_raw {
-        data = templatefile(
+locals {
+    cloud_config ={
+        cloud = templatefile(
             "${path.module}/template/cloud_config.yaml.tpl",
             {
                 hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : var.name
@@ -25,6 +20,21 @@ resource "proxmox_virtual_environment_file" "cloud" {
                 runcmd = var.cloud_config.runcmd
             }
         )
+        talos = templatefile(
+            "${path.module}/template/talos_cloud_config.yaml.tpl",
+            {}
+        )
+    }
+}
+
+resource "proxmox_virtual_environment_file" "cloud" {
+    depends_on = [proxmox_virtual_environment_download_file.image]
+    content_type = "snippets"
+    datastore_id = var.cloud_config.datastore_id
+    node_name = var.cloud_config.node_name
+
+    source_raw {
+        data = var.image.file_name == "nocloud-amd64.raw" ? local.cloud_config.talos : local.cloud_config.cloud
         file_name = "${var.name}-cloud-config.yaml"
     }
 }

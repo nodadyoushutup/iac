@@ -5,6 +5,11 @@ module "debug_vm_test" {
     proxmox_virtual_environment_file.cloud_config
   ]
 
+  image = {
+    file_name = "nocloud-amd64.raw"
+    url = "https://github.com/nodadyoushutup/iac/releases/download/v1.9.4/nocloud-amd64.raw"
+  }
+
   cloud_config = {
     hostname = "test"
     auth = {
