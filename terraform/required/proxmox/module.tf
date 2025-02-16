@@ -16,6 +16,7 @@ module "debug_vm_test" {
     ip_config = {
       ipv4 = {
         address = "192.168.1.190"
+        gateway = "192.168.1.1"
       }
     }
   }
