@@ -242,6 +242,7 @@ variable "machine" {
                 firewall = bool
                 model = string
             })
+            on_boot = bool
         })
 
         # custom = object({

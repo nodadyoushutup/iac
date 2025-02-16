@@ -97,7 +97,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         model = try(each.value.network_device.model != null, false) ? each.value.network_device.model : var.machine.global.network_device.model
     }
 
-    on_boot = true
+    on_boot = try(each.value.on_boot != null, false) ? each.value.on_boot : var.machine.global.on_boot
 
     operating_system {
         type = "l26"
