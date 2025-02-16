@@ -4,4 +4,13 @@ module "debug_vm_test" {
         proxmox_virtual_environment_download_file.cloud,
         proxmox_virtual_environment_file.cloud_config
     ]
+
+    initialization = {
+      user_account = {
+        username = "nodadyoushutup"
+      }
+    }
+    git = {
+        github_username = "nodadyoushutup"
+    }
 }

@@ -102,9 +102,8 @@ variable "initialization" {
         user_account = optional(object({
             keys = optional(list(string), [])
             username = optional(string, "ubuntu")
-        }), {})
+        }))
     })
-    default = {}
 }
 
 variable "machine" {
@@ -209,7 +208,6 @@ variable "vm_id" {
 variable "git" {
     description = "Git configuration"
     type = object({
-        github_username = optional(string, "nodadyoushutup")
+        github_username = string
     })
-    default = {}
 }
