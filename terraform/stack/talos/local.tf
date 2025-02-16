@@ -24,15 +24,15 @@ locals {
 
     node_data = {
         controlplane = {
-            for idx, cp in var.machine.talos.controlplane : cp.address => {
-                address = cp.ipv4.address
+            for idx, machine in var.machine.talos.controlplane : machine => {
+                address = machine.ipv4.address
                 hostname = format("talos-cp-%d", idx)
                 install_disk = "/dev/sda"
             }
         }
         worker = {
-            for idx, wk in var.machine.talos.worker : wk.address => {
-                address = wk.ipv4.address
+            for idx, machine in var.machine.talos.controlplane : machine => {
+                address = machine.ipv4.address
                 hostname = format("talos-wk-%d", idx)
                 install_disk = "/dev/sda"
             }
