@@ -72,7 +72,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         aio = var.disk.aio
         backup = var.disk.backup
         cache = var.disk.cache
-        datastore_id = var.disk.datastore_id
+        datastore_id = "virtualization"
         discard = var.disk.discard
         file_format = var.disk.file_format
         file_id = proxmox_virtual_environment_download_file.cloud.id
@@ -85,15 +85,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     }
 
     efi_disk {
-        datastore_id = var.efi_disk.datastore_id
+        datastore_id = "virtualization"
         file_format = var.efi_disk.file_format
         type = var.efi_disk.type
         pre_enrolled_keys = var.efi_disk.pre_enrolled_keys
     }
 
     initialization {
-        datastore_id = proxmox_virtual_environment_file.cloud.id
-        user_data_file_id = var.initialization.user_data_file_id
+        datastore_id = "virtualization"
+        user_data_file_id = proxmox_virtual_environment_file.cloud.id
         
         ip_config {
             ipv4 {
