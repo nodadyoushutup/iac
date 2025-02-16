@@ -111,7 +111,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         down_delay = try(each.value.startup.down_delay != null && each.value.disk.size > 0, false) ? each.value.startup.down_delay : var.machine.global.startup.down_delay
     }
 
-    tags = ["gitops"]
+    tags = try(each.value.tags != null, false) ? each.value.tags : var.machine.global.tags
 
     stop_on_destroy = true
 

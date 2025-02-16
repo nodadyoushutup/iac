@@ -252,6 +252,7 @@ variable "machine" {
                 up_delay = number
                 down_delay = number
             })
+            tags = list(string)
         })
 
         # custom = object({
