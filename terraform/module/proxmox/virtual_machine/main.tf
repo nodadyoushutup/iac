@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 
     source_raw {
         data = var.image.file_name == "nocloud-amd64.img" ? local.cloud_config.talos : local.cloud_config.cloud
-        file_name = var.image.file_name == "nocloud-amd64.img" ? "${var.name}-talos-cloud-config.yaml" : "${var.name}-cloud-config.yaml"
+        file_name = var.image.file_name == "nocloud-amd64.img" ? "${var.name}-cloud-config.yaml" : "${var.name}-cloud-config.yaml"
     }
 }
 
