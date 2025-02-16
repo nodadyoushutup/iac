@@ -1,4 +1,4 @@
-name: Build Image - Cloud
+name: Build Image - Talos
  
 on: 
   workflow_dispatch: 

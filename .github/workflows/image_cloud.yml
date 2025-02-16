@@ -1,4 +1,22 @@
-# name: Build Image - Cloud
+name: Build Image - Cloud
  
-# on: 
-#   workflow_dispatch: 
+on: 
+  workflow_dispatch: 
+    inputs: 
+      version: 
+        description: "Version tag for the release" 
+        required: true 
+ 
+env: 
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+ 
+permissions: 
+  contents: write 
+ 
+jobs: 
+  release: 
+    runs-on: ubuntu-latest 
+ 
+    steps: 
+      - name: Checkout repository 
+        uses: actions/checkout@v4 
