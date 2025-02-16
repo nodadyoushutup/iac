@@ -111,13 +111,13 @@ resource "proxmox_virtual_environment_vm" "required" {
         down_delay = try(each.value.startup.down_delay != null && each.value.disk.size > 0, false) ? each.value.startup.down_delay : var.machine.global.startup.down_delay
     }
 
-    tags = ["gitops", "cloud-image"]
+    tags = ["gitops"]
 
     stop_on_destroy = true
 
     vga {
-        memory    = 16
-        type      = "qxl"
+        memory = 16
+        type = "qxl"
         clipboard = "vnc"
     }
 
