@@ -89,12 +89,12 @@ resource "proxmox_virtual_environment_vm" "required" {
     name = try(each.value.name != null, false) ? each.value.name : var.machine.global.name
 
     network_device {
-        bridge = "vmbr0"
-        disconnected = false
-        enabled = true
-        firewall = false
+        bridge = try(each.value.network_device.bridge != null, false) ? each.value.network_device.bridge : var.machine.global.network_device.bridge
+        disconnected = try(each.value.network_device.disconnected != null, false) ? each.value.network_device.disconnected : var.machine.global.network_device.disconnected
+        enabled = try(each.value.network_device.enabled != null, false) ? each.value.network_device.enabled : var.machine.global.network_device.enabled
+        firewall = try(each.value.network_device.firewall != null, false) ? each.value.network_device.firewall : var.machine.global.network_device.firewall
         mac_address = each.value.network_device.mac_address
-        model = "virtio"
+        model = try(each.value.network_device.model != null, false) ? each.value.network_device.model : var.machine.global.network_device.model
     }
 
     on_boot = true

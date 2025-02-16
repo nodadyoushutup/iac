@@ -235,6 +235,13 @@ variable "machine" {
                 shared = number
             })
             name = string
+            network_device = object({
+                bridge = string
+                disconnected = bool
+                enabled = bool
+                firewall = bool
+                model = string
+            })
         })
 
         # custom = object({
