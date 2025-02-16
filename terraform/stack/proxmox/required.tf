@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_vm" "required" {
     boot_order = var.machine.global.boot_order
 
     cpu {
-        cores = each.value.cpu.cores ? each.value.cpu.cores : var.machine.global.cpu.cores
+        cores = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, null) ? each.value.cpu.cores : var.machine.global.cpu.cores
         flags = var.machine.global.cpu.flags
         hotplugged = var.machine.global.cpu.hotplugged
         limit = var.machine.global.cpu.limit
