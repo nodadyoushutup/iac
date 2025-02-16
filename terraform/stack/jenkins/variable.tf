@@ -226,7 +226,6 @@ variable "machine" {
                 datastore_id = string
                 discard = string
                 file_format = string
-                file_id = string
                 interface = string
                 iothread = bool
                 replicate = bool
