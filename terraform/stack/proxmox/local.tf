@@ -3,8 +3,8 @@ locals {
         gitconfig = templatefile(
             "${path.module}/../proxmox/template/.gitconfig.tpl", 
             {
-                GITCONFIG_NAME = var.GITCONFIG_NAME,
-                GITCONFIG_EMAIL = var.GITCONFIG_EMAIL
+                git.gitconfig.name = var.git.gitconfig.name,
+                git.gitconfig.email = var.git.gitconfig.email
             }
         )
         private_key = templatefile(

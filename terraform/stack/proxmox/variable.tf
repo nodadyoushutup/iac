@@ -1,31 +1,21 @@
-variable "GITHUB_USERNAME" {
-    type = string
-    default = null
-}
-
-variable "GIT_REPOSITORY_URL" {
-    type = string
-    default = null
-}
-
-variable "GIT_REPOSITORY_BRANCH" {
-    type = string
-    default = null
-}
-
-variable "GITCONFIG_NAME" {
-    type = string
-    default = null
-}
-
-variable "GITCONFIG_EMAIL" {
-    type = string
-    default = null
-}
-
 variable "SSH_PRIVATE_KEY" {
     type = string
     default = null
+}
+
+variable "git" {
+    description = "Git configuration"
+    type = object({
+        github_username = string
+        gitconfig = object({
+            name = string
+            email = string
+        })
+        repository = object({
+            branch = string
+            url = string
+        })
+    })
 }
 
 variable "terraform" {

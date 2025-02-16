@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
-      - su - ${var.machine.global.username} -c "ssh-import-id gh:${var.GITHUB_USERNAME}"
+      - su - ${var.machine.global.username} -c "ssh-import-id gh:${var.git.github_username}"
       - echo "done" > /tmp/cloud-config.done
     EOF
 
