@@ -65,16 +65,21 @@ variable "terraform" {
     description = "Terraform provider configurations"
     type = object({
         proxmox = object({
-        endpoint = string
-        password = string
-        username = string
-        ssh = object({
+            endpoint = string
+            password = string
             username = string
-            node = object({
-                name = string
-                address = string
+            ssh = object({
+                username = string
+                node = object({
+                    name = string
+                    address = string
+                })
             })
-        })
+            datastore_id = object({
+                disk = string
+                iso = string
+                snippet = string
+            })
         })
     })
 }

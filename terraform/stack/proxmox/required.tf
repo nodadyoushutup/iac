@@ -43,7 +43,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         aio = var.machine.global.disk.aio
         backup = var.machine.global.disk.backup
         cache = var.machine.global.disk.cache
-        datastore_id = var.machine.global.disk.datastore_id
+        datastore_id = var.terraform.proxmox.datastore_id.disk
         discard = var.machine.global.disk.discard
         file_format = var.machine.global.disk.file_format
         file_id = proxmox_virtual_environment_download_file.cloud_image.id
@@ -56,14 +56,14 @@ resource "proxmox_virtual_environment_vm" "required" {
     }
 
     efi_disk {
-        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
+        datastore_id = var.terraform.proxmox.datastore_id.disk
         file_format = "raw"
         type = "4m"
         pre_enrolled_keys = false
     }
 
     initialization {
-        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
+        datastore_id = var.terraform.proxmox.datastore_id.disk
         user_data_file_id = proxmox_virtual_environment_file.cloud_config.id
         
         ip_config {

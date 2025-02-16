@@ -1,6 +1,6 @@
 resource "proxmox_virtual_environment_download_file" "cloud_image" {
   content_type = "iso"
-  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
+  datastore_id = var.terraform.proxmox.datastore_id.iso
   node_name = var.terraform.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
@@ -9,7 +9,7 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
 
 resource "proxmox_virtual_environment_download_file" "talos_image" {
   content_type = "iso"
-  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO
+  datastore_id = var.terraform.proxmox.datastore_id.iso
   node_name = var.terraform.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
@@ -19,7 +19,7 @@ resource "proxmox_virtual_environment_download_file" "talos_image" {
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
-  datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_SNIPPET
+  datastore_id = var.terraform.proxmox.datastore_id.snippet
   node_name = var.terraform.proxmox.ssh.node.name
 
   source_raw {
