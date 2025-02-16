@@ -9,6 +9,7 @@ resource "proxmox_virtual_environment_download_file" "cloud" {
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {
+    depends_on = [proxmox_virtual_environment_download_file.cloud]
     content_type = "snippets"
     datastore_id = var.cloud_config.datastore_id
     node_name = var.cloud_config.node_name
