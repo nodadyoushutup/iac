@@ -1,5 +1,5 @@
 resource "proxmox_virtual_environment_vm" "required" {
-    for_each = { for idx, wk in var.machine.required : idx => wk }
+    for_each = { for idx, machine in var.machine.required : idx => machine }
 
     depends_on = [
         proxmox_virtual_environment_download_file.talos_image,
