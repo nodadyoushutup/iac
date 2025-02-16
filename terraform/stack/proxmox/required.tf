@@ -9,16 +9,16 @@ resource "proxmox_virtual_environment_vm" "required" {
     node_name = var.terraform.proxmox.ssh.node.name
 
     agent {
-        enabled = each.value.agent.enabled
-        timeout = each.value.agent.timeout
-        trim = each.value.agent.trim
-        type = each.value.agent.type
+        enabled = var.machine.global.agent.enabled
+        timeout = var.machine.global.agent.timeout
+        trim = var.machine.global.agent.trim
+        type = var.machine.global.agent.type
     }
 
     audio_device {
-        device = each.value.audio_device.device
-        driver = each.value.audio_device.driver
-        enabled = each.value.audio_device.enabled
+        device = var.machine.global.audio_device.device
+        driver = var.machine.global.audio_device.driver
+        enabled = var.machine.global.audio_device.enabled
     }
 
     bios = "ovmf"
