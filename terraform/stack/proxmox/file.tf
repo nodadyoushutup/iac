@@ -1,20 +1,21 @@
-resource "proxmox_virtual_environment_download_file" "cloud_image" {
+resource "proxmox_virtual_environment_download_file" "cloud" {
   content_type = "iso"
   datastore_id = var.terraform.proxmox.datastore_id.iso
   node_name = var.terraform.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
-  url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+  file_name = var.terraform.proxmox.image.cloud.file_name
+  url = var.terraform.proxmox.image.cloud.url
 }
 
-resource "proxmox_virtual_environment_download_file" "talos_image" {
+resource "proxmox_virtual_environment_download_file" "talos" {
   content_type = "iso"
   datastore_id = var.terraform.proxmox.datastore_id.iso
   node_name = var.terraform.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
-  file_name = "talos-v1.9.3-metal-amd64.img"
-  url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/metal-amd64.qcow2"
+  file_name = var.terraform.proxmox.image.talos.file_name
+  url = var.terraform.proxmox.image.talos.url
 }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {

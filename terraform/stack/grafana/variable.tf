@@ -1,4 +1,3 @@
-# GIT
 variable "GITHUB_USERNAME" {
     type = string
     default = null
@@ -24,39 +23,7 @@ variable "GITCONFIG_EMAIL" {
     default = null
 }
 
-# GLOBAL
 variable "SSH_PRIVATE_KEY" {
-    type = string
-    default = null
-}
-
-variable "PROXMOX_VE_CLOUD_IMAGE_URL" {
-    type = string
-    default = null
-}
-
-## GLOBAL
-variable "VIRTUAL_MACHINE_GLOBAL_USERNAME" {
-    type = string
-    default = null
-}
-
-variable "VIRTUAL_MACHINE_GLOBAL_GATEWAY" {
-    type = string
-    default = null
-}
-
-variable "VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK" {
-    type = string
-    default = null
-}
-
-variable "VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_ISO" {
-    type = string
-    default = null
-}
-
-variable "VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_SNIPPET" {
     type = string
     default = null
 }
@@ -80,6 +47,16 @@ variable "terraform" {
                 iso = string
                 snippet = string
             })
+            image = {
+                cloud = {
+                    file_name = "cloud-image-x86-64-jammy-0.1.13.img"
+                    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+                }
+                talos = {
+                    file_name = "talos-v1.9.3-metal-amd64.img"
+                    url = "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.3/metal-amd64.qcow2"
+                }
+            }
         })
     })
 }
