@@ -89,7 +89,7 @@ variable "initialization" {
     type = object({
         datastore_id = optional(string, "virtualization")
         user_data_file_id = optional(string, "local:snippets/cloud-config.yaml")
-        ip_config = object({
+        ip_config = optional(object({
             ipv4 = optional(object({
                 address = optional(string, "dhcp")
                 gateway = optional(string, "192.168.1.1")
@@ -98,7 +98,7 @@ variable "initialization" {
                 address = optional(string, "dhcp")
                 gateway = optional(string, null)
             }), {})
-        })
+        }), {})
     })
     default = {}
 }
