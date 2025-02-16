@@ -16,7 +16,7 @@ resource "jenkins_job" "stack" {
 
   folder   = jenkins_folder.required.id
   name     = each.value
-  template = local.template.pipeline.jenkins
+  template = local.template.pipeline.dozzle
 }
 
 # resource "jenkins_job" "dozzle" {
