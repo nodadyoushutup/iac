@@ -156,7 +156,6 @@ variable "machine" {
                     address = string
                     gateway = string
                 })
-                name = string
                 network_device = object({
                     mac_address = string
                 })
@@ -169,7 +168,6 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
-                exec = list(string)
                 vm_id = number
             }))
             worker = list(object({
@@ -177,7 +175,6 @@ variable "machine" {
                     address = string
                     gateway = string
                 })
-                name = string
                 network_device = object({
                     mac_address = string
                 })
@@ -190,7 +187,6 @@ variable "machine" {
                 disk = object({
                     size = number
                 })
-                exec = list(string)
                 vm_id = number
             }))
         })
