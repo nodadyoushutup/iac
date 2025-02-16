@@ -50,7 +50,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         interface = var.machine.global.disk.interface
         iothread = var.machine.global.disk.iothread
         replicate = var.machine.global.disk.replicate
-        serial = var.machine.global.disk.serial
+        # serial = var.machine.global.disk.serial
         size = try(each.value.disk.size != null && each.value.disk.size > 0, null) ? each.value.disk.size : var.machine.global.disk.size
         ssd = var.machine.global.disk.ssd
     }
