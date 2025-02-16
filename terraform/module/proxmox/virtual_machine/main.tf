@@ -7,15 +7,15 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     data = <<-EOF
     #cloud-config
     groups:
-      - docker: [${var.inialization.user_account.username}]
+      - docker: [${var.initialization.user_account.username}]
     users:
       - default
-      - name: ${var.inialization.user_account.username}
+      - name: ${var.initialization.user_account.username}
         groups: sudo
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
-      - su - ${var.inialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
+      - su - ${var.initialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
       - echo "done" > /tmp/cloud-config.done
     EOF
 
