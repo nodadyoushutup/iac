@@ -228,7 +228,7 @@ variable "machine" {
                 aio = string
                 backup = bool
                 cache = string
-                datastore_id = string
+                # datastore_id = string
                 discard = string
                 file_format = string
                 interface = string
