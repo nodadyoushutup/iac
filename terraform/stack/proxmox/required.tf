@@ -9,10 +9,10 @@ resource "proxmox_virtual_environment_vm" "required" {
     node_name = var.terraform.proxmox.ssh.node.name
 
     agent {
-        enabled = var.machine.global.agent.enabled
-        timeout = var.machine.global.agent.timeout
-        trim = var.machine.global.agent.trim
-        type = var.machine.global.agent.type
+        enabled = try(each.value.agent.enabled != null, false) ? each.value.agent.enabled : var.machine.global.agent.enabled
+        timeout = try(each.value.agent.timeout != null, false) ? each.value.agent.timeout : var.machine.global.agent.timeout
+        trim = try(each.value.agent.trim != null, false) ? each.value.agent.trim : var.machine.global.agent.trim
+        type = try(each.value.agent.type != null, false) ? each.value.agent.type : var.machine.global.agent.type
     }
 
     audio_device {
