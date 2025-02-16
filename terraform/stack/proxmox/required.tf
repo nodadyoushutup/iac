@@ -46,7 +46,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         datastore_id = var.machine.global.disk.datastore_id
         discard = var.machine.global.disk.discard
         file_format = var.machine.global.disk.file_format
-        file_id = var.machine.global.disk.file_id
+        file_id = proxmox_virtual_environment_download_file.cloud_image.id
         interface = var.machine.global.disk.interface
         iothread = var.machine.global.disk.iothread
         replicate = var.machine.global.disk.replicate
