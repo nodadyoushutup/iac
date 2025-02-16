@@ -199,5 +199,5 @@ variable "vga" {
 variable "vm_id" {
     description = "vm_id"
     type = number
-    default = {}
+    default = null
 }
