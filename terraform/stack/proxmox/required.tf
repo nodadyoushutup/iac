@@ -116,9 +116,9 @@ resource "proxmox_virtual_environment_vm" "required" {
     stop_on_destroy = try(each.value.stop_on_destroy != null, false) ? each.value.stop_on_destroy : var.machine.global.stop_on_destroy
 
     vga {
-        memory = 16
-        type = "qxl"
-        clipboard = "vnc"
+        memory = try(each.value.vga.memory != null && each.value.disk.size > 0, false) ? each.value.vga.memory : var.machine.global.vga.memory
+        type = try(each.value.vga.type != null, false) ? each.value.vga.type : var.machine.global.vga.type
+        clipboard = try(each.value.vga.clipboard != null, false) ? each.value.vga.clipboard : var.machine.global.vga.clipboard
     }
 
     vm_id = each.value.vm_id

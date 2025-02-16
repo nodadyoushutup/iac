@@ -254,6 +254,11 @@ variable "machine" {
             })
             tags = list(string)
             stop_on_destroy = bool
+            vga = object({
+                memory = number
+                type = string
+                clipboard = string
+            })
         })
 
         # custom = object({
