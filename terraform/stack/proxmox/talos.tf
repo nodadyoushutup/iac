@@ -45,7 +45,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp" {
         datastore_id = var.terraform.proxmox.datastore_id.disk
         discard = try(each.value.disk.discard != null, false) ? each.value.disk.discard : var.machine.global.disk.discard
         file_format = try(each.value.disk.file_format != null, false) ? each.value.disk.file_format : var.machine.global.disk.file_format
-        file_id = proxmox_virtual_environment_download_file.cloud.id
+        file_id = proxmox_virtual_environment_download_file.talos.id
         interface = try(each.value.disk.interface != null, false) ? each.value.disk.interface : var.machine.global.disk.interface
         iothread = try(each.value.disk.iothread != null, false) ? each.value.disk.iothread : var.machine.global.disk.iothread
         replicate = try(each.value.disk.replicate != null, false) ? each.value.disk.replicate : var.machine.global.disk.replicate
@@ -154,7 +154,7 @@ resource "proxmox_virtual_environment_vm" "talos_wk" {
         datastore_id = var.terraform.proxmox.datastore_id.disk
         discard = try(each.value.disk.discard != null, false) ? each.value.disk.discard : var.machine.global.disk.discard
         file_format = try(each.value.disk.file_format != null, false) ? each.value.disk.file_format : var.machine.global.disk.file_format
-        file_id = proxmox_virtual_environment_download_file.cloud.id
+        file_id = proxmox_virtual_environment_download_file.talos.id
         interface = try(each.value.disk.interface != null, false) ? each.value.disk.interface : var.machine.global.disk.interface
         iothread = try(each.value.disk.iothread != null, false) ? each.value.disk.iothread : var.machine.global.disk.iothread
         replicate = try(each.value.disk.replicate != null, false) ? each.value.disk.replicate : var.machine.global.disk.replicate
