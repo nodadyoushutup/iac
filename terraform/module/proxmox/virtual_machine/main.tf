@@ -10,22 +10,22 @@ resource "proxmox_virtual_environment_download_file" "cloud" {
 
 resource "proxmox_virtual_environment_file" "cloud" {
     content_type = "snippets"
-    datastore_id = "local"
-    node_name = var.node_name
+    datastore_id = var.cloud_config.datastore_id
+    node_name = var.cloud_config.node_name
 
     source_raw {
         data = <<-EOF
         #cloud-config
         groups:
-        - docker: [${var.initialization.user_account.username}]
+        - docker: [${var.username.machine}]
         users:
         - default
-        - name: ${var.initialization.user_account.username}
+        - name: ${var.username.machine}
             groups: sudo
             shell: /bin/bash
             sudo: ALL=(ALL) NOPASSWD:ALL
         runcmd:
-        - su - ${var.initialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
+        - su - ${var.username.machine} -c "ssh-import-id gh:${var.username.machine}"
         - echo "done" > /tmp/cloud-config.done
         EOF
 
