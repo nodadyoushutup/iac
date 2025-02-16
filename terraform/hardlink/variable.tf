@@ -230,9 +230,9 @@ variable "machine" {
             })
             machine = string
             memory = object({
-                dedicated = string
-                floating = string
-                shared = bool
+                dedicated = number
+                floating = number
+                shared = number
             })
         })
 
