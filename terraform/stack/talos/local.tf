@@ -11,13 +11,13 @@ locals {
         }
         inline = {
             kubeconfig = [
-                "cat <<EOF > /tmp/config",
-                "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
-                "EOF",
-                "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
-                "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
-                "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
-                "rm -rf /tmp/config",
+                # "cat <<EOF > /tmp/config",
+                # "${talos_cluster_kubeconfig.talos.kubeconfig_raw}",
+                # "EOF",
+                # "mkdir -p /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/",
+                # "cp -p /tmp/config /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                # "chown ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}:${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} /home/${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}/.kube/config",
+                # "rm -rf /tmp/config",
             ]
         }   
     }
