@@ -193,6 +193,7 @@ variable "machine" {
         })
 
         global = object({
+            username = string
             agent = object({
                 enabled = bool
                 timeout = string
@@ -216,6 +217,22 @@ variable "machine" {
                 type = string
                 units = number
                 # affinity = null
+            })
+            description = string
+            disk = object({
+                aio = string
+                backup = bool
+                cache = string
+                datastore_id = string
+                discard = string
+                file_format = string
+                file_id = string
+                interface = string
+                iothread = bool
+                replicate = bool
+                # serial = null
+                size = number
+                ssd = bool
             })
         })
 

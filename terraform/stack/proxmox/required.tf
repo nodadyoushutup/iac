@@ -37,7 +37,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         # affinity = var.machine.global.cpu.affinity
     }
 
-    description = each.value.name
+    description = try(each.value.description != null && each.value.description > 0, null) ? each.value.description : var.machine.global.description
 
     disk {
         aio = "io_uring"

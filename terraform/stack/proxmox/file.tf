@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_download_file" "cloud_image" {
   node_name = var.terraform.proxmox.ssh.node.name
   overwrite = true
   overwrite_unmanaged = true
-  url = var.PROXMOX_VE_CLOUD_IMAGE_URL
+  url = var.machine.global.disk.file_id
 }
 
 resource "proxmox_virtual_environment_download_file" "talos_image" {
@@ -26,15 +26,15 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     data = <<-EOF
     #cloud-config
     groups:
-      - docker: [${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}]
+      - docker: [${var.machine.global.username}]
     users:
       - default
-      - name: ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME}
+      - name: ${var.machine.global.username}
         groups: sudo
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
     runcmd:
-      - su - ${var.VIRTUAL_MACHINE_GLOBAL_USERNAME} -c "ssh-import-id gh:${var.GITHUB_USERNAME}"
+      - su - ${var.machine.global.username} -c "ssh-import-id gh:${var.GITHUB_USERNAME}"
       - echo "done" > /tmp/cloud-config.done
     EOF
 
