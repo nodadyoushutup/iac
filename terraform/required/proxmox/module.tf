@@ -14,7 +14,6 @@ module "debug_vm_test" {
     runcmd = [
       "touch /tmp/runcmd"
     ]
-    
   }
 
   initialization = {
