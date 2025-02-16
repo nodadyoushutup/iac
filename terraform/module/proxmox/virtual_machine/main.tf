@@ -25,7 +25,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
     node_name = var.image.node_name
     overwrite = true
     overwrite_unmanaged = true
-    url = var.image.url
+    url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {
@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
     node_name = var.cloud_config.node_name
 
     source_raw {
-        data = can(regex("talos", var.image.url)) ? local.cloud_config.talos : local.cloud_config.cloud
+        data = can(regex("talos", "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img")) ? local.cloud_config.talos : local.cloud_config.cloud
         file_name = "${var.name}-cloud-config.yaml"
     }
 }
