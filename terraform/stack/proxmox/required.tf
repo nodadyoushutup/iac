@@ -40,19 +40,19 @@ resource "proxmox_virtual_environment_vm" "required" {
     description = try(each.value.description != null && each.value.description > 0, null) ? each.value.description : var.machine.global.description
 
     disk {
-        aio = "io_uring"
-        backup = true
-        cache = "none"
-        datastore_id = var.VIRTUAL_MACHINE_GLOBAL_DATASTORE_ID_DISK
-        discard = "on"
-        file_format = "raw"
-        file_id = proxmox_virtual_environment_download_file.cloud_image.id
-        interface = "scsi0"
-        iothread = false
-        replicate = true
-        serial = null
-        size = each.value.disk.size
-        ssd = true
+        aio = var.machine.global.disk.aio
+        backup = var.machine.global.disk.backup
+        cache = var.machine.global.disk.cache
+        datastore_id = var.machine.global.disk.datastore_id
+        discard = var.machine.global.disk.discard
+        file_format = var.machine.global.disk.file_format
+        file_id = var.machine.global.disk.file_id
+        interface = var.machine.global.disk.interface
+        iothread = var.machine.global.disk.iothread
+        replicate = var.machine.global.disk.replicate
+        serial = var.machine.global.disk.serial
+        size = try(each.value.disk.size != null && each.value.disk.size > 0, null) ? each.value.disk.size : var.machine.global.disk.size
+        ssd = var.machine.global.disk.ssd
     }
 
     efi_disk {
