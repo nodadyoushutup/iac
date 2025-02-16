@@ -1,13 +1,3 @@
-resource "proxmox_virtual_environment_download_file" "image" {
-    content_type = "iso"
-    datastore_id = var.image.datastore_id
-    node_name = var.image.node_name
-    overwrite = true
-    overwrite_unmanaged = true
-    file_name = var.image.file_name
-    url = var.image.url
-}
-
 locals {
     cloud_config ={
         cloud = templatefile(
@@ -29,6 +19,16 @@ locals {
     }
 }
 
+resource "proxmox_virtual_environment_download_file" "image" {
+    content_type = "iso"
+    datastore_id = var.image.datastore_id
+    node_name = var.image.node_name
+    overwrite = true
+    overwrite_unmanaged = true
+    file_name = var.image.file_name
+    url = var.image.url
+}
+
 resource "proxmox_virtual_environment_file" "cloud" {
     depends_on = [proxmox_virtual_environment_download_file.image]
     content_type = "snippets"
@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
     node_name = var.cloud_config.node_name
 
     source_raw {
-        data = can(regex("talos-image", var.image.file_name)) ? local.cloud_config.talos : local.cloud_config.cloud
+        data = can(regex("talos", var.image.url)) ? local.cloud_config.talos : local.cloud_config.cloud
         file_name = "${var.name}-cloud-config.yaml"
     }
 }
