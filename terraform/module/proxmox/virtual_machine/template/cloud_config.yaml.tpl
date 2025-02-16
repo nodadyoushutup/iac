@@ -8,7 +8,7 @@ users:
         shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
 runcmd:
-    %{ if github }
-    - su - ${machine} -c "ssh-import-id gh:${github}"
-    %{ endif }
+    %{ for username in github } 
+    - su - ${machine} -c "ssh-import-id gh:${username}" 
+    %{ endfor ~}
     - echo "done" > /tmp/cloud-config.done
