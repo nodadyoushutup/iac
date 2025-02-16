@@ -46,7 +46,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         datastore_id = var.terraform.proxmox.datastore_id.disk
         discard = var.machine.global.disk.discard
         file_format = var.machine.global.disk.file_format
-        file_id = proxmox_virtual_environment_download_file.cloud_image.id
+        file_id = proxmox_virtual_environment_download_file.cloud.id
         interface = var.machine.global.disk.interface
         iothread = var.machine.global.disk.iothread
         replicate = var.machine.global.disk.replicate
