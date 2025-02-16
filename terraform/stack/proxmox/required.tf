@@ -103,7 +103,7 @@ resource "proxmox_virtual_environment_vm" "required" {
         type = try(each.value.operating_system.type != null, false) ? each.value.operating_system.type : var.machine.global.operating_system.type
     }
 
-    started = true
+    started = try(each.value.started != null, false) ? each.value.started : var.machine.global.started
 
     startup {
         order    = 2
