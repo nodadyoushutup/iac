@@ -5,11 +5,11 @@ module "debug_vm_test" {
     proxmox_virtual_environment_file.cloud_config
   ]
 
-  # cloud_config = {
-  #   username = {
-  #     github = "nodadyoushutup"
-  #   }
-  # }
+  cloud_config = {
+    username = {
+      github = "nodadyoushutup"
+    }
+  }
 
   initialization = {
     ip_config = {
