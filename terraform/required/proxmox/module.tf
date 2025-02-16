@@ -8,7 +8,7 @@ module "debug_vm_test" {
   cloud_config = {
     username = {
       github = "nodadyoushutup"
-      machine = "ubuntu"
+      username = "nodadyoushutup"
     }
   }
 
