@@ -92,7 +92,7 @@ variable "initialization" {
         ip_config = optional(object({
             ipv4 = optional(object({
                 address = optional(string, "dhcp")
-                gateway = optional(string, null)
+                gateway = optional(string, "192.168.1.1")
             }), {})
             ipv6 = optional(object({
                 address = optional(string, "dhcp")
