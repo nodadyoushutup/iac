@@ -1,31 +1,41 @@
-resource "proxmox_virtual_environment_file" "cloud_config" {
-  content_type = "snippets"
-  datastore_id = "local"
-  node_name = var.node_name
+resource "proxmox_virtual_environment_download_file" "cloud" {
+    content_type = "iso"
+    datastore_id = var.disk.datastore_id
+    node_name = var.node_name
+    overwrite = true
+    overwrite_unmanaged = true
+    file_name = "${var.name}-cloud-image-x86-64-jammy-0.1.13.img"
+    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+}
 
-  source_raw {
-    data = <<-EOF
-    #cloud-config
-    groups:
-      - docker: [${var.initialization.user_account.username}]
-    users:
-      - default
-      - name: ${var.initialization.user_account.username}
-        groups: sudo
-        shell: /bin/bash
-        sudo: ALL=(ALL) NOPASSWD:ALL
-    runcmd:
-      - su - ${var.initialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
-      - echo "done" > /tmp/cloud-config.done
-    EOF
+resource "proxmox_virtual_environment_file" "cloud" {
+    content_type = "snippets"
+    datastore_id = "local"
+    node_name = var.node_name
 
-    file_name = "${var.name}-cloud-config.yaml"
-  }
+    source_raw {
+        data = <<-EOF
+        #cloud-config
+        groups:
+        - docker: [${var.initialization.user_account.username}]
+        users:
+        - default
+        - name: ${var.initialization.user_account.username}
+            groups: sudo
+            shell: /bin/bash
+            sudo: ALL=(ALL) NOPASSWD:ALL
+        runcmd:
+        - su - ${var.initialization.user_account.username} -c "ssh-import-id gh:${var.git.github_username}"
+        - echo "done" > /tmp/cloud-config.done
+        EOF
+
+        file_name = "${var.name}-cloud-config.yaml"
+    }
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
     depends_on = [
-        proxmox_virtual_environment_file.cloud_config
+        proxmox_virtual_environment_file.cloud
     ]
     agent {
         enabled = var.agent.enabled
@@ -40,8 +50,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         enabled = var.audio_device.enabled
     }
 
-    # bios = var.bios
-    bios = "seabios"
+    bios = var.bios
 
     boot_order = var.boot_order
 
@@ -66,7 +75,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         datastore_id = var.disk.datastore_id
         discard = var.disk.discard
         file_format = var.disk.file_format
-        file_id = proxmox_virtual_environment_file.cloud_config.id
+        file_id = proxmox_virtual_environment_download_file.cloud.id
         interface = var.disk.interface
         iothread = var.disk.iothread
         replicate = var.disk.replicate
@@ -75,15 +84,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         ssd = var.disk.ssd
     }
 
-    # efi_disk {
-    #     datastore_id = var.efi_disk.datastore_id
-    #     file_format = var.efi_disk.file_format
-    #     type = var.efi_disk.type
-    #     pre_enrolled_keys = var.efi_disk.pre_enrolled_keys
-    # }
+    efi_disk {
+        datastore_id = var.efi_disk.datastore_id
+        file_format = var.efi_disk.file_format
+        type = var.efi_disk.type
+        pre_enrolled_keys = var.efi_disk.pre_enrolled_keys
+    }
 
     initialization {
-        datastore_id = var.initialization.datastore_id
+        datastore_id = proxmox_virtual_environment_file.cloud.id
         user_data_file_id = var.initialization.user_data_file_id
         
         ip_config {
