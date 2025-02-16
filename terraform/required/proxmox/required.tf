@@ -21,7 +21,8 @@ resource "proxmox_virtual_environment_vm" "required" {
         enabled = try(each.value.audio_device.enabled != null, false) ? each.value.audio_device.enabled : var.machine.global.audio_device.enabled
     }
 
-    bios = try(each.value.bios != null, false) ? each.value.bios : var.machine.global.bios
+    # bios = try(each.value.bios != null, false) ? each.value.bios : var.machine.global.bios
+    bios = "seabios"
 
     boot_order = try(each.value.boot_order != null, false) ? each.value.boot_order : var.machine.global.boot_order
 
@@ -55,12 +56,12 @@ resource "proxmox_virtual_environment_vm" "required" {
         ssd = try(each.value.disk.ssd != null, false) ? each.value.disk.ssd : var.machine.global.disk.ssd
     }
 
-    efi_disk {
-        datastore_id = var.terraform.proxmox.datastore_id.disk
-        file_format = try(each.value.efi_disk.file_format != null, false) ? each.value.efi_disk.file_format : var.machine.global.efi_disk.file_format
-        type = try(each.value.efi_disk.type != null, false) ? each.value.efi_disk.type : var.machine.global.efi_disk.type
-        pre_enrolled_keys = try(each.value.efi_disk.pre_enrolled_keys != null, false) ? each.value.efi_disk.pre_enrolled_keys : var.machine.global.efi_disk.pre_enrolled_keys
-    }
+    # efi_disk {
+    #     datastore_id = var.terraform.proxmox.datastore_id.disk
+    #     file_format = try(each.value.efi_disk.file_format != null, false) ? each.value.efi_disk.file_format : var.machine.global.efi_disk.file_format
+    #     type = try(each.value.efi_disk.type != null, false) ? each.value.efi_disk.type : var.machine.global.efi_disk.type
+    #     pre_enrolled_keys = try(each.value.efi_disk.pre_enrolled_keys != null, false) ? each.value.efi_disk.pre_enrolled_keys : var.machine.global.efi_disk.pre_enrolled_keys
+    # }
 
     initialization {
         datastore_id = var.terraform.proxmox.datastore_id.disk
