@@ -16,25 +16,25 @@ resource "proxmox_virtual_environment_vm" "required" {
     }
 
     audio_device {
-        device = var.machine.global.audio_device.device
-        driver = var.machine.global.audio_device.driver
-        enabled = var.machine.global.audio_device.enabled
+        device = try(each.value.audio_device.device != null, false) ? each.value.audio_device.device : var.machine.global.audio_device.device
+        driver = try(each.value.audio_device.driver != null, false) ? each.value.audio_device.driver : var.machine.global.audio_device.driver
+        enabled = try(each.value.audio_device.enabled != null, false) ? each.value.audio_device.enabled : var.machine.global.audio_device.enabled
     }
 
-    bios = var.machine.global.bios
+    bios = try(each.value.bios != null, false) ? each.value.bios : var.machine.global.bios
 
-    boot_order = var.machine.global.boot_order
+    boot_order = try(each.value.boot_order != null, false) ? each.value.boot_order : var.machine.global.boot_order
 
     cpu {
         cores = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, false) ? each.value.cpu.cores : var.machine.global.cpu.cores
-        flags = var.machine.global.cpu.flags
-        hotplugged = var.machine.global.cpu.hotplugged
-        limit = var.machine.global.cpu.limit
-        numa = var.machine.global.cpu.numa
-        sockets = var.machine.global.cpu.sockets
-        type = var.machine.global.cpu.type
-        units = var.machine.global.cpu.units
-        # affinity = var.machine.global.cpu.affinity
+        flags = try(each.value.cpu.flags != null && each.value.cpu.flags > 0, false) ? each.value.cpu.flags : var.machine.global.cpu.flags
+        hotplugged = try(each.value.cpu.hotplugged != null && each.value.cpu.hotplugged > 0, false) ? each.value.cpu.hotplugged : var.machine.global.cpu.hotplugged
+        limit = try(each.value.cpu.limit != null && each.value.cpu.limit > 0, false) ? each.value.cpu.limit : var.machine.global.cpu.limit
+        numa = try(each.value.cpu.numa != null, false) ? each.value.cpu.numa : var.machine.global.cpu.numa
+        sockets = try(each.value.cpu.sockets != null && each.value.cpu.sockets > 0, false) ? each.value.cpu.sockets : var.machine.global.cpu.sockets
+        type = try(each.value.cpu.type != null, false) ? each.value.cpu.type : var.machine.global.cpu.type
+        units = try(each.value.cpu.units != null && each.value.cpu.units > 0, false) ? each.value.cpu.units : var.machine.global.cpu.units
+        # affinity = try(each.value.cpu.cores != null && each.value.cpu.cores > 0, false) ? each.value.cpu.cores : var.machine.global.cpu.cores
     }
 
     description = try(each.value.description != null, false) ? each.value.description : var.machine.global.description
