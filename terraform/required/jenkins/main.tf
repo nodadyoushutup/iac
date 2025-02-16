@@ -3,7 +3,7 @@ data "external" "list_directories" {
 }
 
 locals {
-  directories = tolist(data.external.list_directories.result.directories)
+  directories = toset(keys(data.external.list_directories.result))
 }
 
 resource "jenkins_folder" "required" {
