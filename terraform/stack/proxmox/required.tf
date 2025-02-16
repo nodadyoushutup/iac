@@ -21,20 +21,20 @@ resource "proxmox_virtual_environment_vm" "required" {
         enabled = var.machine.global.audio_device.enabled
     }
 
-    bios = "ovmf"
+    bios = var.machine.global.bios
 
-    boot_order = ["scsi0"]
+    boot_order = var.machine.global.boot_order
 
     cpu {
-        cores = each.value.cpu.cores
-        flags = ["+aes"]
-        hotplugged = 0
-        limit = 0
-        numa = false
-        sockets = 1
-        type = "x86-64-v2-AES"
-        units = 1024
-        affinity = null
+        cores = each.value.cpu.cores ? each.value.cpu.cores : var.machine.global.cpu.cores
+        flags = var.machine.global.cpu.flags
+        hotplugged = var.machine.global.cpu.hotplugged
+        limit = var.machine.global.cpu.limit
+        numa = var.machine.global.cpu.numa
+        sockets = var.machine.global.cpu.sockets
+        type = var.machine.global.cpu.type
+        units = var.machine.global.cpu.units
+        # affinity = var.machine.global.cpu.affinity
     }
 
     description = each.value.name
