@@ -1,9 +1,4 @@
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [
-        proxmox_virtual_environment_download_file.cloud,
-        proxmox_virtual_environment_file.cloud_config
-    ]
-    
     node_name = var.node_name
 
     agent {
