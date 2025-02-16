@@ -1,0 +1,60 @@
+name: Download, Unzip, and Release Raw Image
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semantic version tag for the release"
+        required: true
+        default: "v1.9.4"
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  RAW_FILE: nocloud-amd64.raw
+  COMPRESSED_FILE: nocloud-amd64.raw.xz
+  DOWNLOAD_URL: "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.4/nocloud-amd64.raw.xz"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install required packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xz-utils curl
+
+      - name: Download compressed file
+        run: |
+          echo "Downloading ${COMPRESSED_FILE} from ${DOWNLOAD_URL}"
+          curl -L -o "${COMPRESSED_FILE}" "${DOWNLOAD_URL}"
+
+      - name: Uncompress the file
+        run: |
+          echo "Uncompressing ${COMPRESSED_FILE}"
+          xz -d "${COMPRESSED_FILE}"
+
+      - name: Create GitHub release
+        run: |
+          echo "Creating release for tag: ${{ github.event.inputs.version }}"
+          gh release create "${{ github.event.inputs.version }}" \
+            --title "${{ github.event.inputs.version }}" \
+            --notes "Automated release of the raw image"
+
+      - name: Upload raw file to release
+        run: |
+          if [ ! -f "${RAW_FILE}" ]; then
+            echo "Error: File not found: ${RAW_FILE}"
+            exit 1
+          fi
+          echo "Uploading file: ${RAW_FILE}"
+          gh release upload "${{ github.event.inputs.version }}" "${RAW_FILE}"
