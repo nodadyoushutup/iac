@@ -2,7 +2,7 @@ module "cloud_required" {
   source = "../../module/proxmox/virtual_machine"
   for_each = { for machine in var.machine.cloud.required : machine.name => machine }
 
-  cloud_config = each.value.cloud_config != null ? each.value.cloud_config : var.machine.global.cloud_config
+  cloud_config = try(each.value.cloud_config, null) != null ? each.value.cloud_config : var.machine.global.cloud_config
   image = each.value.image
   initialization = each.value.initialization
   name = each.value.name
