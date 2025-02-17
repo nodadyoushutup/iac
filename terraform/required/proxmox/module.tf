@@ -2,6 +2,7 @@ locals {
   controlplane = [
     {
       name = "talos-cp-0"
+      vm_id = 1200
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -16,6 +17,7 @@ locals {
     },
     {
       name = "talos-cp-1"
+      vm_id = 1201
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -30,6 +32,7 @@ locals {
     },
     {
       name = "talos-cp-2"
+      vm_id = 1202
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -54,4 +57,5 @@ module "debug_vm_test" {
   image = each.value.image
   initialization = each.value.initialization
   name = each.value.name
+  vm_id = each.value.vm_id
 }
