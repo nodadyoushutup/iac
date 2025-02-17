@@ -19,16 +19,16 @@ module "debug_vm_test" {
     ]
   }
 
-  initialization = {
-    ip_config = {
-      ipv4 = {
-        address = "192.168.1.190"
-        gateway = "192.168.1.1"
-      }
-    }
-  }
+  # initialization = {
+  #   ip_config = {
+  #     ipv4 = {
+  #       address = "192.168.1.190"
+  #       gateway = "192.168.1.1"
+  #     }
+  #   }
+  # }
 
   name = "talos-cp-0"
   
-  vm_id = 190
+  # vm_id = 190
 }

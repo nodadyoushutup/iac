@@ -25,7 +25,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
     node_name = "pve"
     overwrite = true
     overwrite_unmanaged = true
-    # file_name = "talos-image-amd64.img"
+    file_name = "${var.name}-talos-image-amd64.img"
     url = var.image.url
 }
 
