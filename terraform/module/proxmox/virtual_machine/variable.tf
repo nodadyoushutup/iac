@@ -223,7 +223,7 @@ variable "image" {
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
         file_name = optional(string, "image.img")
-        url = optional(string, "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img")
+        url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
     })
     default = {}
 }
