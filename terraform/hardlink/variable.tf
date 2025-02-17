@@ -69,7 +69,7 @@ variable "machine" {
             })
         })
 
-        cloud = {
+        cloud = object({
             required = list(object({
                 name = string
                 vm_id = optional(number, null)
@@ -85,7 +85,7 @@ variable "machine" {
                     })
                 })
             }))
-        }
+        })
 
         talos = object({
             name = string
