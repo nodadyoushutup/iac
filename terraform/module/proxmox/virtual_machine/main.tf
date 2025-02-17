@@ -19,16 +19,6 @@ locals {
     }
 }
 
-# resource "proxmox_virtual_environment_download_file" "image" {
-#     content_type = "iso"
-#     datastore_id = var.image.datastore_id
-#     node_name = var.image.node_name
-#     overwrite = true
-#     overwrite_unmanaged = true
-#     file_name = var.image.file_name
-#     url = var.image.url
-# }
-
 resource "proxmox_virtual_environment_download_file" "image" {
     content_type = "iso"
     datastore_id = "local"
