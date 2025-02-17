@@ -19,14 +19,24 @@ locals {
     }
 }
 
+# resource "proxmox_virtual_environment_download_file" "image" {
+#     content_type = "iso"
+#     datastore_id = var.image.datastore_id
+#     node_name = var.image.node_name
+#     overwrite = true
+#     overwrite_unmanaged = true
+#     file_name = var.image.file_name
+#     url = var.image.url
+# }
+
 resource "proxmox_virtual_environment_download_file" "image" {
     content_type = "iso"
-    datastore_id = var.image.datastore_id
-    node_name = var.image.node_name
+    datastore_id = "local"
+    node_name = "pve"
     overwrite = true
     overwrite_unmanaged = true
-    file_name = var.image.file_name
-    url = var.image.url
+    file_name = "talos-image-amd64.img"
+    url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {
