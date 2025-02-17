@@ -145,7 +145,11 @@ variable "machine" {
         })
 
         global = object({
-            username = string
+            cloud_config = optional(object({
+                auth = optional(object({
+                    github = optional(string, null)
+                }), {})
+            }), {})
             agent = object({
                 enabled = bool
                 timeout = string
