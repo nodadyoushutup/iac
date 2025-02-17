@@ -91,7 +91,7 @@ variable "initialization" {
         user_data_file_id = optional(string, "local:snippets/cloud-config.yaml")
         ip_config = optional(object({
             ipv4 = optional(object({
-                address = optional(string, "dhcp")
+                address = optional(string, null)
                 gateway = optional(string, "192.168.1.1")
                 cidr = optional(number, 24)
             }), {})
