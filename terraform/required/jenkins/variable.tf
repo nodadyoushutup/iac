@@ -132,42 +132,34 @@ variable "machine" {
         talos = object({
             name = string
             controlplane = list(object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
+                name = string
+                vm_id = optional(number, null)
+                image = optional(object({
+                    url = optional(string, "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img")
+                }), {})
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
                 })
-                network_device = object({
-                    mac_address = string
-                })
-                cpu = object({
-                    cores = number
-                })
-                memory = object({
-                    dedicated = number
-                })
-                disk = object({
-                    size = number
-                })
-                vm_id = number
             }))
             worker = list(object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
+                name = string
+                vm_id = optional(number, null)
+                image = optional(object({
+                    url = optional(string, "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img")
+                }), {})
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
                 })
-                network_device = object({
-                    mac_address = string
-                })
-                cpu = object({
-                    cores = number
-                })
-                memory = object({
-                    dedicated = number
-                })
-                disk = object({
-                    size = number
-                })
-                vm_id = number
             }))
         })
 

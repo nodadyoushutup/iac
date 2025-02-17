@@ -4,7 +4,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Set the terraform stack directory relative to the script directory.
-STACK_DIR="$SCRIPT_DIR/../terraform/stack"
+STACK_DIR="$SCRIPT_DIR/../terraform/required"
 
 # Check if the stack directory exists.
 if [ ! -d "$STACK_DIR" ]; then

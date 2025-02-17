@@ -5,7 +5,7 @@ setlocal enabledelayedexpansion
 set "SCRIPT_DIR=%~dp0"
 
 :: Set the terraform stack directory relative to the script directory
-set "STACK_DIR=%SCRIPT_DIR%..\terraform\stack"
+set "STACK_DIR=%SCRIPT_DIR%..\terraform\required"
 
 :: Check if the stack directory exists
 if not exist "%STACK_DIR%" (
