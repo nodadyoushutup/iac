@@ -32,21 +32,6 @@ variable "terraform" {
                     address = string
                 })
             })
-            datastore_id = object({
-                disk = string
-                iso = string
-                snippet = string
-            })
-            image = object({
-                cloud = object({
-                    file_name = string
-                    url = string
-                })
-                talos = object({
-                    file_name = string
-                    url = string
-                })
-            })
         })
     })
 }
