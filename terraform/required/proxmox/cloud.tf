@@ -20,5 +20,5 @@ module "cloud_required" {
 # }
 
 output "debug" {
-  value = var.machine.global.cloud_config
+  value = var.machine.cloud.required
 }
