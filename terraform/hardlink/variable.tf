@@ -77,7 +77,7 @@ variable "machine" {
                 vm_id = optional(number, null)
                 cloud_config = optional(object({
                     auth = optional(object({
-                        github = optional(string)
+                        github = optional(string, null)
                     }), {})
                 }), {})
                 image = optional(object({
