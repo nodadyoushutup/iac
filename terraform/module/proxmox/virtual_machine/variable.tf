@@ -223,7 +223,7 @@ variable "image" {
     type = object({
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
-        file_name = optional(string, null)
+        file_name = optional(string, "image.img")
         url = optional(string, "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img")
     })
     default = {}
