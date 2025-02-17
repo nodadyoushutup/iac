@@ -69,50 +69,23 @@ variable "machine" {
             })
         })
 
-        required = object({
-            docker = object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
-                })
+        cloud = {
+            required = list(object({
                 name = string
-                network_device = object({
-                    mac_address = string
+                vm_id = optional(number, null)
+                image = optional(object({
+                    url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
+                }), {})
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
                 })
-                cpu = object({
-                    cores = number
-                })
-                memory = object({
-                    dedicated = number
-                })
-                disk = object({
-                    size = number
-                })
-                exec = list(string)
-                vm_id = number
-            })
-            development = object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
-                })
-                name = string
-                network_device = object({
-                    mac_address = string
-                })
-                cpu = object({
-                    cores = number
-                })
-                memory = object({
-                    dedicated = number
-                })
-                disk = object({
-                    size = number
-                })
-                exec = list(string)
-                vm_id = number
-            })
-        })
+            }))
+        }
 
         talos = object({
             name = string
