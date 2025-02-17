@@ -208,7 +208,7 @@ variable "cloud_config" {
         datastore_id = optional(string, "local")
         node_name = optional(string, "pve")
         auth = optional(object({
-            github  = optional(string, null)
+            github = optional(string, null)
             username = optional(string, "nodadyoushutup")
             ssh_public_key = optional(list(string), [])
         }), {})

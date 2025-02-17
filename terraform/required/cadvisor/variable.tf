@@ -75,6 +75,11 @@ variable "machine" {
             required = list(object({
                 name = string
                 vm_id = optional(number, null)
+                cloud_config = optional(object({
+                    auth = optional(object({
+                        github = optional(string, null)
+                    }), {})
+                }), {})
                 image = optional(object({
                     url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
                 }), {})
