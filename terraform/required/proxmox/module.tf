@@ -9,14 +9,10 @@ module "debug_vm_test" {
   }
 
   cloud_config = {
-    hostname = "test"
     auth = {
       github = "nodadyoushutup"
       username = "nodadyoushutup"
     }
-    runcmd = [
-      "touch /tmp/runcmd"
-    ]
   }
 
   initialization = {
