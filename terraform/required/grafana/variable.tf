@@ -48,29 +48,47 @@ variable "machine" {
     type = object({
         clickops = object({
             nas = object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
-                })
                 name = string
-                network_device = object({
-                    mac_address = string
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
                 })
             })
             cicd = object({
-                ipv4 = object({
-                    address = string
-                    gateway = string
-                })
                 name = string
-                network_device = object({
-                    mac_address = string
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
                 })
             })
         })
 
         cloud = object({
             required = list(object({
+                name = string
+                vm_id = optional(number, null)
+                image = optional(object({
+                    url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
+                }), {})
+                initialization = object({
+                    ip_config = object({
+                        ipv4 = object({
+                            address = string
+                            gateway = string
+                        })
+                    })
+                })
+            }))
+
+            custom = list(object({
                 name = string
                 vm_id = optional(number, null)
                 image = optional(object({
@@ -167,13 +185,12 @@ variable "machine" {
                 type = string
                 pre_enrolled_keys = bool
             })
-            ipv4 = object({
-                address = string
-                gateway = string
-            })
-            ipv6 = object({
-                address = string
-                # gateway = string
+            initialization = object({
+                ip_config = object({
+                    ipv4 = object({
+                        gateway = string
+                    })
+                })
             })
             machine = string
             memory = object({
