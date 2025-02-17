@@ -1,10 +1,10 @@
 variable "agent" {
     description = "agent"
     type = object({
-        enabled = optional(bool)
-        timeout = optional(string)
-        trim = optional(bool)
-        type = optional(string)
+        enabled = optional(bool, true)
+        timeout = optional(string, "15m")
+        trim = optional(bool, false)
+        type = optional(string, "virtio")
     })
     default = {}
 }
@@ -12,9 +12,9 @@ variable "agent" {
 variable "audio_device" {
     description = "audio_device"
     type = object({
-        device  = optional(string)
-        driver  = optional(string)
-        enabled = optional(bool)
+        device  = optional(string, "intel-hda")
+        driver  = optional(string, "spice")
+        enabled = optional(bool, true)
     })
     default = {}
 }
@@ -34,6 +34,7 @@ variable "boot_order" {
 variable "cpu" {
     description = "cpu"
     type = object({
+        affinity = optional(string, null)
         cores = optional(number, 2)
         flags = optional(list(string), ["+aes"])
         hotplugged = optional(number, 0)
@@ -42,7 +43,6 @@ variable "cpu" {
         sockets = optional(number, 1)
         type = optional(string, "x86-64-v2-AES")
         units = optional(number, 1024)
-        affinity = optional(string, null)
     })
     default = {}
 }
@@ -50,7 +50,7 @@ variable "cpu" {
 variable "description" {
     description = "description"
     type = string
-    default = "Virtual machine"
+    default = null
 }
 
 variable "disk" {
@@ -59,7 +59,7 @@ variable "disk" {
         aio = optional(string, "io_uring")
         backup = optional(bool, true)
         cache = optional(string, "none")
-        datastore_id = optional(string, "virtualization")
+        datastore_id = optional(string, "local-lvm")
         discard = optional(string, "on")
         file_id = optional(string, "local:iso/cloud-image-x86-64-jammy-0.1.13.img")
         file_format = optional(string, "raw")
