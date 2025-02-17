@@ -1,7 +1,7 @@
 module "debug_vm_test" {
   source = "../../module/proxmox/virtual_machine"
 
-  count = 2
+  for_each = toset(["talos-cp-0", "talos-cp-1"])
 
   image = {
     # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
@@ -28,7 +28,7 @@ module "debug_vm_test" {
   #   }
   # }
 
-  name = "talos-cp-0"
+  name = each.value
   
   # vm_id = 190
 }
