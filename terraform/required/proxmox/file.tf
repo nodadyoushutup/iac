@@ -1,22 +1,22 @@
-resource "proxmox_virtual_environment_download_file" "cloud" {
-  content_type = "iso"
-  datastore_id = var.terraform.proxmox.datastore_id.iso
-  node_name = var.terraform.proxmox.ssh.node.name
-  overwrite = true
-  overwrite_unmanaged = true
-  file_name = var.terraform.proxmox.image.cloud.file_name
-  url = var.terraform.proxmox.image.cloud.url
-}
+# resource "proxmox_virtual_environment_download_file" "cloud" {
+#   content_type = "iso"
+#   datastore_id = var.terraform.proxmox.datastore_id.iso
+#   node_name = var.terraform.proxmox.ssh.node.name
+#   overwrite = true
+#   overwrite_unmanaged = true
+#   file_name = var.terraform.proxmox.image.cloud.file_name
+#   url = var.terraform.proxmox.image.cloud.url
+# }
 
-resource "proxmox_virtual_environment_download_file" "talos" {
-  content_type = "iso"
-  datastore_id = var.terraform.proxmox.datastore_id.iso
-  node_name = var.terraform.proxmox.ssh.node.name
-  overwrite = true
-  overwrite_unmanaged = true
-  file_name = var.terraform.proxmox.image.talos.file_name
-  url = var.terraform.proxmox.image.talos.url
-}
+# resource "proxmox_virtual_environment_download_file" "talos" {
+#   content_type = "iso"
+#   datastore_id = var.terraform.proxmox.datastore_id.iso
+#   node_name = var.terraform.proxmox.ssh.node.name
+#   overwrite = true
+#   overwrite_unmanaged = true
+#   file_name = var.terraform.proxmox.image.talos.file_name
+#   url = var.terraform.proxmox.image.talos.url
+# }
 
 resource "proxmox_virtual_environment_file" "cloud_config" {
   content_type = "snippets"
