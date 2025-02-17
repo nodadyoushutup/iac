@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
     node_name = "pve"
     overwrite = true
     overwrite_unmanaged = true
-    file_name = "talos-image-amd64.img"
+    # file_name = "talos-image-amd64.img"
     url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
 }
 
