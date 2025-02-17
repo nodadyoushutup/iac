@@ -49,7 +49,7 @@ locals {
   worker = [
     {
       name = "talos-wk-0"
-      vm_id = 1200
+      vm_id = 1203
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -64,7 +64,7 @@ locals {
     },
     {
       name = "talos-wk-1"
-      vm_id = 1201
+      vm_id = 1204
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -79,7 +79,7 @@ locals {
     },
     {
       name = "talos-wk-2"
-      vm_id = 1202
+      vm_id = 1205
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -94,7 +94,7 @@ locals {
     },
     {
       name = "talos-wk-3"
-      vm_id = 1202
+      vm_id = 1206
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
@@ -109,7 +109,7 @@ locals {
     },
     {
       name = "talos-wk-4"
-      vm_id = 1202
+      vm_id = 1207
       image = {
         url = "https://github.com/nodadyoushutup/iac/releases/download/talos-0.1.3/talos-image-amd64-0.1.3.img"
       }
