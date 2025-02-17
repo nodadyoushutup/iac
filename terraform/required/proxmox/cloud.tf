@@ -18,3 +18,7 @@ module "cloud_required" {
 #   name = each.value.name
 #   vm_id = each.value.vm_id
 # }
+
+output "debug" {
+  value = var.machine.global.cloud_config
+}
