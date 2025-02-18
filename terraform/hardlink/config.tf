@@ -24,3 +24,7 @@ data "aws_s3_object" "config" {
 
     depends_on = [null_resource.get_config]
 }
+
+locals {
+    config = jsondecode(data.aws_s3_object.config.body)
+}
