@@ -81,7 +81,7 @@ variable "machine" {
                 image = optional(object({
                     url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
                 }), {})
-                initialization = object({
+                initialization = optional(object({
                     datastore_id = optional(string)
                     user_data_file_id = optional(string)
                     ip_config = optional(object({
@@ -95,7 +95,7 @@ variable "machine" {
                             gateway = optional(string)
                         }), {})
                     }), {})
-                })
+                }), {})
                 name = optional(string, null)
                 vm_id = optional(number, null)
             }))
