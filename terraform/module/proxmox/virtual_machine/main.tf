@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
     node_name = "pve"
     overwrite = true
     overwrite_unmanaged = true
-    file_name = "${var.name}-talos-image-amd64.img"
+    file_name = "${local.name}-talos-image-amd64.img"
     url = var.image.url
 }
 
@@ -16,7 +16,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 
     source_raw {
         data = can(regex("talos", var.image.url)) ? local.cloud_config.talos : local.cloud_config.cloud
-        file_name = "${var.name}-cloud-config.yaml"
+        file_name = "${local.name}-cloud-config.yaml"
     }
 }
 
