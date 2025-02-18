@@ -61,7 +61,7 @@ variable "disk" {
         cache = optional(string, "none")
         datastore_id = optional(string, "virtualization")
         discard = optional(string, "on")
-        file_id = optional(string, "local:iso/cloud-image-x86-64.img")
+        file_id = optional(string, "local:iso/default-cloud-image-x86-64.img")
         file_format = optional(string, "raw")
         interface = optional(string, "scsi0")
         iothread = optional(bool, false)
@@ -88,12 +88,12 @@ variable "initialization" {
     description = "initialization"
     type = object({
         datastore_id = optional(string, "virtualization")
-        user_data_file_id = optional(string, "local:snippets/cloud-config.yaml")
+        user_data_file_id = optional(string, "local:snippets/default-cloud-config.yaml")
         ip_config = object({
             ipv4 = object({
-                address = string
+                address = optional(string, "dhcp")
                 cidr = optional(number, 24)
-                gateway = string
+                gateway = optional(string, null)
             })
             ipv6 = optional(object({
                 address = optional(string, "dhcp")
