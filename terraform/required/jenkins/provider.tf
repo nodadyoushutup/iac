@@ -12,5 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-    server_url = "http://${var.terraform.jenkins.server_url}:8080"
+    server_url = var.terraform.jenkins.server_url
 }
