@@ -22,7 +22,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
     depends_on = [proxmox_virtual_environment_file.cloud]
-    
+
     agent {
         enabled = var.agent.enabled
         timeout = var.agent.timeout

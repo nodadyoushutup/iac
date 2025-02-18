@@ -92,8 +92,8 @@ variable "initialization" {
         ip_config = object({
             ipv4 = object({
                 address = string
-                gateway = string
                 cidr = optional(number, 24)
+                gateway = string
             })
             ipv6 = optional(object({
                 address = optional(string, "dhcp")
