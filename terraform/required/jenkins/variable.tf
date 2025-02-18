@@ -352,5 +352,5 @@ data "aws_s3_object" "secret" {
 }
 
 output "secrets_content2" {
-    value = data.aws_s3_object.secret.body
+    value = data.aws_s3_object.secret
 }
