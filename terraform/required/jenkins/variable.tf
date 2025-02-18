@@ -344,29 +344,17 @@ resource "null_resource" "force_refresh" {
     }
 }
 
-data "aws_s3_object" "secret" {
-    bucket = "terraform"
-    key    = "config.json"
+data "aws_s3_object" "config" {
+    bucket = "config"
+    key = "config.json"
 
     depends_on = [null_resource.force_refresh]
 }
 
 locals {
-  secrets = jsondecode(data.aws_s3_object.secret.body)
-
-  db_username = local.secrets.db_username
-  db_password = local.secrets.db_password
-  api_key = local.secrets.api_key
+  config = jsondecode(data.aws_s3_object.secret.body)
 }
 
-output "db_username" {
-  value = local.db_username
-}
-
-output "db_password" {
-  value = local.db_password
-}
-
-output "api_key" {
-  value = local.api_key
+output "config" {
+  value = local.config
 }
