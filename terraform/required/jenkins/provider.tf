@@ -11,6 +11,9 @@ terraform {
     }
 }
 
+output "config" {
+    value = "http://${local.config.machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
+}
 
 provider "jenkins" {
     server_url = "http://${local.config.machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
