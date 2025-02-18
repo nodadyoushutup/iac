@@ -26,7 +26,7 @@ data "aws_s3_object" "config" {
 }
 
 locals {
-config = jsondecode(data.aws_s3_object.config.body)
+    config = jsondecode(data.aws_s3_object.config.body)
 }
 
 output "config" {
