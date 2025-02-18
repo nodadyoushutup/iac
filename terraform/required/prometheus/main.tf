@@ -5,9 +5,9 @@ resource "null_resource" "exec_prometheus" {
 
   connection {
     type = "ssh"
-    user = var.machine.global.username
+    user = local.machine.global.username
     private_key = file(var.SSH_PRIVATE_KEY)
-    host = var.machine.required.docker.ipv4.address
+    host = local.machine.required.docker.ipv4.address
     port = 22
   }
 
@@ -38,12 +38,12 @@ resource "docker_container" "prometheus" {
   }
 
   volumes {
-    host_path = "/home/${var.machine.global.username}/prometheus.yml"
+    host_path = "/home/${local.machine.global.username}/prometheus.yml"
     container_path = "/etc/prometheus/prometheus.yml"
   }
 
   # healthcheck {
-  #   test = ["CMD", "curl", "-f", "http://${var.machine_required_docker_ipv4_address}:9090"]
+  #   test = ["CMD", "curl", "-f", "http://${local.machine_required_docker_ipv4_address}:9090"]
   #   interval = "5s"
   #   retries = 12
   # }

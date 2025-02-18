@@ -1,21 +1,21 @@
 resource "talos_machine_secrets" "talos" {}
 
 data "talos_machine_configuration" "controlplane" {
-  cluster_name = var.machine.talos.name
+  cluster_name = local.machine.talos.name
   cluster_endpoint = local.cluster_endpoint
   machine_type = "controlplane"
   machine_secrets = talos_machine_secrets.talos.machine_secrets
 }
 
 data "talos_machine_configuration" "worker" {
-  cluster_name = var.machine.talos.name
+  cluster_name = local.machine.talos.name
   cluster_endpoint = local.cluster_endpoint
   machine_type = "worker"
   machine_secrets = talos_machine_secrets.talos.machine_secrets
 }
 
 data "talos_client_configuration" "talos" {
-  cluster_name = var.machine.talos.name
+  cluster_name = local.machine.talos.name
   client_configuration = talos_machine_secrets.talos.client_configuration
   endpoints = [for k, v in local.node_data.controlplane : k]
 }
@@ -27,7 +27,7 @@ resource "talos_machine_configuration_apply" "controlplane" {
   node = each.key
   config_patches = [
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", {
-      hostname     = each.value.hostname == null ? format("%s-cp-%s", var.machine.talos.name, index(keys(local.node_data.controlplane), each.key)) : each.value.hostname
+      hostname     = each.value.hostname == null ? format("%s-cp-%s", local.machine.talos.name, index(keys(local.node_data.controlplane), each.key)) : each.value.hostname
       install_disk = each.value.install_disk
     }),
     file("${path.module}/files/cp-scheduling.yaml"),
@@ -41,7 +41,7 @@ resource "talos_machine_configuration_apply" "worker" {
   node = each.key
   config_patches = [
     templatefile("${path.module}/templates/install-disk-and-hostname.yaml.tmpl", {
-      hostname     = each.value.hostname == null ? format("%s-worker-%s", var.machine.talos.name, index(keys(local.node_data.worker), each.key)) : each.value.hostname
+      hostname     = each.value.hostname == null ? format("%s-worker-%s", local.machine.talos.name, index(keys(local.node_data.worker), each.key)) : each.value.hostname
       install_disk = each.value.install_disk
     })
   ]

@@ -344,13 +344,17 @@ resource "null_resource" "force_refresh" {
     }
 }
 
-data "aws_s3_object" "secret" {
-    bucket = "terraform"
-    key    = "secret.tfvars"
+data "aws_s3_object" "config" {
+    bucket = "config"
+    key = "config.json"
 
     depends_on = [null_resource.force_refresh]
 }
 
-output "secrets_content2" {
-    value = data.aws_s3_object.secret.body
+locals {
+  config = jsondecode(data.aws_s3_object.config.body)
+}
+
+output "config" {
+  value = local.config
 }
