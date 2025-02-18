@@ -3,10 +3,10 @@ module "cloud_required" {
   for_each = { for machine in var.machine.cloud.required : machine.name => machine }
 
   cloud_config = each.value.cloud_config.auth.github != null ? each.value.cloud_config : var.machine.global.cloud_config
-  image = try(each.value.image, null) ? each.value.image : {}
-  initialization = try(each.value.initialization, null) ? each.value.initialization : {}
+  image = try(each.value.image, false) ? each.value.image : {}
+  initialization = try(each.value.initialization, false) ? each.value.initialization : {}
   name = each.value.name
-  vm_id = try(each.value.vm_id, null) ? each.value.vm_id : null
+  vm_id = try(each.value.vm_id, false) ? each.value.vm_id : null
 }
 
 # module "cloud_custom" {
@@ -14,8 +14,8 @@ module "cloud_required" {
 #   for_each = { for machine in var.machine.cloud.custom : machine.name => machine }
 
 #   cloud_config = each.value.cloud_config.auth.github != null ? each.value.cloud_config : var.machine.global.cloud_config
-#   image = try(each.value.image, null) ? each.value.image : {}
-#   initialization = try(each.value.initialization, null) ? each.value.initialization : {}
+#   image = try(each.value.image, false) ? each.value.image : {}
+#   initialization = try(each.value.initialization, false) ? each.value.initialization : {}
 #   name = each.value.name
-#   vm_id = try(each.value.vm_id, null) ? each.value.vm_id : null
+#   vm_id = try(each.value.vm_id, false) ? each.value.vm_id : null
 # }
