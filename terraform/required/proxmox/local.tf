@@ -21,17 +21,17 @@
 #                 "cat <<EOF > /tmp/.gitconfig",
 #                 "${local.template.gitconfig}",
 #                 "EOF",
-#                 "cp -p /tmp/.gitconfig /home/${local.machine.global.username}/.gitconfig",
-#                 "chown ${local.machine.global.username}:${local.machine.global.username} /home/${local.machine.global.username}/.gitconfig",
+#                 "cp -p /tmp/.gitconfig /home/${local.config.machine.global.username}/.gitconfig",
+#                 "chown ${local.config.machine.global.username}:${local.config.machine.global.username} /home/${local.config.machine.global.username}/.gitconfig",
 #                 "rm -rf /tmp/.gitconfig",
 #             ]
 #             private_key = [
 #                 "cat <<EOF > /tmp/id_rsa",
 #                 "${local.template.private_key}",
 #                 "EOF",
-#                 "cp -p /tmp/id_rsa /home/${local.machine.global.username}/.ssh/id_rsa",
-#                 "chown ${local.machine.global.username}:${local.machine.global.username} /home/${local.machine.global.username}/.ssh/id_rsa",
-#                 "chmod 600 /home/${local.machine.global.username}/.ssh/id_rsa",
+#                 "cp -p /tmp/id_rsa /home/${local.config.machine.global.username}/.ssh/id_rsa",
+#                 "chown ${local.config.machine.global.username}:${local.config.machine.global.username} /home/${local.config.machine.global.username}/.ssh/id_rsa",
+#                 "chmod 600 /home/${local.config.machine.global.username}/.ssh/id_rsa",
 #                 "rm -rf /tmp/id_rsa",
 #             ]
 #         }   

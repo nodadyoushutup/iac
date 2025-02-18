@@ -16,12 +16,12 @@ terraform {
 }
 
 provider "docker" {
-    host = "ssh://${local.machine.global.username}@${local.machine.required.docker.ipv4.address}:22"
+    host = "ssh://${local.config.machine.global.username}@${local.config.machine.required.docker.ipv4.address}:22"
     ssh_opts = ["-o", "StrictHostKeyChecking=no", "-o", "UserKnownHostsFile=/dev/null", "-o", "IdentityFile=${var.SSH_PRIVATE_KEY}"]
 }
 
 provider "grafana" {
-    url  = "http://${local.machine.required.docker.ipv4.address}:3000"
+    url  = "http://${local.config.machine.required.docker.ipv4.address}:3000"
     auth = "grafana:grafana"
     insecure_skip_verify = true
 }

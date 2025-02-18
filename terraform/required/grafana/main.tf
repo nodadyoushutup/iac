@@ -34,7 +34,7 @@ resource "docker_container" "grafana" {
     }
 
     healthcheck {
-        test = ["CMD", "curl", "-f", "http://${local.machine.required.docker.ipv4.address}:3000/healthz"]
+        test = ["CMD", "curl", "-f", "http://${local.config.machine.required.docker.ipv4.address}:3000/healthz"]
         interval = "5s"
         retries = 12
     }
@@ -44,7 +44,7 @@ resource "grafana_data_source" "prometheus" {
     depends_on = [docker_container.grafana]
     type = "prometheus"
     name = "prometheus"
-    url = "http://${local.machine.required.docker.ipv4.address}:9090"
+    url = "http://${local.config.machine.required.docker.ipv4.address}:9090"
     uid = "prometheus"
     is_default = true
     json_data_encoded = jsonencode({

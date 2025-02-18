@@ -12,5 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-    server_url = var.jenkins.endpoint
+    server_url = local.config.machine.clickops.initialization.ip_config.ipv4.address
 }

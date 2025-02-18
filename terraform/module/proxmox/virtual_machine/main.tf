@@ -99,7 +99,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         }
     }
 
-    machine = local.machine
+    machine = local.config.machine
 
     memory {
         dedicated = var.memory.dedicated
