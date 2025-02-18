@@ -338,9 +338,17 @@ provider "aws" {
     }
 }
 
+resource "null_resource" "force_refresh" {
+    triggers = {
+        always_run = "${timestamp()}"
+    }
+}
+
 data "aws_s3_object" "secret" {
     bucket = "terraform"
-    key = "secret.tfvars"
+    key    = "secret.tfvars"
+
+    depends_on = [null_resource.force_refresh]
 }
 
 output "secrets_content" {
