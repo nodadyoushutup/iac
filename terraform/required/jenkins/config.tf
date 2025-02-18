@@ -1,3 +1,24 @@
+variable "terraform" {
+    description = "Terraform provider configurations"
+    type = object({
+        proxmox = object({
+            endpoint = string
+            password = string
+            username = string
+            ssh = object({
+                username = string
+                node = object({
+                    name = string
+                    address = string
+                })
+            })
+        })
+        jenkins = object({
+            server_url = string
+        })
+    })
+}
+
 provider "aws" {
     region = var.region
     access_key = var.access_key

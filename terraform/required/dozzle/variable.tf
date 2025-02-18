@@ -18,23 +18,6 @@ variable "git" {
     })
 }
 
-variable "terraform" {
-    description = "Terraform provider configurations"
-    type = object({
-        proxmox = object({
-            endpoint = string
-            password = string
-            username = string
-            ssh = object({
-                username = string
-                node = object({
-                    name = string
-                    address = string
-                })
-            })
-        })
-    })
-}
 
 variable "jenkins" {
     description = "Jenkins configuration"
