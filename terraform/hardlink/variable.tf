@@ -73,8 +73,6 @@ variable "machine" {
 
         cloud = object({
             required = list(object({
-                name = optional(string, null)
-                vm_id = optional(number, null)
                 cloud_config = optional(object({
                     auth = optional(object({
                         github = optional(string, null)
@@ -83,17 +81,23 @@ variable "machine" {
                 image = optional(object({
                     url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
                 }), {})
-                ip_config = optional(object({
-                    ipv4 = optional(object({
-                        address = optional(string)
-                        cidr = optional(number)
-                        gateway = optional(string)
+                initialization = object({
+                    datastore_id = optional(string)
+                    user_data_file_id = optional(string)
+                    ip_config = optional(object({
+                        ipv4 = optional(object({
+                            address = optional(string)
+                            cidr = optional(number)
+                            gateway = optional(string)
+                        }), {})
+                        ipv6 = optional(object({
+                            address = optional(string)
+                            gateway = optional(string)
+                        }), {})
                     }), {})
-                    ipv6 = optional(object({
-                        address = optional(string)
-                        gateway = optional(string)
-                    }), {})
-                }), {})
+                })
+                name = optional(string, null)
+                vm_id = optional(number, null)
             }))
 
             custom = list(object({
