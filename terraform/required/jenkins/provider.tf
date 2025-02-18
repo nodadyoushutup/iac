@@ -12,5 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-    server_url = "http://${var.machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
+    server_url = "http://${var.terraform.jenkins.server_url}:8080"
 }
