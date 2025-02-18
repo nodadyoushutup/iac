@@ -5,7 +5,7 @@ module "cloud_required" {
   cloud_config = each.value.cloud_config.auth.github != null ? each.value.cloud_config : var.machine.global.cloud_config
   image = try(each.value.image, null) != null ? each.value.image : {}
   initialization = try(each.value.initialization, null) != null ? each.value.initialization : {}
-  name = each.value.name
+  name = try(each.value.name, null) != null ? each.value.name : null
   vm_id = try(each.value.vm_id, null) != null ? each.value.vm_id : null
 }
 
