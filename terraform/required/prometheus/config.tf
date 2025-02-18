@@ -12,7 +12,7 @@ provider "aws" {
     }
 }
 
-resource "null_resource" "force_refresh" {
+resource "null_resource" "get_config" {
     triggers = {
         always_run = "${timestamp()}"
     }
@@ -22,13 +22,5 @@ data "aws_s3_object" "config" {
     bucket = "config"
     key = "config.json"
 
-    depends_on = [null_resource.force_refresh]
-}
-
-locals {
-    config = jsondecode(data.aws_s3_object.config.body)
-}
-
-output "config" {
-value = local.config
+    depends_on = [null_resource.get_config]
 }

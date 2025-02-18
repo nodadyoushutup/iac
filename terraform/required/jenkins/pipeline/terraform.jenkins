@@ -17,17 +17,36 @@ pipeline {
                 dir("${env.SUBDIR}") {
                     withCredentials([
                         file(credentialsId: 'backend_tfvars', variable: 'BACKEND_TFVARS_FILE')
-                    ]){
+                    ]) {
                         echo "Initializing Terraform..."
-                        echo "Backend tfvars file path: ${BACKEND_TFVARS_FILE}"
                         sh "terraform init -backend-config=${BACKEND_TFVARS_FILE}"
                     }
-                    
                 }
             }
         }
 
-        stage('Terraform Plan') {
+        // ------------------------------
+        // First apply: Seed the state
+        // ------------------------------
+        stage('Terraform Apply (Initial Pass)') {
+            steps {
+                dir("${env.SUBDIR}") {
+                    echo "Running initial Terraform apply to seed computed values..."
+                    // Note: Replace <target> with your dummy resource.
+                    // For example, if you add:
+                    // resource "null_resource" "get_config" {
+                    //   triggers = { config = data.aws_s3_object.config.body }
+                    // }
+                    // then target it as follows:
+                    sh "terraform apply -target=aws_s3_object.config -auto-approve"
+                }
+            }
+        }
+
+        // ----------------------------------------
+        // Second plan/apply: Do a full deployment
+        // ----------------------------------------
+        stage('Terraform Plan (Final Pass)') {
             steps {
                 dir("${env.SUBDIR}") {
                     withCredentials([
@@ -48,7 +67,7 @@ pipeline {
             }
         }
         
-        stage('Terraform Apply') {
+        stage('Terraform Apply (Final Pass)') {
             steps {
                 dir("${env.SUBDIR}") {
                     echo 'Applying Terraform changes...'
