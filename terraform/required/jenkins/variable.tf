@@ -346,11 +346,27 @@ resource "null_resource" "force_refresh" {
 
 data "aws_s3_object" "secret" {
     bucket = "terraform"
-    key    = "secret.tfvars"
+    key    = "config.json"
 
     depends_on = [null_resource.force_refresh]
 }
 
-output "secrets_content" {
-    value = data.aws_s3_object.secret
+locals {
+  secrets = jsondecode(data.aws_s3_object.secret.body)
+
+  db_username = local.secrets.db_username
+  db_password = local.secrets.db_password
+  api_key = local.secrets.api_key
+}
+
+output "db_username" {
+  value = local.db_username
+}
+
+output "db_password" {
+  value = local.db_password
+}
+
+output "api_key" {
+  value = local.api_key
 }
