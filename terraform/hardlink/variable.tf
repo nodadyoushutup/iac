@@ -323,3 +323,23 @@ variable "skip_requesting_account_id" {
     description = "MinIO access key"
     type = bool
 }
+
+provider "aws" {
+    region = "us-east-1"   # MinIO requires a region (even if not used)
+    access_key = var.access_key
+    secret_key = var.secret_key
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    endpoints {
+        s3 = var.endpoints.s3
+    }
+}
+
+data "aws_s3_object" "secrets" {
+    bucket = "terraform"
+    key = "secrets.tfvars"
+}
+
+output "secrets_content" {
+    value = data.aws_s3_object.secrets.body
+}
