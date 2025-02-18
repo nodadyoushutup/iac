@@ -73,7 +73,7 @@ variable "machine" {
 
         cloud = object({
             required = list(object({
-                name = string
+                name = optional(string, null)
                 vm_id = optional(number, null)
                 cloud_config = optional(object({
                     auth = optional(object({
