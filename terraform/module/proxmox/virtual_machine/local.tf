@@ -1,9 +1,11 @@
 locals {
+    name = try(var.name, null) != null ? var.name : data.external.random_string.result["value"]
+
     cloud_config ={
         cloud = templatefile(
             "${path.module}/template/cloud_config.yaml.tpl",
             {
-                hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : var.name
+                hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : local.name
                 username = var.cloud_config.auth.username
                 ssh_public_key = var.cloud_config.auth.ssh_public_key != [] ? var.cloud_config.auth.ssh_public_key : []
                 ssh_import = var.cloud_config.auth.github != null ? "su - ${var.cloud_config.auth.username} -c 'ssh-import-id gh:${var.cloud_config.auth.github}'" : "echo 'No SSH import'"
@@ -13,9 +15,9 @@ locals {
         talos = templatefile(
             "${path.module}/template/talos_cloud_config.yaml.tpl",
             {
-                hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : var.name
+                hostname = var.cloud_config.hostname != null ? var.cloud_config.hostname : local.name
             }
         )
     }
-    name = try(var.name, null) != null ? var.name : data.external.random_string.result["value"]
+    
 }
