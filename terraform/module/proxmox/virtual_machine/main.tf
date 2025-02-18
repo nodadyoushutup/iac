@@ -86,7 +86,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
                 address = (
                     var.initialization.ip_config.ipv4.address != "dhcp" 
                     ? "${var.initialization.ip_config.ipv4.address}/${var.initialization.ip_config.ipv4.cidr}" 
-                    : "dhcp" # Overrides variable definition
+                    : "dhcp" # TODO: Dyanmic block creation for this
                 )
                 gateway = var.initialization.ip_config.ipv4.gateway
             }
