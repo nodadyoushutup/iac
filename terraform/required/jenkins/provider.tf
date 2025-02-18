@@ -12,9 +12,9 @@ terraform {
 }
 
 output "config" {
-    value = "http://${local.config.machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
+    value = "http://${jsondecode(data.aws_s3_object.config.body).machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
 }
 
 provider "jenkins" {
-    server_url = "http://${local.config.machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
+    server_url = "http://${jsondecode(data.aws_s3_object.config.body).machine.clickops.cicd.initialization.ip_config.ipv4.address}:8080"
 }
