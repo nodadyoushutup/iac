@@ -337,11 +337,11 @@ provider "aws" {
     }
 }
 
-data "aws_s3_object" "secrets" {
+data "aws_s3_object" "secret" {
     bucket = "terraform"
-    key = "secrets.tfvars"
+    key = "secret.tfvars"
 }
 
 output "secrets_content" {
-    value = data.aws_s3_object.secrets.body
+    value = data.aws_s3_object.secret.body
 }
