@@ -11,14 +11,3 @@ module "cloud_required" {
   name = try(each.value.name, null) != null ? each.value.name : null
   vm_id = try(each.value.vm_id, null) != null ? each.value.vm_id : null
 }
-
-# module "cloud_custom" {
-#   source = "../../module/proxmox/virtual_machine"
-#   for_each = { for machine in local.config.machine.cloud.custom : machine.name => machine }
-
-#   cloud_config = each.value.cloud_config.auth.github != null ? each.value.cloud_config : local.config.machine.global.cloud_config
-#   image = try(each.value.image, false) ? each.value.image : {}
-#   initialization = try(each.value.initialization, false) ? each.value.initialization : {}
-#   name = each.value.name
-#   vm_id = try(each.value.vm_id, false) ? each.value.vm_id : null
-# }
