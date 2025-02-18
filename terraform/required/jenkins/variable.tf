@@ -351,6 +351,6 @@ data "aws_s3_object" "secret" {
     depends_on = [null_resource.force_refresh]
 }
 
-output "secrets_content" {
+output "secrets_content2" {
     value = data.aws_s3_object.secret.body
 }
