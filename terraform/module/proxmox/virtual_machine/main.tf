@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_download_file" "image" {
     content_type = "iso"
-    datastore_id = "local"
-    node_name = "pve"
+    datastore_id = var.cloud_config.datastore_id
+    node_name = var.cloud_config.node_name
     overwrite = true
     overwrite_unmanaged = true
     file_name = "${local.name}-talos-image-amd64.img"
@@ -9,7 +9,6 @@ resource "proxmox_virtual_environment_download_file" "image" {
 }
 
 resource "proxmox_virtual_environment_file" "cloud" {
-    depends_on = [proxmox_virtual_environment_download_file.image]
     content_type = "snippets"
     datastore_id = var.cloud_config.datastore_id
     node_name = var.cloud_config.node_name
@@ -21,7 +20,10 @@ resource "proxmox_virtual_environment_file" "cloud" {
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [proxmox_virtual_environment_file.cloud]
+    depends_on = [
+        proxmox_virtual_environment_download_file.image,
+        proxmox_virtual_environment_file.cloud
+    ]
 
     agent {
         enabled = var.agent.enabled
