@@ -43,7 +43,7 @@ pipeline {
                         //   triggers = { config = data.aws_s3_object.config.body }
                         // }
                         // then target it as follows:
-                        sh "terraform apply -var-file=${SECRET_TFVARS_FILE} -var-file=${BACKEND_TFVARS_FILE} -var 'SSH_PRIVATE_KEY=./id_rsa' -target=aws_s3_object.config -auto-approve"
+                        sh "terraform apply -var-file=${SECRET_TFVARS_FILE} -var-file=${BACKEND_TFVARS_FILE} -var 'SSH_PRIVATE_KEY=./id_rsa' -target=local.config -auto-approve"
                     }
                 }
             }
