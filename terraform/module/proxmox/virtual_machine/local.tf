@@ -17,6 +17,5 @@ locals {
             }
         )
     }
-    # name = try(var.name, null) != null ? var.name : data.external.random_string.result["value"]
-    name = data.external.random_string.result["value"]
+    name = try(var.name, null) != null ? var.name : data.external.random_string.result["value"]
 }
