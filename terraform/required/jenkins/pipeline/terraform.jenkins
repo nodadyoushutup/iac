@@ -38,7 +38,7 @@ pipeline {
                     //   triggers = { config = data.aws_s3_object.config.body }
                     // }
                     // then target it as follows:
-                    sh "terraform apply -target=aws_s3_object.config -auto-approve"
+                    sh "terraform apply -var-file=${BACKEND_TFVARS_FILE} -target=aws_s3_object.config -auto-approve"
                 }
             }
         }
