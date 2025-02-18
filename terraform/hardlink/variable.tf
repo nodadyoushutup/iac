@@ -328,18 +328,20 @@ provider "aws" {
     region = "us-east-1"   # MinIO requires a region (even if not used)
     access_key = var.access_key
     secret_key = var.secret_key
-    skip_credentials_validation = true
-    skip_metadata_api_check     = true
+    skip_credentials_validation = var.skip_credentials_validation
+    skip_metadata_api_check = var.skip_metadata_api_check
+    skip_region_validation = var.skip_region_validation
+    skip_requesting_account_id = var.skip_requesting_account_id
     endpoints {
         s3 = var.endpoints.s3
     }
 }
 
-data "aws_s3_object" "secrets" {
+data "aws_s3_object" "secret" {
     bucket = "terraform"
-    key = "secrets.tfvars"
+    key = "secret.tfvars"
 }
 
 output "secrets_content" {
-    value = data.aws_s3_object.secrets.body
+    value = data.aws_s3_object.secret.body
 }
