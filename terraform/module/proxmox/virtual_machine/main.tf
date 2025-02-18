@@ -83,7 +83,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         
         ip_config {
             ipv4 {
-                address = var.initialization.ip_config.ipv4.address != "dhcp" ? "${var.initialization.ip_config.ipv4.address}/${var.initialization.ip_config.ipv4.cidr}" : null
+                address = (
+                    var.initialization.ip_config.ipv4.address != "dhcp" 
+                    ? "${var.initialization.ip_config.ipv4.address}/${var.initialization.ip_config.ipv4.cidr}" 
+                    : "dhcp" # Overrides variable definition
+                )
                 gateway = var.initialization.ip_config.ipv4.gateway
             }
             ipv6 {
