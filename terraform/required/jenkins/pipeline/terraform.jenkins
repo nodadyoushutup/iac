@@ -32,6 +32,8 @@ pipeline {
             steps {
                 dir("${env.SUBDIR}") {
                     withCredentials([
+                        file(credentialsId: 'secret_tfvars', variable: 'SECRET_TFVARS_FILE'),
+                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY'),
                         file(credentialsId: 'backend_tfvars', variable: 'BACKEND_TFVARS_FILE')
                     ]){
                         echo "Running initial Terraform apply to seed computed values..."
@@ -41,7 +43,7 @@ pipeline {
                         //   triggers = { config = data.aws_s3_object.config.body }
                         // }
                         // then target it as follows:
-                        sh "terraform apply -var-file=${BACKEND_TFVARS_FILE} -target=aws_s3_object.config -auto-approve"
+                        sh "terraform apply -var-file=${SECRET_TFVARS_FILE} -var-file=${BACKEND_TFVARS_FILE} -target=aws_s3_object.config -auto-approve"
                     }
                 }
             }
