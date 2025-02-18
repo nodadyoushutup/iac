@@ -32,7 +32,8 @@ pipeline {
                 dir("${env.SUBDIR}") {
                     withCredentials([
                         file(credentialsId: 'secret_tfvars', variable: 'SECRET_TFVARS_FILE'),
-                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY')
+                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY'),
+                        file(credentialsId: 'backend_tfvars', variable: 'BACKEND_TFVARS_FILE')
                     ]) {
                         echo "Setting private key permissions..."
                         sh "chmod 600 ${SSH_PRIVATE_KEY}"
@@ -41,7 +42,7 @@ pipeline {
                         sh "cp ${SSH_PRIVATE_KEY} ./id_rsa"
                         
                         echo "Running Terraform plan..."
-                        sh "terraform plan -var-file=${SECRET_TFVARS_FILE} -var 'SSH_PRIVATE_KEY=./id_rsa' -out=tfplan"
+                        sh "terraform plan -var-file=${SECRET_TFVARS_FILE} -var-file=${BACKEND_TFVARS_FILE} -var 'SSH_PRIVATE_KEY=./id_rsa' -out=tfplan"
                     }
                 }
             }

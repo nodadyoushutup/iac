@@ -18,3 +18,7 @@ resource "jenkins_job" "required" {
     }
   )
 }
+
+output "debug" {
+  value = var.endpoints
+}
