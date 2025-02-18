@@ -12,5 +12,5 @@ terraform {
 }
 
 provider "jenkins" {
-    server_url = local.config.machine.clickops.initialization.ip_config.ipv4.address
+    server_url = jsondecode(data.aws_s3_object.config.body).machine.clickops.initialization.ip_config.ipv4.address
 }
