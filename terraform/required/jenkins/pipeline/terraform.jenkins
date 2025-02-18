@@ -37,12 +37,6 @@ pipeline {
                         file(credentialsId: 'backend_tfvars', variable: 'BACKEND_TFVARS_FILE')
                     ]){
                         echo "Running initial Terraform apply to seed computed values..."
-                        // Note: Replace <target> with your dummy resource.
-                        // For example, if you add:
-                        // resource "null_resource" "get_config" {
-                        //   triggers = { config = data.aws_s3_object.config.body }
-                        // }
-                        // then target it as follows:
                         sh "terraform apply -var-file=${SECRET_TFVARS_FILE} -var-file=${BACKEND_TFVARS_FILE} -var 'SSH_PRIVATE_KEY=./id_rsa' -target=aws_s3_object.config -auto-approve"
                     }
                 }
