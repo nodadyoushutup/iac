@@ -83,14 +83,17 @@ variable "machine" {
                 image = optional(object({
                     url = optional(string, "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img")
                 }), {})
-                initialization = object({
-                    ip_config = object({
-                        ipv4 = object({
-                            address = string
-                            gateway = string
-                        })
-                    })
-                })
+                ip_config = optional(object({
+                    ipv4 = optional(object({
+                        address = optional(string)
+                        cidr = optional(number)
+                        gateway = optional(string)
+                    }), {})
+                    ipv6 = optional(object({
+                        address = optional(string)
+                        gateway = optional(string)
+                    }), {})
+                }), {})
             }))
 
             custom = list(object({
