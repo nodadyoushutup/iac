@@ -11,7 +11,6 @@ pipeline {
                         string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
                         string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
                         string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
-                        string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                     ]) {
                         script {
                             // Set MinIO alias and suppress output
@@ -50,8 +49,6 @@ pipeline {
                         string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
                         string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
                         string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
-                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                     ]){
                         script {
@@ -74,21 +71,12 @@ pipeline {
         stage('Create terraform.tfvars') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
-                    withCredentials([
-                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
-                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
-                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
-                        string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
-                    ]) {
-                        script {
-                            sh """#!/bin/bash
-                            python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
-                            """
+                    script {
+                        sh """#!/bin/bash
+                        python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
+                        """
 
-                            env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
-                        }
+                        env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
                     }
                 }
             }
