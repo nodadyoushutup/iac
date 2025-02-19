@@ -39,7 +39,7 @@ pipeline {
             }
         }
 
-        stage('Create backend.tfvars') {
+        stage('Create config backend.tfvars') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     withCredentials([
@@ -80,6 +80,44 @@ pipeline {
         stage('Config Terraform Plan') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
+                        echo "Initializing Terraform..."
+                        sh """
+                        terraform plan -out=stack_plan -var-file=${BACKEND_TFVARS_PATH} -var 'ssh_private_key=./id_rsa'
+                        """
+                    }
+                }
+            }
+        }
+
+
+        // stage('Create stack terraform.tfvars') {
+        //     steps {
+        //         dir("${WORKSPACE}/terraform/required/proxmox") {
+        //             script {
+        //                 sh """#!/bin/bash
+        //                 python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
+        //                 """
+
+        //                 env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Stack Terraform Init') {
+            steps {
+                dir("${WORKSPACE}/terraform/required/proxmox") {
+                    echo "Initializing Terraform..."
+                    sh """
+                    terraform init -backend-config=${BACKEND_TFVARS_PATH}
+                    """
+                }
+            }
+        }
+
+        stage('Config Terraform Plan') {
+            steps {
+                dir("${WORKSPACE}/terraform/required/proxmox") {
                     withCredentials([
                         file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY'),
                     ]){
@@ -91,36 +129,12 @@ pipeline {
 
                         echo "Initializing Terraform..."
                         sh """
-                        terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
+                        terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}  -var 'SSH_PRIVATE_KEY=./id_rsa'
                         """
                     }
                 }
             }
         }
-
-        stage('Config Terraform Apply') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
-                    sh """
-                    terraform apply config_plan
-                    """
-                }
-            }
-        }
-
-        // stage('Create terraform.tfvars') {
-        //     steps {
-        //         dir("${WORKSPACE}/terraform/config") {
-        //             script {
-        //                 sh """#!/bin/bash
-        //                 python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
-        //                 """
-
-        //                 env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
-        //             }
-        //         }
-        //     }
-        // }
 
         
     }
