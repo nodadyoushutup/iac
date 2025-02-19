@@ -82,7 +82,7 @@ pipeline {
                 dir("${WORKSPACE}/terraform/config") { 
                     echo "Running Terraform plan for config..."
                     sh """
-                        terraform plan -out=stack_plan -var-file=${BACKEND_TFVARS_PATH} -var 'ssh_private_key=./id_rsa'
+                        terraform plan -out=stack_plan -var-file=${BACKEND_TFVARS_PATH}
                     """ 
                 } 
             } 
