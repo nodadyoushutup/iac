@@ -1,154 +1,153 @@
-pipeline {
-    agent any
+pipeline { 
+    agent any 
 
-    options {
-        ansiColor('xterm')
-    }
+    options { 
+        ansiColor('xterm') 
+    } 
 
     stages {
-        stage('Download config.json from MinIO') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
-                    withCredentials([
-                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
-                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
-                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
-                    ]) {
-                        script {
+        stage('Download config.json from MinIO') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/config") { 
+                    withCredentials([ 
+                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'), 
+                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'), 
+                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'), 
+                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'), 
+                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
+                    ]) { 
+                        script { 
                             sh """
-                            mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
-                            """
+                                mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
+                            """ 
 
-                            def PRESIGNED_URL = sh(
+                            def PRESIGNED_URL = sh( 
                                 script: """
-                                mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
-                                """,
+                                    mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
+                                """, 
                                 returnStdout: true
-                            ).trim()
+                            ).trim() 
 
                             sh """
-                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
-                            """
+                                curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
+                            """ 
 
-                            env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}"
-                        }
-                    }
-                }
-            }
-        }
+                            env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}" 
+                        } 
+                    } 
+                } 
+            } 
+        } 
 
-        stage('Create config backend.tfvars') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
-                    withCredentials([
-                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
-                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+        stage('Create config backend.tfvars') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/config") { 
+                    withCredentials([ 
+                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'), 
+                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'), 
+                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'), 
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
-                    ]){
-                        script {
+                    ]) { 
+                        script { 
                             sh """
-                            cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
-                            """
+                                cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
+                            """ 
                             sh """
-                            #!/bin/bash
-                            sed -i "s|<MINIO_TERRAFORM_BUCKET>|${MINIO_TERRAFORM_BUCKET}|g; \
-                                    s|<MINIO_ENDPOINT>|${MINIO_ENDPOINT}|g; \
-                                    s|<MINIO_ACCESS_KEY>|${MINIO_ACCESS_KEY}|g; \
-                                    s|<MINIO_SECRET_KEY>|${MINIO_SECRET_KEY}|g" backend.tfvars
-                            """
-                            env.BACKEND_TFVARS_PATH = "${WORKSPACE}/terraform/config/backend.tfvars"
-                        }
-                    }
-                }
-            }
-        }
+                                #!/bin/bash
+                                sed -i "s|<MINIO_TERRAFORM_BUCKET>|${MINIO_TERRAFORM_BUCKET}|g; \\
+                                        s|<MINIO_ENDPOINT>|${MINIO_ENDPOINT}|g; \\
+                                        s|<MINIO_ACCESS_KEY>|${MINIO_ACCESS_KEY}|g; \\
+                                        s|<MINIO_SECRET_KEY>|${MINIO_SECRET_KEY}|g" backend.tfvars
+                            """ 
+                            env.BACKEND_TFVARS_PATH = "${WORKSPACE}/terraform/config/backend.tfvars" 
+                        } 
+                    } 
+                } 
+            } 
+        } 
 
-        stage('Config Terraform Init') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
+        stage('Config Terraform Init') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/config") { 
                     echo "Initializing Terraform..."
                     sh """
-                    terraform init -backend-config=${BACKEND_TFVARS_PATH}
-                    """
-                }
-            }
-        }
+                        terraform init -backend-config=${BACKEND_TFVARS_PATH}
+                    """ 
+                } 
+            } 
+        } 
 
-        stage('Config Terraform Plan') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
-                        echo "Initializing Terraform..."
-                        sh """
+        stage('Config Terraform Plan') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/config") { 
+                    echo "Running Terraform plan for config..."
+                    sh """
                         terraform plan -out=stack_plan -var-file=${BACKEND_TFVARS_PATH} -var 'ssh_private_key=./id_rsa'
-                        """
-                    }
-                }
-            }
-        }
+                    """ 
+                } 
+            } 
+        } 
 
-
-        // stage('Create stack terraform.tfvars') {
-        //     steps {
-        //         dir("${WORKSPACE}/terraform/required/proxmox") {
-        //             script {
+        // Uncomment and adjust this stage if needed
+        // stage('Create stack terraform.tfvars') { 
+        //     steps { 
+        //         dir("${WORKSPACE}/terraform/required/proxmox") { 
+        //             script { 
         //                 sh """#!/bin/bash
-        //                 python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
+        //                 python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "$CONFIG_JSON_PATH" .
         //                 """
+        //                 env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars" 
+        //             } 
+        //         } 
+        //     } 
+        // } 
 
-        //                 env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
-        //             }
-        //         }
-        //     }
-        // }
-
-        stage('Stack Terraform Init') {
-            steps {
-                dir("${WORKSPACE}/terraform/required/proxmox") {
-                    echo "Initializing Terraform..."
+        stage('Stack Terraform Init') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/required/proxmox") { 
+                    echo "Initializing Terraform for stack..."
                     sh """
-                    terraform init -backend-config=${BACKEND_TFVARS_PATH}
-                    """
-                }
-            }
-        }
+                        terraform init -backend-config=${BACKEND_TFVARS_PATH}
+                    """ 
+                } 
+            } 
+        } 
 
-        stage('Stack Terraform Plan') {
-            steps {
-                dir("${WORKSPACE}/terraform/required/proxmox") {
-                    withCredentials([
-                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY'),
-                    ]){
+        stage('Stack Terraform Plan') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/required/proxmox") { 
+                    withCredentials([ 
+                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY')
+                    ]) { 
                         echo "Setting private key permissions..."
-                        sh "chmod 600 ${SSH_PRIVATE_KEY}"
-                        
+                        sh "chmod 600 ${SSH_PRIVATE_KEY}" 
+
                         echo "Copying private key to workspace..."
-                        sh "cp ${SSH_PRIVATE_KEY} ./id_rsa"
+                        sh "cp ${SSH_PRIVATE_KEY} ./id_rsa" 
 
-                        echo "Initializing Terraform..."
+                        echo "Running Terraform plan for stack..."
                         sh """
-                        terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}  -var 'SSH_PRIVATE_KEY=./id_rsa'
-                        """
-                    }
-                }
-            }
-        }
+                            terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH} -var 'SSH_PRIVATE_KEY=./id_rsa'
+                        """ 
+                    } 
+                } 
+            } 
+        } 
+    } // end of stages
 
-    post {
-        always {
+    post { 
+        always { 
             echo "Cleaning up config files"
-            sh""" 
-            rm -rf "${CONFIG_JSON_PATH}"
-            rm -rf "${BACKEND_TFVARS_PATH}"
-            """
-        }
-        success {
+            sh """
+                rm -rf "${CONFIG_JSON_PATH}"
+                rm -rf "${BACKEND_TFVARS_PATH}"
+            """ 
+        } 
+        success { 
             echo "Pipeline completed successfully"
-        }
-        failure {
+        } 
+        failure { 
             echo "Pipeline failed"
-        }
-    }
+        } 
+    } 
 }
