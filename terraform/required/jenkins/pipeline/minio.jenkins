@@ -72,20 +72,6 @@ pipeline {
             }
         }
 
-        stage('Create terraform.tfvars') {
-            steps {
-                dir("${WORKSPACE}/terraform/config") {
-                    script {
-                        sh """#!/bin/bash
-                        python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
-                        """
-
-                        env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
-                    }
-                }
-            }
-        }
-
         stage('Config Terraform Commands') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
@@ -97,6 +83,22 @@ pipeline {
                 }
             }
         }
+
+        // stage('Create terraform.tfvars') {
+        //     steps {
+        //         dir("${WORKSPACE}/terraform/config") {
+        //             script {
+        //                 sh """#!/bin/bash
+        //                 python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
+        //                 """
+
+        //                 env.TERRAFORM_TFVARS_PATH = "${WORKSPACE}/terraform/config/terraform.tfvars"
+        //             }
+        //         }
+        //     }
+        // }
+
+        
     }
 
     post {
