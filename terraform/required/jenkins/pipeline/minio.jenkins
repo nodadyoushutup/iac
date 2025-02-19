@@ -91,8 +91,8 @@ pipeline {
                 dir("${WORKSPACE}/terraform/config") {
                     echo "Initializing Terraform..."
                     sh """
-                    terraform init -backend-config=${BACKEND_TFVARS_PATH}
-                    terraform plan -out=config_plan
+                    terraform init -backend-config=${BACKEND_TFVARS_PATH} 
+                    terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
                     """
                 }
             }
