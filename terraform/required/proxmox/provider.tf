@@ -20,7 +20,7 @@ provider "proxmox" {
     agent = true
     # agent_socket = 1022
     username = local.config.terraform.proxmox.ssh.username
-    private_key = file(local.config.ssh_private_key)
+    private_key = file(var.ssh_private_key)
     node {
       name = local.config.terraform.proxmox.ssh.node.name
       address = local.config.terraform.proxmox.ssh.node.address
