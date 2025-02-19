@@ -40,7 +40,6 @@ def to_hcl(obj, indent=0):
         return str(obj)
     elif obj is None:
         logging.debug("Processing None value at indent level %d", indent)
-        # Terraform doesn't have a 'null' literal so we output an empty string.
         return "\"\""
     else:
         raise ValueError(f"Unsupported type: {type(obj)}")
@@ -69,6 +68,9 @@ def main():
     except Exception as e:
         logging.error("Error reading JSON file: %s", e)
         sys.exit(1)
+
+    # Log the top-level keys for debugging
+    logging.debug("Top-level keys in JSON: %s", list(config.keys()))
 
     # Check that the 'terraform' block exists
     if "terraform" not in config:
