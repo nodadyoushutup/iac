@@ -81,6 +81,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Config Terraform Commands') {
+            steps {
+                dir("${WORKSPACE}/terraform/config") {
+                    echo "Initializing Terraform..."
+                    sh """
+                    terraform init -backend-config=${BACKEND_TFVARS_FILE}
+                    terraform plan -out=config_plan
+                    """
+                }
+            }
+        }
     }
 
     post {
