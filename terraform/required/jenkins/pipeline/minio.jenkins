@@ -88,6 +88,18 @@ pipeline {
             } 
         } 
 
+        stage('Config Terraform Apply') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/config") { 
+                    echo "Running Terraform apply for config..."
+                    sh """
+                        terraform apply config_plan
+                    """ 
+                } 
+            } 
+        } 
+
+
         // Uncomment and adjust this stage if needed
         // stage('Create stack terraform.tfvars') { 
         //     steps { 
