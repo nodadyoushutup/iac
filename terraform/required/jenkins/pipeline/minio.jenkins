@@ -1,19 +1,15 @@
 pipeline {
     agent any
 
-    environment {
-        CONFIG_BUCKET = "config"
-        CONFIG_FILE = "config.tfvars"
-        CONFIG_FILE_PATH = "${WORKSPACE}/config.tfvars"
-    }
-
     stages {
         stage('Download config.tfvars from MinIO') {
             steps {
                 withCredentials([
                     string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
                     string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-                    string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY')
+                    string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+                    string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
+                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                 ]) {
                     script {
                         // Install MinIO client (mc) if not installed
@@ -34,7 +30,7 @@ pipeline {
                         def presignedUrl = sh(
                             script: '''
                             mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
-                            mc share download --expire=1h myminio/${CONFIG_BUCKET}/${CONFIG_FILE} | grep -Eo 'https?://[^ ]+' | head -1
+                            mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} | grep -Eo 'https?://[^ ]+' | head -1
                             ''',
                             returnStdout: true
                         ).trim()
@@ -45,6 +41,8 @@ pipeline {
                         sh """
                         curl -o ${CONFIG_FILE_PATH} "${presignedUrl}"
                         """
+
+                        // TODO: CREATE BACKEND TFVARS BASED ON ENVIRONMENT VARIABLES AND CAT COMMAND
 
                         // Set environment variable to the downloaded file path
                         env.CONFIG_FILE_LOCAL_PATH = CONFIG_FILE_PATH
