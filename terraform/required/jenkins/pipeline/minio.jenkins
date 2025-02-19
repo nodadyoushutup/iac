@@ -88,9 +88,19 @@ pipeline {
             echo "Always run command"
         }
         success {
+            echo "Cleaning up backend.tfvars"
+            sh""" 
+            rm -rf "${WORKSPACE}/terraform/config/backend.tfvars" 
+            """
+
             echo "Pipeline completed successfully"
         }
         failure {
+            echo "Cleaning up backend.tfvars"
+            sh""" 
+            rm -rf "${WORKSPACE}/terraform/config/backend.tfvars" 
+            """
+
             echo "Pipeline failed"
         }
     }
