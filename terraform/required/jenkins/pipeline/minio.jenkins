@@ -44,7 +44,7 @@ pipeline {
                 script {
                     if (fileExists(env.CONFIG_FILE_LOCAL_PATH)) {
                         echo "File downloaded successfully at ${env.CONFIG_FILE_LOCAL_PATH}"
-                        cat "${env.CONFIG_FILE_LOCAL_PATH}"
+                        sh "cat ${env.CONFIG_FILE_LOCAL_PATH}"
                     } else {
                         error "Failed to download ${env.CONFIG_FILE_LOCAL_PATH}"
                     }
