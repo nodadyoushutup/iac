@@ -9,7 +9,7 @@ pipeline {
                     string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
                     string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
                     string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
+                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                     string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                 ]) {
                     script {
@@ -48,7 +48,7 @@ pipeline {
                     string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
                     string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
                     string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
+                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                     string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                 ]){
                     script {
