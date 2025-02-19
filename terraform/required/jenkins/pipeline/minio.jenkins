@@ -81,12 +81,12 @@ pipeline {
                         string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
                         string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
-                    ]){
+                    ]) {
                         script {
                             echo "TEST VALS"
                             sh '''#!/bin/bash
-                            cat "${env.CONFIG_JSON_PATH}"
-                            cat "${env.BACKEND_TFVARS_PATH}"
+                            cat "$CONFIG_JSON_PATH"
+                            cat "$BACKEND_TFVARS_PATH"
                             '''
                         }
                     }
