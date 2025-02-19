@@ -8,7 +8,7 @@ data "terraform_remote_state" "config" {
   backend = "s3"
 
   config = {
-    bucket = "config"
+    bucket = "terraform"
     key = "config.tfstate"
     region = "us-east-1"
     access_key = var.access_key
