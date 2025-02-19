@@ -75,4 +75,5 @@ locals {
 
 output "config" {
     value = local.config
+    sensitive = true
 }
