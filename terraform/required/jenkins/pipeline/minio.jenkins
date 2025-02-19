@@ -30,13 +30,13 @@ pipeline {
 
                         // Download the file using curl
                         sh """
-                        curl -o ${MINIO_CONFIG_BUCKET} "${presignedUrl}"
+                        curl -o ${MINIO_CONFIG_FILE} "${presignedUrl}"
                         """
 
                         // TODO: CREATE BACKEND TFVARS BASED ON ENVIRONMENT VARIABLES AND CAT COMMAND
 
                         // Set environment variable to the downloaded file path
-                        env.CONFIG_FILE_LOCAL_PATH = MINIO_CONFIG_BUCKET
+                        env.CONFIG_FILE_LOCAL_PATH = MINIO_CONFIG_FILE
                     }
                 }
             }
