@@ -12,15 +12,6 @@ pipeline {
                     string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                 ]) {
                     script {
-                        // Install MinIO client (mc) if not installed
-                        sh '''
-                        if ! command -v mc &> /dev/null; then
-                            curl -sSL https://dl.min.io/client/mc/release/linux-amd64/mc -o mc
-                            chmod +x mc
-                            mv mc /usr/local/bin/
-                        fi
-                        '''
-
                         // Configure MinIO client
                         sh '''
                         mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
