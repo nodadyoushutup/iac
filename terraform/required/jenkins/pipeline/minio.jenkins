@@ -2,44 +2,46 @@ pipeline {
     agent any
 
     stages {
-        // stage('Download config.json from MinIO') {
-        //     steps {
-        //         withCredentials([
-        //             string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
-        //             string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-        //             string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
-        //             string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-        //             string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
-        //             string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
-        //         ]) {
-        //             script {
-        //                 // Set MinIO alias and suppress output
-        //                 sh '''
-        //                 mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
-        //                 '''
+        stage('Download config.json from MinIO') {
+            steps {
+                dir("${WORKSPACE}/terraform/config") {
+                    withCredentials([
+                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
+                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
+                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
+                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
+                        string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
+                    ]) {
+                        script {
+                            // Set MinIO alias and suppress output
+                            sh '''
+                            mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
+                            '''
 
-        //                 // Generate a pre-signed URL valid for 1 hour
-        //                 // Use tail -1 to get the last URL (the signed one with query params)
-        //                 def presignedUrl = sh(
-        //                     script: '''
-        //                     mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
-        //                     ''',
-        //                     returnStdout: true
-        //                 ).trim()
+                            // Generate a pre-signed URL valid for 1 hour
+                            // Use tail -1 to get the last URL (the signed one with query params)
+                            def PRESIGNED_URL = sh(
+                                script: '''
+                                mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
+                                ''',
+                                returnStdout: true
+                            ).trim()
 
-        //                 echo "Pre-signed URL: ${presignedUrl}"
+                            echo "Pre-signed URL: ${PRESIGNED_URL}"
 
-        //                 // Download the file using curl
-        //                 sh """
-        //                 curl -o ${MINIO_CONFIG_FILE} "${presignedUrl}"
-        //                 """
+                            // Download the file using curl
+                            sh """
+                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
+                            """
 
-        //                 // Set environment variable to the downloaded file path
-        //                 env.CONFIG_FILE_LOCAL_PATH = "${MINIO_CONFIG_FILE}"
-        //             }
-        //         }
-        //     }
-        // }
+                            // Set environment variable to the downloaded file path
+                            env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}"
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Create backend.tfvars') {
             steps {
@@ -56,16 +58,35 @@ pipeline {
                             sh '''#!/bin/bash
                             cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
 
-                            echo "Before substitution:"
-                            cat backend.tfvars
-
                             sed -i "s|<MINIO_TERRAFORM_BUCKET>|${MINIO_TERRAFORM_BUCKET}|g; \
                                     s|<MINIO_ENDPOINT>|${MINIO_ENDPOINT}|g; \
                                     s|<MINIO_ACCESS_KEY>|${MINIO_ACCESS_KEY}|g; \
                                     s|<MINIO_SECRET_KEY>|${MINIO_SECRET_KEY}|g" backend.tfvars
+                            '''
 
-                            echo "After substitution:"
-                            cat backend.tfvars
+                            env.BACKEND_TFVARS_PATH = "${WORKSPACE}/terraform/config/backend.tfvars"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Create terraform.tfvars') {
+            steps {
+                dir("${WORKSPACE}/terraform/config") {
+                    withCredentials([
+                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
+                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
+                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
+                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
+                        string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
+                    ]){
+                        script {
+                            echo "TEST VALS"
+                            sh '''#!/bin/bash
+                            cat "${env.CONFIG_JSON_PATH}"
+                            cat "${env.BACKEND_TFVARS_PATH}"
                             '''
                         }
                     }
@@ -76,15 +97,6 @@ pipeline {
 
     post {
         always {
-            // echo "Downloaded file path: ${env.CONFIG_FILE_LOCAL_PATH}"
-            // // Delete the downloaded file after pipeline execution
-            // sh """
-            // if [ -f "${env.CONFIG_FILE_LOCAL_PATH}" ]; then
-            //     echo "Deleting ${env.CONFIG_FILE_LOCAL_PATH}..."
-            //     rm -f "${env.CONFIG_FILE_LOCAL_PATH}"
-            //     echo "${env.CONFIG_FILE_LOCAL_PATH} deleted."
-            // fi
-            // """
             echo "Always run command"
         }
         success {
