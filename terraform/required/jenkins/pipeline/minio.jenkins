@@ -43,24 +43,31 @@ pipeline {
 
         stage('Create backend.tfvars') {
             steps {
-                withCredentials([
-                    string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
-                    string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
-                    string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
-                    string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
-                    string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
-                ]){
-                    script {
-                        
-                        sh '''
-                        cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
-                        cat backend.tfvars
-                        '''
+                dir("${WORKSPACE}/terraform/config") {
+                    withCredentials([
+                        string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
+                        string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
+                        string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+                        string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
+                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
+                        string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
+                    ]){
+                        script {
+                            sh '''
+                            cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
+                            
+                            cat backend.tfvars
 
+                            sed -i "s|<MINIO_TERRAFORM_BUCKET>|${env.MINIO_TERRAFORM_BUCKET}|g; \
+                                s|<MINIO_ENDPOINT>|${env.MINIO_ENDPOINT}|g; \
+                                s|<MINIO_ACCESS_KEY>|${env.MINIO_ACCESS_KEY}|g; \
+                                s|<MINIO_SECRET_KEY>|${env.MINIO_SECRET_KEY}|g" ${backendFile}
+
+                            cat backend.tfvars
+                            '''
+                        }
                     }
                 }
-                
             }
         }
     }
