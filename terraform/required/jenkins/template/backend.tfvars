@@ -1,6 +1,6 @@
 bucket = "<MINIO_TERRAFORM_BUCKET>"
 endpoints = {
-    s3 = "<MINIO_ENDPOINT"
+    s3 = "<MINIO_ENDPOINT>"
 }
 access_key = "<MINIO_ACCESS_KEY>"
 secret_key = "<MINIO_SECRET_KEY>"
