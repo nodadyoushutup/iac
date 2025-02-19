@@ -97,22 +97,17 @@ pipeline {
 
     post {
         always {
-            echo "Always run command"
+            echo "Cleaning up config files"
+            sh""" 
+            rm -rf "${CONFIG_JSON_PATH}"
+            rm -rf "${BACKEND_TFVARS_PATH}"
+            rm -rf "${TERRAFORM_TFVARS_PATH}"
+            """
         }
         success {
-            echo "Cleaning up backend.tfvars"
-            sh""" 
-            rm -rf "${WORKSPACE}/terraform/config/backend.tfvars" 
-            """
-
             echo "Pipeline completed successfully"
         }
         failure {
-            echo "Cleaning up backend.tfvars"
-            sh""" 
-            rm -rf "${WORKSPACE}/terraform/config/backend.tfvars" 
-            """
-
             echo "Pipeline failed"
         }
     }
