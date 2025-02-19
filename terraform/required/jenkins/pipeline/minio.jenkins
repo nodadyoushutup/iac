@@ -52,8 +52,10 @@ pipeline {
                     string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                 ]){
                     script {
+                        def backend_template = "${WORKSPACE}/terraform/jenkins/template/backend.tfvars"
+                        
                         sh '''
-                        cp terraform/jenkins/template/backend.tfvars backend.tfvars
+                        cp ${backend_template} backend.tfvars
                         cat backend.tfvars
                         '''
 
