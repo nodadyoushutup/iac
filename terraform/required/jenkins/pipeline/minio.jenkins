@@ -17,28 +17,17 @@ pipeline {
                         string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                     ]) {
                         script {
-                            // Set MinIO alias and suppress output
-                            sh '''
-                            mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
-                            '''
+                            sh """mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null"""
 
-                            // Generate a pre-signed URL valid for 1 hour
-                            // Use tail -1 to get the last URL (the signed one with query params)
                             def PRESIGNED_URL = sh(
-                                script: '''
+                                script: """
                                 mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
-                                ''',
+                                """,
                                 returnStdout: true
                             ).trim()
 
-                            echo "Pre-signed URL: ${PRESIGNED_URL}"
+                            sh """curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}""""
 
-                            // Download the file using curl
-                            sh """
-                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
-                            """
-
-                            // Set environment variable to the downloaded file path
                             env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}"
                         }
                     }
@@ -56,15 +45,14 @@ pipeline {
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                     ]){
                         script {
-                            sh '''#!/bin/bash
-                            cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
-
+                            sh """cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars"""
+                            sh """
+                            #!/bin/bash
                             sed -i "s|<MINIO_TERRAFORM_BUCKET>|${MINIO_TERRAFORM_BUCKET}|g; \
                                     s|<MINIO_ENDPOINT>|${MINIO_ENDPOINT}|g; \
                                     s|<MINIO_ACCESS_KEY>|${MINIO_ACCESS_KEY}|g; \
                                     s|<MINIO_SECRET_KEY>|${MINIO_SECRET_KEY}|g" backend.tfvars
-                            '''
-
+                            """
                             env.BACKEND_TFVARS_PATH = "${WORKSPACE}/terraform/config/backend.tfvars"
                         }
                     }
@@ -72,14 +60,20 @@ pipeline {
             }
         }
 
-        stage('Config Terraform Commands') {
+        stage('Config Terraform Init') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     echo "Initializing Terraform..."
-                    sh """
-                    terraform init -backend-config=${BACKEND_TFVARS_PATH} 
-                    terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
-                    """
+                    sh """terraform init -backend-config=${BACKEND_TFVARS_PATH}"""
+                }
+            }
+        }
+
+        stage('Config Terraform Apply') {
+            steps {
+                dir("${WORKSPACE}/terraform/config") {
+                    echo "Initializing Terraform..."
+                    sh """terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}"""
                 }
             }
         }
