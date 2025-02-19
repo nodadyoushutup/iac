@@ -65,7 +65,7 @@ provider "aws" {
 }
 
 data "aws_s3_object" "config" {
-    bucket = var.bucket
+    bucket = "config"
     key = "config.json"
 }
 
