@@ -77,12 +77,32 @@ pipeline {
             }
         }
 
+        stage('Config Terraform Plan') {
+            steps {
+                dir("${WORKSPACE}/terraform/config") {
+                    withCredentials([
+                        file(credentialsId: 'ssh_private_key', variable: 'SSH_PRIVATE_KEY'),
+                    ]){
+                        echo "Setting private key permissions..."
+                        sh "chmod 600 ${SSH_PRIVATE_KEY}"
+                        
+                        echo "Copying private key to workspace..."
+                        sh "cp ${SSH_PRIVATE_KEY} ./id_rsa"
+
+                        echo "Initializing Terraform..."
+                        sh """
+                        terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Config Terraform Apply') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
-                    echo "Initializing Terraform..."
                     sh """
-                    terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
+                    terraform apply config_plan
                     """
                 }
             }
