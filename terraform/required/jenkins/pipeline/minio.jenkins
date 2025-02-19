@@ -145,6 +145,17 @@ pipeline {
                 } 
             } 
         } 
+
+        stage('Stack Terraform Apply') { 
+            steps { 
+                dir("${WORKSPACE}/terraform/required/proxmox") { 
+                    echo "Running Terraform plan for stack..."
+                    sh """
+                        terraform plan stack_plan
+                    """ 
+                } 
+            } 
+        } 
     } // end of stages
 
     post { 
