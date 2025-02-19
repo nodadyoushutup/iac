@@ -54,7 +54,7 @@ pipeline {
                     script {
                         
                         sh '''
-                        cp ${WORKSPACE}/terraform/jenkins/template/backend.tfvars backend.tfvars
+                        cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
                         cat backend.tfvars
                         '''
 
