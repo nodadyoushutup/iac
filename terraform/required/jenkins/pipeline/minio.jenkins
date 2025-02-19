@@ -115,7 +115,7 @@ pipeline {
             }
         }
 
-        stage('Config Terraform Plan') {
+        stage('Stack Terraform Plan') {
             steps {
                 dir("${WORKSPACE}/terraform/required/proxmox") {
                     withCredentials([
@@ -135,9 +135,6 @@ pipeline {
                 }
             }
         }
-
-        
-    }
 
     post {
         always {
