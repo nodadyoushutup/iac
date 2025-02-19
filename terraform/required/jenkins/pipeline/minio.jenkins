@@ -53,7 +53,7 @@ pipeline {
                 ]){
                     script {
                         sh '''
-                        cp terraform/jenkins/template/backend.tfvar backend.tfvars
+                        cp terraform/jenkins/template/backend.tfvars backend.tfvars
                         cat backend.tfvars
                         '''
 
