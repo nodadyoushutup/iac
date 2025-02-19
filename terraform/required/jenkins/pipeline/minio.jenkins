@@ -29,7 +29,7 @@ pipeline {
                             ).trim()
 
                             sh """
-                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}
+                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
                             """
 
                             env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}"
