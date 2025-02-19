@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        ansiColor('xterm')
+    }
+
     stages {
         stage('Download config.json from MinIO') {
             steps {
