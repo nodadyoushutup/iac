@@ -84,6 +84,8 @@ pipeline {
                     ]) {
                         script {
                             sh """#!/bin/bash
+                            cat $CONFIG_JSON_PATH
+
                             python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
 
                             echo "Displaying terraform.tfvars content:"
