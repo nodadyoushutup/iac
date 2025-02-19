@@ -2,26 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Download config.tfvars from MinIO') {
+        stage('Download config.json from MinIO') {
             steps {
                 withCredentials([
                     string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
                     string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
                     string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
                     string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
-                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
+                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
                 ]) {
                     script {
-                        // Configure MinIO client
+                        // Set MinIO alias and suppress output
                         sh '''
-                        mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
+                        mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
                         '''
 
                         // Generate a pre-signed URL valid for 1 hour
                         def presignedUrl = sh(
                             script: '''
-                            mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"
-                            mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} | grep -Eo 'https?://[^ ]+' | head -1
+                            mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | head -1
                             ''',
                             returnStdout: true
                         ).trim()
@@ -33,10 +32,8 @@ pipeline {
                         curl -o ${MINIO_CONFIG_FILE} "${presignedUrl}"
                         """
 
-                        // TODO: CREATE BACKEND TFVARS BASED ON ENVIRONMENT VARIABLES AND CAT COMMAND
-
                         // Set environment variable to the downloaded file path
-                        env.CONFIG_FILE_LOCAL_PATH = MINIO_CONFIG_FILE
+                        env.CONFIG_FILE_LOCAL_PATH = "${MINIO_CONFIG_FILE}"
                     }
                 }
             }
@@ -48,7 +45,7 @@ pipeline {
                     if (fileExists(env.CONFIG_FILE_LOCAL_PATH)) {
                         echo "File downloaded successfully at ${env.CONFIG_FILE_LOCAL_PATH}"
                     } else {
-                        error "Failed to download config.tfvars"
+                        error "Failed to download ${env.CONFIG_FILE_LOCAL_PATH}"
                     }
                 }
             }
@@ -58,13 +55,12 @@ pipeline {
     post {
         always {
             echo "Downloaded file path: ${env.CONFIG_FILE_LOCAL_PATH}"
-
-            // Delete the tfvars file after pipeline execution
+            // Delete the downloaded file after pipeline execution
             sh """
             if [ -f "${env.CONFIG_FILE_LOCAL_PATH}" ]; then
                 echo "Deleting ${env.CONFIG_FILE_LOCAL_PATH}..."
                 rm -f "${env.CONFIG_FILE_LOCAL_PATH}"
-                echo "config.tfvars deleted."
+                echo "${env.CONFIG_FILE_LOCAL_PATH} deleted."
             fi
             """
         }
