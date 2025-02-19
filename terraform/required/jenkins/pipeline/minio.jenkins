@@ -83,6 +83,7 @@ pipeline {
             //     echo "${env.CONFIG_FILE_LOCAL_PATH} deleted."
             // fi
             // """
+            echo "Always run command"
         }
         success {
             echo "Pipeline completed successfully"
