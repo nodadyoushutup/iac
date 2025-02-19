@@ -1,9 +1,3 @@
-terraform {
-  backend "s3" {
-    key = "proxmox.tfstate"
-  }
-}
-
 data "terraform_remote_state" "config" {
   backend = "s3"
 
@@ -24,6 +18,6 @@ data "terraform_remote_state" "config" {
   }
 }
 
-output "previous_config" {
-  value = data.terraform_remote_state.config.outputs.config
+locals {
+  config = data.terraform_remote_state.config.outputs.config
 }
