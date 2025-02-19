@@ -10,6 +10,7 @@ pipeline {
                     string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
                     string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
                     string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
+                    string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                 ]) {
                     script {
                         // Set MinIO alias and suppress output
@@ -40,16 +41,25 @@ pipeline {
             }
         }
 
-        stage('Verify Download') {
+        stage('Create backend.tfvars') {
             steps {
-                script {
-                    if (fileExists(env.CONFIG_FILE_LOCAL_PATH)) {
-                        echo "File downloaded successfully at ${env.CONFIG_FILE_LOCAL_PATH}"
-                        sh "cat ${env.CONFIG_FILE_LOCAL_PATH}"
-                    } else {
-                        error "Failed to download ${env.CONFIG_FILE_LOCAL_PATH}"
+                withCredentials([
+                    string(credentialsId: 'MINIO_ENDPOINT', variable: 'MINIO_ENDPOINT'),
+                    string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'),
+                    string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'),
+                    string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'),
+                    string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
+                    string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
+                ]){
+                    script {
+                        sh '''
+                        cp terraform/jenkins/template/backend.tfvar backend.tfvars
+                        cat backend.tfvars
+                        '''
+
                     }
                 }
+                
             }
         }
     }

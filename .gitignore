@@ -19,3 +19,4 @@ _old/
 _docs/
 id_rsa
 *.env
+!backend.tfvars
