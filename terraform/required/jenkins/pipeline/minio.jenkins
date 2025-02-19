@@ -111,7 +111,7 @@ pipeline {
             sh""" 
             rm -rf "${CONFIG_JSON_PATH}"
             rm -rf "${BACKEND_TFVARS_PATH}"
-            rm -rf "${TERRAFORM_TFVARS_PATH}"
+            // rm -rf "${TERRAFORM_TFVARS_PATH}"
             """
         }
         success {
