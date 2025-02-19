@@ -3,6 +3,10 @@ import argparse
 import json
 import os
 import sys
+import logging
+
+# Configure logging to show debug messages.
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def to_hcl(obj, indent=0):
     """
@@ -12,12 +16,13 @@ def to_hcl(obj, indent=0):
     if isinstance(obj, dict):
         lines = ["{"]
         for k, v in obj.items():
-            # No quotes for keys in HCL style.
+            logging.debug("Processing key '%s' at indent level %d", k, indent)
             lines.append(f"{space}  {k} = {to_hcl(v, indent + 2)}")
         lines.append(f"{space}}}")
         return "\n".join(lines)
     elif isinstance(obj, list):
         if not obj:
+            logging.debug("Encountered empty list at indent level %d", indent)
             return "[]"
         lines = ["["]
         for item in obj:
@@ -25,13 +30,16 @@ def to_hcl(obj, indent=0):
         lines.append(f"{space}]")
         return "\n".join(lines)
     elif isinstance(obj, str):
-        # Ensure proper quoting.
+        logging.debug("Processing string: %s", obj)
         return f"\"{obj}\""
     elif isinstance(obj, bool):
+        logging.debug("Processing boolean: %s", obj)
         return "true" if obj else "false"
     elif isinstance(obj, (int, float)):
+        logging.debug("Processing numeric value: %s", obj)
         return str(obj)
     elif obj is None:
+        logging.debug("Processing None value at indent level %d", indent)
         # Terraform doesn't have a 'null' literal so we output an empty string.
         return "\"\""
     else:
@@ -50,43 +58,52 @@ def main():
     )
     args = parser.parse_args()
 
+    logging.debug("Arguments parsed: %s", args)
+
     # Load the JSON file
     try:
+        logging.debug("Attempting to open JSON file: %s", args.json_file)
         with open(args.json_file, "r") as f:
             config = json.load(f)
+        logging.debug("JSON file loaded successfully")
     except Exception as e:
-        print(f"Error reading JSON file: {e}")
+        logging.error("Error reading JSON file: %s", e)
         sys.exit(1)
 
     # Check that the 'terraform' block exists
     if "terraform" not in config:
-        print("Error: JSON does not contain a 'terraform' key.")
+        logging.error("JSON does not contain a 'terraform' key.")
         sys.exit(1)
 
     terraform_data = config["terraform"]
+    logging.debug("Extracted 'terraform' block: %s", terraform_data)
 
     # Build HCL content by iterating over the top-level keys of the terraform block.
     hcl_lines = []
     for key, value in terraform_data.items():
+        logging.debug("Converting key '%s' to HCL", key)
         hcl_value = to_hcl(value, indent=0)
         hcl_lines.append(f"{key} = {hcl_value}")
     hcl_content = "\n\n".join(hcl_lines)
+    logging.debug("HCL content generated:\n%s", hcl_content)
 
     # Determine the output path.
     destination = args.destination
     if os.path.isdir(destination):
         output_path = os.path.join(destination, "terraform.tfvars")
+        logging.debug("Destination is a directory. Output path set to: %s", output_path)
     else:
-        # If destination is not a directory, assume it's a file path.
         output_path = destination
+        logging.debug("Destination is a file. Output path set to: %s", output_path)
 
     # Write the tfvars file.
     try:
+        logging.debug("Attempting to write HCL content to: %s", output_path)
         with open(output_path, "w") as f:
             f.write(hcl_content)
-        print(f"terraform.tfvars written to {output_path}")
+        logging.info("terraform.tfvars written to %s", output_path)
     except Exception as e:
-        print(f"Error writing tfvars file: {e}")
+        logging.error("Error writing tfvars file: %s", e)
         sys.exit(1)
 
 if __name__ == "__main__":
