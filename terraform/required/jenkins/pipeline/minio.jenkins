@@ -71,7 +71,7 @@ pipeline {
             }
         }
 
-        stage('Output test') {
+        stage('Create terraform.tfvars') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     withCredentials([
@@ -83,11 +83,12 @@ pipeline {
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                     ]) {
                         script {
-                            echo "TEST VALS"
-                            sh '''#!/bin/bash
-                            cat "$CONFIG_JSON_PATH"
-                            cat "$BACKEND_TFVARS_PATH"
-                            '''
+                            sh """#!/bin/bash
+                            python3 ${WORKSPACE}/terraform/required/jenkins/script/create_terraform_tfvars.py "\$CONFIG_JSON_PATH" .
+
+                            echo "Displaying terraform.tfvars content:"
+                            cat terraform.tfvars
+                            """
                         }
                     }
                 }
