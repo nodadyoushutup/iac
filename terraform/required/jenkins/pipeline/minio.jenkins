@@ -18,9 +18,10 @@ pipeline {
                         '''
 
                         // Generate a pre-signed URL valid for 1 hour
+                        // Use tail -1 to get the last URL (the signed one with query params)
                         def presignedUrl = sh(
                             script: '''
-                            mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | head -1
+                            mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
                             ''',
                             returnStdout: true
                         ).trim()
