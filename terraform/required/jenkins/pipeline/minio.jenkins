@@ -17,7 +17,9 @@ pipeline {
                         string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE'),
                     ]) {
                         script {
-                            sh """mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null"""
+                            sh """
+                            mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
+                            """
 
                             def PRESIGNED_URL = sh(
                                 script: """
@@ -26,7 +28,9 @@ pipeline {
                                 returnStdout: true
                             ).trim()
 
-                            sh """curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}""""
+                            sh """
+                            curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}
+                            """
 
                             env.CONFIG_JSON_PATH = "${WORKSPACE}/terraform/config/${MINIO_CONFIG_FILE}"
                         }
@@ -45,7 +49,9 @@ pipeline {
                         string(credentialsId: 'MINIO_TERRAFORM_BUCKET', variable: 'MINIO_TERRAFORM_BUCKET')
                     ]){
                         script {
-                            sh """cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars"""
+                            sh """
+                            cp ${WORKSPACE}/terraform/required/jenkins/template/backend.tfvars backend.tfvars
+                            """
                             sh """
                             #!/bin/bash
                             sed -i "s|<MINIO_TERRAFORM_BUCKET>|${MINIO_TERRAFORM_BUCKET}|g; \
@@ -64,7 +70,9 @@ pipeline {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     echo "Initializing Terraform..."
-                    sh """terraform init -backend-config=${BACKEND_TFVARS_PATH}"""
+                    sh """
+                    terraform init -backend-config=${BACKEND_TFVARS_PATH}
+                    """
                 }
             }
         }
@@ -73,7 +81,9 @@ pipeline {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     echo "Initializing Terraform..."
-                    sh """terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}"""
+                    sh """
+                    terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH}
+                    """
                 }
             }
         }
