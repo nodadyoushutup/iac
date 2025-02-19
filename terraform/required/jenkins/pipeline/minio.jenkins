@@ -71,7 +71,7 @@ pipeline {
             }
         }
 
-        stage('Create terraform.tfvars') {
+        stage('Output test') {
             steps {
                 dir("${WORKSPACE}/terraform/config") {
                     withCredentials([
