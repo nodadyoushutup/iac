@@ -31,5 +31,5 @@ provider "proxmox" {
 data "proxmox_virtual_environment_vms" "virtual_machines" {}
 
 output "debug" {
-    value = data.proxmox_virtual_environment_vms.vms
+    value = data.proxmox_virtual_environment_vms.virtual_machines.vms
 }
