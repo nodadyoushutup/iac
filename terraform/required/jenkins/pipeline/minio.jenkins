@@ -151,7 +151,7 @@ pipeline {
                 dir("${WORKSPACE}/terraform/required/proxmox") { 
                     echo "Running Terraform plan for stack..."
                     sh """
-                        terraform plan stack_plan
+                        terraform apply stack_plan
                     """ 
                 } 
             } 
