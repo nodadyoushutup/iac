@@ -127,7 +127,7 @@ pipeline {
 
                         echo "Running Terraform plan for stack..."
                         sh """
-                            terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH} -var 'SSH_PRIVATE_KEY=./id_rsa'
+                            terraform plan -out=config_plan -var-file=${BACKEND_TFVARS_PATH} -var 'ssh_private_key=./id_rsa'
                         """ 
                     } 
                 } 
