@@ -87,7 +87,6 @@ def main():
         hcl_value = to_hcl(value, indent=0)
         hcl_lines.append(f"{key} = {hcl_value}")
     hcl_content = "\n\n".join(hcl_lines)
-    logging.debug("HCL content generated:\n%s", hcl_content)
 
     # Determine the output path.
     destination = args.destination
