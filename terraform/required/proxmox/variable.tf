@@ -78,3 +78,7 @@ data "terraform_remote_state" "config" {
 locals {
     config = data.terraform_remote_state.config.outputs.config
 }
+
+output "debug" {
+    value = data.terraform_remote_state.config
+}
