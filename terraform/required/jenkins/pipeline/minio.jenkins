@@ -109,9 +109,9 @@ pipeline {
         always {
             echo "Cleaning up config files"
             sh""" 
-            rm -rf "${CONFIG_JSON_PATH}"
-            rm -rf "${BACKEND_TFVARS_PATH}"
-            // rm -rf "${TERRAFORM_TFVARS_PATH}"
+            [ -n "${env.CONFIG_JSON_PATH}" ] && rm -rf "${env.CONFIG_JSON_PATH}" || true
+            [ -n "${env.BACKEND_TFVARS_PATH}" ] && rm -rf "${env.BACKEND_TFVARS_PATH}" || true
+            [ -n "${env.TERRAFORM_TFVARS_PATH}" ] && rm -rf "${env.TERRAFORM_TFVARS_PATH}" || true
             """
         }
         success {
