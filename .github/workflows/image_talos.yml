@@ -1,0 +1,84 @@
+name: Build Image - Talos
+ 
+on: 
+  workflow_dispatch: 
+    inputs: 
+      version: 
+        description: "Version tag for the release" 
+        required: true 
+      download_url:
+        description: "Download URL for the compressed image"
+        required: false
+        default: "https://factory.talos.dev/image/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586/v1.9.4/nocloud-amd64.raw.xz"
+ 
+env: 
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+  RAW_FILE: nocloud-amd64.raw 
+  IMG_FILE: "talos-image-amd64-${{ github.event.inputs.version }}.img"
+  COMPRESSED_FILE: nocloud-amd64.raw.xz 
+  DOWNLOAD_URL: ${{ github.event.inputs.download_url }}
+ 
+permissions: 
+  contents: write 
+ 
+jobs: 
+  release: 
+    runs-on: ubuntu-latest 
+ 
+    steps: 
+      - name: Checkout repository 
+        uses: actions/checkout@v4 
+ 
+      - name: Install required packages 
+        run: | 
+          sudo apt-get update 
+          sudo apt-get install -y xz-utils curl 
+ 
+      - name: Download compressed file 
+        run: | 
+          echo "Downloading ${COMPRESSED_FILE} from ${DOWNLOAD_URL}" 
+          curl -L -o "${COMPRESSED_FILE}" "${DOWNLOAD_URL}" 
+ 
+      - name: Uncompress the file 
+        run: | 
+          echo "Uncompressing ${COMPRESSED_FILE}" 
+          xz -d "${COMPRESSED_FILE}" 
+ 
+      - name: Rename file from .raw to .img
+        run: |
+          if [ ! -f "${RAW_FILE}" ]; then
+            echo "Error: File not found: ${RAW_FILE}"
+            exit 1
+          fi
+          echo "Renaming ${RAW_FILE} to ${IMG_FILE}"
+          mv "${RAW_FILE}" "${IMG_FILE}"
+
+      - name: Generate checksum for the image
+        run: |
+          echo "Generating SHA256 checksum for ${IMG_FILE}"
+          sha256sum "${IMG_FILE}" > "${IMG_FILE}.sha256"
+ 
+      - name: Create GitHub release 
+        run: | 
+          echo "Creating release for tag: talos-${{ github.event.inputs.version }}" 
+          gh release create "talos-${{ github.event.inputs.version }}" \
+            --title "talos-${{ github.event.inputs.version }}" \
+            --notes "Automated release of the raw image" 
+ 
+      - name: Upload img file to release 
+        run: | 
+          if [ ! -f "${IMG_FILE}" ]; then 
+            echo "Error: File not found: ${IMG_FILE}" 
+            exit 1 
+          fi 
+          echo "Uploading file: ${IMG_FILE}" 
+          gh release upload "talos-${{ github.event.inputs.version }}" "${IMG_FILE}"
+
+      - name: Upload checksum file to release
+        run: |
+          if [ ! -f "${IMG_FILE}.sha256" ]; then
+            echo "Error: Checksum file not found: ${IMG_FILE}.sha256"
+            exit 1
+          fi
+          echo "Uploading checksum file: ${IMG_FILE}.sha256"
+          gh release upload "talos-${{ github.event.inputs.version }}" "${IMG_FILE}.sha256"

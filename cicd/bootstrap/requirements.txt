@@ -1,0 +1,4 @@
+requests
+paramiko
+coloredlogs
+passlib

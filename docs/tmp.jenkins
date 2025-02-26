@@ -1,0 +1,15 @@
+// Leave commented for later use in a different project
+// sh """
+//     mc alias set myminio "$MINIO_ENDPOINT" "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY" > /dev/null
+// """ 
+
+// def PRESIGNED_URL = sh( 
+//     script: """
+//         mc share download --expire=1h myminio/${MINIO_CONFIG_BUCKET}/${MINIO_CONFIG_FILE} 2>/dev/null | grep -Eo 'https?://[^ ]+' | tail -1
+//     """, 
+//     returnStdout: true
+// ).trim() 
+
+// sh """
+//     curl -o ${MINIO_CONFIG_FILE} "${PRESIGNED_URL}"
+// """ 
