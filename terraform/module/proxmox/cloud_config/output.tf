@@ -28,17 +28,7 @@ output "template" {
     value = local.template
 }
 
-
-output "password" {
-    # value = data.external.hash_password.result.data
-    # sensitive = true
-    value = local.auth_computed.password
-}
-
-output "username" {
-    value = local.auth_computed.username
-}
-
-output "github" {
-    value = local.auth_computed.github
+output "auth" {
+    sensitive = true
+    value = local.auth_computed
 }
