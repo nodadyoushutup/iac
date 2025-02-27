@@ -17,6 +17,7 @@ locals { # Variable
     overwrite_variable = try(var.overwrite, null)
     github_variable = try(var.github, null)
     gateway_variable = try(var.gateway, null)
+    password_variable = try(var.password, null)
 }
 
 locals { # Global
@@ -27,6 +28,7 @@ locals { # Global
     overwrite_global = try(var.config.proxmox.global.cloud_config.overwrite, null)
     github_global = try(var.config.proxmox.global.cloud_config.github, null)
     gateway_global = try(var.config.proxmox.global.cloud_config.gateway, null)
+    password_global = try(var.config.proxmox.global.cloud_config.password, null)
 }
 
 locals { # Computed
@@ -37,6 +39,7 @@ locals { # Computed
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
     github_computed = local.github_variable != null ? local.github_variable : local.github_global != null ? local.github_global : null
     gateway_computed = local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
+    password_computed = local.password_variable != null ? local.password_variable : local.password_global != null ? local.password_global : null
 }
 
 

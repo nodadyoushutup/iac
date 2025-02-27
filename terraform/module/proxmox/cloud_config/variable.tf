@@ -40,3 +40,8 @@ variable "github" {
     type = string
     default = null
 }
+
+variable "password" {
+    type = string
+    default = null
+}

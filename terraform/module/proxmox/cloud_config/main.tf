@@ -21,3 +21,15 @@ resource "proxmox_virtual_environment_file" "network" {
         file_name = "${local.name}-network-config.yaml"
     }
 }
+
+data "external" "hash_password" {
+    program = ["python3", "hash_password.py"]
+
+    query = {
+        password = local.password_computed
+    }
+}
+
+output "zzz" {
+    value = data.external.hash_password.result.data
+}

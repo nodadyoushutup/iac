@@ -33,3 +33,7 @@ output "type" {
 output "template" {
     value = local.template
 }
+
+output "password" {
+    value = local.password_computed
+}
