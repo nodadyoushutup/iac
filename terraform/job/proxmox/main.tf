@@ -9,6 +9,7 @@ module "cloud_config" {
     address = "dhcp"
     # bios = "seabios"
     github = "nodadyoushutup"
+    password = "test"
 }
 
 output "debug" {
