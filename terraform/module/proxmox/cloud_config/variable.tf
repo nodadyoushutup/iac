@@ -16,11 +16,6 @@ variable "node_name" {
     default = "pve"
 }
 
-variable "username" {
-    type = string
-    default = "nodadyoushutup"
-}
-
 variable "address" {
     type = string
     default = "dhcp"
@@ -36,12 +31,11 @@ variable "overwrite" {
     default = true
 }
 
-variable "github" {
-    type = string
-    default = null
-}
-
-variable "password" {
-    type = string
+variable "auth" {
+    type = object({
+        github = optional(string)
+        username = optional(string, "nodadyoushutup")
+        password = optional(string)
+    })
     default = null
 }

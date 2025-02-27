@@ -5,11 +5,14 @@ module "cloud_config" {
     name = "debug"
     # datastore_id = "local"
     # node_name = "pve"
-    # username = "nodadyoushutup"
     address = "dhcp"
     # bios = "seabios"
-    github = "nodadyoushutup"
+    auth = {
+        username = "nodadyoushutup"
+        github = "nodadyoushutup"
+    }
 }
+
 
 output "debug" {
     value = module.cloud_config

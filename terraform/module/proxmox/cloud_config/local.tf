@@ -12,12 +12,14 @@ locals { # Constant
 locals { # Variable
     datastore_id_variable = try(var.datastore_id, null)
     node_name_variable = try(var.node_name, null)
-    username_variable = try(var.username, null)
     address_variable = try(var.address, null)
     overwrite_variable = try(var.overwrite, null)
-    github_variable = try(var.github, null)
     gateway_variable = try(var.gateway, null)
-    password_variable = try(var.password, null)
+    auth_variable = {
+        username = try(var.auth.username, null)
+        password = try(var.auth.password, null)
+        github = try(var.auth.github, null)
+    }
 }
 
 locals { # Global
@@ -27,9 +29,9 @@ locals { # Global
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
     gateway_global = try(var.config.proxmox.global.machine.cloud_config.gateway, null)
     auth_global = {
-        username_global = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
-        password_global = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
-        github_global = try(var.config.proxmox.global.machine.cloud_config.auth.github, null)
+        username = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
+        password = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
+        github = try(var.config.proxmox.global.machine.cloud_config.auth.github, null)
     }
     
 }
@@ -41,11 +43,10 @@ locals { # Computed
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
     gateway_computed = local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
     auth_computed = {
-        username_computed = local.username_variable != null ? local.username_variable : local.auth_global.username_global != null ? local.auth_global.username_global : null
-        password_computed = local.password_variable != null ? local.password_variable : local.auth_global.password_global != null ? local.auth_global.password_global : null
-        github_computed = local.github_variable != null ? local.github_variable : local.auth_global.github_global != null ? local.auth_global.github_global : null
+        username = local.auth_variable.username != null ? local.auth_variable.username : local.auth_global.username != null ? local.auth_global.username : null
+        password = local.auth_variable.password != null ? local.auth_variable.password : local.auth_global.password != null ? local.auth_global.password : null
+        github = local.auth_variable.github != null ? local.auth_variable.github : local.auth_global.github != null ? local.auth_global.github : null
     }
-    
 }
 
 
