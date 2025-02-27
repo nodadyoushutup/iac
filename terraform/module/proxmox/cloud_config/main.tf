@@ -23,7 +23,7 @@ resource "proxmox_virtual_environment_file" "network" {
 }
 
 data "external" "hash_password" {
-    program = ["python3", "${path.module}/script/hash_password.py", local.password_computed]
+    program = ["python3", "${path.module}/script/hash_password.py"]
 
     query = {
         password = local.password_computed
