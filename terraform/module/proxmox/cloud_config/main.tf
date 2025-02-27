@@ -31,5 +31,5 @@ data "external" "hash_password" {
 }
 
 output "zzz" {
-    value = jsondecode(data.external.hash_password.result)
+    value = data.external.hash_password.result
 }
