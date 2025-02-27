@@ -26,11 +26,11 @@ data "external" "hash_password" {
     program = ["python3", "${path.module}/script/hash_password.py"]
 
     query = {
-        password = local.password_computed
+        password = local.auth_computed.password_computed
     }
 }
 
-output "zzz" {
-    # value = data.external.hash_password.result.data
-    value = local.password_global
-}
+# output "zzz" {
+#     # value = data.external.hash_password.result.data
+#     value = local.auth_computed.password_computed
+# }

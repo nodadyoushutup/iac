@@ -7,7 +7,7 @@ output "node_name" {
 }
 
 output "username" {
-    value = local.username_computed
+    value = local.auth_computed.username_computed
 }
 
 output "address" {
@@ -19,7 +19,7 @@ output "overwrite" {
 }
 
 output "github" {
-    value = local.github_computed
+    value = local.auth_computed.github_computed
 }
 
 output "gateway" {
@@ -35,5 +35,5 @@ output "template" {
 }
 
 output "password" {
-    value = local.password_computed
+    value = local.auth_computed.password_computed
 }
