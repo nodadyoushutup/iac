@@ -36,4 +36,5 @@ output "template" {
 
 output "password" {
     value = data.external.hash_password.result.data
+    sensitive = true
 }
