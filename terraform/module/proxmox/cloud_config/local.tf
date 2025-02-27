@@ -55,8 +55,8 @@ locals { # Logic
     template = { 
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
-            username = local.auth_computed.username_computed
-            github = local.auth_computed.github_computed
+            username = local.auth_computed.username
+            github = local.auth_computed.github
             password = data.external.hash_password.result.data
         }) 
         talos = templatefile(local.source.talos, { 
