@@ -5,7 +5,7 @@ module "cloud_config" {
     name = "debug"
     # datastore_id = "local"
     # node_name = "pve"
-    address = "dhcp"
+    address = "192.168.1.102"
 
     auth = {
         username = "nodadyoushutup"
