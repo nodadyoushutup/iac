@@ -23,23 +23,29 @@ locals { # Variable
 locals { # Global
     datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
     node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
-    username_global = try(var.config.proxmox.global.machine.cloud_config.username, null)
     address_global = try(var.config.proxmox.global.machine.cloud_config.address, null)
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
-    github_global = try(var.config.proxmox.global.machine.cloud_config.github, null)
     gateway_global = try(var.config.proxmox.global.machine.cloud_config.gateway, null)
-    password_global = try(var.config.proxmox.global.machine.cloud_config.password, null)
+    auth_global = {
+        username_global = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
+        password_global = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
+        github_global = try(var.config.proxmox.global.machine.cloud_config.auth.github, null)
+    }
+    
 }
 
 locals { # Computed
     datastore_id_computed = local.datastore_id_variable != null ? local.datastore_id_variable : local.datastore_id_global != null ? local.datastore_id_global : null
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
-    username_computed = local.username_variable != null ? local.username_variable : local.username_global != null ? local.username_global : null
     address_computed = local.address_variable != null ? local.address_variable : local.address_global != null ? local.address_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
-    github_computed = local.github_variable != null ? local.github_variable : local.github_global != null ? local.github_global : null
     gateway_computed = local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
-    password_computed = local.password_variable != null ? local.password_variable : local.password_global != null ? local.password_global : null
+    auth_computed = {
+        username_computed = local.username_variable != null ? local.username_variable : local.auth_global.username_global != null ? local.auth_global.username_global : null
+        password_computed = local.password_variable != null ? local.password_variable : local.auth_global.password_global != null ? local.auth_global.password_global : null
+        github_computed = local.github_variable != null ? local.github_variable : local.auth_global.github_global != null ? local.auth_global.github_global : null
+    }
+    
 }
 
 
@@ -48,12 +54,12 @@ locals { # Logic
     template = { 
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
-            username = local.username_computed
-            github = local.github_computed
-            password = local.password_computed
+            username = local.auth_computed.username_computed
+            github = local.auth_computed.github_computed
+            password = local.auth_computed.password_computed
         }) 
         talos = templatefile(local.source.talos, { 
-            hostname = var.name 
+            hostname = local.name
         }) 
         network = templatefile(local.source.network, {
             address = local.address_computed
