@@ -12,5 +12,5 @@ module "cloud_config" {
 }
 
 output "debug" {
-    value = module.cloud_config.debug
+    value = module.cloud_config
 }
