@@ -50,6 +50,7 @@ locals { # Logic
             hostname = local.name
             username = local.username_computed
             github = local.github_computed
+            password = local.password_computed
         }) 
         talos = templatefile(local.source.talos, { 
             hostname = var.name 
