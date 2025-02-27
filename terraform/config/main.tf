@@ -24,7 +24,7 @@ data "aws_s3_object" "config" {
 
 locals {
   config = jsondecode(data.aws_s3_object.config.body)
-  sensitive = jsondecode(data.external.sanitized_config.result.data)
+  sensitive = data.external.sanitized_config.result.data
   # ssh_key = jsondecode(data.external.ssh_keys.result.data)
 }
 
