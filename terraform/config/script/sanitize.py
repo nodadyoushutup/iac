@@ -43,7 +43,11 @@ def main():
 
     # Sanitize the entire configuration.
     sanitized = sanitize(config, sensitive_keys, sensitive_strings)
-    result = {"data": sanitized}
+    result = {'data': sanitized}
+
+    import logging
+    logging.error("RESULT")
+    logging.error(result)
 
     # Output the sanitized config.
     # print(json.dumps({"data": json.dumps(sanitized)}))
