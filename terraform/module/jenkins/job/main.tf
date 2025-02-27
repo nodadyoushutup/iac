@@ -13,5 +13,5 @@ resource "jenkins_job" "job" {
 }
 
 output "debug" {
-  value = local.git_repository
+  value = var.config.global.jenkins.job.git_repository
 }
