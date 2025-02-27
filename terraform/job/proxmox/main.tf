@@ -6,7 +6,7 @@ module "cloud_config" {
     # datastore_id = "local"
     # node_name = "pve"
     address = "dhcp"
-    # bios = "seabios"
+
     auth = {
         username = "nodadyoushutup"
         github = "nodadyoushutup"

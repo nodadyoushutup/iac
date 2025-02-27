@@ -41,7 +41,7 @@ locals { # Computed
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
     address_computed = local.address_variable != null ? local.address_variable : local.address_global != null ? local.address_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
-    gateway_computed = local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
+    gateway_computed = local.address_computed == "dhcp" ? null : local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
     auth_computed = {
         username = local.auth_variable.username != null ? local.auth_variable.username : local.auth_global.username != null ? local.auth_global.username : null
         password = local.auth_variable.password != null ? local.auth_variable.password : local.auth_global.password != null ? local.auth_global.password : null
