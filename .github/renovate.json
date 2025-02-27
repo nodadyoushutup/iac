@@ -2,11 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json", 
   "extends": [ 
     "config:recommended" 
-  ], 
+  ],
+  "assignees": ["nodadyoushutup"],
   "labels": ["renovate"], 
   "branchPrefix": "IAC-8-",
   "commitMessagePrefix": "IAC-8 [IMP] ",
-  "automerge": true,
   "enabledManagers": [
     "dockerfile",
     "terraform",
