@@ -21,14 +21,14 @@ locals { # Variable
 }
 
 locals { # Global
-    datastore_id_global = try(var.config.proxmox.global.cloud_config.datastore_id, null)
-    node_name_global = try(var.config.proxmox.global.cloud_config.node_name, null)
-    username_global = try(var.config.proxmox.global.cloud_config.username, null)
-    address_global = try(var.config.proxmox.global.cloud_config.address, null)
-    overwrite_global = try(var.config.proxmox.global.cloud_config.overwrite, null)
-    github_global = try(var.config.proxmox.global.cloud_config.github, null)
-    gateway_global = try(var.config.proxmox.global.cloud_config.gateway, null)
-    password_global = try(var.config.proxmox.global.cloud_config.password, null)
+    datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
+    node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
+    username_global = try(var.config.proxmox.global.machine.cloud_config.username, null)
+    address_global = try(var.config.proxmox.global.machine.cloud_config.address, null)
+    overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
+    github_global = try(var.config.proxmox.global.machine.cloud_config.github, null)
+    gateway_global = try(var.config.proxmox.global.machine.cloud_config.gateway, null)
+    password_global = try(var.config.proxmox.global.machine.cloud_config.password, null)
 }
 
 locals { # Computed
