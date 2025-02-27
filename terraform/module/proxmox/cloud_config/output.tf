@@ -36,9 +36,9 @@ output "password" {
 }
 
 output "username" {
-    value = local.auth_computed.username_computed
+    value = local.auth_computed.username
 }
 
 output "github" {
-    value = local.auth_computed.github_computed
+    value = local.auth_computed.github
 }
