@@ -11,3 +11,7 @@ resource "jenkins_job" "job" {
     }
   )
 }
+
+output "debug" {
+  value = local.git_repository
+}
