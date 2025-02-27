@@ -43,11 +43,9 @@ def main():
 
     # Sanitize the entire configuration.
     sanitized = sanitize(config, sensitive_keys, sensitive_strings)
-    result = {"data": sanitized}
 
     # Output the sanitized config.
-    # print(json.dumps({"data": json.dumps(sanitized)}))
-    print(json.dumps(result))
+    print(json.dumps({"data": json.dumps(sanitized)}))
 
 if __name__ == '__main__':
     main()
