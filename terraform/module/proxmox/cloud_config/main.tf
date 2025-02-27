@@ -30,10 +30,6 @@ data "external" "hash_password" {
     }
 }
 
-output "yyy" {
-    value = local.password_computed
-}
-
 output "zzz" {
-    value = data.external.hash_password.result
+    value = data.external.hash_password.result.data
 }

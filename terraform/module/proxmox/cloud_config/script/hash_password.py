@@ -11,7 +11,7 @@ def main():
         hashed_pw = sha512_crypt.hash(password)
         output = {"data": hashed_pw}
     except Exception as e:
-        output = {"error": str(e)}
+        output = {"data": None}
     
     print(json.dumps(output))
 
