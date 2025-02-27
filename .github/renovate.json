@@ -4,7 +4,8 @@
     "config:recommended" 
   ], 
   "labels": ["renovate"], 
-  "branchPrefix": "renovate/", 
+  "branchPrefix": "IAC-8-",
+  "commitMessagePrefix": "IAC-8 [IMP] ",
   "automerge": true,
   "enabledManagers": [
     "dockerfile",
