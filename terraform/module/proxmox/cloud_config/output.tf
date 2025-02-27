@@ -35,5 +35,5 @@ output "template" {
 }
 
 output "password" {
-    value = local.auth_computed.password_computed
+    value = data.external.hash_password.result.data
 }
