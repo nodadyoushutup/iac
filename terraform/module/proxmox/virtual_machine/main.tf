@@ -31,10 +31,10 @@ module "image" {
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     agent {
-        enabled = local.agent_computed.enabled
-        timeout = local.agent_computed.timeout
-        trim = local.agent_computed.trim
-        type = local.agent_computed.type
+        enabled = local.virtual_machine.agent_computed.enabled
+        timeout = local.virtual_machine.agent_computed.timeout
+        trim = local.virtual_machine.agent_computed.trim
+        type = local.virtual_machine.agent_computed.type
     }
 
     initialization {
