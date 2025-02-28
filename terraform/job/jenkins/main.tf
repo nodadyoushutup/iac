@@ -20,3 +20,7 @@ module "job" {
   parameter = try(each.value.parameter, null)
   git_repository = try(each.value.git_repository, null)
 }
+
+output "debug" {
+  value = module.job.debug
+}

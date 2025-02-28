@@ -15,7 +15,7 @@
 			<abortPrevious>false</abortPrevious>
 		</org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
 		<com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.41.0">
-			<projectUrl>${git_repository_url}</projectUrl>
+			<projectUrl>${git_repository.url}</projectUrl>
 			<displayName/>
 		</com.coravy.hudson.plugins.github.GithubProjectProperty>
 		%{ if length(parameter) > 0 }
@@ -37,12 +37,12 @@
 			<configVersion>2</configVersion>
 			<userRemoteConfigs>
 				<hudson.plugins.git.UserRemoteConfig>
-					<url>${git_repository_url}</url>
+					<url>${git_repository.url}</url>
 				</hudson.plugins.git.UserRemoteConfig>
 			</userRemoteConfigs>
 			<branches>
 				<hudson.plugins.git.BranchSpec>
-					<name>${git_repository_branch}</name>
+					<name>${git_repository.branch}</name>
 				</hudson.plugins.git.BranchSpec>
 			</branches>
 			<doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>

@@ -11,3 +11,7 @@ resource "jenkins_job" "job" {
     }
   )
 }
+
+output "debug" {
+  value = var.config.global.jenkins.job.git_repository
+}
