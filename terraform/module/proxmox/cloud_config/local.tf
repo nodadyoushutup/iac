@@ -27,9 +27,7 @@ locals { # Variable
 locals { # Global
     datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
     node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
-    address_global = try(var.config.proxmox.global.machine.cloud_config.address, null)
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
-    gateway_global = try(var.config.proxmox.global.machine.cloud_config.gateway, null)
     auth_global = {
         username = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
         password = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
@@ -44,9 +42,7 @@ locals { # Global
 locals { # Computed
     datastore_id_computed = local.datastore_id_variable != null ? local.datastore_id_variable : local.datastore_id_global != null ? local.datastore_id_global : null
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
-    address_computed = local.address_variable != null ? local.address_variable : local.address_global != null ? local.address_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
-    gateway_computed = local.address_computed == "dhcp" ? null : local.gateway_variable != null ? local.gateway_variable : local.gateway_global != null ? local.gateway_global : null
     auth_computed = {
         username = local.auth_variable.username != null ? local.auth_variable.username : local.auth_global.username != null ? local.auth_global.username : null
         password = local.auth_variable.password != null ? local.auth_variable.password : local.auth_global.password != null ? local.auth_global.password : null
