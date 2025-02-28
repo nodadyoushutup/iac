@@ -1,3 +1,3 @@
 output "debug" {
-    value = local.agent_computed
+    value = local.virtual_machine
 }
