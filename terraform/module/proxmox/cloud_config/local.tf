@@ -73,6 +73,14 @@ locals { # Logic
     } 
 }
 
-output "password" {
-    value = "Password Value: ${data.external.hash_password.result.data}"
+output "password_type" {
+    value = type(data.external.hash_password.result.data)
+}
+
+output "password_null" {
+    value = data.external.hash_password.result.data == null ? "true" : "false"
+}
+
+output "password_null" {
+    value = data.external.hash_password.result.data == true ? "true" : "false"
 }
