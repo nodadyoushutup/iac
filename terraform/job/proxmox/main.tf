@@ -29,7 +29,7 @@ module "cloud_config" {
 # }
 
 output "cloud_config" {
-    value = module.cloud_config
+    value = module.cloud_config.password
 }
 
 # output "image" {
