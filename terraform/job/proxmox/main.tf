@@ -19,6 +19,13 @@ module "image" {
     source = "../../module/proxmox/image"
 
     config = local.config
+    name = "test"
+    # datastore_id = "local"
+    # file_name = "test-image.img"
+    # node_name = "pve"
+    # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+    # overwrite = true
+    # overwrite_unmanaged = true
 }
 
 

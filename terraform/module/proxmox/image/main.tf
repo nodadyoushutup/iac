@@ -1,11 +1,11 @@
 resource "proxmox_virtual_environment_download_file" "image" {
     content_type = "iso"
-    datastore_id = "local"
-    file_name = "cloud-image.img"
-    node_name = "pve"
-    url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
-    checksum = "58fafa456675eabcb995b5bca12af4edf96959966d0086c4979c5107f3fe11c3"
-    checksum_algorithm = "sha256"
+    datastore_id = local.datastore_id_computed
+    file_name = local.file_name_computed
+    node_name = local.node_name_computed
+    url = local.url_computed
+    overwrite = local.overwrite_computed
+    overwrite_unmanaged = local.overwrite_unmanaged
 }
 
 
