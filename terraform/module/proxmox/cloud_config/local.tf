@@ -72,19 +72,3 @@ locals { # Logic
         }) 
     } 
 }
-
-output "password_type" {
-    value = data.external.hash_password.result.data
-}
-
-output "password_null" {
-    value = data.external.hash_password.result.data == null ? "true" : "false"
-}
-
-output "password_bool" {
-    value = data.external.hash_password.result.data == true ? "true" : "false"
-}
-
-output "password_empty_string" {
-    value = data.external.hash_password.result.data == "" ? "true" : "false"
-}
