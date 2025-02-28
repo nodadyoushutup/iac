@@ -74,7 +74,7 @@ locals { # Logic
 }
 
 output "password_type" {
-    value = type(data.external.hash_password.result.data)
+    value = data.external.hash_password.result.data
 }
 
 output "password_null" {
