@@ -29,8 +29,3 @@ data "external" "hash_password" {
         password = local.auth_computed.password
     }
 }
-
-# output "zzz" {
-#     # value = data.external.hash_password.result.data
-#     value = local.auth_computed.password
-# }
