@@ -7,9 +7,3 @@ resource "proxmox_virtual_environment_download_file" "image" {
     overwrite = local.overwrite_computed
     overwrite_unmanaged = local.overwrite_unmanaged_computed
 }
-
-
-
-output "debug" {
-    value = proxmox_virtual_environment_download_file.image.id
-}
