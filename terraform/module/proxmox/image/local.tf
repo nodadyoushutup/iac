@@ -25,7 +25,6 @@ locals { # Global
 
 locals { # Computed
     datastore_id_computed = local.datastore_id_variable != null ? local.datastore_id_variable : local.datastore_id_global != null ? local.datastore_id_global : null
-    file_name_computed = local.file_name_variable != null ? local.file_name_variable : local.file_name_global != null ? local.file_name_global : null
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
     url_computed = local.url_variable != null ? local.url_variable : local.url_global != null ? local.url_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
@@ -34,5 +33,5 @@ locals { # Computed
 
 
 locals { # Logic
-
+    file_name = local.file_name_variable != null ? "${local.name}-${local.file_name_variable}" : local.file_name_global != null ? "${local.name}-${local.file_name_global}" : null
 }
