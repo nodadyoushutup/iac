@@ -62,7 +62,7 @@ locals { # Logic
             hostname = local.name
             username = local.auth_computed.username
             github = local.auth_computed.github
-            password = data.external.hash_password.result.data
+            password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
         }) 
         talos = templatefile(local.source.talos, { 
             hostname = local.name
