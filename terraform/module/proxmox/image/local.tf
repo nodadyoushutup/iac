@@ -36,6 +36,6 @@ locals { # Computed
 
 
 locals { # Logic
-    file_name = local.file_name_variable != null ? "${local.name}-${local.file_name_variable}" : local.file_name_global != null ? "${local.name}-${local.file_name_global}" : null
+    file_name = local.file_name_variable != null ? "${local.name}-${local.file_name_variable}" : local.file_name_global != null ? "${local.name}-${local.file_name_global}" : "${local.name}-image.img"
     url_default = can(regex("talos", local.name)) ? local.url.talos : local.url.cloud
 }
