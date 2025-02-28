@@ -18,7 +18,7 @@ variable "node_name" {
 
 variable "url" {
     type = string
-    default = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+    default = null
 }
 
 variable "overwrite" {

@@ -19,7 +19,7 @@ module "image" {
     source = "../../module/proxmox/image"
 
     config = local.config
-    name = "test"
+    name = "talos-cp-1"
     # datastore_id = "local"
     file_name = "xyz-image.img"
     # node_name = "pve"
