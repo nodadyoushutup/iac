@@ -12,9 +12,7 @@ locals { # Constant
 locals { # Variable
     datastore_id_variable = try(var.datastore_id, null)
     node_name_variable = try(var.node_name, null)
-    address_variable = try(var.address, null)
     overwrite_variable = try(var.overwrite, null)
-    gateway_variable = try(var.gateway, null)
     auth_variable = {
         username = try(var.auth.username, null)
         password = try(var.auth.password, null)
