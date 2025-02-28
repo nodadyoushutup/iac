@@ -6,18 +6,8 @@ output "node_name" {
     value = local.node_name_computed
 }
 
-
-output "address" {
-    value = local.address_computed
-}
-
 output "overwrite" {
     value = local.overwrite_computed
-}
-
-
-output "gateway" {
-    value = local.gateway_computed
 }
 
 output "type" {
@@ -31,4 +21,8 @@ output "template" {
 output "auth" {
     sensitive = true
     value = local.auth_computed
+}
+
+output "ipv4" {
+    value = local.ipv4_computed
 }
