@@ -29,6 +29,14 @@ module "image" {
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
+
+    agent {
+        enabled = local.agent_computed.enabled
+        timeout = local.agent_computed.timeout
+        trim = local.agent_computed.trim
+        type = local.agent_computed.type
+    }
+
     initialization {
         user_data_file_id = module.cloud_config.cloud_id
         network_data_file_id = module.cloud_config.network_id
