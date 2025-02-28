@@ -11,7 +11,7 @@ module "cloud_config" {
         github = "nodadyoushutup"
     }
     ipv4 = {
-        address = "dhcp"
+        address = "192.168.1.102"
     }
 }
 
