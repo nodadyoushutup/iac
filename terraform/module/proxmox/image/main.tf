@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
     node_name = local.node_name_computed
     url = local.url_computed
     overwrite = local.overwrite_computed
-    overwrite_unmanaged = local.overwrite_unmanaged
+    overwrite_unmanaged = local.overwrite_unmanaged_computed
 }
 
 
