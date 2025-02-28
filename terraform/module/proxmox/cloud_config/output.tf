@@ -26,3 +26,11 @@ output "auth" {
 output "ipv4" {
     value = local.ipv4_computed
 }
+
+output "cloud_id" {
+    value = proxmox_virtual_environment_file.cloud.id
+}
+
+output "network_id" {
+    value = proxmox_virtual_environment_file.network.id
+}
