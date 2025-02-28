@@ -20,7 +20,7 @@ module "image" {
 
     config = local.config
     name = "docker"
-    # datastore_id = "local"
+    datastore_id = "config"
     # file_name = "xyz-image.img"
     # node_name = "pve"
     # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
