@@ -3,13 +3,15 @@ module "cloud_config" {
 
     config = local.config
     name = "debug"
-    # datastore_id = "local"
-    # node_name = "pve"
-    address = "192.168.1.102"
-
+    datastore_id = "config"
+    node_name = "pve"
+    overwrite = true
     auth = {
         username = "nodadyoushutup"
         github = "nodadyoushutup"
+    }
+    ipv4 = {
+        address = "dhcp"
     }
 }
 

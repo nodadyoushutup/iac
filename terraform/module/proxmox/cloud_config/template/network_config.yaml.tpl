@@ -2,11 +2,11 @@
 version: 2
 ethernets:
     ens18:
-        %{ if address != "dhcp"}
+        %{ if ipv4.address != "dhcp"}
         dhcp4: no
-        addresses: [${address}/24]
-        %{ if gateway != null}
-        gateway4: ${gateway}
+        addresses: [${ipv4.address}/24]
+        %{ if ipv4.gateway != null}
+        gateway4: ${ipv4.gateway}
         %{ endif }
         %{ else }
         dhcp4: true
