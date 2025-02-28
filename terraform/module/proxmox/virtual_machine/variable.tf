@@ -2,33 +2,33 @@ variable "config" {
   type = any
 }
 
-variable "cloud_config" {
-    description = "Git configuration"
-    type = object({
-        hostname = optional(string)
-        datastore_id = optional(string)
-        node_name = optional(string)
-        runcmd = optional(list(string))
-        auth = optional(object({
-            github = optional(string)
-            username = optional(string)
-            ssh_public_key = optional(list(string))
-        }), {})
+# variable "cloud_config" {
+#     description = "Git configuration"
+#     type = object({
+#         hostname = optional(string)
+#         datastore_id = optional(string)
+#         node_name = optional(string)
+#         runcmd = optional(list(string))
+#         auth = optional(object({
+#             github = optional(string)
+#             username = optional(string)
+#             ssh_public_key = optional(list(string))
+#         }), {})
         
-    })
-    default = null
-}
+#     })
+#     default = null
+# }
 
-variable "image" {
-    description = "Image configuration"
-    type = object({
-        datastore_id = optional(string)
-        node_name = optional(string)
-        file_name = optional(string)
-        url = optional(string)
-    })
-    default = null
-}
+# variable "image" {
+#     description = "Image configuration"
+#     type = object({
+#         datastore_id = optional(string)
+#         node_name = optional(string)
+#         file_name = optional(string)
+#         url = optional(string)
+#     })
+#     default = null
+# }
 
 variable "agent" {
     description = "agent"
