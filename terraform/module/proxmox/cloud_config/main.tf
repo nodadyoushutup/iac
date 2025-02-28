@@ -1,6 +1,6 @@
 resource "proxmox_virtual_environment_file" "cloud" {
     content_type = "snippets"
-    datastore_id = "config"
+    datastore_id = local.datastore_id_computed
     node_name = local.node_name_computed
     overwrite = local.overwrite_computed
 
@@ -12,7 +12,7 @@ resource "proxmox_virtual_environment_file" "cloud" {
 
 resource "proxmox_virtual_environment_file" "network" {
     content_type = "snippets"
-    datastore_id = "config"
+    datastore_id = local.datastore_id_computed
     node_name = local.node_name_computed
     overwrite = local.overwrite_computed
 
@@ -29,8 +29,3 @@ data "external" "hash_password" {
         password = local.auth_computed.password
     }
 }
-
-# output "zzz" {
-#     # value = data.external.hash_password.result.data
-#     value = local.auth_computed.password
-# }
