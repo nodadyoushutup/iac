@@ -1,7 +1,7 @@
 module "cloud_config" {
-    source = "../../module/proxmox/cloud_config"
+    source = "../cloud_config"
 
-    config = local.config
+    config = var.config
     name = "debug"
     datastore_id = "config"
     node_name = "pve"
@@ -16,9 +16,9 @@ module "cloud_config" {
 }
 
 module "image" {
-    source = "../../module/proxmox/image"
+    source = "../image"
 
-    config = local.config
+    config = var.config
     name = "docker"
     datastore_id = "config"
     # file_name = "xyz-image.img"
