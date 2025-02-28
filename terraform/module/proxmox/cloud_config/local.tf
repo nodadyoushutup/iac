@@ -74,5 +74,5 @@ locals { # Logic
 }
 
 output "password" {
-    value = data.external.hash_password.result.data
+    value = "Password Value: ${data.external.hash_password.result.data}"
 }
