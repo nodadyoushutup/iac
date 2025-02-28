@@ -81,6 +81,6 @@ output "password_null" {
     value = data.external.hash_password.result.data == null ? "true" : "false"
 }
 
-output "password_null" {
+output "password_bool" {
     value = data.external.hash_password.result.data == true ? "true" : "false"
 }
