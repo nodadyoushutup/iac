@@ -31,11 +31,6 @@ variable "overwrite_unmanaged" {
     default = true
 }
 
-variable "node_name" {
-    type = string
-    default = "pve"
-}
-
 variable "file_name" {
     type = string
     default = null
