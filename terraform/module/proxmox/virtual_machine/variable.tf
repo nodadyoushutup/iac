@@ -10,5 +10,5 @@ variable "agent" {
     trim = optional(bool, false)
     type = optional(string, "virtio")
   })
-  default = null
+  default = {}
 }

@@ -29,6 +29,10 @@ module "image" {
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
+    depends_on = [ 
+        module.cloud_config,
+        module.image
+    ]
 
     agent {
         enabled = local.virtual_machine.agent_computed.enabled
