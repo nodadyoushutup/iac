@@ -45,7 +45,10 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     disk {
         file_id = module.image.image_id
         size = 30
+        interface = "scsi0"
     }
     vm_id = 3000
     name = "test"
+    node_name = "pve"
+    
 }
