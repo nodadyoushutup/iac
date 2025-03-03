@@ -41,11 +41,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         type = local.virtual_machine.agent_computed.type
     }
 
-    audio_device {
-        device = local.virtual_machine.audio_device_computed.device
-        driver = local.virtual_machine.audio_device_computed.driver
-        enabled = local.virtual_machine.audio_device_computed.enabled
-    }
+    # audio_device {
+    #     device = local.virtual_machine.audio_device_computed.device
+    #     driver = local.virtual_machine.audio_device_computed.driver
+    #     enabled = local.virtual_machine.audio_device_computed.enabled
+    # }
 
     bios = local.virtual_machine.bios_computed
 
