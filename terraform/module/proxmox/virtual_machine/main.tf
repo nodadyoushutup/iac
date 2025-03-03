@@ -47,7 +47,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         enabled = local.virtual_machine.audio_device_computed.enabled
     }
 
-    bios = local.bios_computed
+    bios = local.virtual_machine.bios_computed
 
     # boot_order = local.boot_order
 
