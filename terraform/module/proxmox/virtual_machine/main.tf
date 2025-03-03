@@ -47,7 +47,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         enabled = local.virtual_machine.audio_device_computed.enabled
     }
 
-    bios = local.virtual_machine.bios_computed
+    # bios = local.virtual_machine.bios_computed
+    bios = "seabios"
 
     boot_order = local.virtual_machine.boot_order_computed
 
@@ -78,11 +79,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         interface = "scsi0"
     }
 
-    efi_disk {
-        datastore_id = "virtualization"
-        file_format = "raw"
-        pre_enrolled_keys = false
-    }
+    # efi_disk {
+    #     datastore_id = "virtualization"
+    #     file_format = "raw"
+    #     pre_enrolled_keys = false
+    # }
 
     network_device {
         bridge = "vmbr0"
