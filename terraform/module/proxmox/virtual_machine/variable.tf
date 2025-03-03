@@ -25,7 +25,7 @@ variable "audio_device" {
 
 variable "bios" {
   type = string
-  default = "seabios"
+  default = "ovmf"
 }
 
 variable "boot_order" {

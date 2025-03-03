@@ -78,6 +78,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         interface = "scsi0"
     }
 
+    efi_disk {
+        datastore_id = "config"
+        file_format = "raw"
+        pre_enrolled_keys = false
+    }
+
     network_device {
         bridge = "vmbr0"
     }
