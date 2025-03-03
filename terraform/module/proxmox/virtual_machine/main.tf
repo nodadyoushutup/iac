@@ -41,6 +41,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         type = local.virtual_machine.agent_computed.type
     }
 
+    audio_device {
+        device = local.virtual_machine.audio_device_computed.device
+        driver = local.virtual_machine.audio_device_computed.driver
+        enabled = local.virtual_machine.audio_device_computed.enabled
+    }
+
     initialization {
         user_data_file_id = module.cloud_config.cloud_id
         network_data_file_id = module.cloud_config.network_id
