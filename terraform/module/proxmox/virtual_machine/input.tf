@@ -11,4 +11,6 @@ locals {
         driver = try(var.audio_device.driver, null)
         enabled = try(var.audio_device.enabled, null)
     }
+
+    bios_input = try(var.bios, null)
 }

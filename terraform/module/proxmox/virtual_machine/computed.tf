@@ -12,5 +12,7 @@ locals {
             driver = local.audio_device_input.driver != null ? local.audio_device_input.driver : local.audio_device_global.driver != null ? local.audio_device_global.driver : null
             enabled = local.audio_device_input.enabled != null ? local.audio_device_input.enabled : local.audio_device_global.enabled != null ? local.audio_device_global.enabled : null
         }
+
+        bios_computed = local.bios_input != null ? local.bios_input : local.bios_global != null ? local.bios_global : null
     }
 }

@@ -11,4 +11,6 @@ locals {
         driver = try(var.config.proxmox.global.virtual_machine.audio_device.driver, null)
         enabled = try(var.config.proxmox.global.virtual_machine.audio_device.enabled, null)
     }
+
+    bios_global = try(var.config.proxmox.global.virtual_machine.bios, null)
 }

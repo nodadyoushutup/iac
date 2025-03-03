@@ -47,6 +47,26 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         enabled = local.virtual_machine.audio_device_computed.enabled
     }
 
+    bios = local.bios
+
+    # boot_order = local.boot_order
+
+    # cpu {
+    #     affinity = local.cpu.affinity
+    #     cores = local.cpu.cores
+    #     flags = local.cpu.flags
+    #     hotplugged = local.cpu.hotplugged
+    #     limit = local.cpu.limit
+    #     numa = local.cpu.numa
+    #     sockets = local.cpu.sockets
+    #     type = local.cpu.type
+    #     units = local.cpu.units
+    # }
+
+
+
+
+
     initialization {
         user_data_file_id = module.cloud_config.cloud_id
         network_data_file_id = module.cloud_config.network_id

@@ -1,5 +1,5 @@
 variable "config" {
-    type = any
+  type = any
 }
 
 variable "agent" {
@@ -14,11 +14,16 @@ variable "agent" {
 }
 
 variable "audio_device" {
-    description = "audio_device"
-    type = object({
-        device  = optional(string, "intel-hda")
-        driver  = optional(string, "spice")
-        enabled = optional(bool, true)
-    })
-    default = {}
+  description = "audio_device"
+  type = object({
+    device  = optional(string, "intel-hda")
+    driver  = optional(string, "spice")
+    enabled = optional(bool, true)
+  })
+  default = {}
+}
+
+variable "bios" {
+  type = string
+  default = "seabios"
 }
