@@ -41,11 +41,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         type = local.virtual_machine.agent_computed.type
     }
 
-    # audio_device {
-    #     device = local.virtual_machine.audio_device_computed.device
-    #     driver = local.virtual_machine.audio_device_computed.driver
-    #     enabled = local.virtual_machine.audio_device_computed.enabled
-    # }
+    audio_device {
+        device = local.virtual_machine.audio_device_computed.device
+        driver = local.virtual_machine.audio_device_computed.driver
+        enabled = local.virtual_machine.audio_device_computed.enabled
+    }
 
     bios = local.virtual_machine.bios_computed
 
@@ -81,6 +81,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     network_device {
         bridge = "vmbr0"
     }
+
+    vga {
+        type = "qxl"
+        memory = 16
+    }
+
     vm_id = 1102
     name = "docker"
     node_name = "pve"
