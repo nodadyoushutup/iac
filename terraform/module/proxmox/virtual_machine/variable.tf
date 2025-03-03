@@ -27,3 +27,8 @@ variable "bios" {
   type = string
   default = "seabios"
 }
+
+variable "boot_order" {
+  type = list(string)
+  default = ["scsi0"]
+}

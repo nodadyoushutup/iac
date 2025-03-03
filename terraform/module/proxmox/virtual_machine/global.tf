@@ -13,4 +13,6 @@ locals {
     }
 
     bios_global = try(var.config.proxmox.global.virtual_machine.bios, null)
+
+    boot_order_global = try(var.config.proxmox.global.virtual_machine.boot_order, null)
 }

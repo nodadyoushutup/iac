@@ -49,7 +49,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     bios = local.virtual_machine.bios_computed
 
-    # boot_order = local.boot_order
+    boot_order = local.virtual_machine.boot_order_computed
 
     # cpu {
     #     affinity = local.cpu.affinity

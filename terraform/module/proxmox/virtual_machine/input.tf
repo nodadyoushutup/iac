@@ -13,4 +13,6 @@ locals {
     }
 
     bios_input = try(var.bios, null)
+
+    boot_order_input = try(var.boot_order, null)
 }

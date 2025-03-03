@@ -14,5 +14,7 @@ locals {
         }
 
         bios_computed = local.bios_input != null ? local.bios_input : local.bios_global != null ? local.bios_global : null
+
+        boot_order_computed = local.boot_order_input != null ? local.boot_order_input : local.boot_order_global != null ? local.boot_order_global : null
     }
 }
