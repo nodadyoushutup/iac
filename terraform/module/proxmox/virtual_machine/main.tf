@@ -2,7 +2,7 @@ module "cloud_config" {
     source = "../cloud_config"
 
     config = var.config
-    name = "debug"
+    name = "docker"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
@@ -77,8 +77,12 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         size = 30
         interface = "scsi0"
     }
-    vm_id = 3000
-    name = "test"
+
+    network_device {
+        bridge = "vmbr0"
+    }
+    vm_id = 1102
+    name = "docker"
     node_name = "pve"
     
 }
