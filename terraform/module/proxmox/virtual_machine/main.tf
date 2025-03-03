@@ -79,7 +79,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     }
 
     efi_disk {
-        datastore_id = "config"
+        datastore_id = "virtualization"
         file_format = "raw"
         pre_enrolled_keys = false
     }
