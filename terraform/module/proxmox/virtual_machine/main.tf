@@ -85,6 +85,10 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     #     pre_enrolled_keys = false
     # }
 
+    memory {
+        dedicated = 8192
+    }
+
     network_device {
         bridge = "vmbr0"
     }
