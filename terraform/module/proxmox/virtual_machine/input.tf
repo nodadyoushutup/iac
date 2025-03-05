@@ -15,4 +15,16 @@ locals {
     bios_input = try(var.bios, null)
 
     boot_order_input = try(var.boot_order, null)
+
+    cpu = {
+        affinity = try(var.cpu.affinity, null)
+        cores = try(var.cpu.cores, null)
+        flags = try(var.cpu.flags, null)
+        hotplugged = try(var.cpu.hotplugged, null)
+        limit = try(var.cpu.limit, null)
+        numa = try(var.cpu.numa, null)
+        sockets = try(var.cpu.sockets, null)
+        type = try(var.cpu.type, null)
+        units =try(var.cpu.units, null)
+    }
 }

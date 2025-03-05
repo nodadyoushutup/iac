@@ -32,3 +32,19 @@ variable "boot_order" {
   type = list(string)
   default = ["scsi0"]
 }
+
+variable "cpu" {
+  description = "cpu"
+  type = object({
+    affinity = optional(string, null)
+    cores = optional(number, 2)
+    flags = optional(list(string), ["+aes"])
+    hotplugged = optional(number, 0)
+    limit = optional(number, 0)
+    numa = optional(bool, false)
+    sockets = optional(number, 1)
+    type = optional(string, "x86-64-v2-AES")
+    units = optional(number, 1024)
+  })
+  default = {}
+}

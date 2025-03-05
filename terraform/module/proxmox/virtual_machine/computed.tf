@@ -16,5 +16,17 @@ locals {
         bios_computed = local.bios_input != null ? local.bios_input : local.bios_global != null ? local.bios_global : null
 
         boot_order_computed = local.boot_order_input != null ? local.boot_order_input : local.boot_order_global != null ? local.boot_order_global : null
+
+        cpu = {
+            affinity = local.cpu_input.affinity != null ? local.cpu_input.affinity : local.cpu_global.affinity != null ? local.cpu_global.affinity : null
+            cores = local.cpu_input.cores != null ? local.cpu_input.cores : local.cpu_global.cores != null ? local.cpu_global.cores : null
+            flags = local.cpu_input.flags != null ? local.cpu_input.flags : local.cpu_global.flags != null ? local.cpu_global.flags : null
+            hotplugged = local.cpu_input.hotplugged != null ? local.cpu_input.hotplugged : local.cpu_global.hotplugged != null ? local.cpu_global.hotplugged : null
+            limit = local.cpu_input.limit != null ? local.cpu_input.limit : local.cpu_global.limit != null ? local.cpu_global.limit : null
+            numa = local.cpu_input.numa != null ? local.cpu_input.numa : local.cpu_global.numa != null ? local.cpu_global.numa : null
+            sockets = local.cpu_input.sockets != null ? local.cpu_input.sockets : local.cpu_global.sockets != null ? local.cpu_global.sockets : null
+            type = local.cpu_input.type != null ? local.cpu_input.type : local.cpu_global.type != null ? local.cpu_global.type : null
+            units = local.cpu_input.units != null ? local.cpu_input.units : local.cpu_global.units != null ? local.cpu_global.units : null
+        }
     }
 }

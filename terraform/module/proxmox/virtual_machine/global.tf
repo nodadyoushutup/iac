@@ -15,4 +15,16 @@ locals {
     bios_global = try(var.config.proxmox.global.virtual_machine.bios, null)
 
     boot_order_global = try(var.config.proxmox.global.virtual_machine.boot_order, null)
+
+    cpu = {
+        affinity = try(var.config.proxmox.global.virtual_machine.cpu.affinity, null)
+        cores = try(var.config.proxmox.global.virtual_machine.cpu.cores, null)
+        flags = try(var.config.proxmox.global.virtual_machine.cpu.flags, null)
+        hotplugged = try(var.config.proxmox.global.virtual_machine.cpu.hotplugged, null)
+        limit = try(var.config.proxmox.global.virtual_machine.cpu.limit, null)
+        numa = try(var.config.proxmox.global.virtual_machine.cpu.numa, null)
+        sockets = try(var.config.proxmox.global.virtual_machine.cpu.sockets, null)
+        type = try(var.config.proxmox.global.virtual_machine.cpu.type, null)
+        units = try(var.config.proxmox.global.virtual_machine.cpu.units, null)
+    }
 }
