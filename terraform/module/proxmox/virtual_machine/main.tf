@@ -123,11 +123,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     started = local.virtual_machine.started_computed
 
-#     startup {
-#         order = local.startup.order
-#         up_delay = local.startup.up_delay
-#         down_delay = local.startup.down_delay
-#     }
+    startup {
+        order = local.virtual_machine.startup_computed.order
+        up_delay = local.virtual_machine.startup_computed.up_delay
+        down_delay = local.virtual_machine.startup_computed.down_delay
+    }
 
 #     tags = local.tag
 

@@ -73,5 +73,11 @@ locals {
         }
 
         started_computed = local.started_input != null ? local.started_input : local.started_global != null ? local.started_global : null
+
+        startup_global = {
+            order = local.startup_input.order != null ? local.startup_input.order : local.startup_global.order != null ? local.startup_global.order : null
+            up_delay = local.startup_input.up_delay != null ? local.startup_input.up_delay : local.startup_global.up_delay != null ? local.startup_global.up_delay : null
+            down_delay = local.startup_input.down_delay != null ? local.startup_input.down_delay : local.startup_global.down_delay != null ? local.startup_global.down_delay : null
+        }
     }
 }

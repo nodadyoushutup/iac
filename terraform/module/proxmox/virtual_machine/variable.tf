@@ -124,3 +124,13 @@ variable "started" {
   type = bool
   default = true
 }
+
+variable "startup" {
+  description = "startup"
+  type = object({
+    order = optional(number, 1)
+    up_delay = optional(number, 0)
+    down_delay = optional(number, 0)
+  })
+  default = {}
+}

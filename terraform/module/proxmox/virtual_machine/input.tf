@@ -72,4 +72,10 @@ locals {
     }
 
     started_input = try(var.started, null)
+
+    startup_input = {
+        order = try(var.startup.order, null)
+        up_delay = try(var.startup.up_delay, null)
+        down_delay = try(var.startup.down_delay, null)
+    }
 }

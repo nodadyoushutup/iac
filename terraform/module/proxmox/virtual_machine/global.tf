@@ -72,4 +72,10 @@ locals {
     }
 
     started_global = try(var.config.proxmox.global.virtual_machine.started, null)
+
+    startup_global = {
+        order = try(var.config.proxmox.global.virtual_machine.startup.order, null)
+        up_delay = try(var.config.proxmox.global.virtual_machine.startup.up_delay, null)
+        down_delay = try(var.config.proxmox.global.virtual_machine.startup.down_delay, null)
+    }
 }
