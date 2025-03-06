@@ -64,6 +64,8 @@ locals {
             model = local.network_device_input.model != null ? local.network_device_input.model : local.network_device_global.model != null ? local.network_device_global.model : null
         }
 
-        node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.machine_global : null
+        node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.node_name_global : null
+
+        on_boot_computed = local.on_boot_input != null ? local.on_boot_input : local.on_boot_global != null ? local.on_boot_global : null
     }
 }

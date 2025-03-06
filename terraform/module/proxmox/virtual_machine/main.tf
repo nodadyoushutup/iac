@@ -115,7 +115,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     node_name = local.virtual_machine.node_name_computed
 
-#     on_boot = local.on_boot
+    on_boot = local.virtual_machine.on_boot
 
 #     operating_system {
 #         type = local.operating_system.type

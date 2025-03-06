@@ -106,3 +106,8 @@ variable "node_name" {
   type = string
   default = "pve"
 }
+
+variable "on_boot" {
+  type = bool
+  default = true
+}
