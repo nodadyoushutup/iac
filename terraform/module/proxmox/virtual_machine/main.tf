@@ -102,14 +102,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         shared = local.virtual_machine.memory_computed.shared
     }
 
-#     network_device {
-#         bridge = local.network_device.bridge
-#         disconnected = local.network_device.disconnected
-#         enabled = local.network_device.enabled
-#         firewall = local.network_device.firewall
-#         mac_address = local.network_device.mac_address
-#         model = local.network_device.model
-#     }
+    network_device {
+        bridge = local.virtual_machine.network_device_computed.bridge
+        disconnected = local.virtual_machine.network_device_computed.disconnected
+        enabled = local.virtual_machine.network_device_computed.enabled
+        firewall = local.virtual_machine.network_device_computed.firewall
+        mac_address = local.virtual_machine.network_device_computed.mac_address
+        model = local.virtual_machine.network_device_computed.model
+    }
 
 #     name = local.name
 
@@ -140,11 +140,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 #     }
 
 #     vm_id = local.vm_id
-
-    network_device {
-        bridge = "vmbr0"
-    }
-
     vga {
         type = "qxl"
         memory = 16

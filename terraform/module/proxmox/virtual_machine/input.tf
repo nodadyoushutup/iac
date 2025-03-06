@@ -53,4 +53,13 @@ locals {
         floating = try(var.memory.floating, null)
         shared = try(var.memory.shared, null)
     }
+
+    network_device_input = {
+        bridge = try(var.network_device.bridge, null)
+        disconnected = try(var.network_device.disconnected, null)
+        enabled = try(var.network_device.enabled, null)
+        firewall = try(var.network_device.firewall, null)
+        mac_address = try(var.network_device.mac_address, null)
+        model = try(var.network_device.model, null)
+    }
 }

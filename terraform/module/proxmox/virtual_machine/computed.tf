@@ -54,5 +54,14 @@ locals {
             floating = local.memory_input.floating != null ? local.memory_input.floating : local.memory_global.floating != null ? local.memory_global.floating : null
             shared = local.memory_input.shared != null ? local.memory_input.shared : local.memory_global.shared != null ? local.memory_global.shared : null
         }
+
+        network_device_computed = {
+            bridge = local.network_device_input.bridge != null ? local.network_device_input.bridge : local.network_device_global.bridge != null ? local.network_device_global.bridge : null
+            disconnected = local.network_device_input.disconnected != null ? local.network_device_input.disconnected : local.network_device_global.disconnected != null ? local.network_device_global.disconnected : null
+            enabled = local.network_device_input.enabled != null ? local.network_device_input.enabled : local.network_device_global.enabled != null ? local.network_device_global.enabled : null
+            firewall = local.network_device_input.firewall != null ? local.network_device_input.firewall : local.network_device_global.firewall != null ? local.network_device_global.firewall : null
+            mac_address = local.network_device_input.mac_address != null ? local.network_device_input.mac_address : local.network_device_global.mac_address != null ? local.network_device_global.mac_address : null
+            model = local.network_device_input.model != null ? local.network_device_input.model : local.network_device_global.model != null ? local.network_device_global.model : null
+        }
     }
 }

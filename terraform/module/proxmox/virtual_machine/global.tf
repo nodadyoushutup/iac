@@ -53,4 +53,13 @@ locals {
         floating = try(var.config.proxmox.global.virtual_machine.memory.floating, null)
         shared = try(var.config.proxmox.global.virtual_machine.memory.shared, null)
     }
+
+    network_device_global = {
+        bridge = try(var.config.proxmox.global.virtual_machine.network_device.bridge, null)
+        disconnected = try(var.config.proxmox.global.virtual_machine.network_device.disconnected, null)
+        enabled = try(var.config.proxmox.global.virtual_machine.network_device.enabled, null)
+        firewall = try(var.config.proxmox.global.virtual_machine.network_device.firewall, null)
+        mac_address = try(var.config.proxmox.global.virtual_machine.network_device.mac_address, null)
+        model = try(var.config.proxmox.global.virtual_machine.network_device.model, null)
+    }
 }

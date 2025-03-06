@@ -80,11 +80,25 @@ variable "machine" {
 }
 
 variable "memory" {
-    description = "memory"
-    type = object({
-        dedicated = optional(number, 4096)
-        floating = optional(number, 0)
-        shared = optional(number, 0)
-    })
-    default = {}
+  description = "memory"
+  type = object({
+    dedicated = optional(number, 4096)
+    floating = optional(number, 0)
+    shared = optional(number, 0)
+  })
+  default = {}
 }
+
+variable "network_device" {
+  description = "network_device"
+  type = object({
+    bridge = optional(string, "vmbr0")
+    disconnected = optional(bool, false)
+    enabled = optional(bool, true)
+    firewall = optional(bool, false)
+    mac_address = optional(string, null)
+    model = optional(string, "virtio")
+  })
+  default = {}
+}
+
