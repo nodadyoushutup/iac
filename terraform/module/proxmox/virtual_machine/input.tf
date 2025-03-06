@@ -27,4 +27,6 @@ locals {
         type = try(var.cpu.type, null)
         units =try(var.cpu.units, null)
     }
+
+    description_input = try(var.description, null)
 }

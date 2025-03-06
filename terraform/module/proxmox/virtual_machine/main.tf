@@ -64,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         units = local.virtual_machine.cpu_computed.units
     }
 
-
+    description = local.virtual_machine.description_computed
 
 
 

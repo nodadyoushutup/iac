@@ -28,5 +28,7 @@ locals {
             type = local.cpu_input.type != null ? local.cpu_input.type : local.cpu_global.type != null ? local.cpu_global.type : null
             units = local.cpu_input.units != null ? local.cpu_input.units : local.cpu_global.units != null ? local.cpu_global.units : null
         }
+
+        description_computed = local.description_input != null ? local.description_input : local.description_global != null ? local.description_global : null
     }
 }

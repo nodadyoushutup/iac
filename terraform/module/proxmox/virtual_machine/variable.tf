@@ -48,3 +48,8 @@ variable "cpu" {
   })
   default = {}
 }
+
+variable "description" {
+  type = string
+  default = null
+}

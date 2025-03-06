@@ -27,4 +27,6 @@ locals {
         type = try(var.config.proxmox.global.virtual_machine.cpu.type, null)
         units = try(var.config.proxmox.global.virtual_machine.cpu.units, null)
     }
+
+    description_global = try(var.config.proxmox.global.virtual_machine.description, null)
 }
