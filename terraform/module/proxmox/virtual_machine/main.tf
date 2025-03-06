@@ -82,7 +82,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         ssd = local.virtual_machine.disk_computed.ssd
     }
 
-#     efi_disk {
+#     efi_disk { #TODO
 #         datastore_id = local.efi_disk.datastore_id
 #         file_format = local.efi_disk.file_format
 #         type = local.efi_disk.type
@@ -140,7 +140,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     }
 
     vm_id = local.virtual_machine.vm_id_computed
-    
+
     name = "docker"
     
 }
