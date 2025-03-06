@@ -47,4 +47,10 @@ locals {
     }
 
     machine_global = try(var.config.proxmox.global.virtual_machine.machine, null)
+
+    memory_global = {
+        dedicated = try(var.config.proxmox.global.virtual_machine.memory.dedicated, null)
+        floating = try(var.config.proxmox.global.virtual_machine.memory.floating, null)
+        shared = try(var.config.proxmox.global.virtual_machine.memory.shared, null)
+    }
 }

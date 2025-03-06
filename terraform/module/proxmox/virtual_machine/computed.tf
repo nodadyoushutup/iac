@@ -48,5 +48,11 @@ locals {
         }
 
         machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
+
+        memory_computed = {
+            dedicated = local.memory_input.dedicated != null ? local.memory_input.dedicated : local.memory_global.dedicated != null ? local.memory_global.dedicated : null
+            floating = local.memory_input.floating != null ? local.memory_input.floating : local.memory_global.floating != null ? local.memory_global.floating : null
+            shared = local.memory_input.shared != null ? local.memory_input.shared : local.memory_global.shared != null ? local.memory_global.shared : null
+        }
     }
 }

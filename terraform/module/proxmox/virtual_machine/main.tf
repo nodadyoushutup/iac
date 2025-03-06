@@ -82,14 +82,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         ssd = local.virtual_machine.disk_computed.ssd
     }
 
-
-
-
-    initialization {
-        user_data_file_id = module.cloud_config.cloud_id
-        network_data_file_id = module.cloud_config.network_id
-    }
-
 #     efi_disk {
 #         datastore_id = local.efi_disk.datastore_id
 #         file_format = local.efi_disk.file_format
@@ -97,31 +89,18 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 #         pre_enrolled_keys = local.efi_disk.pre_enrolled_keys
 #     }
 
-#     initialization {
-#         datastore_id = local.initialization.datastore_id
-#         user_data_file_id = local.initialization.user_data_file_id
-#         ip_config {
-#             ipv4 {
-#                 address = (local.initialization.ip_config.ipv4.address != "dhcp"
-#                     ? "${local.initialization.ip_config.ipv4.address}/${local.initialization.ip_config.ipv4.cidr}" 
-#                     : local.initialization.ip_config.ipv4.address
-#                 )
-#                 gateway = local.initialization.ip_config.ipv4.gateway
-#             }
-#             ipv6 {
-#                 address = local.initialization.ip_config.ipv6.address
-#                 gateway = local.initialization.ip_config.ipv6.gateway
-#             }
-#         }
-#     }
+    initialization {
+        user_data_file_id = module.cloud_config.cloud_id
+        network_data_file_id = module.cloud_config.network_id
+    }
                     
     machine = local.virtual_machine.machine_computed
 
-#     memory {
-#         dedicated = local.memory.dedicated
-#         floating = local.memory.floating
-#         shared = local.memory.shared
-#     }
+    memory {
+        dedicated = local.virtual_machine.memory_computed.dedicated
+        floating = local.virtual_machine.memory_computed.floating
+        shared = local.virtual_machine.memory_computed.shared
+    }
 
 #     network_device {
 #         bridge = local.network_device.bridge
@@ -161,10 +140,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 #     }
 
 #     vm_id = local.vm_id
-
-    memory {
-        dedicated = 8192
-    }
 
     network_device {
         bridge = "vmbr0"

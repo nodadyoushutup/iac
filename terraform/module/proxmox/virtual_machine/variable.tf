@@ -78,3 +78,13 @@ variable "machine" {
   type = string
   default = "q35"
 }
+
+variable "memory" {
+    description = "memory"
+    type = object({
+        dedicated = optional(number, 4096)
+        floating = optional(number, 0)
+        shared = optional(number, 0)
+    })
+    default = {}
+}

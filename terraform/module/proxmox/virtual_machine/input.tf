@@ -47,4 +47,10 @@ locals {
     }
 
     machine_input = try(var.machine, null)
+
+    memory_input = {
+        dedicated = try(var.memory.dedicated, null)
+        floating = try(var.memory.floating, null)
+        shared = try(var.memory.shared, null)
+    }
 }
