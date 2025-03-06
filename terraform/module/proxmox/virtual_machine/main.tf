@@ -131,7 +131,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     tags = local.virtual_machine.tags_computed
 
-    stop_on_destroy = local.virtual_machine.stop_on_destroy
+    stop_on_destroy = local.virtual_machine.stop_on_destroy_computed
 
 #     vga {
 #         memory = local.vga.memory
