@@ -134,3 +134,13 @@ variable "startup" {
   })
   default = {}
 }
+
+variable "tags" {
+  type = list(string)
+  default = ["terraform"]
+}
+
+variable "stop_on_destroy" {
+  type = bool
+  default = true
+}

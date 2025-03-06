@@ -78,4 +78,8 @@ locals {
         up_delay = try(var.startup.up_delay, null)
         down_delay = try(var.startup.down_delay, null)
     }
+
+    tags_input = try(var.tags, null)
+
+    stop_on_destroy_input = try(var.stop_on_destroy, null)
 }

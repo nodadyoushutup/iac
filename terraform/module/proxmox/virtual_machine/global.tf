@@ -78,4 +78,8 @@ locals {
         up_delay = try(var.config.proxmox.global.virtual_machine.startup.up_delay, null)
         down_delay = try(var.config.proxmox.global.virtual_machine.startup.down_delay, null)
     }
+
+    tags_global = try(var.config.proxmox.global.virtual_machine.tags, null)
+
+    stop_on_destroy_global = try(var.config.proxmox.global.virtual_machine.stop_on_destroy, null)
 }

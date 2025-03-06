@@ -129,9 +129,9 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         down_delay = local.virtual_machine.startup_computed.down_delay
     }
 
-#     tags = local.tag
+    tags = local.virtual_machine.tags_computed
 
-#     stop_on_destroy = local.stop_on_destroy
+    stop_on_destroy = local.stop_on_destroy
 
 #     vga {
 #         memory = local.vga.memory

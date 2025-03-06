@@ -79,5 +79,9 @@ locals {
             up_delay = local.startup_input.up_delay != null ? local.startup_input.up_delay : local.startup_global.up_delay != null ? local.startup_global.up_delay : null
             down_delay = local.startup_input.down_delay != null ? local.startup_input.down_delay : local.startup_global.down_delay != null ? local.startup_global.down_delay : null
         }
+
+        tags_computed = local.tags_input != null ? local.tags_input : local.tags_global != null ? local.tags_global : null
+
+        stop_on_destroy_computed = local.stop_on_destroy_input != null ? local.stop_on_destroy_input : local.stop_on_destroy_global != null ? local.stop_on_destroy_global : null
     }
 }
