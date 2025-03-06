@@ -16,7 +16,7 @@ locals {
 
     boot_order_global = try(var.config.proxmox.global.virtual_machine.boot_order, null)
 
-    cpu = {
+    cpu_global = {
         affinity = try(var.config.proxmox.global.virtual_machine.cpu.affinity, null)
         cores = try(var.config.proxmox.global.virtual_machine.cpu.cores, null)
         flags = try(var.config.proxmox.global.virtual_machine.cpu.flags, null)

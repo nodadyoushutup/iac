@@ -53,15 +53,15 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     boot_order = local.virtual_machine.boot_order_computed
 
     cpu {
-        affinity = local.virtual_machine.cpu.affinity_computed
-        cores = local.virtual_machine.cpu.cores_computed
-        flags = local.virtual_machine.cpu.flags_computed
-        hotplugged = local.virtual_machine.cpu.hotplugged_computed
-        limit = local.virtual_machine.cpu.limit_computed
-        numa = local.virtual_machine.cpu.numa_computed
-        sockets = local.virtual_machine.cpu.sockets_computed
-        type = local.virtual_machine.cpu.type_computed
-        units = local.virtual_machine.cpu.units_computed
+        affinity = local.virtual_machine.cpu_computed.affinity_computed
+        cores = local.virtual_machine.cpu_computed.cores_computed
+        flags = local.virtual_machine.cpu_computed.flags_computed
+        hotplugged = local.virtual_machine.cpu_computed.hotplugged_computed
+        limit = local.virtual_machine.cpu_computed.limit_computed
+        numa = local.virtual_machine.cpu_computed.numa_computed
+        sockets = local.virtual_machine.cpu_computed.sockets_computed
+        type = local.virtual_machine.cpu_computed.type_computed
+        units = local.virtual_machine.cpu_computed.units_computed
     }
 
 

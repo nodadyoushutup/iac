@@ -17,7 +17,7 @@ locals {
 
         boot_order_computed = local.boot_order_input != null ? local.boot_order_input : local.boot_order_global != null ? local.boot_order_global : null
 
-        cpu = {
+        cpu_computed = {
             affinity = local.cpu_input.affinity != null ? local.cpu_input.affinity : local.cpu_global.affinity != null ? local.cpu_global.affinity : null
             cores = local.cpu_input.cores != null ? local.cpu_input.cores : local.cpu_global.cores != null ? local.cpu_global.cores : null
             flags = local.cpu_input.flags != null ? local.cpu_input.flags : local.cpu_global.flags != null ? local.cpu_global.flags : null

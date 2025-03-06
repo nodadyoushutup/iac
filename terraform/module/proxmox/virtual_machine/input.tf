@@ -16,7 +16,7 @@ locals {
 
     boot_order_input = try(var.boot_order, null)
 
-    cpu = {
+    cpu_input = {
         affinity = try(var.cpu.affinity, null)
         cores = try(var.cpu.cores, null)
         flags = try(var.cpu.flags, null)
