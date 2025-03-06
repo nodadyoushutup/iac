@@ -29,4 +29,20 @@ locals {
     }
 
     description_input = try(var.description, null)
+
+    disk_input = {
+        aio = try(var.disk.aio, null)
+        backup = try(var.disk.backup, null)
+        cache = try(var.disk.cache, null)
+        datastore_id = try(var.disk.datastore_id, null)
+        discard = try(var.disk.discard, null)
+        file_format = try(var.disk.file_format, null)
+        file_id = try(var.disk.file_id, null)
+        interface = try(var.disk.interface, null)
+        iothread = try(var.disk.iothread, null)
+        replicate = try(var.disk.replicate, null)
+        serial = try(var.disk.serial, null)
+        size = try(var.disk.size, null)
+        ssd = try(var.disk.ssd, null)
+    }
 }

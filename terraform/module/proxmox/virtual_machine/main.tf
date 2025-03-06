@@ -66,17 +66,28 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     description = local.virtual_machine.description_computed
 
+    disk {
+        aio = local.virtual_machine.disk_computed.aio
+        backup = local.virtual_machine.disk_computed.backup
+        cache = local.virtual_machine.disk_computed.cache
+        datastore_id = local.virtual_machine.disk_computed.datastore_id
+        discard = local.virtual_machine.disk_computed.discard
+        file_format = local.virtual_machine.disk_computed.file_format
+        file_id = local.virtual_machine.disk_computed.file_id
+        interface = local.virtual_machine.disk_computed.interface
+        iothread = local.virtual_machine.disk_computed.iothread
+        replicate = local.virtual_machine.disk_computed.replicate
+        serial = local.virtual_machine.disk_computed.serial
+        size = local.virtual_machine.disk_computed.size
+        ssd = local.virtual_machine.disk_computed.ssd
+    }
+
+
 
 
     initialization {
         user_data_file_id = module.cloud_config.cloud_id
         network_data_file_id = module.cloud_config.network_id
-    }
-
-    disk {
-        file_id = module.image.image_id
-        size = 30
-        interface = "scsi0"
     }
 
     # efi_disk {

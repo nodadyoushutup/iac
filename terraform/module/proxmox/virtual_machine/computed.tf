@@ -30,5 +30,21 @@ locals {
         }
 
         description_computed = local.description_input != null ? local.description_input : local.description_global != null ? local.description_global : null
+
+        disk_computed = {
+            aio = local.disk_input.aio != null ? local.disk_input.aio : local.disk_global.aio != null ? local.disk_global.aio : null
+            backup = local.disk_input.backup != null ? local.disk_input.backup : local.disk_global.backup != null ? local.disk_global.backup : null
+            cache = local.disk_input.cache != null ? local.disk_input.cache : local.disk_global.cache != null ? local.disk_global.cache : null
+            datastore_id = local.disk_input.datastore_id != null ? local.disk_input.datastore_id : local.disk_global.datastore_id != null ? local.disk_global.datastore_id : null
+            discard = local.disk_input.discard != null ? local.disk_input.discard : local.disk_global.discard != null ? local.disk_global.discard : null
+            file_format = local.disk_input.file_format != null ? local.disk_input.file_format : local.disk_global.file_format != null ? local.disk_global.file_format : null
+            file_id = local.disk_input.file_id != null ? local.disk_input.file_id : local.disk_global.file_id != null ? local.disk_global.file_id : module.image.image_id
+            interface = local.disk_input.interface != null ? local.disk_input.interface : local.disk_global.interface != null ? local.disk_global.interface : null
+            iothread = local.disk_input.iothread != null ? local.disk_input.iothread : local.disk_global.iothread != null ? local.disk_global.iothread : null
+            replicate = local.disk_input.replicate != null ? local.disk_input.replicate : local.disk_global.replicate != null ? local.disk_global.replicate : null
+            serial = local.disk_input.serial != null ? local.disk_input.serial : local.disk_global.serial != null ? local.disk_global.serial : null
+            size = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : null
+            ssd = local.disk_input.ssd != null ? local.disk_input.ssd : local.disk_global.ssd != null ? local.disk_global.ssd : null
+        }
     }
 }

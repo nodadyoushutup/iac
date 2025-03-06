@@ -29,4 +29,20 @@ locals {
     }
 
     description_global = try(var.config.proxmox.global.virtual_machine.description, null)
+
+    disk_global = {
+        aio = try(var.config.proxmox.global.virtual_machine.disk.aio, null)
+        backup = try(var.config.proxmox.global.virtual_machine.disk.backup, null)
+        cache = try(var.config.proxmox.global.virtual_machine.disk.cache, null)
+        datastore_id = try(var.config.proxmox.global.virtual_machine.disk.datastore_id, null)
+        discard = try(var.config.proxmox.global.virtual_machine.disk.discard, null)
+        file_format = try(var.config.proxmox.global.virtual_machine.disk.file_format, null)
+        file_id = try(var.config.proxmox.global.virtual_machine.disk.file_id, null)
+        interface = try(var.config.proxmox.global.virtual_machine.disk.interface, null)
+        iothread = try(var.config.proxmox.global.virtual_machine.disk.iothread, null)
+        replicate = try(var.config.proxmox.global.virtual_machine.disk.replicate, null)
+        serial = try(var.config.proxmox.global.virtual_machine.disk.serial, null)
+        size = try(var.config.proxmox.global.virtual_machine.disk.size, null)
+        ssd = try(var.config.proxmox.global.virtual_machine.disk.ssd, null)
+    }
 }
