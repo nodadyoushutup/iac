@@ -83,5 +83,13 @@ locals {
         tags_computed = local.tags_input != null ? local.tags_input : local.tags_global != null ? local.tags_global : null
 
         stop_on_destroy_computed = local.stop_on_destroy_input != null ? local.stop_on_destroy_input : local.stop_on_destroy_global != null ? local.stop_on_destroy_global : null
+    
+        vga_computed = {
+            memory = local.vga_input.memory != null ? local.vga_input.memory : local.vga_global.memory != null ? local.vga_global.memory : null
+            type = local.vga_input.type != null ? local.vga_input.type : local.vga_global.type != null ? local.vga_global.type : null
+            clipboard = local.vga_input.clipboard != null ? local.vga_input.clipboard : local.vga_global.clipboard != null ? local.vga_global.clipboard : null
+        }
+            
+        vm_id_computed = local.vm_id_input != null ? local.vm_id_input : null # No global available
     }
 }

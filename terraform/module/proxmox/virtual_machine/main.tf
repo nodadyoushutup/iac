@@ -133,19 +133,14 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     stop_on_destroy = local.virtual_machine.stop_on_destroy_computed
 
-#     vga {
-#         memory = local.vga.memory
-#         type = local.vga.type
-#         clipboard = local.vga.clipboard
-#     }
-
-#     vm_id = local.vm_id
     vga {
-        type = "qxl"
-        memory = 16
+        memory = local.virtual_machine.vga_computed.memory
+        type = local.virtual_machine.vga_computed.type
+        clipboard = local.virtual_machine.vga_computed.clipboard
     }
 
-    vm_id = 1102
+    vm_id = local.virtual_machine.vm_id_computed
+    
     name = "docker"
     
 }

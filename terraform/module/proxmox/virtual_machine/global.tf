@@ -82,4 +82,10 @@ locals {
     tags_global = try(var.config.proxmox.global.virtual_machine.tags, null)
 
     stop_on_destroy_global = try(var.config.proxmox.global.virtual_machine.stop_on_destroy, null)
+
+    vga_global = {
+        memory = try(var.config.proxmox.global.virtual_machine.vga.memory, null)
+        type = try(var.config.proxmox.global.virtual_machine.vga.type, null)
+        clipboard = try(var.config.proxmox.global.virtual_machine.vga.clipboard, null)
+    }
 }

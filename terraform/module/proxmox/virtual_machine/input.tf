@@ -82,4 +82,12 @@ locals {
     tags_input = try(var.tags, null)
 
     stop_on_destroy_input = try(var.stop_on_destroy, null)
+
+    vga_input = {
+        memory = try(var.vga.memory, null)
+        type = try(var.vga.type, null)
+        clipboard = try(var.vga.clipboard, null)
+    }
+
+    vm_id_input = try(var.vm_id, null)
 }

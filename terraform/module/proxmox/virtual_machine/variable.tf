@@ -144,3 +144,18 @@ variable "stop_on_destroy" {
   type = bool
   default = true
 }
+
+variable "vga" {
+  description = "vga"
+  type = object({
+    memory = optional(number, 16)
+    type = optional(string, "qxl")
+    clipboard = optional(string, "vnc")
+  })
+  default = {}
+}
+
+variable "vm_id" {
+  type = number
+  default = null
+}
