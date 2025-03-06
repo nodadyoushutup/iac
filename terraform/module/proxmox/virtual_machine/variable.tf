@@ -119,3 +119,8 @@ variable "operating_system" {
   })
   default = {}
 }
+
+variable "started" {
+  type = bool
+  default = true
+}

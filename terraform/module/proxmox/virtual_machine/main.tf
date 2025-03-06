@@ -121,7 +121,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         type = local.virtual_machine.operating_system_computed.type
     }
 
-#     started = local.started
+    started = local.virtual_machine.started_computed
 
 #     startup {
 #         order = local.startup.order

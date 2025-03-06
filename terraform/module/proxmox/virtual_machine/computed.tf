@@ -71,5 +71,7 @@ locals {
         operating_system_computed = {
             type = local.operating_system_input.type != null ? local.operating_system_input.type : local.operating_system_global.type != null ? local.operating_system_global.type : null
         }
+
+        started_computed = local.started_input != null ? local.started_input : local.started_global != null ? local.started_global : null
     }
 }

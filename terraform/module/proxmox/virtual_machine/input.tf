@@ -70,4 +70,6 @@ locals {
     operating_system_input = {
         type = try(var.operating_system.type, null)
     }
+
+    started_input = try(var.started, null)
 }

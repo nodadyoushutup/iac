@@ -70,4 +70,6 @@ locals {
     operating_system_global = {
         type = try(var.config.proxmox.global.virtual_machine.operating_system.type, null)
     }
+
+    started_global = try(var.config.proxmox.global.virtual_machine.started, null)
 }
