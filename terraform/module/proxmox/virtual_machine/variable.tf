@@ -111,3 +111,11 @@ variable "on_boot" {
   type = bool
   default = true
 }
+
+variable "operating_system" {
+  description = "operating_system"
+  type = object({
+    type = optional(string, "l26")
+  })
+  default = {}
+}

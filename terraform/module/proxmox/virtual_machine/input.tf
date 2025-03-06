@@ -66,4 +66,8 @@ locals {
     node_name_input = try(var.node_name, null)
 
     on_boot_input = try(var.on_boot, null)
+
+    operating_system_input = {
+        type = try(var.operating_system.type, null)
+    }
 }

@@ -66,4 +66,8 @@ locals {
     node_name_global = try(var.config.proxmox.global.virtual_machine.node_name, null)
 
     on_boot_global = try(var.config.proxmox.global.virtual_machine.on_boot, null)
+
+    operating_system_global = {
+        type = try(var.config.proxmox.global.virtual_machine.operating_system.type, null)
+    }
 }

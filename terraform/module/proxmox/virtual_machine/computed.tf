@@ -67,5 +67,9 @@ locals {
         node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.node_name_global : null
 
         on_boot_computed = local.on_boot_input != null ? local.on_boot_input : local.on_boot_global != null ? local.on_boot_global : null
+
+        operating_system_computed = {
+            type = local.operating_system_input.type != null ? local.operating_system_input.type : local.operating_system_global.type != null ? local.operating_system_global.type : null
+        }
     }
 }
