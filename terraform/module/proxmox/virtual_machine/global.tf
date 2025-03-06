@@ -45,4 +45,6 @@ locals {
         size = try(var.config.proxmox.global.virtual_machine.disk.size, null)
         ssd = try(var.config.proxmox.global.virtual_machine.disk.ssd, null)
     }
+
+    machine_global = try(var.config.proxmox.global.virtual_machine.machine, null)
 }

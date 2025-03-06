@@ -46,5 +46,7 @@ locals {
             size = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : null
             ssd = local.disk_input.ssd != null ? local.disk_input.ssd : local.disk_global.ssd != null ? local.disk_global.ssd : null
         }
+
+        machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
     }
 }

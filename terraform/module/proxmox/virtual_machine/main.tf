@@ -90,11 +90,77 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         network_data_file_id = module.cloud_config.network_id
     }
 
-    # efi_disk {
-    #     datastore_id = "virtualization"
-    #     file_format = "raw"
-    #     pre_enrolled_keys = false
-    # }
+#     efi_disk {
+#         datastore_id = local.efi_disk.datastore_id
+#         file_format = local.efi_disk.file_format
+#         type = local.efi_disk.type
+#         pre_enrolled_keys = local.efi_disk.pre_enrolled_keys
+#     }
+
+#     initialization {
+#         datastore_id = local.initialization.datastore_id
+#         user_data_file_id = local.initialization.user_data_file_id
+#         ip_config {
+#             ipv4 {
+#                 address = (local.initialization.ip_config.ipv4.address != "dhcp"
+#                     ? "${local.initialization.ip_config.ipv4.address}/${local.initialization.ip_config.ipv4.cidr}" 
+#                     : local.initialization.ip_config.ipv4.address
+#                 )
+#                 gateway = local.initialization.ip_config.ipv4.gateway
+#             }
+#             ipv6 {
+#                 address = local.initialization.ip_config.ipv6.address
+#                 gateway = local.initialization.ip_config.ipv6.gateway
+#             }
+#         }
+#     }
+                    
+    machine = local.virtual_machine.machine_computed
+
+#     memory {
+#         dedicated = local.memory.dedicated
+#         floating = local.memory.floating
+#         shared = local.memory.shared
+#     }
+
+#     network_device {
+#         bridge = local.network_device.bridge
+#         disconnected = local.network_device.disconnected
+#         enabled = local.network_device.enabled
+#         firewall = local.network_device.firewall
+#         mac_address = local.network_device.mac_address
+#         model = local.network_device.model
+#     }
+
+#     name = local.name
+
+#     node_name = local.node_name
+
+#     on_boot = local.on_boot
+
+#     operating_system {
+#         type = local.operating_system.type
+#     }
+
+#     started = local.started
+
+#     startup {
+#         order = local.startup.order
+#         up_delay = local.startup.up_delay
+#         down_delay = local.startup.down_delay
+#     }
+
+#     tags = local.tag
+
+#     stop_on_destroy = local.stop_on_destroy
+
+#     vga {
+#         memory = local.vga.memory
+#         type = local.vga.type
+#         clipboard = local.vga.clipboard
+#     }
+
+#     vm_id = local.vm_id
 
     memory {
         dedicated = 8192

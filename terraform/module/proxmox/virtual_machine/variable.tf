@@ -73,3 +73,8 @@ variable "disk" {
   })
   default = {}
 }
+
+variable "machine" {
+  type = string
+  default = "q35"
+}

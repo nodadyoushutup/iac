@@ -45,4 +45,6 @@ locals {
         size = try(var.disk.size, null)
         ssd = try(var.disk.ssd, null)
     }
+
+    machine_input = try(var.machine, null)
 }
