@@ -63,5 +63,7 @@ locals {
             mac_address = local.network_device_input.mac_address != null ? local.network_device_input.mac_address : local.network_device_global.mac_address != null ? local.network_device_global.mac_address : null
             model = local.network_device_input.model != null ? local.network_device_input.model : local.network_device_global.model != null ? local.network_device_global.model : null
         }
+
+        node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.machine_global : null
     }
 }

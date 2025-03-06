@@ -62,4 +62,6 @@ locals {
         mac_address = try(var.config.proxmox.global.virtual_machine.network_device.mac_address, null)
         model = try(var.config.proxmox.global.virtual_machine.network_device.model, null)
     }
+
+    node_name_global = try(var.config.proxmox.global.virtual_machine.node_name, null)
 }

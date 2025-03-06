@@ -102,3 +102,7 @@ variable "network_device" {
   default = {}
 }
 
+variable "node_name" {
+  type = string
+  default = "pve"
+}

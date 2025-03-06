@@ -113,7 +113,7 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
 #     name = local.name
 
-#     node_name = local.node_name
+    node_name = local.node_name
 
 #     on_boot = local.on_boot
 

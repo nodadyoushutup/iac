@@ -62,4 +62,6 @@ locals {
         mac_address = try(var.network_device.mac_address, null)
         model = try(var.network_device.model, null)
     }
+
+    node_name_input = try(var.node_name, null)
 }
