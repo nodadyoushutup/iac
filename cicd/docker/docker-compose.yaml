@@ -1,6 +1,6 @@
 services:
   jenkins-controller:
-    image: ghcr.io/nodadyoushutup/jenkins-controller:2.497
+    image: ghcr.io/nodadyoushutup/jenkins-controller:2.500
     container_name: jenkins-controller
     environment:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
