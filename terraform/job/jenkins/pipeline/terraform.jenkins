@@ -38,7 +38,6 @@ pipeline {
                         string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'), 
                         string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'), 
                         string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'), 
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
                     ]) {
                         script { 
                             sh """
@@ -71,7 +70,6 @@ pipeline {
                         string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'), 
                         string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'), 
                         string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'), 
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
                     ]) {
                         script { 
                             echo "Downloading SSH key files..."
@@ -93,7 +91,6 @@ pipeline {
                         string(credentialsId: 'MINIO_ACCESS_KEY', variable: 'MINIO_ACCESS_KEY'), 
                         string(credentialsId: 'MINIO_SECRET_KEY', variable: 'MINIO_SECRET_KEY'), 
                         string(credentialsId: 'MINIO_CONFIG_BUCKET', variable: 'MINIO_CONFIG_BUCKET'), 
-                        string(credentialsId: 'MINIO_CONFIG_FILE', variable: 'MINIO_CONFIG_FILE')
                     ]) { 
                         script { 
                             echo "Merging config files..."
