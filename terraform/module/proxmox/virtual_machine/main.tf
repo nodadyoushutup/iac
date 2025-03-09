@@ -1,182 +1,146 @@
-resource "proxmox_virtual_environment_download_file" "image" {
-    content_type = "iso"
-    datastore_id = local.image.datastore_id
-    node_name = local.image.node_name
-    overwrite = local.image.overwrite
-    overwrite_unmanaged = local.image.overwrite_unmanaged
-    file_name = local.image.file_name
-    url = local.image.url
+module "cloud_config" {
+    source = "../cloud_config"
+
+    config = var.config
+    name = "docker"
+    datastore_id = "config"
+    node_name = "pve"
+    overwrite = true
+    auth = {
+        username = "nodadyoushutup"
+        github = "nodadyoushutup"
+    }
+    ipv4 = {
+        address = "192.168.1.102"
+    }
 }
 
-resource "proxmox_virtual_environment_file" "cloud_config" {
-    content_type = "snippets"
-    datastore_id = local.cloud_config.datastore_id
-    node_name = local.cloud_config.node_name
+module "image" {
+    source = "../image"
 
-    source_raw {
-        data = can(regex("talos", local.image.url)) ? local.template.talos : local.template.cloud
-        file_name = local.cloud_config.file_name
-    }
+    config = var.config
+    name = "docker"
+    datastore_id = "config"
+    # file_name = "xyz-image.img"
+    # node_name = "pve"
+    # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+    # overwrite = true
+    # overwrite_unmanaged = true
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [
-        proxmox_virtual_environment_download_file.image,
-        proxmox_virtual_environment_file.cloud_config
+    depends_on = [ 
+        module.cloud_config,
+        module.image
     ]
 
     agent {
-        enabled = local.agent.enabled
-        timeout = local.agent.timeout
-        trim = local.agent.trim
-        type = local.agent.type
+        enabled = local.agent_computed.enabled
+        timeout = local.agent_computed.timeout
+        trim = local.agent_computed.trim
+        type = local.agent_computed.type
     }
 
     audio_device {
-        device = local.audio_device.device
-        driver = local.audio_device.driver
-        enabled = local.audio_device.enabled
+        device = local.audio_device_computed.device
+        driver = local.audio_device_computed.driver
+        enabled = local.audio_device_computed.enabled
     }
 
-    bios = local.bios
+    # bios = local.bios_computed
+    bios = "seabios"
 
-    boot_order = local.boot_order
+    boot_order = local.boot_order_computed
 
     cpu {
-        affinity = local.cpu.affinity
-        cores = local.cpu.cores
-        flags = local.cpu.flags
-        hotplugged = local.cpu.hotplugged
-        limit = local.cpu.limit
-        numa = local.cpu.numa
-        sockets = local.cpu.sockets
-        type = local.cpu.type
-        units = local.cpu.units
+        affinity = local.cpu_computed.affinity
+        cores = local.cpu_computed.cores
+        flags = local.cpu_computed.flags
+        hotplugged = local.cpu_computed.hotplugged
+        limit = local.cpu_computed.limit
+        numa = local.cpu_computed.numa
+        sockets = local.cpu_computed.sockets
+        type = local.cpu_computed.type
+        units = local.cpu_computed.units
     }
 
-    description = local.description
+    description = local.description_computed
 
     disk {
-        aio = local.disk.aio
-        backup = local.disk.backup
-        cache = local.disk.cache
-        datastore_id = local.disk.datastore_id
-        discard = local.disk.discard
-        file_format = local.disk.file_format
-        file_id = local.disk.file_id
-        interface = local.disk.interface
-        iothread = local.disk.iothread
-        replicate = local.disk.replicate
-        serial = local.disk.serial
-        size = local.disk.size
-        ssd = local.disk.ssd
+        aio = local.disk_computed.aio
+        backup = local.disk_computed.backup
+        cache = local.disk_computed.cache
+        datastore_id = local.disk_computed.datastore_id
+        discard = local.disk_computed.discard
+        file_format = local.disk_computed.file_format
+        file_id = local.disk_computed.file_id
+        interface = local.disk_computed.interface
+        iothread = local.disk_computed.iothread
+        replicate = local.disk_computed.replicate
+        serial = local.disk_computed.serial
+        size = local.disk_computed.size
+        ssd = local.disk_computed.ssd
     }
 
-    efi_disk {
-        datastore_id = local.efi_disk.datastore_id
-        file_format = local.efi_disk.file_format
-        type = local.efi_disk.type
-        pre_enrolled_keys = local.efi_disk.pre_enrolled_keys
-    }
+#     efi_disk { #TODO
+#         datastore_id = local.efi_disk.datastore_id
+#         file_format = local.efi_disk.file_format
+#         type = local.efi_disk.type
+#         pre_enrolled_keys = local.efi_disk.pre_enrolled_keys
+#     }
 
     initialization {
-        datastore_id = local.initialization.datastore_id
-        user_data_file_id = local.initialization.user_data_file_id
-        ip_config {
-            ipv4 {
-                address = (local.initialization.ip_config.ipv4.address != "dhcp"
-                    ? "${local.initialization.ip_config.ipv4.address}/${local.initialization.ip_config.ipv4.cidr}" 
-                    : local.initialization.ip_config.ipv4.address
-                )
-                gateway = local.initialization.ip_config.ipv4.gateway
-            }
-            ipv6 {
-                address = local.initialization.ip_config.ipv6.address
-                gateway = local.initialization.ip_config.ipv6.gateway
-            }
-        }
+        user_data_file_id = module.cloud_config.cloud_id
+        network_data_file_id = module.cloud_config.network_id
     }
                     
-    machine = local.machine
+    machine = local.machine_computed
 
     memory {
-        dedicated = local.memory.dedicated
-        floating = local.memory.floating
-        shared = local.memory.shared
+        dedicated = local.memory_computed.dedicated
+        floating = local.memory_computed.floating
+        shared = local.memory_computed.shared
     }
 
     network_device {
-        bridge = local.network_device.bridge
-        disconnected = local.network_device.disconnected
-        enabled = local.network_device.enabled
-        firewall = local.network_device.firewall
-        mac_address = local.network_device.mac_address
-        model = local.network_device.model
+        bridge = local.network_device_computed.bridge
+        disconnected = local.network_device_computed.disconnected
+        enabled = local.network_device_computed.enabled
+        firewall = local.network_device_computed.firewall
+        mac_address = local.network_device_computed.mac_address
+        model = local.network_device_computed.model
     }
 
-    name = local.name
+#     name = local.name
 
-    node_name = local.node_name
+    node_name = local.node_name_computed
 
-    on_boot = local.on_boot
+    on_boot = local.on_boot_computed
 
-    operating_system {
-        type = local.operating_system.type
+    operating_system { #TODO
+        type = local.operating_system_computed.type
     }
 
-    started = local.started
+    started = local.started_computed
 
     startup {
-        order = local.startup.order
-        up_delay = local.startup.up_delay
-        down_delay = local.startup.down_delay
+        order = local.startup_computed.order
+        up_delay = local.startup_computed.up_delay
+        down_delay = local.startup_computed.down_delay
     }
 
-    tags = local.tag
+    tags = local.tags_computed
 
-    stop_on_destroy = local.stop_on_destroy
+    stop_on_destroy = local.stop_on_destroy_computed
 
     vga {
-        memory = local.vga.memory
-        type = local.vga.type
-        clipboard = local.vga.clipboard
+        memory = local.vga_computed.memory
+        type = local.vga_computed.type
+        clipboard = local.vga_computed.clipboard
     }
 
-    vm_id = local.vm_id
+    vm_id = local.vm_id_computed
+
+    name = "docker"
+    
 }
-
-locals {
-  ipv4_addresses = flatten(proxmox_virtual_environment_vm.virtual_machine.ipv4_addresses)
-}
-
-output "debug" {
-  value = local.ipv4_addresses
-}
-
-# resource "null_resource" "deploy_template" {
-#     depends_on = [proxmox_virtual_environment_vm.virtual_machine]
-#     provisioner "file" {
-#         content = local.template.test
-#         destination = "/tmp/test.txt"
-
-#         connection {
-#             type = "ssh"
-#             host = proxmox_virtual_environment_vm.virtual_machine.ipv4_addresses[0]
-#             user = local.cloud_config.auth.username
-#             private_key = file("~/.ssh/id_rsa")
-#         }
-#     }
-
-#     provisioner "remote-exec" {
-#         inline = [
-#             "mv /tmp/template.txt /remote/path/template.txt"
-#         ]
-
-#         connection {
-#             type = "ssh"
-#             host = proxmox_virtual_environment_vm.virtual_machine.ipv4_addresses[0]
-#             user = local.cloud_config.auth.username
-#             private_key = file("~/.ssh/id_rsa")
-#         }
-#     }
-# }

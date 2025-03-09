@@ -15,4 +15,6 @@ terraform {
 
 provider "jenkins" {
     server_url = local.config.terraform.jenkins.server_url
+    username = local.config.terraform.jenkins.username
+    password = local.config.terraform.jenkins.password
 }

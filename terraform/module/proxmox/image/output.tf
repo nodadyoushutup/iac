@@ -25,3 +25,7 @@ output "overwrite" {
 output "overwrite_unmanaged" {
     value = local.overwrite_unmanaged_computed
 }
+
+output "image_id" {
+    value = proxmox_virtual_environment_download_file.image.id
+}

@@ -9,6 +9,11 @@ resource "jenkins_folder" "custom" {
 }
 
 module "job" {
+  depends_on = [
+    jenkins_folder.framework, 
+    jenkins_folder.custom
+  ]
+  
   for_each = try(local.config.jenkins.job, null) != null ? local.config.jenkins.job : {}
   source = "../../module/jenkins/job"
 
