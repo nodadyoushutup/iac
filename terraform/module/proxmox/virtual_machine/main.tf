@@ -35,51 +35,51 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     ]
 
     agent {
-        enabled = local.virtual_machine.agent_computed.enabled
-        timeout = local.virtual_machine.agent_computed.timeout
-        trim = local.virtual_machine.agent_computed.trim
-        type = local.virtual_machine.agent_computed.type
+        enabled = local.agent_computed.enabled
+        timeout = local.agent_computed.timeout
+        trim = local.agent_computed.trim
+        type = local.agent_computed.type
     }
 
     audio_device {
-        device = local.virtual_machine.audio_device_computed.device
-        driver = local.virtual_machine.audio_device_computed.driver
-        enabled = local.virtual_machine.audio_device_computed.enabled
+        device = local.audio_device_computed.device
+        driver = local.audio_device_computed.driver
+        enabled = local.audio_device_computed.enabled
     }
 
-    # bios = local.virtual_machine.bios_computed
+    # bios = local.bios_computed
     bios = "seabios"
 
-    boot_order = local.virtual_machine.boot_order_computed
+    boot_order = local.boot_order_computed
 
     cpu {
-        affinity = local.virtual_machine.cpu_computed.affinity
-        cores = local.virtual_machine.cpu_computed.cores
-        flags = local.virtual_machine.cpu_computed.flags
-        hotplugged = local.virtual_machine.cpu_computed.hotplugged
-        limit = local.virtual_machine.cpu_computed.limit
-        numa = local.virtual_machine.cpu_computed.numa
-        sockets = local.virtual_machine.cpu_computed.sockets
-        type = local.virtual_machine.cpu_computed.type
-        units = local.virtual_machine.cpu_computed.units
+        affinity = local.cpu_computed.affinity
+        cores = local.cpu_computed.cores
+        flags = local.cpu_computed.flags
+        hotplugged = local.cpu_computed.hotplugged
+        limit = local.cpu_computed.limit
+        numa = local.cpu_computed.numa
+        sockets = local.cpu_computed.sockets
+        type = local.cpu_computed.type
+        units = local.cpu_computed.units
     }
 
-    description = local.virtual_machine.description_computed
+    description = local.description_computed
 
     disk {
-        aio = local.virtual_machine.disk_computed.aio
-        backup = local.virtual_machine.disk_computed.backup
-        cache = local.virtual_machine.disk_computed.cache
-        datastore_id = local.virtual_machine.disk_computed.datastore_id
-        discard = local.virtual_machine.disk_computed.discard
-        file_format = local.virtual_machine.disk_computed.file_format
-        file_id = local.virtual_machine.disk_computed.file_id
-        interface = local.virtual_machine.disk_computed.interface
-        iothread = local.virtual_machine.disk_computed.iothread
-        replicate = local.virtual_machine.disk_computed.replicate
-        serial = local.virtual_machine.disk_computed.serial
-        size = local.virtual_machine.disk_computed.size
-        ssd = local.virtual_machine.disk_computed.ssd
+        aio = local.disk_computed.aio
+        backup = local.disk_computed.backup
+        cache = local.disk_computed.cache
+        datastore_id = local.disk_computed.datastore_id
+        discard = local.disk_computed.discard
+        file_format = local.disk_computed.file_format
+        file_id = local.disk_computed.file_id
+        interface = local.disk_computed.interface
+        iothread = local.disk_computed.iothread
+        replicate = local.disk_computed.replicate
+        serial = local.disk_computed.serial
+        size = local.disk_computed.size
+        ssd = local.disk_computed.ssd
     }
 
 #     efi_disk { #TODO
@@ -94,52 +94,52 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
         network_data_file_id = module.cloud_config.network_id
     }
                     
-    machine = local.virtual_machine.machine_computed
+    machine = local.machine_computed
 
     memory {
-        dedicated = local.virtual_machine.memory_computed.dedicated
-        floating = local.virtual_machine.memory_computed.floating
-        shared = local.virtual_machine.memory_computed.shared
+        dedicated = local.memory_computed.dedicated
+        floating = local.memory_computed.floating
+        shared = local.memory_computed.shared
     }
 
     network_device {
-        bridge = local.virtual_machine.network_device_computed.bridge
-        disconnected = local.virtual_machine.network_device_computed.disconnected
-        enabled = local.virtual_machine.network_device_computed.enabled
-        firewall = local.virtual_machine.network_device_computed.firewall
-        mac_address = local.virtual_machine.network_device_computed.mac_address
-        model = local.virtual_machine.network_device_computed.model
+        bridge = local.network_device_computed.bridge
+        disconnected = local.network_device_computed.disconnected
+        enabled = local.network_device_computed.enabled
+        firewall = local.network_device_computed.firewall
+        mac_address = local.network_device_computed.mac_address
+        model = local.network_device_computed.model
     }
 
 #     name = local.name
 
-    node_name = local.virtual_machine.node_name_computed
+    node_name = local.node_name_computed
 
-    on_boot = local.virtual_machine.on_boot_computed
+    on_boot = local.on_boot_computed
 
     operating_system { #TODO
-        type = local.virtual_machine.operating_system_computed.type
+        type = local.operating_system_computed.type
     }
 
-    started = local.virtual_machine.started_computed
+    started = local.started_computed
 
     startup {
-        order = local.virtual_machine.startup_computed.order
-        up_delay = local.virtual_machine.startup_computed.up_delay
-        down_delay = local.virtual_machine.startup_computed.down_delay
+        order = local.startup_computed.order
+        up_delay = local.startup_computed.up_delay
+        down_delay = local.startup_computed.down_delay
     }
 
-    tags = local.virtual_machine.tags_computed
+    tags = local.tags_computed
 
-    stop_on_destroy = local.virtual_machine.stop_on_destroy_computed
+    stop_on_destroy = local.stop_on_destroy_computed
 
     vga {
-        memory = local.virtual_machine.vga_computed.memory
-        type = local.virtual_machine.vga_computed.type
-        clipboard = local.virtual_machine.vga_computed.clipboard
+        memory = local.vga_computed.memory
+        type = local.vga_computed.type
+        clipboard = local.vga_computed.clipboard
     }
 
-    vm_id = local.virtual_machine.vm_id_computed
+    vm_id = local.vm_id_computed
 
     name = "docker"
     
