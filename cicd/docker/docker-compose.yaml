@@ -3,12 +3,22 @@ services:
     image: ghcr.io/nodadyoushutup/jenkins-controller:2.500
     container_name: jenkins-controller
     environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/jenkins/casc_configs"
+      JENKINS_SECURITY_ADMIN_USERNAME: ${JENKINS_SECURITY_ADMIN_USERNAME}
+      JENKINS_SECURITY_ADMIN_PASSWORD: ${JENKINS_SECURITY_ADMIN_PASSWORD}
+      JENKINS_LOCATION_URL: ${JENKINS_LOCATION_URL}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_CONFIG_BUCKET: ${MINIO_CONFIG_BUCKET}
+      MINIO_TERRAFORM_BUCKET: ${MINIO_TERRAFORM_BUCKET}
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins-controller:/var/jenkins_home
+      - ./init.groovy.d:/usr/share/jenkins/ref/init.groovy.d
+      - ./casc_configs:/jenkins/casc_configs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://192.168.1.101:8080/whoAmI/api/json?tree=authenticated"]
       interval: 5s
