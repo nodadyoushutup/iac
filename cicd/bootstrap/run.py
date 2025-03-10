@@ -5,19 +5,20 @@ from app.cloud_config import CloudConfig
 def ask_question():
     from app.question import collection
 
-def connect():
-    conn_info = {
-        "endpoint": Config.proxmox_endpoint,
-        "username": Config.proxmox_username,
-        "password": Config.proxmox_password,
-    }
+def connect(type):
+    if type == "proxmox":
+        conn_info = {
+            "endpoint": Config.proxmox_endpoint,
+            "username": Config.proxmox_username,
+            "password": Config.proxmox_password,
+        }
     return Connection(**conn_info)
 
-print("\nWelcome to the NoDadYouShutUp CICD Bootstrapper. Please enter configuration values...\n")
+print("\n\nWelcome to the NoDadYouShutUp CICD Bootstrapper. Please enter configuration values...\n")
 
 ask_question()
 
-conn = connect()
+conn = connect("proxmox")
 cloud_user_cfg = CloudConfig(
     conn,
     hostname=Config.cloud_config_hostname,

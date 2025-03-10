@@ -39,6 +39,8 @@ class Connection:
         :param cmd: The command to be executed.
         :return: A tuple of (stdout, stderr) from the command.
         """
+        if not self.username == "root":
+            cmd = f"sudo {cmd}"
         stdin, stdout, stderr = self.client.exec_command(cmd)
         out = stdout.read().decode('utf-8').strip()
         err = stderr.read().decode('utf-8').strip()

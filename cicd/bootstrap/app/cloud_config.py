@@ -50,5 +50,4 @@ class CloudConfig:
         {self.runcmd}
         EOF
         """)
-        print(snippet)
         self.connection.command(snippet)
