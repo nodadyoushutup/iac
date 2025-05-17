@@ -20,7 +20,7 @@ resource "null_resource" "exec_prometheus" {
 
 resource "docker_image" "prometheus" {
   depends_on = [null_resource.exec_prometheus]
-  name = "prom/prometheus:v3.2.1"
+  name = "prom/prometheus:v3.4.0"
 }
 
 resource "docker_container" "prometheus" {
