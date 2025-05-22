@@ -24,6 +24,9 @@ services:
       interval: 5s
       retries: 12
     restart: unless-stopped
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
 
   jenkins-agent:
     image: ghcr.io/nodadyoushutup/jenkins-agent:3283.v92c105e0f819-7
@@ -38,6 +41,9 @@ services:
       JENKINS_AGENT_NAME: "simple-agent"
     restart: unless-stopped
     init: true
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
 
   dozzle:
     image: amir20/dozzle:latest
@@ -50,6 +56,9 @@ services:
       test: ["CMD", "/dozzle", "healthcheck"]
       interval: 5s
       retries: 12
+    dns:
+    - 1.1.1.1
+    - 8.8.8.8
 
 volumes:
   jenkins-controller:
