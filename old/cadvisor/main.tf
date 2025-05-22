@@ -1,5 +1,5 @@
 resource "docker_image" "cadvisor" {
-    name = "gcr.io/cadvisor/cadvisor:v0.51.0"
+    name = "gcr.io/cadvisor/cadvisor:v0.52.1"
 }
 
 resource "docker_container" "cadvisor" {
