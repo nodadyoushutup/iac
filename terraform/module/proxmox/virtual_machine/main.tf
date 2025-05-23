@@ -2,7 +2,7 @@ module "cloud_config" {
     source = "../cloud_config"
 
     config = var.config
-    name = "docker"
+    name = "talos-cp-1"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
