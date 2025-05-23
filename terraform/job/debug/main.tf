@@ -1,8 +1,12 @@
+variable "config" {
+  type = any
+}
+
 module "cloud_config" {
-    source = "../../module/cloud_config"
+    source = "../../module/proxmox/cloud_config"
 
     config = var.config
-    name = "docker"
+    name = "test"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
