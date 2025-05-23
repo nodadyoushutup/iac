@@ -14,3 +14,7 @@ module "cloud_config" {
         address = "192.168.1.102"
     }
 }
+
+output "cloud_config" {
+  value = module.cloud_config
+}
