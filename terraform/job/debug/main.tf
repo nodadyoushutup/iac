@@ -2,7 +2,7 @@ module "cloud_config" {
     source = "../../module/proxmox/cloud_config"
 
     config = local.config
-    name = "talos"
+    name = "talos-cp-2"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
