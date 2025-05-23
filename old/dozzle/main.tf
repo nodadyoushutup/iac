@@ -1,5 +1,5 @@
 resource "docker_image" "dozzle" {
-  name = "amir20/dozzle:v8.12.16"
+  name = "amir20/dozzle:v8.12.17"
 }
 
 resource "docker_container" "dozzle" {
