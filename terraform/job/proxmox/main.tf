@@ -13,5 +13,5 @@ module "virtual_machine" {
 # }
 
 output "virtual_machine" {
-    value = module.virtual_machine
+    value = module
 }
