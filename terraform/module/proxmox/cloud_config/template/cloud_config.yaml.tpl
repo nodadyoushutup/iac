@@ -29,7 +29,7 @@ write_files:
     path: /tmp/docker.sh
     permissions: '0777'
 runcmd:
-  - /tmp/netplan.sh
+  - netplan apply
   - /tmp/apt.sh
   - /tmp/docker.sh ${username}
   %{ if github != null }
