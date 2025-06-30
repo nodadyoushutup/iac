@@ -4,7 +4,7 @@ network:
   ethernets:
     eth0:
       match:
-        name: e*
+        name: ^e.*$
       set-name: eth0
       %{ if ipv4.address != "dhcp"}
       dhcp4: no
