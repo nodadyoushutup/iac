@@ -17,4 +17,6 @@ network:
       dhcp4: true
       %{ endif }
       nameservers:
-      addresses: [8.8.8.8, 8.8.4.4]
+        addresses: 
+          - 8.8.8.8
+          - 8.8.4.4
