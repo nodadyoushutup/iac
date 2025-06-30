@@ -3,8 +3,8 @@ version: 2
 ethernets:
   primary:
     match:
-      name: en*                # selects the first interface whose name begins with “en”
-    set-name: primary          # optional: give it a consistent name
+      name: e*
+    set-name: primary
     %{ if ipv4.address != "dhcp"}
     dhcp4: no
     addresses: [${ipv4.address}/24]
