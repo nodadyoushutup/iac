@@ -12,7 +12,7 @@ module "cloud_config" {
         password = "password"
     }
     ipv4 = {
-        address = "192.168.1.102"
+        address = "192.168.1.185"
     }
 }
 
