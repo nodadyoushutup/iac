@@ -9,6 +9,7 @@ module "cloud_config" {
     auth = {
         username = "nodadyoushutup"
         github = "nodadyoushutup"
+        password = "password"
     }
     ipv4 = {
         address = "192.168.1.185"
