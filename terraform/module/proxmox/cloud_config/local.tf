@@ -65,6 +65,8 @@ locals { # Logic
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
                 ssh_import = base64encode(file("${path.module}/script/ssh_import.sh"))
+                apt = base64encode(file("${path.module}/script/apt.sh"))
+                docker = base64encode(file("${path.module}/script/docker.sh"))
             }
         }) 
         talos = templatefile(local.source.talos, { 

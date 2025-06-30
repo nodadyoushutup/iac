@@ -18,10 +18,20 @@ write_files:
     owner: root:root
     path: /tmp/ssh_import.sh
     permissions: '0777'
+  - encoding: b64
+    content: ${base64.apt}
+    owner: root:root
+    path: /tmp/apt.sh
+    permissions: '0777'
+  - encoding: b64
+    content: ${base64.docker}
+    owner: root:root
+    path: /tmp/docker.sh
+    permissions: '0777'
 runcmd:
-  - netplan apply
+  - /tmp/netplan.sh
   %{ if github != null }
-  - su - ${username} -c 'ssh-import-id gh:${github}'
+  - /tmp/ssh_import.sh ${username} {github}'
   %{ else }
   - echo 'No SSH import'
   %{ endif }
