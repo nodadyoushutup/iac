@@ -17,5 +17,5 @@ module "cloud_config" {
 }
 
 output "cloud_config" {
-  value = module.network_config
+  value = module.cloud_config
 }
