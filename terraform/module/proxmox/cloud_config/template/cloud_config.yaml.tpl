@@ -30,8 +30,11 @@ write_files:
     permissions: '0777'
 runcmd:
   - /tmp/netplan.sh
+  - /tmp/apt.sh
+  - /tmp/docker.sh ${username}
   %{ if github != null }
   - /tmp/ssh_import.sh ${username} {github}'
   %{ else }
   - echo 'No SSH import'
   %{ endif }
+  
