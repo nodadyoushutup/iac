@@ -2,10 +2,10 @@
 network:
   version: 2
   ethernets:
-    primary:
+    eth0:
       match:
         name: e*
-      set-name: primary
+      set-name: eth0
       %{ if ipv4.address != "dhcp"}
       dhcp4: no
       addresses: 
