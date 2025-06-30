@@ -9,7 +9,7 @@ network:
       %{ if ipv4.address != "dhcp"}
       dhcp4: no
       addresses: 
-        - ${ipv4.address}/24
+      - ${ipv4.address}/24
       %{ if ipv4.gateway != null}
       gateway4: ${ipv4.gateway}
       %{ endif }
@@ -18,5 +18,5 @@ network:
       %{ endif }
       nameservers:
         addresses: 
-          - 8.8.8.8
-          - 8.8.4.4
+        - 8.8.8.8
+        - 8.8.4.4
