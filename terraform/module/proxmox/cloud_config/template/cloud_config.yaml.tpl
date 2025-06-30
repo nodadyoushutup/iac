@@ -19,6 +19,7 @@ write_files:
     path: /tmp/ssh_import.sh
     permissions: '0777'
 runcmd:
+  - netplan apply
   %{ if github != null }
   - su - ${username} -c 'ssh-import-id gh:${github}'
   %{ else }
