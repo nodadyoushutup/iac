@@ -1,7 +1,7 @@
 locals {
     name = try(var.name, null) != null ? var.name : data.external.random_string.result.value
 
-    folder = try(var.folder, null) != null ? var.folder : try(var.config.global.jenkins.job.folder, null) != null ? var.config.global.jenkins.job.folder : "framework"
+    folder = try(var.folder, null) != null ? var.folder : try(var.config.global.jenkins.job.folder, null) != null ? var.config.global.jenkins.job.folder : null
 
     discard_build = { 
         day = try(var.discard_build.day, null) != null ? var.discard_build.day : try(var.config.global.jenkins.job.discard_build.day, null) != null ? var.config.global.jenkins.job.discard_build.day : -1
