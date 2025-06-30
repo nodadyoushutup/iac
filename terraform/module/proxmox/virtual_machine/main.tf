@@ -2,7 +2,7 @@ module "cloud_config" {
     source = "../cloud_config"
 
     config = var.config
-    name = "talos-cp-1"
+    name = "test"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
@@ -11,7 +11,7 @@ module "cloud_config" {
         github = "nodadyoushutup"
     }
     ipv4 = {
-        address = "192.168.1.102"
+        address = "192.168.1.185"
     }
 }
 
@@ -19,7 +19,7 @@ module "image" {
     source = "../image"
 
     config = var.config
-    name = "docker"
+    name = "test"
     datastore_id = "config"
     # file_name = "xyz-image.img"
     # node_name = "pve"
