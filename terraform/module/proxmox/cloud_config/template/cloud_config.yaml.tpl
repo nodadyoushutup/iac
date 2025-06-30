@@ -16,7 +16,7 @@ write_files:
   - encoding: b64
     content: ${base64.ssh_import}
     owner: root:root
-    path: /tmp
+    path: /tmp/ssh_import.sh
     permissions: '0777'
 runcmd:
   %{ if github != null }
