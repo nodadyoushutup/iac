@@ -63,6 +63,9 @@ locals { # Logic
             username = local.auth_computed.username
             github = local.auth_computed.github
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
+            base64 = {
+                ssh_import = base64encode(file("${path.module}/script/ssh_import.sh"))
+            }
         }) 
         talos = templatefile(local.source.talos, { 
             hostname = local.name

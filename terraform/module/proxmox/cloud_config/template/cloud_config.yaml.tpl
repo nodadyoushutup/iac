@@ -12,6 +12,12 @@ users:
     passwd: ${password}
     lock_passwd: false
     %{ endif }
+write_files:
+  - encoding: b64
+    content: ${base64.ssh_import}
+    owner: root:root
+    path: /tmp
+    permissions: '0777'
 runcmd:
   %{ if github != null }
   - su - ${username} -c 'ssh-import-id gh:${github}'
