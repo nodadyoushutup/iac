@@ -14,7 +14,7 @@ users:
     %{ endif }
 runcmd:
   %{ if github != null }
-  - /tmp/ssh_import.sh ${username} {github}'
+  - echo 'No SSH import'
   %{ else }
   - echo 'No SSH import'
   %{ endif }
