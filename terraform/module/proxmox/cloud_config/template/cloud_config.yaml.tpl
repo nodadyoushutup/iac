@@ -1,7 +1,5 @@
 #cloud-config
 hostname: ${hostname}
-groups:
-  - docker: ["${username}"]
 users:
   - default
   - name: ${username}
@@ -13,7 +11,6 @@ users:
     lock_passwd: false
     %{ endif }
 runcmd:
-  - groupadd -f docker
   %{ if github != null }
   - echo 'No SSH import'
   %{ else }
