@@ -14,6 +14,10 @@ users:
     %{ endif }
 write_files:
   - encoding: b64
+    content: ${base64.netplan}
+    owner: root:root
+    path: /tmp/netplan.sh
+  - encoding: b64
     content: ${base64.ssh_import}
     owner: root:root
     path: /tmp/ssh_import.sh
@@ -29,7 +33,7 @@ write_files:
     path: /tmp/docker.sh
     permissions: '0777'
 runcmd:
-  - netplan apply
+  - /tmp/netplan.sh
   - /tmp/apt.sh
   - /tmp/docker.sh ${username}
   %{ if github != null }
