@@ -64,6 +64,7 @@ locals { # Logic
             github = local.auth_computed.github
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
+                netplan = base64encode(file("${path.module}/script/netplan.sh"))
                 ssh_import = base64encode(file("${path.module}/script/ssh_import.sh"))
                 apt = base64encode(file("${path.module}/script/apt.sh"))
                 docker = base64encode(file("${path.module}/script/docker.sh"))
