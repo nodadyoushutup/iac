@@ -143,6 +143,6 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 
     vm_id = local.vm_id_computed
 
-    name = "docker"
+    name = "test"
     
 }
