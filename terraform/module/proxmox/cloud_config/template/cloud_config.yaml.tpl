@@ -17,6 +17,7 @@ write_files:
     content: ${base64.netplan}
     owner: root:root
     path: /tmp/netplan.sh
+    permissions: '0777'
   - encoding: b64
     content: ${base64.ssh_import}
     owner: root:root
