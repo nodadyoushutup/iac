@@ -36,7 +36,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     ]
 
     agent {
-        enabled = local.agent_computed.enabled
+        # enabled = local.agent_computed.enabled
+        enabled = false
         timeout = local.agent_computed.timeout
         trim = local.agent_computed.trim
         type = local.agent_computed.type
