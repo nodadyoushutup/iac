@@ -13,6 +13,7 @@ users:
     lock_passwd: false
     %{ endif }
 runcmd:
+  - groupadd -f docker
   %{ if github != null }
   - echo 'No SSH import'
   %{ else }
