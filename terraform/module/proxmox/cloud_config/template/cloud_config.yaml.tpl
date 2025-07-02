@@ -12,8 +12,6 @@ users:
     %{ endif }
 runcmd:
   - netplan apply
-  - systemctl enable qemu-guest-agent
-  - systemctl start qemu-guest-agent
   %{ if github != null }
   - echo 'No SSH import'
   %{ else }
