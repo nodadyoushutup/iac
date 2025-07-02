@@ -11,6 +11,7 @@ users:
     lock_passwd: false
     %{ endif }
 runcmd:
+  - netplan apply
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
   %{ if github != null }
