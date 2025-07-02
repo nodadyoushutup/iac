@@ -11,6 +11,8 @@ users:
     lock_passwd: false
     %{ endif }
 runcmd:
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
   %{ if github != null }
   - echo 'No SSH import'
   %{ else }
