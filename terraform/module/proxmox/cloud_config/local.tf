@@ -75,9 +75,9 @@ locals { # Logic
             github = local.github_computed
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
-                gitconfig = base64encode(local.source.gitconfig, {
+                gitconfig = base64encode(templatefile(local.source.gitconfig, {
                     github = local.github_computed
-                })
+                }))
             }
         })
         talos = templatefile(local.source.talos, { 
