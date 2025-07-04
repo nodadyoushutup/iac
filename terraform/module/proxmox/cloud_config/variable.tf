@@ -23,9 +23,16 @@ variable "overwrite" {
 
 variable "auth" {
     type = object({
-        github = optional(string)
         username = optional(string, "nodadyoushutup")
         password = optional(string)
+    })
+    default = null
+}
+
+variable "github" {
+    type = object({
+        username = optional(string, "nodadyoushutup")
+        email = optional(string)
     })
     default = null
 }

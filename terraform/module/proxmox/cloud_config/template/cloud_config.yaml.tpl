@@ -9,7 +9,7 @@ users:
   - name: ${username}
     groups: sudo
     ssh_import_id:
-      - gh:nodadyoushutup
+      - gh:${github.username}
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     %{ if password != null }

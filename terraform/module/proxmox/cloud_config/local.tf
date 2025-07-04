@@ -16,7 +16,10 @@ locals { # Variable
     auth_variable = {
         username = try(var.auth.username, null)
         password = try(var.auth.password, null)
-        github = try(var.auth.github, null)
+    }
+    github_variable = {
+        username = try(var.github.username, null)
+        email = try(var.github.email, null)
     }
     ipv4_variable = {
         address = try(var.ipv4.address, null)
@@ -31,7 +34,10 @@ locals { # Global
     auth_global = {
         username = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
         password = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
-        github = try(var.config.proxmox.global.machine.cloud_config.auth.github, null)
+    }
+    github_global = {
+        username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
+        email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
     }
     ipv4_global = {
         address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
@@ -46,7 +52,10 @@ locals { # Computed
     auth_computed = {
         username = local.auth_variable.username != null ? local.auth_variable.username : local.auth_global.username != null ? local.auth_global.username : null
         password = local.auth_variable.password != null ? local.auth_variable.password : local.auth_global.password != null ? local.auth_global.password : null
-        github = local.auth_variable.github != null ? local.auth_variable.github : local.auth_global.github != null ? local.auth_global.github : null
+    }
+    github_computed = {
+        username = local.github_variable.username != null ? local.github_variable.username : local.github_global.username != null ? local.github_global.username : null
+        email = local.github_variable.email != null ? local.github_variable.email : local.github_global.email != null ? local.github_global.email : null
     }
     ipv4_computed = {
         address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
@@ -61,7 +70,7 @@ locals { # Logic
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
             username = local.auth_computed.username
-            github = local.auth_computed.github
+            github = local.github_computed
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
                 netplan = base64encode(file("${path.module}/script/netplan.sh"))

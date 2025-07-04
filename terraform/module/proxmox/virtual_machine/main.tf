@@ -8,8 +8,11 @@ module "cloud_config" {
     overwrite = true
     auth = {
         username = "nodadyoushutup"
-        github = "nodadyoushutup"
         password = "password"
+    }
+    github = {
+        username = "nodadyoushutup"
+        email = "admin@nodadyoushutup.com"
     }
     ipv4 = {
         address = "192.168.1.185"
