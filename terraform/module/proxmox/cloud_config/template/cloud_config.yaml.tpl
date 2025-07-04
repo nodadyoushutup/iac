@@ -8,8 +8,10 @@ users:
   - default
   - name: ${username}
     groups: sudo
+    %{ if github != null && github.username != null }
     ssh_import_id:
       - gh:${github.username}
+    %{ endif }
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     %{ if password != null }
