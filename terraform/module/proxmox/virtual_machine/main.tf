@@ -14,6 +14,9 @@ module "cloud_config" {
         username = "nodadyoushutup"
         email = "admin@nodadyoushutup.com"
     }
+    mount = [
+        ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
+    ]
     ipv4 = {
         address = "192.168.1.185"
     }

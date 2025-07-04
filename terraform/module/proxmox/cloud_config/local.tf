@@ -22,6 +22,7 @@ locals { # Variable
         username = try(var.github.username, null)
         email = try(var.github.email, null)
     }
+    mounts_variable = try(var.mounts, null)
     ipv4_variable = {
         address = try(var.ipv4.address, null)
         gateway = try(var.ipv4.gateway, null)
@@ -40,6 +41,7 @@ locals { # Global
         username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
         email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
     }
+    mounts_global = try(var.config.proxmox.global.machine.cloud_config.mounts, null)
     ipv4_global = {
         address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
         gateway = try(var.config.proxmox.global.machine.cloud_config.ipv4.gateway, null)
@@ -58,6 +60,7 @@ locals { # Computed
         username = local.github_variable.username != null ? local.github_variable.username : local.github_global.username != null ? local.github_global.username : null
         email = local.github_variable.email != null ? local.github_variable.email : local.github_global.email != null ? local.github_global.email : null
     }
+    mounts_computed = local.mounts_variable != null ? local.mounts_variable : local.mounts_global != null ? local.mounts_global : null
     ipv4_computed = {
         address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
         gateway = local.ipv4_variable.gateway != null ? local.ipv4_variable.gateway : local.ipv4_global.gateway != null ? local.ipv4_global.gateway : null
@@ -73,6 +76,7 @@ locals { # Logic
             hostname = local.name
             username = local.auth_computed.username
             github = local.github_computed
+            mounts = local.mounts_computed
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {

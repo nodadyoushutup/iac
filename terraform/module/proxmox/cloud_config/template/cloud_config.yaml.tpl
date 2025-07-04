@@ -17,7 +17,10 @@ users:
     lock_passwd: false
     %{ endif }
 mounts:
-- ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
+%{ for mnt in mounts ~}
+- ${mnt}
+%{ endfor }
+
 mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 write_files:
   - encoding: b64

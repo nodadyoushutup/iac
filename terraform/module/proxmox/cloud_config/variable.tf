@@ -37,6 +37,11 @@ variable "github" {
     default = null
 }
 
+variable "mount" {
+    type = list(list(string))
+    default = null
+}
+
 variable "ipv4" {
     type = object({
         address = optional(string, "dhcp")
