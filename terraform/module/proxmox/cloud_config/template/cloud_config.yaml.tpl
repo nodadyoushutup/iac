@@ -16,11 +16,5 @@ users:
     passwd: ${password}
     lock_passwd: false
     %{ endif }
-runcmd:
-  - netplan apply
-  %{ if github != null }
-  - su - ${username} -c "ssh-import-id gh:${github}"
-  %{ else }
-  - echo 'No SSH import'
-  %{ endif }
+
   
