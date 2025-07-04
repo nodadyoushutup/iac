@@ -14,10 +14,10 @@ users:
     %{ endif }
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
-    %{ if password != null }
-    passwd: ${password}
-    lock_passwd: false
-    %{ endif }
+chpasswd:
+  expire: false
+  users:
+  - {name: ${username}, password: password1, type: text}
 %{ if mounts != null && length(mounts) > 0 }
 mounts:
 %{ for mnt in mounts ~}
