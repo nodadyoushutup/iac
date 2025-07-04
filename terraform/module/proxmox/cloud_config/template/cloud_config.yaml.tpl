@@ -16,5 +16,11 @@ users:
     passwd: ${password}
     lock_passwd: false
     %{ endif }
+write_files:
+  - encoding: b64
+    content: ${base64.gitconfig}
+    owner: ${username}:${username}
+    path: /home/${username}/.gitconfig
+    permissions: '0644'
 
   
