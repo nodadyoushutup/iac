@@ -16,12 +16,13 @@ users:
     passwd: ${password}
     lock_passwd: false
     %{ endif }
+%{ if mounts != null && length(mounts) > 0 }
 mounts:
 %{ for mnt in mounts ~}
 - ${mnt}
 %{ endfor }
-
 mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
+%{ endif }
 write_files:
   - encoding: b64
     content: ${base64.gitconfig}

@@ -76,7 +76,7 @@ locals { # Logic
             hostname = local.name
             username = local.auth_computed.username
             github = local.github_computed
-            mounts = local.mounts_computed
+            mounts = [for m in local.mounts_computed : jsonencode(m)]
             password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
