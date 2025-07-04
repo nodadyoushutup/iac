@@ -1,9 +1,13 @@
 #cloud-config
 hostname: ${hostname}
+groups:
+  - docker: ["${username}"]
 users:
   - default
   - name: ${username}
     groups: sudo
+    ssh_import_id:
+      - gh:nodadyoushutup
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     %{ if password != null }
