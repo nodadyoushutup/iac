@@ -20,7 +20,9 @@ write_files:
   - encoding: b64
     content: ${base64.gitconfig}
     owner: ${username}:${username}
-    path: /home/${username}/.gitconfig
+    path: /tmp/.gitconfig
     permissions: '0644'
+runcmd:
+  - mv /tmp/.gitconfig /home/${username}/.gitconfig
 
   
