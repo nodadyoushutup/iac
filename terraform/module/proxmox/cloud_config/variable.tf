@@ -37,7 +37,7 @@ variable "github" {
     default = null
 }
 
-variable "mount" {
+variable "mounts" {
     type = list(list(string))
     default = null
 }
