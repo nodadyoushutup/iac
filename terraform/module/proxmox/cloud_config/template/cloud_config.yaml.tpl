@@ -16,12 +16,15 @@ users:
     passwd: ${password}
     lock_passwd: false
     %{ endif }
+mounts:
+- ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
+mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 write_files:
   - encoding: b64
     content: ${base64.gitconfig}
     owner: ${username}:${username}
     path: /tmp/.gitconfig
-    permissions: '0644'
+    permissions: "0644"
 runcmd:
   - mv /tmp/.gitconfig /home/${username}/.gitconfig
 
