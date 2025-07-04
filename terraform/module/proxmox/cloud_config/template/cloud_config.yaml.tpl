@@ -1,4 +1,6 @@
 #cloud-config
+bootcmd:
+  - netplan apply
 hostname: ${hostname}
 groups:
   - docker: ["${username}"]
@@ -17,7 +19,7 @@ users:
 runcmd:
   - netplan apply
   %{ if github != null }
-  - echo 'No SSH import'
+  - su - ${username} -c "ssh-import-id gh:${github}"
   %{ else }
   - echo 'No SSH import'
   %{ endif }
