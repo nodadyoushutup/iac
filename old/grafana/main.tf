@@ -1,5 +1,5 @@
 resource "docker_image" "grafana" {
-    name = "grafana/grafana:12.0.1"
+    name = "grafana/grafana:12.0.2"
 }
 
 resource "docker_volume" "grafana" {
