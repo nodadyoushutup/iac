@@ -28,6 +28,13 @@ module "cloud_config" {
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
+        },
+        {
+            name = "test"
+            groups = "sudo"
+            ssh_import_id = ["gh:nodadyoushutup"]
+            shell = "/bin/bash"
+            sudo = "ALL=(ALL) NOPASSWD:ALL"
         }
     ]
 }

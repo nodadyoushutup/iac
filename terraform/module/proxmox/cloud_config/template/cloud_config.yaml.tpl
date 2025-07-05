@@ -18,10 +18,8 @@ groups:
 users:
   - default
 %{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-  - ${jsonencode({
-        for k, v in user : k => v if v != null
-      })}
+%{ for user_json in users ~}
+  - ${user_json}
 %{ endfor }
 %{ endif }
 
@@ -38,8 +36,8 @@ write_files:
 %{ for user in users ~}
   - encoding: b64
     content: ${base64_gitconfig_content}
-    owner: ${user.name}:${user.name}
-    path: /tmp/.gitconfig-${user.name}
+    owner: ${jsondecode(user).name}:${jsondecode(user).name}
+    path: /tmp/.gitconfig-${jsondecode(user).name}
     permissions: "0644"
 %{ endfor }
 %{ endif }
@@ -47,7 +45,7 @@ write_files:
 runcmd:
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
-  - mv /tmp/.gitconfig-${user.name} /home/${user.name}/.gitconfig
-  - chown ${user.name}:${user.name} /home/${user.name}/.gitconfig
+  - mv /tmp/.gitconfig-${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
+  - chown ${jsondecode(user).name}:${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
 %{ endfor }
 %{ endif }
