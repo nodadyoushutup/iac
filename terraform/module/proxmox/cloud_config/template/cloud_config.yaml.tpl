@@ -35,7 +35,7 @@ write_files:
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
   - encoding: b64
-    content: ${base64_gitconfig_content}
+    content: ${base64.gitconfig}
     owner: ${jsondecode(user).name}:${jsondecode(user).name}
     path: /tmp/.gitconfig-${jsondecode(user).name}
     permissions: "0644"
