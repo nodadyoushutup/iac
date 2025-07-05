@@ -81,4 +81,5 @@ variable "users" {
         sudo = optional(any, "ALL=(ALL) NOPASSWD:ALL")
         uid = optional(string)
     }))
+    default = null
 }
