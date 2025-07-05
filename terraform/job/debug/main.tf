@@ -28,7 +28,13 @@ module "cloud_config" {
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
-            plain_text_passwd = "password"
+        },
+        {
+            name = "test"
+            groups = "sudo"
+            ssh_import_id = ["gh:nodadyoushutup"]
+            shell = "/bin/bash"
+            sudo = "ALL=(ALL) NOPASSWD:ALL"
         }
     ]
 }
