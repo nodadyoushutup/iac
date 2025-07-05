@@ -91,9 +91,9 @@ locals { # Logic
                 }))
             }
             users = [
-                for user in local.users_computed : jsonencode({
+                for user in local.users_computed : trimspace(jsonencode({
                     for k, v in user : k => v if v != null
-                })
+                }))
             ]
         })
         talos = templatefile(local.source.talos, { 
