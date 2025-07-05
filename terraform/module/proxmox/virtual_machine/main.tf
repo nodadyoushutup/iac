@@ -20,6 +20,16 @@ module "cloud_config" {
     ipv4 = {
         address = "192.168.1.185"
     }
+
+    users = [
+        {
+            name = "nodadyoushutup"
+            groups = "sudo"
+            ssh_import_id = ["gh:nodadyoushutup"]
+            shell = "/bin/bash"
+            sudo = "ALL=(ALL) NOPASSWD:ALL"
+        }
+    ]
 }
 
 module "image" {
