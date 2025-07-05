@@ -6,14 +6,6 @@ module "cloud_config" {
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
-    auth = {
-        username = "nodadyoushutup"
-        password = "password"
-    }
-    github = {
-        username = "nodadyoushutup"
-        email = "admin@nodadyoushutup.com"
-    }
     mounts = [
         ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
     ]
@@ -41,6 +33,10 @@ module "cloud_config" {
             lock_passwd:false,
         }
     ]
+    gitconfig = {
+        username = "nodadyoushutup"
+        email = "admin@nodadyoushutup.com"
+    }
 }
 
 module "image" {
