@@ -83,6 +83,7 @@ locals { # Logic
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
             github = local.github_computed
+            username = local.auth_computed.username
             mounts = [for m in local.mounts_computed : jsonencode(m)]
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
