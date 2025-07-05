@@ -91,7 +91,7 @@ locals { # Logic
                     github = local.github_computed
                 }))
             }
-            users = [for user in local.users_computed : jsonencode(m)]
+            users = [for user in local.users_computed : jsonencode(user)]
         })
         talos = templatefile(local.source.talos, { 
             hostname = local.name
