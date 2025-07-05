@@ -11,10 +11,6 @@ users:
   - ${user}
 %{ endfor }
 %{ endif }
-chpasswd:
-  expire: false
-  users:
-  - {name: ${username}, password: password, type: text}
 %{ if mounts != null && length(mounts) > 0 }
 mounts:
 %{ for mnt in mounts ~}
