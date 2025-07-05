@@ -8,7 +8,7 @@ groups:
   - docker: [
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
-      "${user.name}",
+      "${jsondecode(user).name}",
 %{ endfor }
     ]
 %{ else }
@@ -18,8 +18,8 @@ groups:
 users:
   - default
 %{ if users != null && length(users) > 0 }
-%{ for user_json in users ~}
-  - ${user_json}
+%{ for user in users ~}
+  - ${user}
 %{ endfor }
 %{ endif }
 
