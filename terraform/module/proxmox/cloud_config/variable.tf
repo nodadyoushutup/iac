@@ -49,3 +49,36 @@ variable "ipv4" {
     })
     default = null
 }
+
+# ######################################
+variable "users" {
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#users-and-groups
+    description = "List of system users to configure"
+    type = list(object({
+        name = optional(string, "nodadyoushutup")
+        doas = optional(list(string))
+        expiredate = optional(string)
+        gecos = optional(any) # string/array of string/objec
+        groups = optional(any, "sudo") # string/array of string/object
+        homedir = optional(string)
+        inactive = optional(string)
+        lock_passwd = optional(bool)
+        no_create_home = optional(bool)
+        no_log_init = optional(bool)
+        no_user_group = optional(bool)
+        passwd = optional(string)
+        hashed_passwd = optional(string)
+        plain_text_passwd = optional(string)
+        create_groups = optional(bool)
+        primary_group = optional(string)
+        selinux_user = optional(string)
+        shell = optional(string, "/bin/bash")
+        snapuser = optional(string)
+        ssh_authorized_keys = optional(list(string))
+        ssh_import_id = optional(list(string))
+        ssh_redirect_user = optional(bool)
+        system = optional(bool)
+        sudo = optional(any, "ALL=(ALL) NOPASSWD:ALL")
+        uid = optional(string)
+    }))
+}

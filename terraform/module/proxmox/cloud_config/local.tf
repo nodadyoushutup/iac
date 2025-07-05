@@ -27,6 +27,8 @@ locals { # Variable
         address = try(var.ipv4.address, null)
         gateway = try(var.ipv4.gateway, null)
     }
+
+    users_variable = try(var.users, null)
 }
 
 locals { # Global
@@ -46,6 +48,8 @@ locals { # Global
         address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
         gateway = try(var.config.proxmox.global.machine.cloud_config.ipv4.gateway, null)
     }
+
+    users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
 }
 
 locals { # Computed
@@ -65,6 +69,10 @@ locals { # Computed
         address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
         gateway = local.ipv4_variable.gateway != null ? local.ipv4_variable.gateway : local.ipv4_global.gateway != null ? local.ipv4_global.gateway : null
     }
+
+
+    users_computed = local.users_variable != null ? local.users_variable : local.users_global != null ? local.users_global : null
+
 }
 
 
@@ -83,6 +91,7 @@ locals { # Logic
                     github = local.github_computed
                 }))
             }
+            users = [for user in local.users_computed : jsonencode(m)]
         })
         talos = templatefile(local.source.talos, { 
             hostname = local.name

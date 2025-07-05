@@ -6,14 +6,11 @@ groups:
   - docker: ["${username}"]
 users:
   - default
-  - name: ${username}
-    groups: sudo
-    %{ if github != null && github.username != null }
-    ssh_import_id:
-      - gh:${github.username}
-    %{ endif }
-    shell: /bin/bash
-    sudo: ALL=(ALL) NOPASSWD:ALL
+  %{ if users != null && length(users) > 0 }
+  %{ for user in users ~}
+  - ${user}
+  %{ endfor }
+  %{ endif }
 chpasswd:
   expire: false
   users:
