@@ -24,8 +24,8 @@ locals { # Variable
     # #############################
     users_variable = try(var.users, null)
     gitconfig_variable = {
-        username = try(var.github.username, null)
-        email = try(var.github.email, null)
+        username = try(var.gitconfig.username, null)
+        email = try(var.gitconfig.email, null)
     }
 }
 
