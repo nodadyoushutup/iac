@@ -31,21 +31,12 @@ mounts:
 mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 %{ endif }
 
+%{ if users != null && length(users) > 0 }
 write_files:
-%{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-  - encoding: b64
-    content: ${base64.gitconfig}
+%{ for user in users }
+  - path: /home/${jsondecode(user).name}/.gitconfig
     owner: ${jsondecode(user).name}:${jsondecode(user).name}
-    path: /tmp/.gitconfig-${jsondecode(user).name}
-    permissions: "0644"
-%{ endfor }
-%{ endif }
-
-runcmd:
-%{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-  - mv /tmp/.gitconfig-${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
-  - chown ${jsondecode(user).name}:${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
+    encoding: b64
+    content: ${base64.gitconfig}
 %{ endfor }
 %{ endif }
