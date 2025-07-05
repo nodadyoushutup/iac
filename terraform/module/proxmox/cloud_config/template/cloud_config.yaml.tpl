@@ -34,7 +34,7 @@ mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 %{ if users != null && length(users) > 0 }
 write_files:
 %{ for user in users }
-  - path: /home/${jsondecode(user).name}/.gitconfig
+  - path: /tmp/${jsondecode(user).name}-gitconfig
     owner: ${jsondecode(user).name}:${jsondecode(user).name}
     encoding: b64
     content: ${base64.gitconfig}
