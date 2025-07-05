@@ -1,7 +1,7 @@
 module "cloud_config" {
     source = "../../module/proxmox/cloud_config"
 
-    config = var.config
+    config = local.config
     name = "test"
     datastore_id = "config"
     node_name = "pve"
