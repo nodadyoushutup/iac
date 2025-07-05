@@ -32,9 +32,11 @@ mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 %{ endif }
 
 write_files:
+%{ if gitconfig != null }
   - path: /tmp/.gitconfig
     encoding: b64
     content: ${base64.gitconfig}
+%{ endif }
 
 
 runcmd:
