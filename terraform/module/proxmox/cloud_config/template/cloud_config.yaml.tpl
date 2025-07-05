@@ -7,9 +7,9 @@ groups:
 users:
   - default
 %{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-- ${user}
-%{ endfor }
+  %{ for user in users ~}
+  - ${user}
+  %{ endfor }
 %{ endif }
 chpasswd:
   expire: false
