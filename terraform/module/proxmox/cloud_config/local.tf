@@ -82,16 +82,18 @@ locals { # Logic
         
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
-            username = local.auth_computed.username
             github = local.github_computed
             mounts = [for m in local.mounts_computed : jsonencode(m)]
-            password = data.external.hash_password.result.data != "" ? data.external.hash_password.result.data : null
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
                     github = local.github_computed
                 }))
             }
-            users = [for user in local.users_computed : jsonencode(user)]
+            users = [
+                for user in local.users_computed : jsonencode({
+                    for k, v in user : k => v if v != null
+                })
+            ]
         })
         talos = templatefile(local.source.talos, { 
             hostname = local.name
