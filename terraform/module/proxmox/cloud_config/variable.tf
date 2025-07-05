@@ -21,17 +21,9 @@ variable "overwrite" {
     default = true
 }
 
-variable "auth" {
+variable "gitconfig" {
     type = object({
-        username = optional(string, "nodadyoushutup")
-        password = optional(string)
-    })
-    default = null
-}
-
-variable "github" {
-    type = object({
-        username = optional(string, "nodadyoushutup")
+        username = optional(string)
         email = optional(string)
     })
     default = null

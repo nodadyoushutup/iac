@@ -6,11 +6,7 @@ module "cloud_config" {
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
-    auth = {
-        username = "nodadyoushutup"
-        password = "password"
-    }
-    github = {
+    gitconfig = {
         username = "nodadyoushutup"
         email = "admin@nodadyoushutup.com"
     }
@@ -29,6 +25,7 @@ module "cloud_config" {
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
             plain_text_passwd = "password"
+            lock_passwd = false,
         },
         {
             name = "test"
@@ -37,8 +34,14 @@ module "cloud_config" {
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
             plain_text_passwd = "password"
+            lock_passwd:false,
         }
     ]
+
+    gitconfig = {
+        username = "nodadyoushutup"
+        password = "password"
+    }
 }
 
 

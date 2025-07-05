@@ -14,64 +14,57 @@ locals { # Variable
     datastore_id_variable = try(var.datastore_id, null)
     node_name_variable = try(var.node_name, null)
     overwrite_variable = try(var.overwrite, null)
-    auth_variable = {
-        username = try(var.auth.username, null)
-        password = try(var.auth.password, null)
-    }
-    github_variable = {
-        username = try(var.github.username, null)
-        email = try(var.github.email, null)
-    }
+    
     mounts_variable = try(var.mounts, null)
     ipv4_variable = {
         address = try(var.ipv4.address, null)
         gateway = try(var.ipv4.gateway, null)
     }
 
+    # #############################
     users_variable = try(var.users, null)
+    gitconfig_variable = {
+        username = try(var.github.username, null)
+        email = try(var.github.email, null)
+    }
 }
 
 locals { # Global
     datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
     node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
-    auth_global = {
-        username = try(var.config.proxmox.global.machine.cloud_config.auth.username, null)
-        password = try(var.config.proxmox.global.machine.cloud_config.auth.password, null)
-    }
-    github_global = {
-        username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
-        email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
-    }
+    
     mounts_global = try(var.config.proxmox.global.machine.cloud_config.mounts, null)
     ipv4_global = {
         address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
         gateway = try(var.config.proxmox.global.machine.cloud_config.ipv4.gateway, null)
     }
 
+    # ############################
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
+    gitconfig_global = {
+        username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
+        email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
+    }
 }
 
 locals { # Computed
     datastore_id_computed = local.datastore_id_variable != null ? local.datastore_id_variable : local.datastore_id_global != null ? local.datastore_id_global : null
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
-    auth_computed = {
-        username = local.auth_variable.username != null ? local.auth_variable.username : local.auth_global.username != null ? local.auth_global.username : null
-        password = local.auth_variable.password != null ? local.auth_variable.password : local.auth_global.password != null ? local.auth_global.password : null
-    }
-    github_computed = {
-        username = local.github_variable.username != null ? local.github_variable.username : local.github_global.username != null ? local.github_global.username : null
-        email = local.github_variable.email != null ? local.github_variable.email : local.github_global.email != null ? local.github_global.email : null
-    }
+
     mounts_computed = local.mounts_variable != null ? local.mounts_variable : local.mounts_global != null ? local.mounts_global : null
     ipv4_computed = {
         address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
         gateway = local.ipv4_variable.gateway != null ? local.ipv4_variable.gateway : local.ipv4_global.gateway != null ? local.ipv4_global.gateway : null
     }
 
-
+    # ###########################
     users_computed = local.users_variable != null ? local.users_variable : local.users_global != null ? local.users_global : null
+    gitconfig_computed = {
+        username = local.gitconfig_variable.username != null ? local.gitconfig_variable.username : local.gitconfig_global.username != null ? local.gitconfig_global.username : null
+        email = local.gitconfig_variable.email != null ? local.gitconfig_variable.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
+    }
 
 }
 
@@ -82,12 +75,11 @@ locals { # Logic
         
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
-            github = local.github_computed
-            username = local.auth_computed.username
+            gitconfig = local.gitconfig_computed
             mounts = [for m in local.mounts_computed : jsonencode(m)]
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
-                    github = local.github_computed
+                    github = local.gitconfig_computed
                 }))
             }
             users = [
