@@ -18,10 +18,7 @@ output "template" {
     value = local.template
 }
 
-output "auth" {
-    sensitive = true
-    value = local.auth_computed
-}
+
 
 output "ipv4" {
     value = local.ipv4_computed
@@ -33,4 +30,17 @@ output "cloud_id" {
 
 output "network_id" {
     value = proxmox_virtual_environment_file.network.id
+}
+
+
+
+# ######################
+output "users" {
+    sensitive = true
+    value = local.users_computed
+}
+
+output "gitconfig" {
+    sensitive = true
+    value = local.gitconfig_computed
 }

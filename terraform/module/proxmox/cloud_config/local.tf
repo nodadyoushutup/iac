@@ -79,7 +79,7 @@ locals { # Logic
             mounts = [for m in local.mounts_computed : jsonencode(m)]
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
-                    github = local.gitconfig_computed
+                    gitconfig = local.gitconfig_computed
                 }))
             }
             users = [
