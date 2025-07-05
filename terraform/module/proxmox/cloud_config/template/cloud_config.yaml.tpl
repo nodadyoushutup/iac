@@ -8,7 +8,7 @@ users:
   - default
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
-  - ${user}
+- ${user}
 %{ endfor }
 %{ endif }
 chpasswd:
