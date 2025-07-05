@@ -1,5 +1,5 @@
 module "cloud_config" {
-    source = "../cloud_config"
+    source = "../../module/proxmox/cloud_config"
 
     config = var.config
     name = "test"
