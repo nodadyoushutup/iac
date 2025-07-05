@@ -14,7 +14,7 @@ users:
 chpasswd:
   expire: false
   users:
-  - {name: ${username}, password: password1, type: text}
+  - {name: ${username}, password: password, type: text}
 %{ if mounts != null && length(mounts) > 0 }
 mounts:
 %{ for mnt in mounts ~}
