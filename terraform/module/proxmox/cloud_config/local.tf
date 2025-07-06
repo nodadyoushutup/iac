@@ -145,20 +145,14 @@ locals { # Logic
 }
 
 locals { # Template
-    additional_objects = [
-        for obj in [
-            local.mounts_object,
-            local.groups_object,
-            local.write_files_object,
-            local.runcmd_object
-        ] : obj if obj != null
-    ]
-
     cloud_config_data = merge(
         local.bootcmd_object,
         local.hostname_object,
         local.users_object,
-        length(local.additional_objects) > 0 ? merge(local.additional_objects...) : {}
+        local.mounts_object != null ? local.mounts_object : {},
+        local.groups_object != null ? local.groups_object : {},
+        local.write_files_object != null ? local.write_files_object : {},
+        local.runcmd_object != null ? local.runcmd_object : {},
     )
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
