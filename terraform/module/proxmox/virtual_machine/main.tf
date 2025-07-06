@@ -30,7 +30,7 @@ module "cloud_config" {
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
             plain_text_passwd = "password"
-            lock_passwd:false,
+            lock_passwd = false,
         }
     ]
     gitconfig = {
