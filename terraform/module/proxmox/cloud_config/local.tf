@@ -79,14 +79,15 @@ locals { # Computed
 
 locals { # Logic
     type = can(regex("talos", var.name)) ? "talos" : "cloud" 
+    base64 = {
+        gitconfig = base64encode(templatefile(local.source.gitconfig, {
+            gitconfig = local.gitconfig_computed
+        }))
+    }
     template = { 
         
         cloud = templatefile(local.source.cloud, {
-            base64 = {
-                gitconfig = base64encode(templatefile(local.source.gitconfig, {
-                    # gitconfig = local.gitconfig_computed
-                }))
-            }
+            
             hostname = local.name
             gitconfig = local.gitconfig_computed
             mounts = [for m in local.mounts_computed : jsonencode(m)]
@@ -96,6 +97,14 @@ locals { # Logic
                 }))
             ]
             groups = local.groups_computed
+            write_files_per_user = [
+                {
+                    path = "/tmp/.gitconfig"
+                    encoding = "b64"
+                    content = local.base64.gitconfig
+                    defer = true
+                }
+            ]
             write_files = [
                 for write_file in local.write_files_computed : trimspace(jsonencode({
                     for k, v in write_file : k => v if v != null

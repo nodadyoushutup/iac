@@ -44,15 +44,10 @@ module "cloud_config" {
     }
     write_files = [
         {
-            path = "/tmp/.gitconfig"
+            path = "/home/nodadyoushutup/text.txt"
             encoding = "b64"
-            content = {
-                source = "terraform/module/proxmox/cloud_config/template/gitconfig.tpl"
-                variables = {
-                    username = "nodadyoushutup"
-                    email = "admin@nodadyoushutup.com"
-                }
-            }
+            content = "aGVsbG8gd29ybGQK"
+            defer = true
         }
     ]
 }
