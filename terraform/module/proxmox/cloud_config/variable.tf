@@ -51,7 +51,7 @@ variable "users" {
         doas = optional(list(string))
         expiredate = optional(string)
         gecos = optional(any) # string/array of string/objec
-        groups = optional(any, "sudo") # string/array of string/object
+        groups = optional(any, ["sudo", "docker"]) # string/array of string/object
         homedir = optional(string)
         inactive = optional(string)
         lock_passwd = optional(bool)
@@ -93,10 +93,10 @@ variable "write_files" {
             headers = optional(map(string))
         }))
         owner = optional(string)
-        permissions = optional(string, "0644")
+        permissions = optional(string)
         encoding = optional(string, "b64")
-        append = optional(bool, false)
-        defer = optional(bool, false)
+        append = optional(bool)
+        defer = optional(bool)
     }))
     default = null
 }
