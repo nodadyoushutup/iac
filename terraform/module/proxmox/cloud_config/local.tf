@@ -5,7 +5,6 @@ locals { # Required
 locals { # Constant
     source = {
         talos    = "${path.module}/template/talos_config.yaml.tpl"
-        network  = "${path.module}/template/network_config.yaml.tpl"
         gitconfig = "${path.module}/template/gitconfig.tpl"
     }
 }
@@ -19,6 +18,7 @@ locals { # Variable
         address = try(var.ipv4.address, null)
         gateway = try(var.ipv4.gateway, null)
     }
+    network_variable = try(var.network, null)
 
     # #############################
     users_variable = try(var.users, null)
@@ -43,6 +43,7 @@ locals { # Global
         address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
         gateway = try(var.config.proxmox.global.machine.cloud_config.ipv4.gateway, null)
     }
+    network_global = try(var.config.proxmox.global.machine.cloud_config.network, null)
 
     # ############################
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
@@ -67,6 +68,7 @@ locals { # Computed
         address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
         gateway = local.ipv4_variable.gateway != null ? local.ipv4_variable.gateway : local.ipv4_global.gateway != null ? local.ipv4_global.gateway : null
     }
+    network_computed = local.network_variable != null ? local.network_variable : local.network_global != null ? local.network_global : null
 
     # ###########################
     users_computed = local.users_variable != null ? local.users_variable : local.users_global != null ? local.users_global : null
@@ -154,6 +156,38 @@ locals { # Logic
             ]
         )
     }
+
+    ipv4_address_object = local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" ? {
+        dhcp4    = false
+        addresses = ["${local.ipv4_computed.address}/24"]
+    } : {
+        dhcp4 = true
+    }
+
+    ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
+        gateway4 = local.ipv4_computed.gateway
+    } : {}
+
+    network_generated_object = {
+        version   = 2
+        ethernets = {
+            eth0 = merge(
+                {
+                    match    = { name = "en*" }
+                    "set-name" = "eth0"
+                },
+                local.ipv4_address_object,
+                local.ipv4_gateway_object,
+                {
+                    nameservers = {
+                        addresses = ["8.8.8.8", "8.8.4.4"]
+                    }
+                }
+            )
+        }
+    }
+
+    network_object = local.network_computed != null ? local.network_computed : local.network_generated_object
 }
 
 locals { # Template
@@ -170,13 +204,13 @@ locals { # Template
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
 
+    network_config_yaml = "#cloud-config\n${yamlencode({ network = local.network_object })}"
+
     template = {
-        cloud = local.cloud_config_yaml
-        talos = templatefile(local.source.talos, {
+        cloud   = local.cloud_config_yaml
+        talos   = templatefile(local.source.talos, {
             hostname = local.name
         })
-        network = templatefile(local.source.network, {
-            ipv4 = local.ipv4_computed
-        })
+        network = local.network_config_yaml
     }
 }
