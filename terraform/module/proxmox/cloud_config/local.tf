@@ -162,7 +162,6 @@ locals { # Logic
         addresses = ["${local.ipv4_computed.address}/24"]
     } : {
         dhcp4 = "yes"
-        addresses = null
     }
 
     ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
@@ -188,7 +187,9 @@ locals { # Logic
         }
     }
 
-    network_object = local.network_computed != null ? local.network_computed : local.network_generated_object
+    network_object = local.network_computed != null ?
+        local.network_computed :
+        jsondecode(jsonencode(local.network_generated_object))
 }
 
 locals { # Template
