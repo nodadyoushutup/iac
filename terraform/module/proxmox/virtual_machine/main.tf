@@ -47,6 +47,8 @@ module "cloud_config" {
             path = "/home/nodadyoushutup/text.txt"
             encoding = "b64"
             content = "aGVsbG8gd29ybGQK"
+            owner = "nodadyoushutup:nodadyoushutup"
+            permissions = "0640"
             defer = true
         }
     ]
