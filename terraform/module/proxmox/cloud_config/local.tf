@@ -157,7 +157,7 @@ locals { # Logic
         )
     }
 
-    network_object = local.network_computed != null ? local.network_computed : {network = { config = "disabled"}}
+    # network_object = local.network_computed != null ? local.network_computed : {network = { config = "disabled"}}
 }
 
 locals { # Template
@@ -174,7 +174,7 @@ locals { # Template
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
 
-    network_config_yaml = "#cloud-config\n${yamlencode({ network = local.network_object })}"
+    network_config_yaml = "#cloud-config\n${yamlencode({ network = local.network_computed })}"
 
     template = {
         cloud   = local.cloud_config_yaml
