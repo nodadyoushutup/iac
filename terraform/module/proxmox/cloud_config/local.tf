@@ -101,11 +101,9 @@ locals { # Logic
         }
     ]
 
-    groups_data = local.groups_computed == null ? null : (
-        can(local.groups_computed[0]) ?
-        [for group in local.groups_computed : {"${group}" = []}] :
-        [for group, members in local.groups_computed : {"${group}" = members}]
-    )
+    groups_data = local.groups_computed == null ? null : [
+        for group in local.groups_computed : {"${group}" = []}
+    ]
 
     cloud_config_data = merge(
         {

@@ -78,7 +78,7 @@ variable "users" {
 
 variable "groups" {
     # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#users-and-groups
-    type = any # Accept either a map of groups to members or a simple list of groups
+    type = list(string)
     default = null
 }
 
