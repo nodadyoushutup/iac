@@ -105,8 +105,11 @@ locals { # Logic
         for group in local.groups_computed : {"${group}" = []}
     ]
 
-    mounts_object = local.mounts_computed != null ? {
+    mounts_data = local.mounts_computed != null ? {
         mounts               = local.mounts_computed
+    } : null
+
+    mount_default_fields_data = local.mounts_computed != null ? {
         mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
     } : null
 
@@ -149,7 +152,8 @@ locals { # Template
         local.bootcmd_object,
         local.hostname_object,
         local.users_object,
-        local.mounts_object != null ? local.mounts_object : {},
+        local.mounts_data != null ? local.mounts_data : {},
+        local.mount_default_fields_data != null ? local.mount_default_fields_data : {},
         local.groups_object != null ? local.groups_object : {},
         local.write_files_object != null ? local.write_files_object : {},
         local.runcmd_object != null ? local.runcmd_object : {},
