@@ -77,6 +77,7 @@ variable "users" {
 }
 
 variable "groups" {
-    type = map(list(string))
+    # Accept either a map of groups to members or a simple list of groups
+    type    = any
     default = null
 }

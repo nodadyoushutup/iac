@@ -22,9 +22,15 @@ mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 
 %{ if groups != null && length(groups) > 0 }
 groups:
+%{ if can(groups[0]) }
+%{ for group in groups ~}
+  - "${group}"
+%{ endfor }
+%{ else }
 %{ for group, members in groups ~}
   - ${group}: [%{ for member in members ~}"${member}",%{ endfor }]
 %{ endfor }
+%{ endif }
 %{ endif }
 
 write_files:
