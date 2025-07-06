@@ -42,6 +42,13 @@ module "cloud_config" {
         email = "admin@nodadyoushutup.com"
         github_pat = var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
     }
+    write_files = [
+        {
+            path = "/tmp/.gitconfig"
+            encoding = "b64"
+            content = "W3VzZXJdCiAgICBuYW1lID0gbm9kYWR5b3VzaHV0dXAKICAgIGVtYWlsID0gYWRtaW5Abm9kYWR5b3VzaHV0dXAuY29t"
+        }
+    ]
 }
 
 module "image" {
