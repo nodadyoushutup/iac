@@ -113,12 +113,13 @@ variable "network" {
                 match = optional(object({
                     name = optional(string, "en*")
                 }))
+                type = optional(string, "physical")
                 set-name = optional(string, "eth0")
                 dhcp4 = optional(string, "yes")
                 addresses = optional(list(string))
                 gateway4 = optional(string)
                 nameservers = optional(object({
-                    addresses = optional(list(string))
+                    addresses = optional(list(string), ["8.8.8.8", "8.8.4.4"])
                 }))
             }))
         }))

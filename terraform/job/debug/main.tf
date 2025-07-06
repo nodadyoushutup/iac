@@ -16,6 +16,7 @@ module "cloud_config" {
                 match = {
                     name = "en*"
                 }
+                type = "physical"
                 set-name = "eth0"
                 dhcp4 = "no"
                 addresses = [
