@@ -46,7 +46,13 @@ module "cloud_config" {
         {
             path = "/tmp/.gitconfig"
             encoding = "b64"
-            content = "W3VzZXJdCiAgICBuYW1lID0gbm9kYWR5b3VzaHV0dXAKICAgIGVtYWlsID0gYWRtaW5Abm9kYWR5b3VzaHV0dXAuY29t"
+            content = {
+                source = "terraform/module/proxmox/cloud_config/template/gitconfig.tpl"
+                variables = {
+                    username = "nodadyoushutup"
+                    email = "admin@nodadyoushutup.com"
+                }
+            }
         }
     ]
 }
