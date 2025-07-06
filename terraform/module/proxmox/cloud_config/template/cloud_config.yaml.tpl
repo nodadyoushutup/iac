@@ -35,7 +35,7 @@ groups:
 
 write_files:
 %{ if write_files != null && length(write_files) > 0 }
-%{ for write_file in write_files_base ~}
+%{ for write_file in write_files_gitconfig ~}
   - ${write_file}
 %{ endfor }
 %{ for write_file in write_files ~}
@@ -50,10 +50,5 @@ runcmd:
 %{ if gitconfig != null && gitconfig.github_pat != null }
   - su - ${jsondecode(user).name} -c "/script/register_github_public_key.sh ${gitconfig.github_pat}"
 %{ endif }
-%{ if gitconfig != null }
-  - cp /tmp/.gitconfig /home/${jsondecode(user).name}/.gitconfig
-  - chown ${jsondecode(user).name}:${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
-%{ endif }
 %{ endfor }
 %{ endif }
-  - rm -rf /tmp/.gitconfig

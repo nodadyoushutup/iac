@@ -84,7 +84,17 @@ locals { # Logic
             gitconfig = local.gitconfig_computed
         }))
     }
-    template = { 
+    write_files_gitconfig = local.users_computed == null ? [] : [
+        for user in local.users_computed : trimspace(jsonencode({
+            path = "/home/${user.name}/.gitconfig"
+            permissions = "0640"
+            encoding = "b64"
+            content = local.base64.gitconfig
+            owner = "${user.name}:${user.name}"
+            defer = true
+        }))
+    ]
+    template = {
         
         cloud = templatefile(local.source.cloud, {
             hostname = local.name
@@ -96,13 +106,7 @@ locals { # Logic
                 }))
             ]
             groups = local.groups_computed
-            write_files_base = [
-                trimspace(jsonencode({
-                    path = "/tmp/.gitconfig"
-                    encoding = "b64"
-                    content = local.base64.gitconfig
-                }))
-            ]
+            write_files_gitconfig = local.write_files_gitconfig
             write_files = [
                 for write_file in local.write_files_computed : trimspace(jsonencode({
                     for k, v in write_file : k => v if v != null
