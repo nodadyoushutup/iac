@@ -8,13 +8,13 @@ network:
       set-name: eth0
       %{ if ipv4.address != "dhcp"}
       dhcp4: no
-      addresses: 
+      addresses:
       - ${ipv4.address}/24
       %{ if ipv4.gateway != null}
       gateway4: ${ipv4.gateway}
       %{ endif }
       %{ else }
-      dhcp4: true
+      dhcp4: yes
       %{ endif }
       nameservers:
         addresses: 

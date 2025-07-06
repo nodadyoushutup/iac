@@ -158,10 +158,10 @@ locals { # Logic
     }
 
     ipv4_address_object = local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" ? {
-        dhcp4    = false
+        dhcp4    = "no"
         addresses = ["${local.ipv4_computed.address}/24"]
     } : {
-        dhcp4 = true
+        dhcp4 = "yes"
     }
 
     ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
