@@ -52,6 +52,12 @@ module "cloud_config" {
             defer = true
         }
     ]
+    bootcmd = [
+        "echo 'bootcmd test'"
+    ]
+    runcmd = [
+        "echo 'runcmd test'"
+    ]
 }
 
 
