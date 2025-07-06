@@ -157,7 +157,40 @@ locals { # Logic
         )
     }
 
-    # network_object = local.network_computed != null ? local.network_computed : {network = { config = "disabled"}}
+    ipv4_address_object = local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" ? {
+        dhcp4    = "no"
+        addresses = ["${local.ipv4_computed.address}/24"]
+    } : {
+        dhcp4 = "yes"
+        addresses = []
+    }
+
+    ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
+        gateway4 = local.ipv4_computed.gateway
+    } : {}
+
+    network_generated_object = {
+        version   = 2
+        ethernets = {
+            eth0 = merge(
+                {
+                    match = { 
+                        name = "en*" 
+                    }
+                    set-name = "eth0"
+                },
+                local.ipv4_address_object,
+                local.ipv4_gateway_object,
+                {
+                    nameservers = {
+                        addresses = ["8.8.8.8", "8.8.4.4"]
+                    }
+                }
+            )
+        }
+    }
+
+    network_object = local.network_computed != null ? local.network_computed : local.network_generated_object
 }
 
 locals { # Template
@@ -174,7 +207,7 @@ locals { # Template
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
 
-    network_config_yaml = "#cloud-config\n${yamlencode({ network = local.network_computed })}"
+    network_config_yaml = "#cloud-config\n${yamlencode({ network = local.network_object })}"
 
     template = {
         cloud   = local.cloud_config_yaml
