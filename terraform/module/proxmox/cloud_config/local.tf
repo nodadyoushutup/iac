@@ -159,10 +159,10 @@ locals { # Logic
 
     ipv4_address_object = local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" ? {
         dhcp4    = "no"
-        addresses = ["${local.ipv4_computed.address}/24"]
+        addresses = tolist(["${local.ipv4_computed.address}/24"])
     } : {
         dhcp4 = "yes"
-        addresses = []
+        addresses = tolist([])
     }
 
     ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
@@ -181,7 +181,7 @@ locals { # Logic
                 local.ipv4_gateway_object,
                 {
                     nameservers = {
-                        addresses = ["8.8.8.8", "8.8.4.4"]
+                        addresses = tolist(["8.8.8.8", "8.8.4.4"])
                     }
                 }
             )
