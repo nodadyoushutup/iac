@@ -103,7 +103,7 @@ locals { # Logic
 
     groups_data = local.groups_computed == null ? null : (
         can(local.groups_computed[0]) ?
-        local.groups_computed :
+        [for group in local.groups_computed : {"${group}" = []}] :
         [for group, members in local.groups_computed : {"${group}" = members}]
     )
 
