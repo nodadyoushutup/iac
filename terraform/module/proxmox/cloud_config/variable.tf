@@ -84,19 +84,15 @@ variable "groups" {
 
 variable "write_files" {
     # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#write-files
-    description = "List of system users to configure"
+    description = "List of files to create"
     type = list(object({
-        path = optional(string)
-        content = optional(any)
-        source = optional(object({
-            uri = optional(string)
-            headers = optional(map(string))
-        }))
-        owner = optional(string)
+        path        = optional(string)
+        content     = optional(string)
+        owner       = optional(string)
         permissions = optional(string)
-        encoding = optional(string, "b64")
-        append = optional(bool)
-        defer = optional(bool)
+        encoding    = optional(string, "b64")
+        append      = optional(bool)
+        defer       = optional(bool)
     }))
     default = null
 }

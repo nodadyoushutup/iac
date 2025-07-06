@@ -98,17 +98,7 @@ locals { # Logic
             groups = local.groups_computed
             write_files = [
                 for write_file in local.write_files_computed : trimspace(jsonencode({
-                    for k, v in merge(
-                        write_file,
-                        write_file.content != null && can(write_file.content.source) ? {
-                            content = base64encode(
-                                templatefile(
-                                    write_file.content.source,
-                                    try(write_file.content.variables, {})
-                                )
-                            )
-                        } : {}
-                    ) : k => v if v != null
+                    for k, v in write_file : k => v if v != null
                 }))
             ]
         })
