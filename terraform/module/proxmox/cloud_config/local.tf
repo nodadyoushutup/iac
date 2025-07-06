@@ -57,19 +57,17 @@ locals { # Global
 }
 
 locals { # Computed
+    # PROXMOX
     datastore_id_computed = local.datastore_id_variable != null ? local.datastore_id_variable : local.datastore_id_global != null ? local.datastore_id_global : null
     node_name_computed = local.node_name_variable != null ? local.node_name_variable : local.node_name_global != null ? local.node_name_global : null
     overwrite_computed = local.overwrite_variable != null ? local.overwrite_variable : local.overwrite_global != null ? local.overwrite_global : null
 
-    mounts_computed = local.mounts_variable != null ? local.mounts_variable : local.mounts_global != null ? local.mounts_global : null
-    ipv4_computed = {
-        address = local.ipv4_variable.address != null ? local.ipv4_variable.address : local.ipv4_global.address != null ? local.ipv4_global.address : null
-        gateway = local.ipv4_variable.gateway != null ? local.ipv4_variable.gateway : local.ipv4_global.gateway != null ? local.ipv4_global.gateway : null
-    }
+    # NETWORK
     network_computed = local.network_variable != null ? local.network_variable : local.network_global != null ? local.network_global : null
 
-    # ###########################
+    # USER
     users_computed = local.users_variable != null ? local.users_variable : local.users_global != null ? local.users_global : null
+    mounts_computed = local.mounts_variable != null ? local.mounts_variable : local.mounts_global != null ? local.mounts_global : null
     groups_computed = local.groups_variable != null ? local.groups_variable : local.groups_global != null ? local.groups_global : null
     gitconfig_computed = {
         username = local.gitconfig_variable.username != null ? local.gitconfig_variable.username : local.gitconfig_global.username != null ? local.gitconfig_global.username : null
