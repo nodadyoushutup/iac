@@ -1,20 +1,41 @@
 module "cloud_config" {
     source = "../../module/proxmox/cloud_config"
 
+    # PROXMOX
     config = local.config
     name = "test"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
     
+    # NETWORK
+    network = {
+        version = 2
+        ethernets = {
+            eth0 = {
+                match = {
+                    name = "en*"
+                }
+                set-name = "eth0"
+                dhcp4 = "no"
+                addresses = [
+                    "192.168.1.185/24"
+                ]
+                gateway4 = "192.168.1.1"
+                nameservers = {
+                    addresses = [
+                        "8.8.8.8",
+                        "8.8.4.4"
+                    ]
+                }
+            }
+        }
+    }
+
+    # USER
     mounts = [
         ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
     ]
-    ipv4 = {
-        address = "192.168.1.185"
-    }
-
-    # ###############################
     users = [
         {
             name = "nodadyoushutup"
