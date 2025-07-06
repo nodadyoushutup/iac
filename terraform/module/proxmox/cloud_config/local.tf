@@ -44,9 +44,9 @@ locals { # Global
     # ############################
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
     gitconfig_global = {
-        username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
-        email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
-        github_pat = try(var.config.proxmox.global.machine.cloud_config.github.github_pat, null)
+        username = try(var.config.proxmox.global.machine.cloud_config.gitconfig.username, null)
+        email = try(var.config.proxmox.global.machine.cloud_config.gitconfig.email, null)
+        github_pat = try(var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat, null)
     }
 }
 
