@@ -42,6 +42,12 @@ variable "ipv4" {
     default = null
 }
 
+variable "network" {
+    description = "Cloud-init network configuration override"
+    type        = any
+    default     = null
+}
+
 # ######################################
 variable "users" {
     # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#users-and-groups
