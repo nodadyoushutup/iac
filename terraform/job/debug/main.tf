@@ -48,5 +48,5 @@ output "cloud_config" {
 }
 
 output "config" {
-  value = local.config
+  value = local.config.proxmox.global.machine.cloud_config
 }
