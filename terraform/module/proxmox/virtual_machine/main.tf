@@ -40,7 +40,7 @@ module "cloud_config" {
     gitconfig = {
         username = "nodadyoushutup"
         email = "admin@nodadyoushutup.com"
-        github_pat = local.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
+        github_pat = var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
     }
 }
 
