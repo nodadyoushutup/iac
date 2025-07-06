@@ -34,7 +34,7 @@ module "cloud_config" {
         }
     ]
     groups = {
-        docker = ["nodadyoushutup"]
+        docker = ["nodadyoushutup", "test"]
     }
     gitconfig = {
         username = "nodadyoushutup"

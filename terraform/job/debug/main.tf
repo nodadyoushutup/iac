@@ -34,7 +34,9 @@ module "cloud_config" {
             lock_passwd = false,
         }
     ]
-
+    groups = {
+        docker = ["nodadyoushutup", "test"]
+    }
     gitconfig = {
         username = "nodadyoushutup"
         email = "admin@nodadyoushutup.com"
