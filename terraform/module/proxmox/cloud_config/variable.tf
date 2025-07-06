@@ -96,3 +96,14 @@ variable "write_files" {
     }))
     default = null
 }
+variable "bootcmd" {
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#bootcmd
+    type = list(string)
+    default = null
+}
+
+variable "runcmd" {
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#runcmd
+    type = list(string)
+    default = null
+}

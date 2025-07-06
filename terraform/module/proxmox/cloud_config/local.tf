@@ -23,6 +23,8 @@ locals { # Variable
     # #############################
     users_variable = try(var.users, null)
     groups_variable = try(var.groups, null)
+    bootcmd_variable = try(var.bootcmd, null)
+    runcmd_variable = try(var.runcmd, null)
     gitconfig_variable = {
         username = try(var.gitconfig.username, null)
         email = try(var.gitconfig.email, null)
@@ -51,6 +53,8 @@ locals { # Global
         github_pat = try(var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat, null)
     }
     write_files_global = try(var.config.proxmox.global.machine.cloud_config.write_files, null)
+    bootcmd_global = try(var.config.proxmox.global.machine.cloud_config.bootcmd, null)
+    runcmd_global = try(var.config.proxmox.global.machine.cloud_config.runcmd, null)
 }
 
 locals { # Computed
@@ -72,6 +76,8 @@ locals { # Computed
         email = local.gitconfig_variable.email != null ? local.gitconfig_variable.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
         github_pat = local.gitconfig_variable.github_pat != null ? local.gitconfig_variable.github_pat : local.gitconfig_global.github_pat != null ? local.gitconfig_global.github_pat : null
     }
+    bootcmd_computed = local.bootcmd_variable != null ? local.bootcmd_variable : local.bootcmd_global != null ? local.bootcmd_global : null
+    runcmd_computed = local.runcmd_variable != null ? local.runcmd_variable : local.runcmd_global != null ? local.runcmd_global : null
     write_files_computed = local.write_files_variable != null ? local.write_files_variable : local.write_files_global != null ? local.write_files_global : null
 }
 
@@ -100,6 +106,11 @@ locals { # Logic
             for k, v in write_file : k => v if v != null
         }
     ]
+    bootcmd_extra = local.bootcmd_computed == null ? [] : local.bootcmd_computed
+    runcmd_extra  = local.runcmd_computed == null ? [] : local.runcmd_computed
+    runcmd_base   = (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? [
+        for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
+    ] : []
 
     groups_data = local.groups_computed == null ? null : [
         for group in local.groups_computed : {"${group}" = []}
@@ -121,14 +132,12 @@ locals { # Logic
         write_files = concat(local.write_files_gitconfig, local.write_files_extra)
     } : {}
 
-    runcmd_object = (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? {
-        runcmd = [
-            for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
-        ]
+    runcmd_object = length(local.runcmd_base) + length(local.runcmd_extra) > 0 ? {
+        runcmd = concat(local.runcmd_base, local.runcmd_extra)
     } : {}
 
     bootcmd_object = {
-        bootcmd = ["netplan apply"]
+        bootcmd = concat(["netplan apply"], local.bootcmd_extra)
     }
 
     hostname_object = {
