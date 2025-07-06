@@ -9,20 +9,19 @@ locals { # Constant
     }
 }
 locals { # Variable
+    # PROXMOX
     datastore_id_variable = try(var.datastore_id, null)
     node_name_variable = try(var.node_name, null)
     overwrite_variable = try(var.overwrite, null)
-    
-    mounts_variable = try(var.mounts, null)
-    ipv4_variable = {
-        address = try(var.ipv4.address, null)
-        gateway = try(var.ipv4.gateway, null)
-    }
+
+    # NETWORK
     network_variable = try(var.network, null)
 
-    # #############################
+    # USER
     users_variable = try(var.users, null)
+    mounts_variable = try(var.mounts, null)
     groups_variable = try(var.groups, null)
+    write_files_variable = try(var.write_files, null)
     bootcmd_variable = try(var.bootcmd, null)
     runcmd_variable = try(var.runcmd, null)
     gitconfig_variable = {
@@ -30,32 +29,31 @@ locals { # Variable
         email = try(var.gitconfig.email, null)
         github_pat = try(var.gitconfig.github_pat, null)
     }
-    write_files_variable = try(var.write_files, null)
+    
 }
 
 locals { # Global
+    # PROXMOX
     datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
     node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
     
-    mounts_global = try(var.config.proxmox.global.machine.cloud_config.mounts, null)
-    ipv4_global = {
-        address = try(var.config.proxmox.global.machine.cloud_config.ipv4.address, null)
-        gateway = try(var.config.proxmox.global.machine.cloud_config.ipv4.gateway, null)
-    }
+    # NETWORK
     network_global = try(var.config.proxmox.global.machine.cloud_config.network, null)
 
-    # ############################
+    # USER
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
+    mounts_global = try(var.config.proxmox.global.machine.cloud_config.mounts, null)
     groups_global = try(var.config.proxmox.global.machine.cloud_config.groups, null)
+    write_files_global = try(var.config.proxmox.global.machine.cloud_config.write_files, null)
+    bootcmd_global = try(var.config.proxmox.global.machine.cloud_config.bootcmd, null)
+    runcmd_global = try(var.config.proxmox.global.machine.cloud_config.runcmd, null)
     gitconfig_global = {
         username = try(var.config.proxmox.global.machine.cloud_config.gitconfig.username, null)
         email = try(var.config.proxmox.global.machine.cloud_config.gitconfig.email, null)
         github_pat = try(var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat, null)
     }
-    write_files_global = try(var.config.proxmox.global.machine.cloud_config.write_files, null)
-    bootcmd_global = try(var.config.proxmox.global.machine.cloud_config.bootcmd, null)
-    runcmd_global = try(var.config.proxmox.global.machine.cloud_config.runcmd, null)
+    
 }
 
 locals { # Computed

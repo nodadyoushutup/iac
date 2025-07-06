@@ -1,3 +1,4 @@
+# PROXMOX
 variable "config" {
     type = any
 }
@@ -21,10 +22,12 @@ variable "overwrite" {
     default = true
 }
 
+# USER
 variable "gitconfig" {
     type = object({
         username = optional(string)
         email = optional(string)
+        github_pat = optional(string)
     })
     default = null
 }
@@ -34,37 +37,6 @@ variable "mounts" {
     default = null
 }
 
-variable "ipv4" {
-    type = object({
-        address = optional(string, "dhcp")
-        gateway = optional(string)
-    })
-    default = null
-}
-
-variable "network" {
-    description = "Cloud-init network configuration override"
-    type = object({
-        version = optional(number, 2)
-        ethernets = optional(object({
-            eth0 = optional(object({
-                match = optional(object({
-                    name = optional(string, "en*")
-                }))
-                set-name = optional(string, "eth0")
-                dhcp4 = optional(string, "yes")
-                addresses = optional(list(string))
-                gateway4 = optional(string)
-                nameservers = optional(object({
-                    addresses = optional(list(string))
-                }))
-            }))
-        }))
-    })
-    default     = null
-}
-
-# ######################################
 variable "users" {
     # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#users-and-groups
     description = "List of system users to configure"
@@ -86,7 +58,7 @@ variable "users" {
         create_groups = optional(bool)
         primary_group = optional(string)
         selinux_user = optional(string)
-        shell = optional(string, "/bin/bash")
+        shell = optional(string)
         snapuser = optional(string)
         ssh_authorized_keys = optional(list(string))
         ssh_import_id = optional(list(string))
@@ -129,3 +101,28 @@ variable "runcmd" {
     type = list(string)
     default = null
 }
+
+
+# NETWORK
+variable "network" {
+    description = "Cloud-init network configuration override"
+    type = object({
+        version = optional(number, 2)
+        ethernets = optional(object({
+            eth0 = optional(object({
+                match = optional(object({
+                    name = optional(string, "en*")
+                }))
+                set-name = optional(string, "eth0")
+                dhcp4 = optional(string, "yes")
+                addresses = optional(list(string))
+                gateway4 = optional(string)
+                nameservers = optional(object({
+                    addresses = optional(list(string))
+                }))
+            }))
+        }))
+    })
+    default     = null
+}
+
