@@ -44,3 +44,8 @@ output "gitconfig" {
     sensitive = true
     value = local.gitconfig_computed
 }
+
+output "groups" {
+    sensitive = true
+    value = local.groups_computed
+}
