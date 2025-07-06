@@ -105,27 +105,27 @@ locals { # Logic
         for group in local.groups_computed : {"${group}" = []}
     ]
 
-    mounts_data = local.mounts_computed != null ? {
+    mounts_object = local.mounts_computed != null ? {
         mounts               = local.mounts_computed
-    } : null
+    } : {}
 
-    mount_default_fields_data = local.mounts_computed != null ? {
+    mount_default_fields_object = local.mounts_computed != null ? {
         mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
-    } : null
+    } : {}
 
     groups_object = local.groups_data != null ? {
         groups = local.groups_data
-    } : null
+    } : {}
 
     write_files_object = length(local.write_files_gitconfig) + length(local.write_files_extra) > 0 ? {
         write_files = concat(local.write_files_gitconfig, local.write_files_extra)
-    } : null
+    } : {}
 
     runcmd_object = (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? {
         runcmd = [
             for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
         ]
-    } : null
+    } : {}
 
     bootcmd_object = {
         bootcmd = ["netplan apply"]
@@ -152,11 +152,11 @@ locals { # Template
         local.bootcmd_object,
         local.hostname_object,
         local.users_object,
-        local.mounts_data != null ? local.mounts_data : {},
-        local.mount_default_fields_data != null ? local.mount_default_fields_data : {},
-        local.groups_object != null ? local.groups_object : {},
-        local.write_files_object != null ? local.write_files_object : {},
-        local.runcmd_object != null ? local.runcmd_object : {},
+        local.mounts_object,
+        local.mount_default_fields_object,
+        local.groups_object,
+        local.write_files_object,
+        local.runcmd_object,
     )
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
