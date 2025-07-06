@@ -3,10 +3,9 @@ locals { # Required
 }
 
 locals { # Constant
-    source = { 
-        cloud = "${path.module}/template/cloud_config.yaml.tpl"
-        talos = "${path.module}/template/talos_config.yaml.tpl"
-        network = "${path.module}/template/network_config.yaml.tpl"
+    source = {
+        talos    = "${path.module}/template/talos_config.yaml.tpl"
+        network  = "${path.module}/template/network_config.yaml.tpl"
         gitconfig = "${path.module}/template/gitconfig.tpl"
     }
 }
@@ -84,40 +83,67 @@ locals { # Logic
             gitconfig = local.gitconfig_computed
         }))
     }
+
     write_files_gitconfig = local.users_computed == null ? [] : [
-        for user in local.users_computed : trimspace(jsonencode({
-            path = "/home/${user.name}/.gitconfig"
+        for user in local.users_computed : {
+            path        = "/home/${user.name}/.gitconfig"
             permissions = "0640"
-            encoding = "b64"
-            content = local.base64.gitconfig
-            owner = "${user.name}:${user.name}"
-            defer = true
-        }))
+            encoding    = "b64"
+            content     = local.base64.gitconfig
+            owner       = "${user.name}:${user.name}"
+            defer       = true
+        }
     ]
-    template = {
-        
-        cloud = templatefile(local.source.cloud, {
+
+    write_files_extra = local.write_files_computed == null ? [] : [
+        for write_file in local.write_files_computed : {
+            for k, v in write_file : k => v if v != null
+        }
+    ]
+
+    groups_data = local.groups_computed == null ? null : (
+        can(local.groups_computed[0]) ?
+        local.groups_computed :
+        [for group, members in local.groups_computed : {"${group}" = members}]
+    )
+
+    cloud_config_data = merge(
+        {
+            bootcmd  = ["netplan apply"]
             hostname = local.name
-            gitconfig = local.gitconfig_computed
-            mounts = [for m in local.mounts_computed : jsonencode(m)]
-            users = [
-                for user in local.users_computed : trimspace(jsonencode({
-                    for k, v in user : k => v if v != null
-                }))
+            users    = concat(
+                ["default"],
+                local.users_computed == null ? [] : [
+                    for user in local.users_computed : {
+                        for k, v in user : k => v if v != null
+                    }
+                ]
+            )
+        },
+        local.mounts_computed != null ? {
+            mounts               = local.mounts_computed
+            mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
+        } : {},
+        local.groups_data != null ? { groups = local.groups_data } : {},
+        length(local.write_files_gitconfig) + length(local.write_files_extra) > 0 ? {
+            write_files = concat(local.write_files_gitconfig, local.write_files_extra)
+        } : {},
+        (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? {
+            runcmd = [
+                for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
             ]
-            groups = local.groups_computed
-            write_files_gitconfig = local.write_files_gitconfig
-            write_files = [
-                for write_file in local.write_files_computed : trimspace(jsonencode({
-                    for k, v in write_file : k => v if v != null
-                }))
-            ]
-        })
+        } : {}
+    )
+
+    cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
+
+    template = {
+        cloud = local.cloud_config_yaml
         talos = templatefile(local.source.talos, {
             hostname = local.name
         })
         network = templatefile(local.source.network, {
             ipv4 = local.ipv4_computed
-        }) 
-    } 
+        })
+    }
 }
