@@ -17,7 +17,7 @@ module "cloud_config" {
     users = [
         {
             name = "nodadyoushutup"
-            groups = "sudo"
+            groups = ["sudo", "docker"]
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
@@ -26,7 +26,7 @@ module "cloud_config" {
         },
         {
             name = "test"
-            groups = "sudo"
+            groups = ["sudo", "docker"]
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"

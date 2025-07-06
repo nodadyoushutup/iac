@@ -25,8 +25,6 @@ groups:
 %{ for group, members in groups ~}
   - ${group}: [%{ for member in members ~}"${member}",%{ endfor }]
 %{ endfor }
-%{ else }
-groups: []
 %{ endif }
 
 write_files:
