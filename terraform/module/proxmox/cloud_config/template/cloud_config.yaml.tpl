@@ -34,10 +34,10 @@ groups:
 %{ endif }
 
 write_files:
-%{ if gitconfig != null }
-  - path: /tmp/.gitconfig
-    encoding: b64
-    content: ${base64.gitconfig}
+%{ if write_files != null && length(write_files) > 0 }
+%{ for write_file in write_files ~}
+  - ${write_file}
+%{ endfor }
 %{ endif }
 
 

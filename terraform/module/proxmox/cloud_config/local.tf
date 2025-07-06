@@ -29,6 +29,7 @@ locals { # Variable
         email = try(var.gitconfig.email, null)
         github_pat = try(var.gitconfig.github_pat, null)
     }
+    write_files_variable = try(var.write_files, null)
 }
 
 locals { # Global
@@ -50,6 +51,7 @@ locals { # Global
         email = try(var.config.proxmox.global.machine.cloud_config.gitconfig.email, null)
         github_pat = try(var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat, null)
     }
+    write_files_global = try(var.config.proxmox.global.machine.cloud_config.write_files, null)
 }
 
 locals { # Computed
@@ -71,7 +73,7 @@ locals { # Computed
         email = local.gitconfig_variable.email != null ? local.gitconfig_variable.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
         github_pat = local.gitconfig_variable.github_pat != null ? local.gitconfig_variable.github_pat : local.gitconfig_global.github_pat != null ? local.gitconfig_global.github_pat : null
     }
-
+    write_files_computed = local.write_files_variable != null ? local.write_files_variable : local.write_files_global != null ? local.write_files_global : null
 }
 
 
@@ -80,20 +82,25 @@ locals { # Logic
     template = { 
         
         cloud = templatefile(local.source.cloud, {
-            hostname = local.name
-            gitconfig = local.gitconfig_computed
-            mounts = [for m in local.mounts_computed : jsonencode(m)]
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
                     gitconfig = local.gitconfig_computed
                 }))
             }
+            hostname = local.name
+            gitconfig = local.gitconfig_computed
+            mounts = [for m in local.mounts_computed : jsonencode(m)]
             users = [
                 for user in local.users_computed : trimspace(jsonencode({
                     for k, v in user : k => v if v != null
                 }))
             ]
             groups = local.groups_computed
+            write_files = [
+                for write_file in local.write_files_computed : trimspace(jsonencode({
+                    for k, v in write_file : k => v if v != null
+                }))
+            ]
         })
         talos = templatefile(local.source.talos, {
             hostname = local.name

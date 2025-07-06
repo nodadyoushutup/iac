@@ -77,7 +77,26 @@ variable "users" {
 }
 
 variable "groups" {
-    # Accept either a map of groups to members or a simple list of groups
-    type    = any
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#users-and-groups
+    type = any # Accept either a map of groups to members or a simple list of groups
+    default = null
+}
+
+variable "write_files" {
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#write-files
+    description = "List of system users to configure"
+    type = list(object({
+        path = optional(string)
+        content = optional(string)
+        source = optional(object({
+            uri = optional(string)
+            headers = optional(map(string))
+        }))
+        owner = optional(string)
+        permissions = optional(string, "0644")
+        encoding = optional(string, "b64")
+        append = optional(bool, false)
+        defer = optional(bool, false)
+    }))
     default = null
 }
