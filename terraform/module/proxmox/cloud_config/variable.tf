@@ -44,7 +44,7 @@ variable "ipv4" {
 
 variable "network" {
     description = "Cloud-init network configuration override"
-    type = optional(object({
+    type = object({
         version = optional(number, 2)
         ethernets = optional(object({
             eth0 = optional(object({
