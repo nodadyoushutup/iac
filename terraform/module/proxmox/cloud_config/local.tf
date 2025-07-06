@@ -152,18 +152,6 @@ locals { # Logic
             ]
         )
     }
-
-    ipv4_address_object = local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" ? {
-        dhcp4    = "no"
-        addresses = ["${local.ipv4_computed.address}/24"]
-    } : {
-        dhcp4 = "yes"
-        addresses = []
-    }
-
-    ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
-        gateway4 = local.ipv4_computed.gateway
-    } : {}
 }
 
 locals { # Template
