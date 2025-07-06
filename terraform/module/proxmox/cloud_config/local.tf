@@ -105,6 +105,25 @@ locals { # Logic
         for group in local.groups_computed : {"${group}" = []}
     ]
 
+    mounts_object = local.mounts_computed != null ? {
+        mounts               = local.mounts_computed
+        mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
+    } : null
+
+    groups_object = local.groups_data != null ? {
+        groups = local.groups_data
+    } : null
+
+    write_files_object = length(local.write_files_gitconfig) + length(local.write_files_extra) > 0 ? {
+        write_files = concat(local.write_files_gitconfig, local.write_files_extra)
+    } : null
+
+    runcmd_object = (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? {
+        runcmd = [
+            for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
+        ]
+    } : null
+
     cloud_config_data = merge(
         {
             bootcmd  = ["netplan apply"]
@@ -118,19 +137,10 @@ locals { # Logic
                 ]
             )
         },
-        local.mounts_computed != null ? {
-            mounts               = local.mounts_computed
-            mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
-        } : {},
-        local.groups_data != null ? { groups = local.groups_data } : {},
-        length(local.write_files_gitconfig) + length(local.write_files_extra) > 0 ? {
-            write_files = concat(local.write_files_gitconfig, local.write_files_extra)
-        } : {},
-        (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? {
-            runcmd = [
-                for user in local.users_computed : "su - ${user.name} -c \"/script/register_github_public_key.sh ${local.gitconfig_computed.github_pat}\""
-            ]
-        } : {}
+        local.mounts_object != null ? local.mounts_object : {},
+        local.groups_object != null ? local.groups_object : {},
+        local.write_files_object != null ? local.write_files_object : {},
+        local.runcmd_object != null ? local.runcmd_object : {}
     )
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
