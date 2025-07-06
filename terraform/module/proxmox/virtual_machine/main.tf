@@ -44,9 +44,10 @@ module "cloud_config" {
     }
     write_files = [
         {
-            path = "/tmp/.gitconfig"
+            path = "/home/nodadyoushutup/text.txt"
             encoding = "b64"
-            content = "W3VzZXJdCiAgICBuYW1lID0gbm9kYWR5b3VzaHV0dXAKICAgIGVtYWlsID0gYWRtaW5Abm9kYWR5b3VzaHV0dXAuY29t"
+            content = "aGVsbG8gd29ybGQK"
+            defer = true
         }
     ]
 }
