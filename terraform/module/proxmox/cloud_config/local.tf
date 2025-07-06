@@ -97,11 +97,11 @@ locals { # Logic
             ]
             groups = local.groups_computed
             write_files_base = [
-                {
+                trimspace(jsonencode({
                     path = "/tmp/.gitconfig"
                     encoding = "b64"
                     content = local.base64.gitconfig
-                }
+                }))
             ]
             write_files = [
                 for write_file in local.write_files_computed : trimspace(jsonencode({
