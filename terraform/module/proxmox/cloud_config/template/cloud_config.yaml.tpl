@@ -35,7 +35,7 @@ groups:
 
 write_files:
 %{ if write_files != null && length(write_files) > 0 }
-%{ for write_file in write_files_per_users ~}
+%{ for write_file in write_files_base ~}
   - ${write_file}
 %{ endfor }
 %{ for write_file in write_files ~}

@@ -87,7 +87,6 @@ locals { # Logic
     template = { 
         
         cloud = templatefile(local.source.cloud, {
-            
             hostname = local.name
             gitconfig = local.gitconfig_computed
             mounts = [for m in local.mounts_computed : jsonencode(m)]
@@ -97,12 +96,11 @@ locals { # Logic
                 }))
             ]
             groups = local.groups_computed
-            write_files_per_user = [
+            write_files_base = [
                 {
                     path = "/tmp/.gitconfig"
                     encoding = "b64"
                     content = local.base64.gitconfig
-                    defer = true
                 }
             ]
             write_files = [
