@@ -18,12 +18,6 @@ output "template" {
     value = local.template
 }
 
-
-
-output "ipv4" {
-    value = local.ipv4_computed
-}
-
 output "cloud_id" {
     value = proxmox_virtual_environment_file.cloud.id
 }
@@ -31,7 +25,6 @@ output "cloud_id" {
 output "network_id" {
     value = proxmox_virtual_environment_file.network.id
 }
-
 
 
 # ######################
