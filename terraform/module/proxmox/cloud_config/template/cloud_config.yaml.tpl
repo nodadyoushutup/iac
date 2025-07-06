@@ -43,7 +43,7 @@ runcmd:
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
 %{ if gitconfig != null && gitconfig.github_pat != null }
-  - su - ${jsondecode(user).name} -c "/script/register_github_public_key.sh.sh ${gitconfig.github_pat}""
+  - su - ${jsondecode(user).name} -c "/script/register_github_public_key.sh.sh ${gitconfig.github_pat}"
 %{ endif }
 %{ if gitconfig != null }
   - cp /tmp/.gitconfig /home/${jsondecode(user).name}/.gitconfig
