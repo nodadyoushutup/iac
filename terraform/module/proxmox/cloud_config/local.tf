@@ -124,23 +124,41 @@ locals { # Logic
         ]
     } : null
 
+    bootcmd_object = {
+        bootcmd = ["netplan apply"]
+    }
+
+    hostname_object = {
+        hostname = local.name
+    }
+
+    users_object = {
+        users = concat(
+            ["default"],
+            local.users_computed == null ? [] : [
+                for user in local.users_computed : {
+                    for k, v in user : k => v if v != null
+                }
+            ]
+        )
+    }
+}
+
+locals { # Template
+    additional_objects = [
+        for obj in [
+            local.mounts_object,
+            local.groups_object,
+            local.write_files_object,
+            local.runcmd_object
+        ] : obj if obj != null
+    ]
+
     cloud_config_data = merge(
-        {
-            bootcmd  = ["netplan apply"]
-            hostname = local.name
-            users    = concat(
-                ["default"],
-                local.users_computed == null ? [] : [
-                    for user in local.users_computed : {
-                        for k, v in user : k => v if v != null
-                    }
-                ]
-            )
-        },
-        local.mounts_object != null ? local.mounts_object : {},
-        local.groups_object != null ? local.groups_object : {},
-        local.write_files_object != null ? local.write_files_object : {},
-        local.runcmd_object != null ? local.runcmd_object : {}
+        local.bootcmd_object,
+        local.hostname_object,
+        local.users_object,
+        length(local.additional_objects) > 0 ? merge(local.additional_objects...) : {}
     )
 
     cloud_config_yaml = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
