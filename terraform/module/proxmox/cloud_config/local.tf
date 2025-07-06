@@ -187,9 +187,7 @@ locals { # Logic
         }
     }
 
-    network_object = local.network_computed != null ?
-        local.network_computed :
-        jsondecode(jsonencode(local.network_generated_object))
+    network_object = local.network_computed != null ? local.network_computed : jsondecode(jsonencode(local.network_generated_object))
 }
 
 locals { # Template
