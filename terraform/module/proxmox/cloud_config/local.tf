@@ -169,26 +169,8 @@ locals { # Logic
         gateway4 = local.ipv4_computed.gateway
     } : {}
 
-    network_generated_object = {
-        version   = 2
-        ethernets = {
-            eth0 = merge(
-                {
-                    match    = { name = "en*" }
-                    "set-name" = "eth0"
-                },
-                local.ipv4_address_object,
-                local.ipv4_gateway_object,
-                {
-                    nameservers = {
-                        addresses = ["8.8.8.8", "8.8.4.4"]
-                    }
-                }
-            )
-        }
-    }
 
-    network_object = local.network_computed != null ? local.network_computed : jsondecode(jsonencode(local.network_generated_object))
+    network_object = local.network_computed != null ? local.network_computed : {network = { config = "disabled"}}
 }
 
 locals { # Template
