@@ -13,10 +13,11 @@ module "cloud_config" {
         address = "192.168.1.185"
     }
 
+    # ###############################
     users = [
         {
             name = "nodadyoushutup"
-            groups = "sudo"
+            groups = ["sudo", "docker"]
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
@@ -25,7 +26,7 @@ module "cloud_config" {
         },
         {
             name = "test"
-            groups = "sudo"
+            groups = ["sudo", "docker"]
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
             sudo = "ALL=(ALL) NOPASSWD:ALL"
@@ -34,12 +35,12 @@ module "cloud_config" {
         }
     ]
     groups = {
-        docker = ["nodadyoushutup", "test"]
+        docker = []
     }
     gitconfig = {
         username = "nodadyoushutup"
         email = "admin@nodadyoushutup.com"
-        github_pat = var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
+        github_pat = local.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
     }
 }
 

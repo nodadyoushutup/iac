@@ -14,6 +14,7 @@ module "cloud_config" {
         address = "192.168.1.185"
     }
 
+    # ###############################
     users = [
         {
             name = "nodadyoushutup"
@@ -35,7 +36,7 @@ module "cloud_config" {
         }
     ]
     groups = {
-        docker = ["nodadyoushutup", "test"]
+        docker = []
     }
     gitconfig = {
         username = "nodadyoushutup"
