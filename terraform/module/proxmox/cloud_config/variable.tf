@@ -60,7 +60,7 @@ variable "network" {
                 }))
             }))
         }))
-    }))
+    })
     default     = null
 }
 
