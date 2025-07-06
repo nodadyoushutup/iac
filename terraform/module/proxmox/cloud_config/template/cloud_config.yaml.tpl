@@ -23,11 +23,7 @@ mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 %{ if groups != null && length(groups) > 0 }
 groups:
 %{ for group, members in groups ~}
-  - ${group}: [
-%{ for member in members ~}
-      "${member}",
-%{ endfor }
-    ]
+  - ${group}: [%{ for member in members ~}"${member}",%{ endfor }]
 %{ endfor }
 %{ else }
 groups: []
