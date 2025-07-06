@@ -26,6 +26,7 @@ locals { # Variable
     gitconfig_variable = {
         username = try(var.gitconfig.username, null)
         email = try(var.gitconfig.email, null)
+        github_pat = try(var.gitconfig.github_pat, null)
     }
 }
 
@@ -45,6 +46,7 @@ locals { # Global
     gitconfig_global = {
         username = try(var.config.proxmox.global.machine.cloud_config.github.username, null)
         email = try(var.config.proxmox.global.machine.cloud_config.github.email, null)
+        github_pat = try(var.config.proxmox.global.machine.cloud_config.github.github_pat, null)
     }
 }
 
@@ -64,6 +66,7 @@ locals { # Computed
     gitconfig_computed = {
         username = local.gitconfig_variable.username != null ? local.gitconfig_variable.username : local.gitconfig_global.username != null ? local.gitconfig_global.username : null
         email = local.gitconfig_variable.email != null ? local.gitconfig_variable.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
+        github_pat = local.gitconfig_variable.github_pat != null ? local.gitconfig_variable.github_pat : local.gitconfig_global.github_pat != null ? local.gitconfig_global.github_pat : null
     }
 
 }
