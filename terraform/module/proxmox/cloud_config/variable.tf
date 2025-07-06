@@ -75,3 +75,8 @@ variable "users" {
     }))
     default = null
 }
+
+variable "groups" {
+    type = map(list(string))
+    default = null
+}

@@ -23,6 +23,7 @@ locals { # Variable
 
     # #############################
     users_variable = try(var.users, null)
+    groups_variable = try(var.groups, null)
     gitconfig_variable = {
         username = try(var.gitconfig.username, null)
         email = try(var.gitconfig.email, null)
@@ -43,6 +44,7 @@ locals { # Global
 
     # ############################
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)
+    groups_global = try(var.config.proxmox.global.machine.cloud_config.groups, null)
     gitconfig_global = {
         username = try(var.config.proxmox.global.machine.cloud_config.gitconfig.username, null)
         email = try(var.config.proxmox.global.machine.cloud_config.gitconfig.email, null)
@@ -63,6 +65,7 @@ locals { # Computed
 
     # ###########################
     users_computed = local.users_variable != null ? local.users_variable : local.users_global != null ? local.users_global : null
+    groups_computed = local.groups_variable != null ? local.groups_variable : local.groups_global != null ? local.groups_global : null
     gitconfig_computed = {
         username = local.gitconfig_variable.username != null ? local.gitconfig_variable.username : local.gitconfig_global.username != null ? local.gitconfig_global.username : null
         email = local.gitconfig_variable.email != null ? local.gitconfig_variable.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
@@ -90,10 +93,11 @@ locals { # Logic
                     for k, v in user : k => v if v != null
                 }))
             ]
+            groups = local.groups_computed
         })
-        talos = templatefile(local.source.talos, { 
+        talos = templatefile(local.source.talos, {
             hostname = local.name
-        }) 
+        })
         network = templatefile(local.source.network, {
             ipv4 = local.ipv4_computed
         }) 

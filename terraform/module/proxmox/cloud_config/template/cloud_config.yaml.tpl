@@ -20,15 +20,17 @@ mounts:
 mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
 %{ endif }
 
+%{ if groups != null && length(groups) > 0 }
 groups:
-  - docker: [
-%{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-      "${jsondecode(user).name}",
+%{ for group, members in groups ~}
+  - ${group}: [
+%{ for member in members ~}
+      "${member}",
 %{ endfor }
     ]
+%{ endfor }
 %{ else }
-  - docker: []
+groups: []
 %{ endif }
 
 write_files:
