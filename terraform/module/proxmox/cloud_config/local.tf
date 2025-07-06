@@ -162,6 +162,7 @@ locals { # Logic
         addresses = ["${local.ipv4_computed.address}/24"]
     } : {
         dhcp4 = "yes"
+        addresses = null
     }
 
     ipv4_gateway_object = (local.ipv4_computed.address != null && local.ipv4_computed.address != "dhcp" && local.ipv4_computed.gateway != null) ? {
