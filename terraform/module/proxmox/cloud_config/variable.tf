@@ -87,7 +87,7 @@ variable "write_files" {
     description = "List of system users to configure"
     type = list(object({
         path = optional(string)
-        content = optional(string)
+        content = optional(any)
         source = optional(object({
             uri = optional(string)
             headers = optional(map(string))
