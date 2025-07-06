@@ -4,17 +4,6 @@ bootcmd:
 
 hostname: ${hostname}
 
-groups:
-  - docker: [
-%{ if users != null && length(users) > 0 }
-%{ for user in users ~}
-      "${jsondecode(user).name}",
-%{ endfor }
-    ]
-%{ else }
-  - docker: []
-%{ endif }
-
 users:
   - default
 %{ if users != null && length(users) > 0 }
@@ -29,6 +18,17 @@ mounts:
   - ${mnt}
 %{ endfor }
 mount_default_fields: [None, None, auto, "defaults,nofail", "0", "2"]
+%{ endif }
+
+groups:
+  - docker: [
+%{ if users != null && length(users) > 0 }
+%{ for user in users ~}
+      "${jsondecode(user).name}",
+%{ endfor }
+    ]
+%{ else }
+  - docker: []
 %{ endif }
 
 write_files:
