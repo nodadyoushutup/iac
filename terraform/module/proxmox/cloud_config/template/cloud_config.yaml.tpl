@@ -42,10 +42,10 @@ write_files:
 runcmd:
 %{ if users != null && length(users) > 0 }
 %{ for user in users ~}
-%{ if gitconfig != null }
-%{ if gitconfig.github_pat != null }
-  - /script/register_github_public_key.sh.sh ${gitconfig.github_pat}
+%{ if gitconfig != null && gitconfig.github_pat != null }
+  - su - ${jsondecode(user).name} -c "/script/register_github_public_key.sh.sh ${gitconfig.github_pat}""
 %{ endif }
+%{ if gitconfig != null }
   - cp /tmp/.gitconfig /home/${jsondecode(user).name}/.gitconfig
   - chown ${jsondecode(user).name}:${jsondecode(user).name} /home/${jsondecode(user).name}/.gitconfig
 %{ endif }
