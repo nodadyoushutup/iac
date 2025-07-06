@@ -84,7 +84,7 @@ locals { # Logic
         cloud = templatefile(local.source.cloud, {
             base64 = {
                 gitconfig = base64encode(templatefile(local.source.gitconfig, {
-                    gitconfig = local.gitconfig_computed
+                    # gitconfig = local.gitconfig_computed
                 }))
             }
             hostname = local.name
