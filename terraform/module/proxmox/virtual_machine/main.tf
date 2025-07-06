@@ -47,7 +47,7 @@ module "image" {
     datastore_id = "config"
     # file_name = "xyz-image.img"
     # node_name = "pve"
-    # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/cloud-image-x86-64-jammy-0.1.13.img"
+    # url = "https://github.com/nodadyoushutup/cloud-image/releases/download/0.1.13/jammy-cloud-image-amd64-0.1.13.img"
     # overwrite = true
     # overwrite_unmanaged = true
 }
