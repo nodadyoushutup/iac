@@ -10,10 +10,5 @@ locals { # Template
         local.runcmd_object,
     )
 
-    template = {
-        user = "#cloud-config\n${yamlencode(local.template_data)}"
-        talos = templatefile(local.source.talos, {
-            hostname = local.name
-        })
-    }
+    template = "#cloud-config\n${yamlencode(local.template_data)}"
 }
