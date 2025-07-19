@@ -1,13 +1,13 @@
 locals { # Objects
-    mounts_object = local.mounts_computed != null ? {
+    mounts_object = try(local.mounts_computed, null) != null ? {
         mounts               = local.mounts_computed
     } : {}
 
-    mount_default_fields_object = local.mounts_computed != null ? {
+    mount_default_fields_object = try(local.mounts_computed, null) != null ? {
         mount_default_fields = [null, null, "auto", "defaults,nofail", "0", "2"]
     } : {}
 
-    groups_object = local.groups_computed != null ? {
+    groups_object = try(local.groups_computed, null) != null ? {
         groups = local.groups_computed
     } : {}
 
@@ -15,11 +15,11 @@ locals { # Objects
         write_files = concat(local.write_files_base, local.write_files_extra)
     } : {}
 
-    runcmd_object = length(local.runcmd_base) + length(local.runcmd_computed != null ? local.runcmd_computed : 0) > 0 ? {
+    runcmd_object = length(local.runcmd_base) + length(try(local.runcmd_computed, null) != null ? local.runcmd_computed : 0) > 0 ? {
         runcmd = concat(local.runcmd_base, local.runcmd_computed)
     } : {}
 
-    bootcmd_object = length(local.bootcmd_base) + length(local.bootcmd_computed != null ? local.bootcmd_computed : 0) > 0 ? {
+    bootcmd_object = length(local.bootcmd_base) + length(try(local.bootcmd_computed, null) != null ? local.bootcmd_computed : 0) > 0 ? {
         bootcmd = concat(local.bootcmd_base, local.bootcmd_computed)
     } : {}
 
