@@ -1,5 +1,5 @@
 module "cloud_init_user" {
-    source = "../../module/proxmox/cloud_init_user"
+    source = "../../module/proxmox/cloud_init_network"
 
     # PROXMOX
     config = local.config
