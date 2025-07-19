@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_file" "user_cloud_init" {
+resource "proxmox_virtual_environment_file" "cloud_init_user" {
     content_type = "snippets"
     datastore_id = local.datastore_id_computed
     node_name = local.node_name_computed
@@ -6,6 +6,6 @@ resource "proxmox_virtual_environment_file" "user_cloud_init" {
 
     source_raw {
         data = local.template
-        file_name = "${local.name}-user-cloud-init.yaml"
+        file_name = "${local.name}-cloud-init-user.yaml"
     }
 }
