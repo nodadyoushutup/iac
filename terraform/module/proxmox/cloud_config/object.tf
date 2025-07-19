@@ -20,7 +20,7 @@ locals { # Objects
     } : {}
 
     bootcmd_object = {
-        bootcmd = concat(local.bootcmd_base, try(local.bootcmd_computed, []))
+        bootcmd = local.bootcmd_computed != null ? concat(local.bootcmd_base, local.bootcmd_computed) : local.bootcmd_base
     }
 
     hostname_object = {
