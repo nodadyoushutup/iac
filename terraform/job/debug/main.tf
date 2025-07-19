@@ -9,7 +9,20 @@ module "cloud_init" {
     overwrite = true
 
     # NETWORK
-    
+    ethernets = {
+      eth0 = {
+        match = { 
+          name = "en*" 
+        }
+        set_name = "eth0"
+        dhcp4 = false
+        addresses = ["192.168.1.10/24"]
+        gateway4 = "192.168.1.1"
+        nameservers = {
+          addresses = ["8.8.8.8", "8.8.4.4"]
+        }
+      }
+    }
 }
 
 

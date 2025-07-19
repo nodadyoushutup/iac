@@ -5,6 +5,6 @@ locals { # Input
     overwrite_input = try(var.overwrite, null)
 
     # NETWORK
-    
+    ethernets_input = try(var.ethernets, null)
     
 }
