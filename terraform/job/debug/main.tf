@@ -16,7 +16,7 @@ module "cloud_init" {
         }
         set_name = "eth0"
         dhcp4 = false
-        addresses = ["192.168.1.10/24"]
+        addresses = ["192.168.1.150/24"]
         gateway4 = "192.168.1.1"
         nameservers = {
           addresses = ["8.8.8.8", "8.8.4.4"]

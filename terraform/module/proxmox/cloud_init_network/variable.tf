@@ -26,14 +26,14 @@ variable "overwrite" {
 
 variable "ethernets" {
     type = map(object({
-            match = optional(object({ 
-                name = string 
-            }))
-            set_name = optional(string)
-            dhcp4 = optional(bool)
-            addresses = optional(list(string))
-            gateway4 = optional(string)
-            nameservers = optional(object({
+        match = optional(object({ 
+            name = string 
+        }))
+        set_name = optional(string)
+        dhcp4 = optional(bool)
+        addresses = optional(list(string))
+        gateway4 = optional(string)
+        nameservers = optional(object({
             addresses = list(string)
         }))
     }))
