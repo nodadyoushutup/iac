@@ -40,20 +40,20 @@ module "cloud_config" {
         email = "admin@nodadyoushutup.com"
         github_pat = var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
     }
-    write_files = [
-        {
-            path = "/etc/skel/hello.txt"
-            encoding = "b64"
-            content = "aGVsbG8gd29ybGQK"
-            permissions = "0640"
-        }
-    ]
-    bootcmd = [
-        "echo 'bootcmd test'"
-    ]
-    runcmd = [
-        "echo 'runcmd test'"
-    ]
+    # write_files = [
+    #     {
+    #         path = "/etc/skel/hello.txt"
+    #         encoding = "b64"
+    #         content = "aGVsbG8gd29ybGQK"
+    #         permissions = "0640"
+    #     }
+    # ]
+    # bootcmd = [
+    #     "echo 'bootcmd test'"
+    # ]
+    # runcmd = [
+    #     "echo 'runcmd test'"
+    # ]
 }
 
 module "image" {
