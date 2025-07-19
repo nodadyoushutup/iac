@@ -1,5 +1,5 @@
 locals { # Template
-    cloud_config_data = merge(
+    template_data = merge(
         local.bootcmd_object,
         local.hostname_object,
         local.users_object,
@@ -11,9 +11,8 @@ locals { # Template
     )
 
     template = {
-        cloud   = "#cloud-config\n${yamlencode(local.cloud_config_data)}"
-        network = "#cloud-config\n${yamlencode({network=local.network_computed })}"
-        talos   = templatefile(local.source.talos, {
+        user = "#cloud-config\n${yamlencode(local.template_data)}"
+        talos = templatefile(local.source.talos, {
             hostname = local.name
         })
     }

@@ -21,24 +21,3 @@ output "template" {
 output "cloud_id" {
     value = proxmox_virtual_environment_file.cloud.id
 }
-
-output "network_id" {
-    value = proxmox_virtual_environment_file.network.id
-}
-
-
-# ######################
-output "users" {
-    sensitive = true
-    value = local.users_computed
-}
-
-output "gitconfig" {
-    sensitive = true
-    value = local.gitconfig_computed
-}
-
-output "groups" {
-    sensitive = true
-    value = local.groups_computed
-}
