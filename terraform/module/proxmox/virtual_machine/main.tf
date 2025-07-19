@@ -9,9 +9,9 @@ module "cloud_config" {
     mounts = [
         ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
     ]
-    ipv4 = {
-        address = "192.168.1.185"
-    }
+    # ipv4 = {
+    #     address = "192.168.1.185"
+    # }
 
     # ###############################
     users = [
@@ -42,7 +42,7 @@ module "cloud_config" {
     }
     write_files = [
         {
-            path = "/home/nodadyoushutup/hello.txt"
+            path = "/etc/skel/nodadyoushutup/hello.txt"
             encoding = "b64"
             content = "aGVsbG8gd29ybGQK"
             owner = "nodadyoushutup:nodadyoushutup"

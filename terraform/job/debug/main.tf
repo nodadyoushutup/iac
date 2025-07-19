@@ -66,7 +66,7 @@ module "cloud_config" {
     }
     write_files = [
         {
-            path = "/home/nodadyoushutup/hello.txt"
+            path = "/etc/skel/hello.txt"
             encoding = "b64"
             content = "aGVsbG8gd29ybGQK"
             owner = "nodadyoushutup:nodadyoushutup"
