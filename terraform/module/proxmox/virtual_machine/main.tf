@@ -1,31 +1,28 @@
 module "cloud_config" {
     source = "../cloud_config"
 
+    # CONFIG
     config = var.config
+
+    # PROXMOX
     name = "test"
     datastore_id = "config"
     node_name = "pve"
     overwrite = true
+    
+    # USER
+    bootcmd = [
+        "mkdir -p /mnt/epool/media"
+    ]
+    runcmd = [
+        "echo 'runcmd test'"
+    ]
     mounts = [
         ["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs","defaults,_netdev", "0", "0"]
     ]
-    # ipv4 = {
-    #     address = "192.168.1.185"
-    # }
-
-    # ###############################
     users = [
         {
             name = "nodadyoushutup"
-            groups = ["sudo", "docker"]
-            ssh_import_id = ["gh:nodadyoushutup"]
-            shell = "/bin/bash"
-            sudo = "ALL=(ALL) NOPASSWD:ALL"
-            plain_text_passwd = "password"
-            lock_passwd = false,
-        },
-        {
-            name = "test"
             groups = ["sudo", "docker"]
             ssh_import_id = ["gh:nodadyoushutup"]
             shell = "/bin/bash"
@@ -40,20 +37,15 @@ module "cloud_config" {
         email = "admin@nodadyoushutup.com"
         github_pat = var.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
     }
-    # write_files = [
-    #     {
-    #         path = "/etc/skel/hello.txt"
-    #         encoding = "b64"
-    #         content = "aGVsbG8gd29ybGQK"
-    #         permissions = "0640"
-    #     }
-    # ]
-    bootcmd = [
-        "mkdir -p /mnt/epool/media"
+    write_files = [
+        {
+            path = "/etc/skel/.canary"
+            encoding = "b64"
+            content = "Y2FuYXJ5Cg=="
+            permissions = "0640"
+        }
     ]
-    # runcmd = [
-    #     "echo 'runcmd test'"
-    # ]
+    
 }
 
 module "image" {
