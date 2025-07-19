@@ -46,7 +46,7 @@ module "cloud_config" {
             encoding = "b64"
             content = "aGVsbG8gd29ybGQK"
             permissions = "0640"
-            defer = true
+            # defer = true
         }
     ]
     bootcmd = [
