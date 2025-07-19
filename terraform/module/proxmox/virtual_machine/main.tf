@@ -7,7 +7,7 @@ module "cloud_config" {
     node_name = "pve"
     overwrite = true
     mounts = [
-        ["192.168.1.100:/mnt/epool/media", "/media", "nfs","defaults,_netdev", "0", "0"]
+        ["192.168.1.100:/mnt/epool/media", "/mnt/epool/media", "nfs","defaults,_netdev", "0", "0"]
     ]
     # ipv4 = {
     #     address = "192.168.1.185"
@@ -48,9 +48,9 @@ module "cloud_config" {
     #         permissions = "0640"
     #     }
     # ]
-    # bootcmd = [
-    #     "echo 'bootcmd test'"
-    # ]
+    bootcmd = [
+        "mkdir -p /mnt/epool/media"
+    ]
     # runcmd = [
     #     "echo 'runcmd test'"
     # ]
