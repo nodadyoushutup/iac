@@ -16,7 +16,7 @@ locals { # Computed
         email = local.gitconfig_input.email != null ? local.gitconfig_input.email : local.gitconfig_global.email != null ? local.gitconfig_global.email : null
         github_pat = local.gitconfig_input.github_pat != null ? local.gitconfig_input.github_pat : local.gitconfig_global.github_pat != null ? local.gitconfig_global.github_pat : null
     }
-    bootcmd_computed = local.bootcmd_input != null ? local.bootcmd_input : local.bootcmd_global != null ? local.bootcmd_global : null
-    runcmd_computed = local.runcmd_input != null ? local.runcmd_input : local.runcmd_global != null ? local.runcmd_global : null
+    bootcmd_computed = local.bootcmd_input != null ? local.bootcmd_input : local.bootcmd_global != null ? local.bootcmd_global : []
+    runcmd_computed = local.runcmd_input != null ? local.runcmd_input : local.runcmd_global != null ? local.runcmd_global : []
     write_files_computed = local.write_files_input != null ? local.write_files_input : local.write_files_global != null ? local.write_files_global : null
 }
