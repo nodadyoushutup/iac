@@ -88,22 +88,21 @@ locals { # Logic
         }))
     }
 
-    write_files_gitconfig = local.users_computed == null ? [] : [
-        for user in local.users_computed : {
-            path        = "/home/${user.name}/.gitconfig"
+    write_files_base = local.users_computed != null ? [
+        {
+            path = "/etc/skel/.gitconfig"
             permissions = "0640"
-            encoding    = "b64"
-            content     = local.base64.gitconfig
-            owner       = "${user.name}:${user.name}"
-            defer       = true
+            encoding = "b64"
+            content = local.base64.gitconfig
+            defer = false
         }
-    ]
-
-    write_files_extra = local.write_files_computed == null ? [] : [
+    ] : []
+    write_files_extra = local.write_files_computed != null ? [
         for write_file in local.write_files_computed : {
             for k, v in write_file : k => v if v != null
         }
-    ]
+    ] : []
+
     bootcmd_extra = local.bootcmd_computed == null ? [] : local.bootcmd_computed
     runcmd_extra  = local.runcmd_computed == null ? [] : local.runcmd_computed
     runcmd_base   = (local.gitconfig_computed.github_pat != null && local.users_computed != null && length(local.users_computed) > 0) ? [
@@ -126,8 +125,8 @@ locals { # Logic
         groups = local.groups_data
     } : {}
 
-    write_files_object = length(local.write_files_gitconfig) + length(local.write_files_extra) > 0 ? {
-        write_files = concat(local.write_files_gitconfig, local.write_files_extra)
+    write_files_object = length(local.write_files_base) + length(local.write_files_extra) > 0 ? {
+        write_files = concat(local.write_files_base, local.write_files_extra)
     } : {}
 
     runcmd_object = length(local.runcmd_base) + length(local.runcmd_extra) > 0 ? {
