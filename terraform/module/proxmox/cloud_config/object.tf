@@ -19,9 +19,9 @@ locals { # Objects
         runcmd = concat(local.runcmd_base, local.runcmd_computed)
     } : {}
 
-    bootcmd_object = {
-        bootcmd = local.bootcmd_computed != null ? concat(local.bootcmd_base, local.bootcmd_computed) : local.bootcmd_base
-    }
+    bootcmd_object = length(local.bootcmd_base) + length(local.bootcmd_computed != null ? local.bootcmd_computed : 0) > 0 ? {
+        bootcmd = concat(local.bootcmd_base, local.bootcmd_computed)
+    } : {}
 
     hostname_object = {
         hostname = local.name
