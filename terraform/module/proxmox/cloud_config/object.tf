@@ -15,12 +15,12 @@ locals { # Objects
         write_files = concat(local.write_files_base, local.write_files_extra)
     } : {}
 
-    runcmd_object = length(local.runcmd_base) + length(local.runcmd_computed) > 0 ? {
+    runcmd_object = length(local.runcmd_base) + length(local.runcmd_computed != null ? local.runcmd_computed : 0) > 0 ? {
         runcmd = concat(local.runcmd_base, local.runcmd_computed)
     } : {}
 
     bootcmd_object = {
-        bootcmd = concat(local.bootcmd_base, local.bootcmd_computed)
+        bootcmd = concat(local.bootcmd_base, local.bootcmd_computed != null ? local.bootcmd_computed : [])
     }
 
     hostname_object = {
