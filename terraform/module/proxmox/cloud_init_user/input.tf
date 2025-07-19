@@ -4,9 +4,6 @@ locals { # Input
     node_name_input = try(var.node_name, null)
     overwrite_input = try(var.overwrite, null)
 
-    # NETWORK
-    network_input = try(var.network, null)
-
     # USER
     users_input = try(var.users, null)
     mounts_input = try(var.mounts, null)

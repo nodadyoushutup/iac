@@ -3,9 +3,6 @@ locals { # Global
     datastore_id_global = try(var.config.proxmox.global.machine.cloud_config.datastore_id, null)
     node_name_global = try(var.config.proxmox.global.machine.cloud_config.node_name, null)
     overwrite_global = try(var.config.proxmox.global.machine.cloud_config.overwrite, null)
-    
-    # NETWORK
-    network_global = try(var.config.proxmox.global.machine.cloud_config.network, null)
 
     # USER
     users_global = try(var.config.proxmox.global.machine.cloud_config.users, null)

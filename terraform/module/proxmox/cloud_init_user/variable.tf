@@ -33,6 +33,7 @@ variable "gitconfig" {
 }
 
 variable "mounts" {
+    # https://cloudinit.readthedocs.io/en/latest/reference/modules.html#mounts
     type = list(list(string))
     default = null
 }
@@ -101,29 +102,3 @@ variable "runcmd" {
     type = list(string)
     default = null
 }
-
-
-# NETWORK
-variable "network" {
-    description = "Cloud-init network configuration override"
-    type = object({
-        version = optional(number, 2)
-        ethernets = optional(object({
-            eth0 = optional(object({
-                match = optional(object({
-                    name = optional(string, "en*")
-                }))
-                type = optional(string, "physical")
-                set-name = optional(string, "eth0")
-                dhcp4 = optional(string, "yes")
-                addresses = optional(list(string))
-                gateway4 = optional(string)
-                nameservers = optional(object({
-                    addresses = optional(list(string), ["8.8.8.8", "8.8.4.4"])
-                }))
-            }))
-        }))
-    })
-    default     = null
-}
-

@@ -4,9 +4,6 @@ locals { # Computed
     node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.node_name_global : null
     overwrite_computed = local.overwrite_input != null ? local.overwrite_input : local.overwrite_global != null ? local.overwrite_global : null
 
-    # NETWORK
-    network_computed = local.network_input != null ? local.network_input : local.network_global != null ? local.network_global : null
-
     # USER
     users_computed = local.users_input != null ? local.users_input : local.users_global != null ? local.users_global : null
     mounts_computed = local.mounts_input != null ? local.mounts_input : local.mounts_global != null ? local.mounts_global : null
