@@ -71,10 +71,6 @@ module "cloud_init_user" {
 }
 
 
-output "cloud_config" {
-  value = module.cloud_config
-}
-
-output "config" {
-  value = local.config.proxmox.global.machine.cloud_config.gitconfig.github_pat
+output "cloud_init_user" {
+  value = module.cloud_init_user
 }
