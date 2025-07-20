@@ -74,7 +74,7 @@ variable "disk" {
     iothread     = optional(bool, false)
     replicate    = optional(bool, true)
     serial       = optional(string, null)
-    size         = optional(number, 20)
+    size         = optional(number)
     ssd          = optional(bool, true)
   })
   default = {}

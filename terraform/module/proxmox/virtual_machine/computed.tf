@@ -42,7 +42,7 @@ locals {
         iothread = local.disk_input.iothread != null ? local.disk_input.iothread : local.disk_global.iothread != null ? local.disk_global.iothread : null
         replicate = local.disk_input.replicate != null ? local.disk_input.replicate : local.disk_global.replicate != null ? local.disk_global.replicate : null
         serial = local.disk_input.serial != null ? local.disk_input.serial : local.disk_global.serial != null ? local.disk_global.serial : null
-        size = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : null
+        size = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : 20
         ssd = local.disk_input.ssd != null ? local.disk_input.ssd : local.disk_global.ssd != null ? local.disk_global.ssd : null
     }
 
