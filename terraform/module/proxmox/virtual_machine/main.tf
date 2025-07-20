@@ -2,7 +2,7 @@ module "cloud_init" {
   source = "../cloud_init"
 
   config       = try(var.cloud_init.config, var.config)
-  name         = try(var.name, null)
+  name         = try(var.name, "fallback")
   datastore_id = try(var.cloud_init.datastore_id, null)
   node_name    = try(var.cloud_init.node_name, null)
   overwrite    = try(var.cloud_init.overwrite, null)
@@ -20,9 +20,9 @@ module "cloud_init" {
 module "image" {
   source = "../image"
 
-  config       = var.config
-  name         = "test"
-  datastore_id = "config"
+  config = var.config
+  name = try(var.name, "fallback")
+  datastore_id = try(var.cloud_init.datastore_id, null)
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
@@ -124,5 +124,5 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
   }
 
   vm_id = local.vm_id_computed
-  name  = "test"
+  name  = try(var.name, "fallback")
 }
