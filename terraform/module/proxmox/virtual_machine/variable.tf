@@ -165,3 +165,8 @@ variable "vm_id" {
   type    = number
   default = null
 }
+
+variable "name" {
+  type    = string
+  default = null
+}

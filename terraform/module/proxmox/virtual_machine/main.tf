@@ -2,7 +2,7 @@ module "cloud_init" {
   source = "../cloud_init"
 
   config       = try(var.cloud_init.config, var.config)
-  name         = try(var.cloud_init.name, null)
+  name         = try(var.name, null)
   datastore_id = try(var.cloud_init.datastore_id, null)
   node_name    = try(var.cloud_init.node_name, null)
   overwrite    = try(var.cloud_init.overwrite, null)

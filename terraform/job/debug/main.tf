@@ -18,6 +18,7 @@ module "virtual_machine" {
   disk             = try(each.value.disk, null)
   machine          = try(each.value.machine, null)
   memory           = try(each.value.memory, null)
+  name             = try(each.value.name, null)
   network_device   = try(each.value.network_device, null)
   node_name        = try(each.value.node_name, null)
   on_boot          = try(each.value.on_boot, null)
