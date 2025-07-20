@@ -19,12 +19,12 @@ locals { # Variable
 }
 
 locals { # Global
-    datastore_id_global = try(var.config.proxmox.global.machine.image.datastore_id, null)
-    file_name_global = try(var.config.proxmox.global.machine.image.file_name, null)
-    node_name_global = try(var.config.proxmox.global.machine.image.node_name, null)
-    url_global = try(var.config.proxmox.global.machine.image.url, null)
-    overwrite_global = try(var.config.proxmox.global.machine.image.overwrite, null)
-    overwrite_unmanaged_global = try(var.config.proxmox.global.machine.image.overwrite_unmanaged, null)
+    datastore_id_global = try(var.config.proxmox.global.virtual_machine.image.datastore_id, null)
+    file_name_global = try(var.config.proxmox.global.virtual_machine.image.file_name, null)
+    node_name_global = try(var.config.proxmox.global.virtual_machine.image.node_name, null)
+    url_global = try(var.config.proxmox.global.virtual_machine.image.url, null)
+    overwrite_global = try(var.config.proxmox.global.virtual_machine.image.overwrite, null)
+    overwrite_unmanaged_global = try(var.config.proxmox.global.virtual_machine.image.overwrite_unmanaged, null)
 }
 
 locals { # Computed
