@@ -6,5 +6,8 @@ locals { # Input
 
     # NETWORK
     ethernets_input = try(var.ethernets, null)
+    bonds_input     = try(var.bonds, null)
+    bridges_input   = try(var.bridges, null)
+    vlans_input     = try(var.vlans, null)
     
 }
