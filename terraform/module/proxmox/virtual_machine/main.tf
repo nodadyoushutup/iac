@@ -1,5 +1,5 @@
-module "cloud_config" {
-    source = "../cloud_config"
+module "cloud_init" {
+    source = "../cloud_init"
 
     # CONFIG
     config = var.config
@@ -62,8 +62,8 @@ module "image" {
 }
 
 resource "proxmox_virtual_environment_vm" "virtual_machine" {
-    depends_on = [ 
-        module.cloud_config,
+    depends_on = [
+        module.cloud_init,
         module.image
     ]
 
@@ -124,8 +124,8 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
 #     }
 
     initialization {
-        user_data_file_id = module.cloud_config.cloud_id
-        network_data_file_id = module.cloud_config.network_id
+        user_data_file_id = module.cloud_init.cloud_id
+        network_data_file_id = module.cloud_init.network_id
     }
                     
     machine = local.machine_computed
