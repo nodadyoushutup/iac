@@ -22,11 +22,11 @@ variable "agent" {
 variable "audio_device" {
   description = "audio_device"
   type = object({
-    device  = optional(string, "intel-hda")
-    driver  = optional(string, "spice")
-    enabled = optional(bool, true)
+    device  = optional(string)
+    driver  = optional(string)
+    enabled = optional(bool)
   })
-  default = {}
+  default = null
 }
 
 variable "bios" {
