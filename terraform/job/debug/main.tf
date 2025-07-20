@@ -1,5 +1,5 @@
 locals {
-  machines = { for k, v in try(local.config.proxmox.machine, []) : k => v }
+  machines = { for k, v in try(local.config.proxmox.virtual_machine, []) : k => v }
 }
 
 # module "virtual_machine" {
