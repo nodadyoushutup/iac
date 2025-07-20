@@ -5,10 +5,19 @@ locals { # Computed
     overwrite_computed = local.overwrite_input != null ? local.overwrite_input : local.overwrite_global != null ? local.overwrite_global : null
 
     # NETWORK
-    ethernets_computed = local.ethernets_input != null ? {
-        for name, cfg in local.ethernets_input :
-        name => merge(local.ethernets_global != null ? local.ethernets_global : {}, cfg)
-    } : local.ethernets_global
+    # Union of interface names defined via globals or input
+    ethernet_names = distinct(concat(
+        local.ethernets_global != null ? keys(local.ethernets_global) : [],
+        local.ethernets_input  != null ? keys(local.ethernets_input)  : [],
+    ))
+
+    ethernets_computed = length(local.ethernet_names) > 0 ? {
+        for name in local.ethernet_names :
+        name => merge(
+            lookup(local.ethernets_global != null ? local.ethernets_global : {}, name, {}),
+            lookup(local.ethernets_input  != null ? local.ethernets_input  : {}, name, {})
+        )
+    } : null
 
     bonds_computed   = local.bonds_input != null ? local.bonds_input : local.bonds_global
     bridges_computed = local.bridges_input != null ? local.bridges_input : local.bridges_global
