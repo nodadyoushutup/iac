@@ -63,21 +63,21 @@ variable "description" {
 variable "disk" {
   description = "disk"
   type = object({
-    aio          = optional(string, "io_uring")
-    backup       = optional(bool, true)
-    cache        = optional(string, "none")
-    datastore_id = optional(string, "virtualization")
-    discard      = optional(string, "on")
-    file_id      = optional(string, null) #TODO
-    file_format  = optional(string, "raw")
-    interface    = optional(string, "scsi0")
-    iothread     = optional(bool, false)
-    replicate    = optional(bool, true)
-    serial       = optional(string, null)
-    size         = optional(number)
-    ssd          = optional(bool, true)
+    aio = optional(string)
+    backup = optional(bool)
+    cache = optional(string)
+    datastore_id = optional(string)
+    discard = optional(string)
+    file_format = optional(string)
+    file_id = optional(string)
+    interface = optional(string)
+    iothread = optional(bool)
+    replicate = optional(bool)
+    serial = optional(string)
+    size = optional(number)
+    ssd = optional(bool)
   })
-  default = {}
+  default = null
 }
 
 variable "machine" {
