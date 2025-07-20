@@ -38,11 +38,11 @@ resource "proxmox_virtual_environment_vm" "virtual_machine" {
     type    = local.agent_computed.type
   }
 
-  audio_device {
-    device  = local.audio_device_computed.device
-    driver  = local.audio_device_computed.driver
-    enabled = local.audio_device_computed.enabled
-  }
+  # audio_device {
+  #   device  = local.audio_device_computed.device
+  #   driver  = local.audio_device_computed.driver
+  #   enabled = local.audio_device_computed.enabled
+  # }
 
   bios       = "seabios"
   boot_order = local.boot_order_computed
