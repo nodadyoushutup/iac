@@ -5,7 +5,7 @@ locals { # Computed
     overwrite_computed = local.overwrite_input != null ? local.overwrite_input : local.overwrite_global != null ? local.overwrite_global : null
 
     # USER
-    users_computed = local.users_input != null ? local.users_input : local.users_global != null ? local.users_global : null
+    users_computed = local.users_input != null ? local.users_input : local.users_global != null ? local.users_global : [] # Must be empty list to satisfy length() check in object
     mounts_computed = local.mounts_input != null ? local.mounts_input : local.mounts_global != null ? local.mounts_global : null
     groups_computed = local.groups_input != null ? local.groups_input : local.groups_global != null ? local.groups_global : null
     gitconfig_computed = {
