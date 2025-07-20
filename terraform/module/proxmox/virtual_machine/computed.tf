@@ -38,7 +38,7 @@ locals {
         discard = local.disk_input.discard != null ? local.disk_input.discard : local.disk_global.discard != null ? local.disk_global.discard : null
         file_format = local.disk_input.file_format != null ? local.disk_input.file_format : local.disk_global.file_format != null ? local.disk_global.file_format : null
         file_id = local.disk_input.file_id != null ? local.disk_input.file_id : local.disk_global.file_id != null ? local.disk_global.file_id : module.image.image_id
-        interface = local.disk_input.interface != null ? local.disk_input.interface : local.disk_global.interface != null ? local.disk_global.interface : null
+        interface = local.disk_input.interface != null ? local.disk_input.interface : local.disk_global.interface != null ? local.disk_global.interface : "scsi0"
         iothread = local.disk_input.iothread != null ? local.disk_input.iothread : local.disk_global.iothread != null ? local.disk_global.iothread : null
         replicate = local.disk_input.replicate != null ? local.disk_input.replicate : local.disk_global.replicate != null ? local.disk_global.replicate : null
         serial = local.disk_input.serial != null ? local.disk_input.serial : local.disk_global.serial != null ? local.disk_global.serial : null
