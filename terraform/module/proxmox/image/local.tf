@@ -4,7 +4,7 @@ locals { # Required
 
 locals { # Constant
     url = {
-        cloud = "http://192.168.1.150:5000/public/jammy-cloud-image-amd64-0.1.93.img"
+        cloud = "http://192.168.1.150:3918/public/jammy-cloud-image-amd64-0.1.94.img"
         # cloud = "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
         talos = "https://github.com/nodadyoushutup/talos-image/releases/download/0.1.0/talos-image-amd64-0.1.0.img"
     }
