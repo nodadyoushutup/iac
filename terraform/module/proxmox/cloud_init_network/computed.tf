@@ -14,8 +14,8 @@ locals { # Computed
     ethernets_computed = length(local.ethernet_names) > 0 ? {
         for name in local.ethernet_names :
         name => merge(
-            lookup(local.ethernets_global != null ? local.ethernets_global : {}, name, {}),
-            lookup(local.ethernets_input  != null ? local.ethernets_input  : {}, name, {})
+            local.ethernets_global != null ? lookup(local.ethernets_global, name, {}) : {},
+            local.ethernets_input  != null ? lookup(local.ethernets_input,  name, {}) : {}
         )
     } : null
 
