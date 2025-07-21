@@ -1,9 +1,9 @@
 locals {
   agent_computed = try(local.agent_input, null) != null || try(local.agent_global, null) != null ? {
-    enabled = local.agent_input.enabled != null ? local.agent_input.enabled : local.agent_global.enabled != null ? local.agent_global.enabled : null
-    timeout = local.agent_input.timeout != null ? local.agent_input.timeout : local.agent_global.timeout != null ? local.agent_global.timeout : null
-    trim    = local.agent_input.trim != null ? local.agent_input.trim : local.agent_global.trim != null ? local.agent_global.trim : null
-    type    = local.agent_input.type != null ? local.agent_input.type : local.agent_global.type != null ? local.agent_global.type : null
+    enabled = try(local.agent_input.enabled, null) != null ? try(local.agent_input.enabled, null) : try(local.agent_global.enabled, null) != null ? try(local.agent_global.enabled, null) : null
+    timeout = try(local.agent_input.timeout, null) != null ? try(local.agent_input.timeout, null) : try(local.agent_global.timeout, null) != null ? try(local.agent_global.timeout, null) : null
+    trim    = try(local.agent_input.trim, null) != null ? try(local.agent_input.trim, null) : try(local.agent_global.trim, null) != null ? try(local.agent_global.trim, null) : null
+    type    = try(local.agent_input.type, null) != null ? try(local.agent_input.type, null) : try(local.agent_global.type, null) != null ? try(local.agent_global.type, null) : null
   } : null
 
   audio_device_computed = try(local.audio_device_input, null) != null || try(local.audio_device_global, null) != null ? {
@@ -17,50 +17,50 @@ locals {
   boot_order_computed = local.boot_order_input != null ? local.boot_order_input : local.boot_order_global != null ? local.boot_order_global : null
 
   cpu_computed = try(local.cpu_input, null) != null || try(local.cpu_global, null) != null ? {
-    affinity   = local.cpu_input.affinity != null ? local.cpu_input.affinity : local.cpu_global.affinity != null ? local.cpu_global.affinity : null
-    cores      = local.cpu_input.cores != null ? local.cpu_input.cores : local.cpu_global.cores != null ? local.cpu_global.cores : null
-    flags      = local.cpu_input.flags != null ? local.cpu_input.flags : local.cpu_global.flags != null ? local.cpu_global.flags : null
-    hotplugged = local.cpu_input.hotplugged != null ? local.cpu_input.hotplugged : local.cpu_global.hotplugged != null ? local.cpu_global.hotplugged : null
-    limit      = local.cpu_input.limit != null ? local.cpu_input.limit : local.cpu_global.limit != null ? local.cpu_global.limit : null
-    numa       = local.cpu_input.numa != null ? local.cpu_input.numa : local.cpu_global.numa != null ? local.cpu_global.numa : null
-    sockets    = local.cpu_input.sockets != null ? local.cpu_input.sockets : local.cpu_global.sockets != null ? local.cpu_global.sockets : null
-    type       = local.cpu_input.type != null ? local.cpu_input.type : local.cpu_global.type != null ? local.cpu_global.type : null
-    units      = local.cpu_input.units != null ? local.cpu_input.units : local.cpu_global.units != null ? local.cpu_global.units : null
+    affinity   = try(local.cpu_input.affinity, null) != null ? try(local.cpu_input.affinity, null) : try(local.cpu_global.affinity, null) != null ? try(local.cpu_global.affinity, null) : null
+    cores      = try(local.cpu_input.cores, null) != null ? try(local.cpu_input.cores, null) : try(local.cpu_global.cores, null) != null ? try(local.cpu_global.cores, null) : null
+    flags      = try(local.cpu_input.flags, null) != null ? try(local.cpu_input.flags, null) : try(local.cpu_global.flags, null) != null ? try(local.cpu_global.flags, null) : null
+    hotplugged = try(local.cpu_input.hotplugged, null) != null ? try(local.cpu_input.hotplugged, null) : try(local.cpu_global.hotplugged, null) != null ? try(local.cpu_global.hotplugged, null) : null
+    limit      = try(local.cpu_input.limit, null) != null ? try(local.cpu_input.limit, null) : try(local.cpu_global.limit, null) != null ? try(local.cpu_global.limit, null) : null
+    numa       = try(local.cpu_input.numa, null) != null ? try(local.cpu_input.numa, null) : try(local.cpu_global.numa, null) != null ? try(local.cpu_global.numa, null) : null
+    sockets    = try(local.cpu_input.sockets, null) != null ? try(local.cpu_input.sockets, null) : try(local.cpu_global.sockets, null) != null ? try(local.cpu_global.sockets, null) : null
+    type       = try(local.cpu_input.type, null) != null ? try(local.cpu_input.type, null) : try(local.cpu_global.type, null) != null ? try(local.cpu_global.type, null) : null
+    units      = try(local.cpu_input.units, null) != null ? try(local.cpu_input.units, null) : try(local.cpu_global.units, null) != null ? try(local.cpu_global.units, null) : null
   } : null
 
   description_computed = local.description_input != null ? local.description_input : local.description_global != null ? local.description_global : null
 
   disk_computed = local.disk_input != null || local.disk_global != null ? {
-    aio          = local.disk_input.aio != null ? local.disk_input.aio : local.disk_global.aio != null ? local.disk_global.aio : null
-    backup       = local.disk_input.backup != null ? local.disk_input.backup : local.disk_global.backup != null ? local.disk_global.backup : null
-    cache        = local.disk_input.cache != null ? local.disk_input.cache : local.disk_global.cache != null ? local.disk_global.cache : null
-    datastore_id = local.disk_input.datastore_id != null ? local.disk_input.datastore_id : local.disk_global.datastore_id != null ? local.disk_global.datastore_id : null
-    discard      = local.disk_input.discard != null ? local.disk_input.discard : local.disk_global.discard != null ? local.disk_global.discard : null
-    file_format  = local.disk_input.file_format != null ? local.disk_input.file_format : local.disk_global.file_format != null ? local.disk_global.file_format : null
-    file_id      = local.disk_input.file_id != null ? local.disk_input.file_id : local.disk_global.file_id != null ? local.disk_global.file_id : module.image.image_id
-    interface    = local.disk_input.interface != null ? local.disk_input.interface : local.disk_global.interface != null ? local.disk_global.interface : null
-    iothread     = local.disk_input.iothread != null ? local.disk_input.iothread : local.disk_global.iothread != null ? local.disk_global.iothread : null
-    replicate    = local.disk_input.replicate != null ? local.disk_input.replicate : local.disk_global.replicate != null ? local.disk_global.replicate : null
-    serial       = local.disk_input.serial != null ? local.disk_input.serial : local.disk_global.serial != null ? local.disk_global.serial : null
-    size         = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : 20
-    ssd          = local.disk_input.ssd != null ? local.disk_input.ssd : local.disk_global.ssd != null ? local.disk_global.ssd : null
+    aio          = try(local.disk_input.aio, null) != null ? try(local.disk_input.aio, null) : try(local.disk_global.aio, null) != null ? try(local.disk_global.aio, null) : null
+    backup       = try(local.disk_input.backup, null) != null ? try(local.disk_input.backup, null) : try(local.disk_global.backup, null) != null ? try(local.disk_global.backup, null) : null
+    cache        = try(local.disk_input.cache, null) != null ? try(local.disk_input.cache, null) : try(local.disk_global.cache, null) != null ? try(local.disk_global.cache, null) : null
+    datastore_id = try(local.disk_input.datastore_id, null) != null ? try(local.disk_input.datastore_id, null) : try(local.disk_global.datastore_id, null) != null ? try(local.disk_global.datastore_id, null) : null
+    discard      = try(local.disk_input.discard, null) != null ? try(local.disk_input.discard, null) : try(local.disk_global.discard, null) != null ? try(local.disk_global.discard, null) : null
+    file_format  = try(local.disk_input.file_format, null) != null ? try(local.disk_input.file_format, null) : try(local.disk_global.file_format, null) != null ? try(local.disk_global.file_format, null) : null
+    file_id      = try(local.disk_input.file_id, null) != null ? try(local.disk_input.file_id, null) : try(local.disk_global.file_id, null) != null ? try(local.disk_global.file_id, null) : module.image.image_id
+    interface    = try(local.disk_input.interface, null) != null ? try(local.disk_input.interface, null) : try(local.disk_global.interface, null) != null ? try(local.disk_global.interface, null) : null
+    iothread     = try(local.disk_input.iothread, null) != null ? try(local.disk_input.iothread, null) : try(local.disk_global.iothread, null) != null ? try(local.disk_global.iothread, null) : null
+    replicate    = try(local.disk_input.replicate, null) != null ? try(local.disk_input.replicate, null) : try(local.disk_global.replicate, null) != null ? try(local.disk_global.replicate, null) : null
+    serial       = try(local.disk_input.serial, null) != null ? try(local.disk_input.serial, null) : try(local.disk_global.serial, null) != null ? try(local.disk_global.serial, null) : null
+    size         = try(local.disk_input.size, null) != null ? try(local.disk_input.size, null) : try(local.disk_global.size, null) != null ? try(local.disk_global.size, null) : 20
+    ssd          = try(local.disk_input.ssd, null) != null ? try(local.disk_input.ssd, null) : try(local.disk_global.ssd, null) != null ? try(local.disk_global.ssd, null) : null
   } : null
 
   machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
 
   memory_computed = try(local.memory_input, null) != null || try(local.memory_global, null) != null ? {
-    dedicated = local.memory_input.dedicated != null ? local.memory_input.dedicated : local.memory_global.dedicated != null ? local.memory_global.dedicated : null
-    floating  = local.memory_input.floating != null ? local.memory_input.floating : local.memory_global.floating != null ? local.memory_global.floating : null
-    shared    = local.memory_input.shared != null ? local.memory_input.shared : local.memory_global.shared != null ? local.memory_global.shared : null
+    dedicated = try(local.memory_input.dedicated, null) != null ? try(local.memory_input.dedicated, null) : try(local.memory_global.dedicated, null) != null ? try(local.memory_global.dedicated, null) : null
+    floating  = try(local.memory_input.floating, null) != null ? try(local.memory_input.floating, null) : try(local.memory_global.floating, null) != null ? try(local.memory_global.floating, null) : null
+    shared    = try(local.memory_input.shared, null) != null ? try(local.memory_input.shared, null) : try(local.memory_global.shared, null) != null ? try(local.memory_global.shared, null) : null
   } : null
 
   network_device_computed = try(local.network_device_input, null) != null || try(local.network_device_global, null) != null ? {
-    bridge       = local.network_device_input.bridge != null ? local.network_device_input.bridge : local.network_device_global.bridge != null ? local.network_device_global.bridge : null
-    disconnected = local.network_device_input.disconnected != null ? local.network_device_input.disconnected : local.network_device_global.disconnected != null ? local.network_device_global.disconnected : null
-    enabled      = local.network_device_input.enabled != null ? local.network_device_input.enabled : local.network_device_global.enabled != null ? local.network_device_global.enabled : null
-    firewall     = local.network_device_input.firewall != null ? local.network_device_input.firewall : local.network_device_global.firewall != null ? local.network_device_global.firewall : null
-    mac_address  = local.network_device_input.mac_address != null ? local.network_device_input.mac_address : local.network_device_global.mac_address != null ? local.network_device_global.mac_address : null
-    model        = local.network_device_input.model != null ? local.network_device_input.model : local.network_device_global.model != null ? local.network_device_global.model : null
+    bridge       = try(local.network_device_input.bridge, null) != null ? try(local.network_device_input.bridge, null) : try(local.network_device_global.bridge, null) != null ? try(local.network_device_global.bridge, null) : null
+    disconnected = try(local.network_device_input.disconnected, null) != null ? try(local.network_device_input.disconnected, null) : try(local.network_device_global.disconnected, null) != null ? try(local.network_device_global.disconnected, null) : null
+    enabled      = try(local.network_device_input.enabled, null) != null ? try(local.network_device_input.enabled, null) : try(local.network_device_global.enabled, null) != null ? try(local.network_device_global.enabled, null) : null
+    firewall     = try(local.network_device_input.firewall, null) != null ? try(local.network_device_input.firewall, null) : try(local.network_device_global.firewall, null) != null ? try(local.network_device_global.firewall, null) : null
+    mac_address  = try(local.network_device_input.mac_address, null) != null ? try(local.network_device_input.mac_address, null) : try(local.network_device_global.mac_address, null) != null ? try(local.network_device_global.mac_address, null) : null
+    model        = try(local.network_device_input.model, null) != null ? try(local.network_device_input.model, null) : try(local.network_device_global.model, null) != null ? try(local.network_device_global.model, null) : null
   } : null
 
   node_name_computed = local.node_name_input != null ? local.node_name_input : local.node_name_global != null ? local.node_name_global : null
@@ -74,9 +74,9 @@ locals {
   started_computed = local.started_input != null ? local.started_input : local.started_global != null ? local.started_global : null
 
   startup_computed = try(local.startup_input, null) != null || try(local.startup_global, null) != null ? {
-    order      = local.startup_input.order != null ? local.startup_input.order : local.startup_global.order != null ? local.startup_global.order : null
-    up_delay   = local.startup_input.up_delay != null ? local.startup_input.up_delay : local.startup_global.up_delay != null ? local.startup_global.up_delay : null
-    down_delay = local.startup_input.down_delay != null ? local.startup_input.down_delay : local.startup_global.down_delay != null ? local.startup_global.down_delay : null
+    order      = try(local.startup_input.order, null) != null ? try(local.startup_input.order, null) : try(local.startup_global.order, null) != null ? try(local.startup_global.order, null) : null
+    up_delay   = try(local.startup_input.up_delay, null) != null ? try(local.startup_input.up_delay, null) : try(local.startup_global.up_delay, null) != null ? try(local.startup_global.up_delay, null) : null
+    down_delay = try(local.startup_input.down_delay, null) != null ? try(local.startup_input.down_delay, null) : try(local.startup_global.down_delay, null) != null ? try(local.startup_global.down_delay, null) : null
   } : null
 
   tags_computed = local.tags_input != null ? local.tags_input : local.tags_global != null ? local.tags_global : null
@@ -84,9 +84,9 @@ locals {
   stop_on_destroy_computed = local.stop_on_destroy_input != null ? local.stop_on_destroy_input : local.stop_on_destroy_global != null ? local.stop_on_destroy_global : null
 
   vga_computed = try(local.vga_input, null) != null || try(local.vga_global, null) != null ? {
-    memory    = local.vga_input.memory != null ? local.vga_input.memory : local.vga_global.memory != null ? local.vga_global.memory : null
-    type      = local.vga_input.type != null ? local.vga_input.type : local.vga_global.type != null ? local.vga_global.type : null
-    clipboard = local.vga_input.clipboard != null ? local.vga_input.clipboard : local.vga_global.clipboard != null ? local.vga_global.clipboard : null
+    memory    = try(local.vga_input.memory, null) != null ? try(local.vga_input.memory, null) : try(local.vga_global.memory, null) != null ? try(local.vga_global.memory, null) : null
+    type      = try(local.vga_input.type, null) != null ? try(local.vga_input.type, null) : try(local.vga_global.type, null) != null ? try(local.vga_global.type, null) : null
+    clipboard = try(local.vga_input.clipboard, null) != null ? try(local.vga_input.clipboard, null) : try(local.vga_global.clipboard, null) != null ? try(local.vga_global.clipboard, null) : null
   } : null
 
   vm_id_computed = local.vm_id_input != null ? local.vm_id_input : null # No global available
