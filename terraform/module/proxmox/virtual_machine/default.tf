@@ -1,4 +1,17 @@
 locals { # Default
+    agent_default = {
+        enabled = true
+        timeout = "5m"
+        trim = false
+        type = "virtio"
+    }
+
+    audio_device_default = {
+        device = null
+        driver = null
+        enabled = null
+    }
+
     disk_default = {
         aio = "io_uring"
         backup = true

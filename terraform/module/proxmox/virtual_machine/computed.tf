@@ -1,16 +1,16 @@
 locals {
   agent_computed = try(local.agent_input, null) != null || try(local.agent_global, null) != null ? {
-    enabled = try(local.agent_input.enabled, null) != null ? try(local.agent_input.enabled, null) : try(local.agent_global.enabled, null) != null ? try(local.agent_global.enabled, null) : null
-    timeout = try(local.agent_input.timeout, null) != null ? try(local.agent_input.timeout, null) : try(local.agent_global.timeout, null) != null ? try(local.agent_global.timeout, null) : null
-    trim    = try(local.agent_input.trim, null) != null ? try(local.agent_input.trim, null) : try(local.agent_global.trim, null) != null ? try(local.agent_global.trim, null) : null
-    type    = try(local.agent_input.type, null) != null ? try(local.agent_input.type, null) : try(local.agent_global.type, null) != null ? try(local.agent_global.type, null) : null
-  } : null
+    enabled = try(local.agent_input.enabled, null) != null ? try(local.agent_input.enabled, null) : try(local.agent_global.enabled, null) != null ? try(local.agent_global.enabled, null) : local.agent_default.enabled
+    timeout = try(local.agent_input.timeout, null) != null ? try(local.agent_input.timeout, null) : try(local.agent_global.timeout, null) != null ? try(local.agent_global.timeout, null) : local.agent_default.timeout
+    trim    = try(local.agent_input.trim, null) != null ? try(local.agent_input.trim, null) : try(local.agent_global.trim, null) != null ? try(local.agent_global.trim, null) : local.agent_default.trim
+    type    = try(local.agent_input.type, null) != null ? try(local.agent_input.type, null) : try(local.agent_global.type, null) != null ? try(local.agent_global.type, null) : local.agent_default.type
+  } : local.agent_default
 
   audio_device_computed = try(local.audio_device_input, null) != null || try(local.audio_device_global, null) != null ? {
-    device  = try(local.audio_device_input.device, null) != null ? try(local.audio_device_input.device, null) : try(local.audio_device_global.device, null) != null ? try(local.audio_device_global.device, null) : null
-    driver  = try(local.audio_device_input.driver, null) != null ? try(local.audio_device_input.driver, null) : try(local.audio_device_global.driver, null) != null ? try(local.audio_device_global.driver, null) : null
-    enabled = try(local.audio_device_input.enabled, null) != null ? try(local.audio_device_input.enabled, null) : try(local.audio_device_global.enabled, null) != null ? try(local.audio_device_global.enabled, null) : null
-  } : null
+    device  = try(local.audio_device_input.device, null) != null ? try(local.audio_device_input.device, null) : try(local.audio_device_global.device, null) != null ? try(local.audio_device_global.device, null) : local.audio_device_default.device
+    driver  = try(local.audio_device_input.driver, null) != null ? try(local.audio_device_input.driver, null) : try(local.audio_device_global.driver, null) != null ? try(local.audio_device_global.driver, null) : local.audio_device_default.driver
+    enabled = try(local.audio_device_input.enabled, null) != null ? try(local.audio_device_input.enabled, null) : try(local.audio_device_global.enabled, null) != null ? try(local.audio_device_global.enabled, null) : local.audio_device_default.enabled
+  } : local.audio_device_default
 
   bios_computed = local.bios_input != null ? local.bios_input : local.bios_global != null ? local.bios_global : null
 
