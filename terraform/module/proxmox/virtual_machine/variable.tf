@@ -95,6 +95,11 @@ variable "memory" {
   default = null
 }
 
+variable "name" {
+  type    = string
+  default = null
+}
+
 variable "network_device" {
   description = "network_device"
   type = object({
@@ -110,55 +115,55 @@ variable "network_device" {
 
 variable "node_name" {
   type    = string
-  default = "pve"
+  default = null
 }
 
 variable "on_boot" {
   type    = bool
-  default = true
+  default = null
 }
 
 variable "operating_system" {
   description = "operating_system"
   type = object({
-    type = optional(string, "l26")
+    type = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "started" {
   type    = bool
-  default = true
+  default = null
 }
 
 variable "startup" {
   description = "startup"
   type = object({
-    order      = optional(number, 1)
-    up_delay   = optional(number, 0)
-    down_delay = optional(number, 0)
+    order      = optional(number)
+    up_delay   = optional(number)
+    down_delay = optional(number)
   })
-  default = {}
+  default = null
 }
 
 variable "tags" {
   type    = list(string)
-  default = ["terraform"]
+  default = null
 }
 
 variable "stop_on_destroy" {
   type    = bool
-  default = true
+  default = null
 }
 
 variable "vga" {
   description = "vga"
   type = object({
-    memory    = optional(number, 16)
-    type      = optional(string, "qxl")
-    clipboard = optional(string, "vnc")
+    memory    = optional(number)
+    type      = optional(string)
+    clipboard = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "vm_id" {
@@ -166,7 +171,3 @@ variable "vm_id" {
   default = null
 }
 
-variable "name" {
-  type    = string
-  default = null
-}
