@@ -8,8 +8,8 @@ locals {
 
     audio_device_computed = try(local.audio_device_input, null) != null || try(local.audio_device_global, null) != null ? {
         device = try(local.audio_device_input.device, null) != null ? try(local.audio_device_input.device, null) : try(local.audio_device_global.device, null) != null ? try(local.audio_device_global.device, null) : null
-        driver = local.audio_device_input.driver != null ? local.audio_device_input.driver : local.audio_device_global.driver != null ? local.audio_device_global.driver : null
-        enabled = local.audio_device_input.enabled != null ? local.audio_device_input.enabled : local.audio_device_global.enabled != null ? local.audio_device_global.enabled : null
+        driver = try(local.audio_device_input.driver, null) != null ? try(local.audio_device_input.driver, null) : try(local.audio_device_global.driver, null) != null ? try(local.audio_device_global.driver, null) : null
+        enabled = try(local.audio_device_input.enabled, null) != null ? try(local.audio_device_input.enabled, null) : try(local.audio_device_global.enabled, null) != null ? try(local.audio_device_global.enabled, null) : null
     } : null
 
     bios_computed = local.bios_input != null ? local.bios_input : local.bios_global != null ? local.bios_global : null
