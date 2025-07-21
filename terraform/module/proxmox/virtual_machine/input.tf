@@ -6,11 +6,11 @@ locals {
         type = try(var.agent.type, null)
     }
 
-    audio_device_input = {
+    audio_device_input = try(var.audio_device, null) != null ? {
         device = try(var.audio_device.device, null)
         driver = try(var.audio_device.driver, null)
         enabled = try(var.audio_device.enabled, null)
-    }
+    } : null
 
     bios_input = try(var.bios, null)
 
