@@ -31,34 +31,20 @@ locals {
   description_computed = local.description_input != null ? local.description_input : local.description_global != null ? local.description_global : null
 
   disk_computed = local.disk_input != null || local.disk_global != null ? {
-    aio          = try(local.disk_input.aio, null) != null ? try(local.disk_input.aio, null) : try(local.disk_global.aio, null) != null ? try(local.disk_global.aio, null) : null
-    backup       = try(local.disk_input.backup, null) != null ? try(local.disk_input.backup, null) : try(local.disk_global.backup, null) != null ? try(local.disk_global.backup, null) : null
-    cache        = try(local.disk_input.cache, null) != null ? try(local.disk_input.cache, null) : try(local.disk_global.cache, null) != null ? try(local.disk_global.cache, null) : null
-    datastore_id = try(local.disk_input.datastore_id, null) != null ? try(local.disk_input.datastore_id, null) : try(local.disk_global.datastore_id, null) != null ? try(local.disk_global.datastore_id, null) : null
-    discard      = try(local.disk_input.discard, null) != null ? try(local.disk_input.discard, null) : try(local.disk_global.discard, null) != null ? try(local.disk_global.discard, null) : null
-    file_format  = try(local.disk_input.file_format, null) != null ? try(local.disk_input.file_format, null) : try(local.disk_global.file_format, null) != null ? try(local.disk_global.file_format, null) : null
-    file_id      = try(local.disk_input.file_id, null) != null ? try(local.disk_input.file_id, null) : try(local.disk_global.file_id, null) != null ? try(local.disk_global.file_id, null) : module.image.image_id
-    interface    = try(local.disk_input.interface, null) != null ? try(local.disk_input.interface, null) : try(local.disk_global.interface, null) != null ? try(local.disk_global.interface, null) : null
-    iothread     = try(local.disk_input.iothread, null) != null ? try(local.disk_input.iothread, null) : try(local.disk_global.iothread, null) != null ? try(local.disk_global.iothread, null) : null
-    replicate    = try(local.disk_input.replicate, null) != null ? try(local.disk_input.replicate, null) : try(local.disk_global.replicate, null) != null ? try(local.disk_global.replicate, null) : null
-    serial       = try(local.disk_input.serial, null) != null ? try(local.disk_input.serial, null) : try(local.disk_global.serial, null) != null ? try(local.disk_global.serial, null) : null
-    size         = try(local.disk_input.size, null) != null ? try(local.disk_input.size, null) : try(local.disk_global.size, null) != null ? try(local.disk_global.size, null) : 20
-    ssd          = try(local.disk_input.ssd, null) != null ? try(local.disk_input.ssd, null) : try(local.disk_global.ssd, null) != null ? try(local.disk_global.ssd, null) : null
-  } : {
-    aio = "io_uring"
-    backup = true
-    cache = "none"
-    datastore_id = "virtualization"
-    discard = "on"
-    file_format = "raw"
-    file_id = module.image.image_id
-    interface = "scsi0"
-    iothread = false
-    replicate = true
-    serial = null
-    size = 20
-    ssd = true
-  }
+    aio          = try(local.disk_input.aio, null) != null ? try(local.disk_input.aio, null) : try(local.disk_global.aio, null) != null ? try(local.disk_global.aio, null) : local.disk_default.aio
+    backup       = try(local.disk_input.backup, null) != null ? try(local.disk_input.backup, null) : try(local.disk_global.backup, null) != null ? try(local.disk_global.backup, null) : local.disk_default.backup
+    cache        = try(local.disk_input.cache, null) != null ? try(local.disk_input.cache, null) : try(local.disk_global.cache, null) != null ? try(local.disk_global.cache, null) : local.disk_default.cache
+    datastore_id = try(local.disk_input.datastore_id, null) != null ? try(local.disk_input.datastore_id, null) : try(local.disk_global.datastore_id, null) != null ? try(local.disk_global.datastore_id, null) : local.disk_default.datastore_id
+    discard      = try(local.disk_input.discard, null) != null ? try(local.disk_input.discard, null) : try(local.disk_global.discard, null) != null ? try(local.disk_global.discard, null) : local.disk_default.discard
+    file_format  = try(local.disk_input.file_format, null) != null ? try(local.disk_input.file_format, null) : try(local.disk_global.file_format, null) != null ? try(local.disk_global.file_format, null) : local.disk_default.file_format
+    file_id      = try(local.disk_input.file_id, null) != null ? try(local.disk_input.file_id, null) : try(local.disk_global.file_id, null) != null ? try(local.disk_global.file_id, null) : local.disk_default.file_id
+    interface    = try(local.disk_input.interface, null) != null ? try(local.disk_input.interface, null) : try(local.disk_global.interface, null) != null ? try(local.disk_global.interface, null) : local.disk_default.interface
+    iothread     = try(local.disk_input.iothread, null) != null ? try(local.disk_input.iothread, null) : try(local.disk_global.iothread, null) != null ? try(local.disk_global.iothread, null) : local.disk_default.iothread
+    replicate    = try(local.disk_input.replicate, null) != null ? try(local.disk_input.replicate, null) : try(local.disk_global.replicate, null) != null ? try(local.disk_global.replicate, null) : local.disk_default.replicate
+    serial       = try(local.disk_input.serial, null) != null ? try(local.disk_input.serial, null) : try(local.disk_global.serial, null) != null ? try(local.disk_global.serial, null) : local.disk_default.serial
+    size         = try(local.disk_input.size, null) != null ? try(local.disk_input.size, null) : try(local.disk_global.size, null) != null ? try(local.disk_global.size, null) : local.disk_default.size
+    ssd          = try(local.disk_input.ssd, null) != null ? try(local.disk_input.ssd, null) : try(local.disk_global.ssd, null) != null ? try(local.disk_global.ssd, null) : local.disk_default.ssd
+  } : local.disk_default
 
   machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
 
