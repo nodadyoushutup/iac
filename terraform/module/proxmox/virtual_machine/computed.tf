@@ -84,10 +84,10 @@ locals {
   stop_on_destroy_computed = local.stop_on_destroy_input != null ? local.stop_on_destroy_input : local.stop_on_destroy_global != null ? local.stop_on_destroy_global : null
 
   vga_computed = try(local.vga_input, null) != null || try(local.vga_global, null) != null ? {
-    memory    = try(local.vga_input.memory, null) != null ? try(local.vga_input.memory, null) : try(local.vga_global.memory, null) != null ? try(local.vga_global.memory, null) : null
-    type      = try(local.vga_input.type, null) != null ? try(local.vga_input.type, null) : try(local.vga_global.type, null) != null ? try(local.vga_global.type, null) : null
-    clipboard = try(local.vga_input.clipboard, null) != null ? try(local.vga_input.clipboard, null) : try(local.vga_global.clipboard, null) != null ? try(local.vga_global.clipboard, null) : null
-  } : null
+    memory    = try(local.vga_input.memory, null) != null ? try(local.vga_input.memory, null) : try(local.vga_global.memory, null) != null ? try(local.vga_global.memory, null) : local.vga_default.memory
+    type      = try(local.vga_input.type, null) != null ? try(local.vga_input.type, null) : try(local.vga_global.type, null) != null ? try(local.vga_global.type, null) : local.vga_default.type
+    clipboard = try(local.vga_input.clipboard, null) != null ? try(local.vga_input.clipboard, null) : try(local.vga_global.clipboard, null) != null ? try(local.vga_global.clipboard, null) : local.vga_default.clipboard
+  } : local.vga_default
 
   vm_id_computed = local.vm_id_input != null ? local.vm_id_input : null # No global available
 }

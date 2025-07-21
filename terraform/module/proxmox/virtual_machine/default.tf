@@ -27,4 +27,10 @@ locals { # Default
         size = 20
         ssd = true
     }   
+
+    vga_default = {
+        memory = 16
+        type = "qxl"
+        clipboard = "vnc"
+    }
 }
