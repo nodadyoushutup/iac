@@ -98,14 +98,14 @@ variable "memory" {
 variable "network_device" {
   description = "network_device"
   type = object({
-    bridge       = optional(string, "vmbr0")
-    disconnected = optional(bool, false)
-    enabled      = optional(bool, true)
-    firewall     = optional(bool, false)
-    mac_address  = optional(string, null)
-    model        = optional(string, "virtio")
+    bridge       = optional(string)
+    disconnected = optional(bool)
+    enabled      = optional(bool)
+    firewall     = optional(bool)
+    mac_address  = optional(string)
+    model        = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "node_name" {
