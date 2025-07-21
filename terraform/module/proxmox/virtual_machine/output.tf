@@ -3,5 +3,5 @@ output "virtual_machine" {
 }
 
 output "debug" {
-    value = local.audio_device_input
+    value = local.audio_device_computed
 }
