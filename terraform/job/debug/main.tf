@@ -34,3 +34,7 @@ module "virtual_machine" {
 output "virtual_machine" {
   value = { for k, m in module.virtual_machine : k => m.virtual_machine }
 }
+
+output "debug" {
+  value = { for k, m in module.virtual_machine : k => m.debug }
+}
