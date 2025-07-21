@@ -16,7 +16,7 @@ variable "agent" {
     trim = optional(bool)
     type = optional(string)
   })
-  default = {}
+  default = null
 }
 
 variable "audio_device" {

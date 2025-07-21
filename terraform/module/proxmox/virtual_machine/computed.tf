@@ -30,7 +30,7 @@ locals {
 
     description_computed = local.description_input != null ? local.description_input : local.description_global != null ? local.description_global : null
 
-    disk_computed = {
+    disk_computed = local.disk_input != null || local.disk_global != null ? {
         aio = local.disk_input.aio != null ? local.disk_input.aio : local.disk_global.aio != null ? local.disk_global.aio : null
         backup = local.disk_input.backup != null ? local.disk_input.backup : local.disk_global.backup != null ? local.disk_global.backup : null
         cache = local.disk_input.cache != null ? local.disk_input.cache : local.disk_global.cache != null ? local.disk_global.cache : null
@@ -44,7 +44,7 @@ locals {
         serial = local.disk_input.serial != null ? local.disk_input.serial : local.disk_global.serial != null ? local.disk_global.serial : null
         size = local.disk_input.size != null ? local.disk_input.size : local.disk_global.size != null ? local.disk_global.size : 20
         ssd = local.disk_input.ssd != null ? local.disk_input.ssd : local.disk_global.ssd != null ? local.disk_global.ssd : null
-    }
+    } : null
 
     machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
 
