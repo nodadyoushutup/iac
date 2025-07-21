@@ -51,7 +51,7 @@ locals {
     datastore_id = "virtualization"
     discard = "on"
     file_format = "raw"
-    file_id = null
+    file_id = module.image.image_id
     interface = "scsi0"
     iothread = false
     replicate = true
