@@ -44,7 +44,21 @@ locals {
     serial       = try(local.disk_input.serial, null) != null ? try(local.disk_input.serial, null) : try(local.disk_global.serial, null) != null ? try(local.disk_global.serial, null) : null
     size         = try(local.disk_input.size, null) != null ? try(local.disk_input.size, null) : try(local.disk_global.size, null) != null ? try(local.disk_global.size, null) : 20
     ssd          = try(local.disk_input.ssd, null) != null ? try(local.disk_input.ssd, null) : try(local.disk_global.ssd, null) != null ? try(local.disk_global.ssd, null) : null
-  } : null
+  } : {
+    aio = "io_uring"
+    backup = true
+    cache = "none"
+    datastore_id = "virtualization"
+    discard = "on"
+    file_format = "raw"
+    file_id = null
+    interface = "scsi0"
+    iothread = false
+    replicate = true
+    serial = null
+    size = 20
+    ssd = true
+  }
 
   machine_computed = local.machine_input != null ? local.machine_input : local.machine_global != null ? local.machine_global : null
 
