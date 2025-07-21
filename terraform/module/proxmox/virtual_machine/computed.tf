@@ -68,7 +68,7 @@ locals {
   on_boot_computed = local.on_boot_input != null ? local.on_boot_input : local.on_boot_global != null ? local.on_boot_global : null
 
   operating_system_computed = try(local.operating_system_input, null) != null || try(local.operating_system_global, null) != null ? {
-    type = local.operating_system_input.type != null ? local.operating_system_input.type : local.operating_system_global.type != null ? local.operating_system_global.type : null
+    type = try(local.operating_system_input.type, null) != null ? try(local.operating_system_input.type, null) : try(local.operating_system_global.type, null) != null ? try(local.operating_system_global.type, null) : null
   } : null
 
   started_computed = local.started_input != null ? local.started_input : local.started_global != null ? local.started_global : null
