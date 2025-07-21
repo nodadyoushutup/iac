@@ -6,11 +6,11 @@ locals {
         type = try(var.config.proxmox.global.virtual_machine.agent.type, null)
     }
 
-    audio_device_global = {
+    audio_device_global = try(var.config.proxmox.global.virtual_machine.audio_device, null) != null ? {
         device = try(var.config.proxmox.global.virtual_machine.audio_device.device, null)
         driver = try(var.config.proxmox.global.virtual_machine.audio_device.driver, null)
         enabled = try(var.config.proxmox.global.virtual_machine.audio_device.enabled, null)
-    }
+    } : null
 
     bios_global = try(var.config.proxmox.global.virtual_machine.bios, null)
 
