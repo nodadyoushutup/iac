@@ -6,7 +6,7 @@ locals {
         type = local.agent_input.type != null ? local.agent_input.type : local.agent_global.type != null ? local.agent_global.type : null
     }
 
-    audio_device_computed = local.audio_device_input != null || local.audio_device_global != null ? {
+    audio_device_computed = try(local.audio_device_input, null) != null || try(local.audio_device_global, null) != null ? {
         device = local.audio_device_input.device != null ? local.audio_device_input.device : local.audio_device_global.device != null ? local.audio_device_global.device : null
         driver = local.audio_device_input.driver != null ? local.audio_device_input.driver : local.audio_device_global.driver != null ? local.audio_device_global.driver : null
         enabled = local.audio_device_input.enabled != null ? local.audio_device_input.enabled : local.audio_device_global.enabled != null ? local.audio_device_global.enabled : null
