@@ -82,17 +82,17 @@ variable "disk" {
 
 variable "machine" {
   type    = string
-  default = "q35"
+  default = null
 }
 
 variable "memory" {
   description = "memory"
   type = object({
-    dedicated = optional(number, 4096)
-    floating  = optional(number, 0)
-    shared    = optional(number, 0)
+    dedicated = optional(number)
+    floating  = optional(number)
+    shared    = optional(number)
   })
-  default = {}
+  default = null
 }
 
 variable "network_device" {
