@@ -1,43 +1,90 @@
 pipeline {
   agent any
+
   stages {
-    stage('Validate Parameters') {
+    stage('Verify Tooling') {
       steps {
         script {
-          if (params.AUTO_APPROVE == null) {
-            error 'AUTO_APPROVE parameter is not set'
-          }
-
-          def backendConfig = params.get('BACKEND_CONFIG_FILE', "${env.HOME}/.tfvars/minio.backend.hcl")
-          if (!backendConfig?.trim()) {
-            error 'BACKEND_CONFIG_FILE parameter is not set'
-          }
-          sh "test -f '${backendConfig}'"
-          env.BACKEND_CONFIG_FILE = backendConfig
-
-          def files = [
-            TFVARS_FILE: params.TFVARS_FILE,
-            APP_TFVARS_FILE   : params.APP_TFVARS_FILE
-          ]
-          files.each { name, path ->
-            if (!path?.trim()) {
-              error "${name} parameter is not set"
-            }
-            sh "test -f ${path}"
-          }
+          sh 'command -v terraform >/dev/null 2>&1'
+          sh 'command -v realpath >/dev/null 2>&1'
+          echo 'Starting Terraform pipeline'
         }
       }
     }
-    stage('Terraform') {
+
+    stage('Resolve Inputs') {
       steps {
         script {
-          sh "terraform init -input=false -backend-config='${env.BACKEND_CONFIG_FILE}'"
-          if (params.AUTO_APPROVE) {
-            sh "terraform apply -input=false -auto-approve -var-file=${params.TFVARS_FILE}"
-          } else {
-            sh "terraform plan -input=false -var-file=${params.TFVARS_FILE}"
-            sh "terraform apply -var-file=${params.TFVARS_FILE}"
+          def quote = { value ->
+            "\"${value.replace('\\', '\\\\').replace('"', '\\"')}\""
           }
+
+          def ensureFile = { label, candidate ->
+            if (!candidate?.trim()) {
+              return null
+            }
+            def sanitized = quote(candidate.trim())
+            def exists = sh(returnStatus: true, script: "set -euo pipefail\ntest -f ${sanitized}") == 0
+            if (!exists) {
+              echo "[WARN] ${label} not found at ${candidate}"
+              return null
+            }
+            sh(returnStdout: true, script: "set -euo pipefail\nrealpath ${sanitized}").trim()
+          }
+
+          def workspace = pwd()
+          def terraformDir = "${workspace}/terraform"
+
+          def tfvarsCandidates = []
+          if (params?.TFVARS_FILE?.trim()) {
+            tfvarsCandidates << [label: 'Provided TFVARS', path: params.TFVARS_FILE.trim()]
+          }
+          tfvarsCandidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars"]
+
+          def discoveredTfvars = sh(returnStdout: true, script: """
+set -euo pipefail
+find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
+""").trim()
+          if (discoveredTfvars) {
+            tfvarsCandidates << [label: 'Workspace TFVARS', path: discoveredTfvars]
+          }
+
+          def resolvedTfvars = tfvarsCandidates.collect { ensureFile(it.label, it.path) }.find { it }
+          if (!resolvedTfvars) {
+            error '[ERR] Unable to determine a usable TFVARS file'
+          }
+
+          def backendConfigPath = ensureFile('Backend config', "${env.HOME}/.tfvars/minio.backend.hcl")
+          if (!backendConfigPath) {
+            error "[ERR] Missing backend config at ${env.HOME}/.tfvars/minio.backend.hcl"
+          }
+
+          env.TFVARS_PATH = resolvedTfvars
+          env.BACKEND_CONFIG_PATH = backendConfigPath
+        }
+      }
+    }
+
+    stage('Terraform Apply') {
+      steps {
+        dir('terraform') {
+          sh '''
+set -euo pipefail
+
+[ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
+[ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
+
+echo "[STEP] terraform init"
+terraform init -backend-config="$BACKEND_CONFIG_PATH"
+
+echo "[STEP] terraform plan"
+terraform plan -input=false -var-file="$TFVARS_PATH"
+
+echo "[STEP] terraform apply"
+terraform apply -input=false -auto-approve -var-file="$TFVARS_PATH"
+
+echo "[DONE] Apply complete."
+'''
         }
       }
     }
