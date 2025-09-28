@@ -8,7 +8,7 @@ resource "random_id" "agent_entrypoint_suffix" {
 
 resource "docker_config" "agent_entrypoint" {
   name = "agent-entrypoint-${var.name}-${random_id.agent_entrypoint_suffix.hex}.sh"
-  data = base64encode(local.agent_entrypoint_script_content)
+  data = base64encode(file("${path.module}/agent-entrypoint.sh"))
 }
 
 resource "docker_service" "agent" {
