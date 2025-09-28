@@ -6,8 +6,8 @@ pipeline {
   }
 
   parameters {
-    string(name: 'TFVARS_FILE', defaultValue: '~/.tfvars/jenkins.tfvars', description: 'Optional path to the tfvars file to use')
-    string(name: 'BACKEND_FILE', defaultValue: '~/.tfvars/minio.backend.hcl', description: 'Optional path to the backend config to use')
+    string(name: 'TFVARS_FILE', defaultValue: '/home/jenkins/.tfvars', description: 'Optional path to the tfvars file to use')
+    string(name: 'BACKEND_FILE', defaultValue: '/home/jenkins/.tfvars/minio.backend.hcl', description: 'Optional path to the backend config to use')
   }
 
   stages {
