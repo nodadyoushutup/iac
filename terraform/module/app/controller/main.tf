@@ -43,11 +43,11 @@ resource "docker_service" "controller" {
         type   = "bind"
       }
 
-      mounts {
-        target = "/var/jenkins_home/.kube"
-        source = pathexpand("~/.kube")
-        type   = "bind"
-      }
+      # mounts {
+      #   target = "/var/jenkins_home/.kube"
+      #   source = pathexpand("~/.kube")
+      #   type   = "bind"
+      # }
 
       mounts {
         target = "/var/jenkins_home/.tfvars"

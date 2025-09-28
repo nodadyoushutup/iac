@@ -47,11 +47,11 @@ resource "docker_service" "agent" {
         type   = "bind"
       }
 
-      mounts {
-        target = "/home/jenkins/.kube"
-        source = pathexpand("~/.kube")
-        type   = "bind"
-      }
+      # mounts {
+      #   target = "/home/jenkins/.kube"
+      #   source = pathexpand("~/.kube")
+      #   type   = "bind"
+      # }
 
       mounts {
         target = "/home/jenkins/.tfvars"
