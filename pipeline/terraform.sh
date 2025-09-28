@@ -9,7 +9,42 @@ echo "Starting pipeline"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-TFVARS_PATH="$(realpath "${HOME}/.tfvars/jenkins.tfvars")"
+TFVARS_ARG="${1:-}"
+
+resolve_tfvars_path() {
+  local provided_path="${1:-}"
+  local terraform_dir="${2:-}"
+  local candidate
+
+  if [[ -n "${provided_path}" ]]; then
+    candidate="${provided_path}"
+    if [[ -f "${candidate}" ]]; then
+      realpath "${candidate}"
+      return 0
+    else
+      echo "[WARN] Provided TFVARS file not found: ${candidate}" >&2
+    fi
+  fi
+
+  candidate="${HOME}/.tfvars/jenkins.tfvars"
+  if [[ -f "${candidate}" ]]; then
+    realpath "${candidate}"
+    return 0
+  fi
+
+  if [[ -d "${terraform_dir}" ]]; then
+    candidate="$(find "${terraform_dir}" -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true)"
+    if [[ -n "${candidate}" && -f "${candidate}" ]]; then
+      realpath "${candidate}"
+      return 0
+    fi
+  fi
+
+  echo "[ERR] Unable to determine a TFVARS file" >&2
+  return 1
+}
+
+TFVARS_PATH="$(resolve_tfvars_path "${TFVARS_ARG}" "${ROOT_DIR}/terraform")"
 BACKEND_CONFIG_PATH="$(realpath "${HOME}/.tfvars/minio.backend.hcl")"
 
 [ -f "${TFVARS_PATH}" ] || { echo "[ERR] Missing ${TFVARS_PATH}" >&2; exit 1; }
