@@ -16,7 +16,7 @@ resource "docker_service" "controller" {
 
       env = {
         JAVA_OPTS           = "-Djenkins.install.runSetupWizard=false"
-        CASC_JENKINS_CONFIG = "/jenkins/casc_config"
+        CASC_JENKINS_CONFIG = "/jenkins/casc_configs"
       }
 
       mounts {
@@ -58,7 +58,7 @@ resource "docker_service" "controller" {
       configs {
         config_id   = docker_config.casc_config.id
         config_name = docker_config.casc_config.name
-        file_name   = "/jenkins/casc_config/config.yaml"
+        file_name   = "/jenkins/casc_configs/config.yaml"
       }
 
       dns_config {

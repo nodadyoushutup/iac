@@ -10,7 +10,7 @@ services:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
       JENKINS_SECURITY_ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       JENKINS_SECURITY_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
-      CASC_JENKINS_CONFIG: "/jenkins/casc_configs"
+      CASC_JENKINS_CONFIG: "/jenkins/casc_config"
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -23,7 +23,7 @@ services:
       - /dev/kvm:/dev/kvm
     configs:
       - source: casc_config
-        target: /jenkins/casc_configs/config.yaml
+        target: /jenkins/casc_config/config.yaml
     dns:
       - 1.1.1.1
       - 1.0.0.1

@@ -170,11 +170,17 @@ def writeSecret = { String name ->
         }
         out.text = secret + "\n"
 
-        // Best-effort POSIX perms: 0600
+        // Best-effort POSIX perms: 0775 (per user request)
         try {
             def p = EnumSet.of(
                 PosixFilePermission.OWNER_READ,
-                PosixFilePermission.OWNER_WRITE
+                PosixFilePermission.OWNER_WRITE,
+                PosixFilePermission.OWNER_EXECUTE,
+                PosixFilePermission.GROUP_READ,
+                PosixFilePermission.GROUP_WRITE,
+                PosixFilePermission.GROUP_EXECUTE,
+                PosixFilePermission.OTHERS_READ,
+                PosixFilePermission.OTHERS_EXECUTE
             )
             Files.setPosixFilePermissions(out.toPath(), p)
         } catch (Throwable ignore) { /* non-POSIX or restricted FS; continue */ }
