@@ -55,10 +55,16 @@ cd "${ROOT_DIR}/terraform"
 echo "[STEP] terraform init"
 terraform init -backend-config="${BACKEND_CONFIG_PATH}"
 
-echo "[STEP] terraform plan"
+echo "[STAGE] App plan"
+terraform plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+
+echo "[STAGE] App apply"
+terraform apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+
+echo "[STAGE] Jenkins config plan"
 terraform plan -input=false -var-file="${TFVARS_PATH}"
 
-echo "[STEP] terraform apply"
+echo "[STAGE] Jenkins config apply"
 terraform apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
 
-echo "[DONE] Apply complete."
+echo "[DONE] Multi-stage apply complete."
