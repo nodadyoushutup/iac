@@ -8,7 +8,58 @@ echo "Starting pipeline"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-TFVARS_ARG="${1:-}"
+TFVARS_ARG=""
+BACKEND_ARG=""
+
+usage() {
+  cat <<'EOF'
+Usage: pipeline/terraform.sh [--tfvars <path>] [--backend <path>] [tfvars_path] [backend_path]
+
+Optional arguments can be provided either as flags or positional values.
+If omitted, defaults are:
+  TFVARS  -> $HOME/.tfvars/jenkins.tfvars (falls back to first *.tfvars in ./terraform)
+  BACKEND -> $HOME/.tfvars/minio.backend.hcl
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --tfvars)
+      if [[ $# -lt 2 ]]; then
+        echo "[ERR] --tfvars flag requires a path argument" >&2
+        usage >&2
+        exit 2
+      fi
+      TFVARS_ARG="$2"
+      shift 2
+      ;;
+    --backend)
+      if [[ $# -lt 2 ]]; then
+        echo "[ERR] --backend flag requires a path argument" >&2
+        usage >&2
+        exit 2
+      fi
+      BACKEND_ARG="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      if [[ -z "${TFVARS_ARG}" ]]; then
+        TFVARS_ARG="$1"
+      elif [[ -z "${BACKEND_ARG}" ]]; then
+        BACKEND_ARG="$1"
+      else
+        echo "[ERR] Unexpected argument: $1" >&2
+        usage >&2
+        exit 2
+      fi
+      shift
+      ;;
+  esac
+done
 
 resolve_tfvars_path() {
   local provided_path="${1:-}"
@@ -43,8 +94,33 @@ resolve_tfvars_path() {
   return 1
 }
 
-TFVARS_PATH="$(resolve_tfvars_path "${TFVARS_ARG}" "${ROOT_DIR}/terraform")"
-BACKEND_CONFIG_PATH="$(realpath "${HOME}/.tfvars/minio.backend.hcl")"
+resolve_backend_path() {
+  local provided_path="${1:-}"
+  local default_path="${HOME}/.tfvars/minio.backend.hcl"
+  local candidate
+
+  if [[ -n "${provided_path}" ]]; then
+    candidate="${provided_path}"
+    if [[ -f "${candidate}" ]]; then
+      realpath "${candidate}"
+      return 0
+    else
+      echo "[ERR] Provided backend config not found: ${candidate}" >&2
+      return 1
+    fi
+  fi
+
+  if [[ -f "${default_path}" ]]; then
+    realpath "${default_path}"
+    return 0
+  fi
+
+  echo "[ERR] Unable to determine a backend config file" >&2
+  return 1
+}
+
+TFVARS_PATH="$(resolve_tfvars_path "${TFVARS_ARG}" "${ROOT_DIR}/terraform")" || exit 1
+BACKEND_CONFIG_PATH="$(resolve_backend_path "${BACKEND_ARG}")" || exit 1
 
 [ -f "${TFVARS_PATH}" ] || { echo "[ERR] Missing ${TFVARS_PATH}" >&2; exit 1; }
 [ -f "${BACKEND_CONFIG_PATH}" ] || { echo "[ERR] Missing ${BACKEND_CONFIG_PATH}" >&2; exit 1; }

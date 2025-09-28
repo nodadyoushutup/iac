@@ -2,126 +2,14 @@ pipeline {
   agent any
 
   options {
-    ansiColor('xterm')  // enables color support globally in this pipeline
-  }
-
-  parameters {
-    string(name: 'TFVARS_FILE', defaultValue: '', description: 'Optional path to the tfvars file to use')
+    ansiColor('xterm')
   }
 
   stages {
-    stage('Verify Tooling') {
+    stage('Verify Terraform CLI') {
       steps {
-        script {
-          sh 'command -v terraform >/dev/null 2>&1'
-          sh 'command -v realpath >/dev/null 2>&1'
-          echo 'Starting Terraform pipeline'
-        }
-      }
-    }
-
-    stage('Resolve Inputs') {
-      steps {
-        script {
-          def quote = { value ->
-            "\"${value.replace('\\', '\\\\').replace('"', '\\"')}\""
-          }
-
-          def ensureFile = { label, candidate ->
-            if (!candidate?.trim()) {
-              return null
-            }
-            def sanitized = quote(candidate.trim())
-            def exists = sh(returnStatus: true, script: """#!/usr/bin/env bash
-test -f ${sanitized}
-""") == 0
-            if (!exists) {
-              echo "[WARN] ${label} not found at ${candidate}"
-              return null
-            }
-            sh(returnStdout: true, script: """#!/usr/bin/env bash
-realpath ${sanitized}
-""").trim()
-          }
-
-          def workspace = pwd()
-          def terraformDir = "${workspace}/terraform"
-
-          def tfvarsCandidates = []
-          if (params?.TFVARS_FILE?.trim()) {
-            tfvarsCandidates << [label: 'Provided TFVARS', path: params.TFVARS_FILE.trim()]
-          }
-          tfvarsCandidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars"]
-
-          def discoveredTfvars = sh(returnStdout: true, script: """#!/usr/bin/env bash
-find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
-""").trim()
-          if (discoveredTfvars) {
-            tfvarsCandidates << [label: 'Workspace TFVARS', path: discoveredTfvars]
-          }
-
-          def resolvedTfvars = tfvarsCandidates.collect { ensureFile(it.label, it.path) }.find { it }
-          if (!resolvedTfvars) {
-            error '[ERR] Unable to determine a usable TFVARS file'
-          }
-
-          def backendConfigPath = ensureFile('Backend config', "${env.HOME}/.tfvars/minio.backend.hcl")
-          if (!backendConfigPath) {
-            error "[ERR] Missing backend config at ${env.HOME}/.tfvars/minio.backend.hcl"
-          }
-
-          env.TFVARS_PATH = resolvedTfvars
-          env.BACKEND_CONFIG_PATH = backendConfigPath
-        }
-      }
-    }
-
-    stage('Terraform Init') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-[ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
-[ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
-
-echo "[STEP] terraform init"
-terraform init -backend-config="$BACKEND_CONFIG_PATH"
-'''
-        }
-      }
-    }
-
-    stage('App Plan & Apply') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-echo "[STAGE] App plan"
-terraform plan -input=false -refresh=false -var-file="$TFVARS_PATH" -target=module.jenkins_app
-
-echo "[STAGE] App apply"
-terraform apply -input=false -refresh=false -auto-approve -var-file="$TFVARS_PATH" -target=module.jenkins_app
-
-sleep 10
-'''
-        }
-      }
-    }
-
-    stage('Jenkins Config Plan & Apply') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-echo "[STAGE] Jenkins config plan"
-terraform plan -input=false -var-file="$TFVARS_PATH"
-
-echo "[STAGE] Jenkins config apply"
-terraform apply -input=false -auto-approve -var-file="$TFVARS_PATH"
-
-echo "[DONE] Multi-stage apply complete."
-'''
-        }
+        sh 'command -v terraform >/dev/null 2>&1'
+        sh 'terraform version'
       }
     }
   }
