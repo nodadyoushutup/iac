@@ -5,6 +5,10 @@ pipeline {
     ansiColor('xterm')  // enables color support globally in this pipeline
   }
 
+  parameters {
+    string(name: 'TFVARS_FILE', defaultValue: '', description: 'Optional path to the tfvars file to use')
+  }
+
   stages {
     stage('Verify Tooling') {
       steps {
@@ -28,12 +32,18 @@ pipeline {
               return null
             }
             def sanitized = quote(candidate.trim())
-            def exists = sh(returnStatus: true, script: "set -e -u\ntest -f ${sanitized}") == 0
+            def exists = sh(returnStatus: true, script: """#!/usr/bin/env bash
+set -euo pipefail
+test -f ${sanitized}
+""") == 0
             if (!exists) {
               echo "[WARN] ${label} not found at ${candidate}"
               return null
             }
-            sh(returnStdout: true, script: "set -e -u\nrealpath ${sanitized}").trim()
+            sh(returnStdout: true, script: """#!/usr/bin/env bash
+set -euo pipefail
+realpath ${sanitized}
+""").trim()
           }
 
           def workspace = pwd()
@@ -45,8 +55,8 @@ pipeline {
           }
           tfvarsCandidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars"]
 
-          def discoveredTfvars = sh(returnStdout: true, script: """
-set -e -u
+          def discoveredTfvars = sh(returnStdout: true, script: """#!/usr/bin/env bash
+set -euo pipefail
 find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
 """).trim()
           if (discoveredTfvars) {
@@ -72,8 +82,8 @@ find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -
     stage('Terraform Init') {
       steps {
         dir('terraform') {
-          sh '''
-set -e -u
+          sh '''#!/usr/bin/env bash
+set -euo pipefail
 
 [ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
 [ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
@@ -88,14 +98,16 @@ terraform init -backend-config="$BACKEND_CONFIG_PATH"
     stage('App Plan & Apply') {
       steps {
         dir('terraform') {
-          sh '''
-set -e -u
+          sh '''#!/usr/bin/env bash
+set -euo pipefail
 
 echo "[STAGE] App plan"
 terraform plan -input=false -refresh=false -var-file="$TFVARS_PATH" -target=module.jenkins_app
 
 echo "[STAGE] App apply"
 terraform apply -input=false -refresh=false -auto-approve -var-file="$TFVARS_PATH" -target=module.jenkins_app
+
+sleep 10
 '''
         }
       }
@@ -104,8 +116,8 @@ terraform apply -input=false -refresh=false -auto-approve -var-file="$TFVARS_PAT
     stage('Jenkins Config Plan & Apply') {
       steps {
         dir('terraform') {
-          sh '''
-set -e -u
+          sh '''#!/usr/bin/env bash
+set -euo pipefail
 
 echo "[STAGE] Jenkins config plan"
 terraform plan -input=false -var-file="$TFVARS_PATH"

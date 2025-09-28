@@ -6,8 +6,8 @@ module "jenkins_app" {
   jenkins_url = var.provider_config.jenkins.server_url
 }
 
-# module "jenkins_config" {
-#   source = "./module/config"
+module "jenkins_config" {
+  source = "./module/config"
 
-#   depends_on  = [module.jenkins_app]
-# }
+  depends_on  = [module.jenkins_app]
+}
