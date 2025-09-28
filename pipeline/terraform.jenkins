@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  options {
+    ansiColor('xterm')  // enables color support globally in this pipeline
+  }
+
   stages {
     stage('Verify Tooling') {
       steps {
