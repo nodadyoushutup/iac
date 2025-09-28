@@ -24,12 +24,12 @@ pipeline {
               return null
             }
             def sanitized = quote(candidate.trim())
-            def exists = sh(returnStatus: true, script: "set -euo pipefail\ntest -f ${sanitized}") == 0
+            def exists = sh(returnStatus: true, script: "set -euo\ntest -f ${sanitized}") == 0
             if (!exists) {
               echo "[WARN] ${label} not found at ${candidate}"
               return null
             }
-            sh(returnStdout: true, script: "set -euo pipefail\nrealpath ${sanitized}").trim()
+            sh(returnStdout: true, script: "set -euo\nrealpath ${sanitized}").trim()
           }
 
           def workspace = pwd()
@@ -42,7 +42,7 @@ pipeline {
           tfvarsCandidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars"]
 
           def discoveredTfvars = sh(returnStdout: true, script: """
-set -euo pipefail
+set -euo
 find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
 """).trim()
           if (discoveredTfvars) {
@@ -69,7 +69,7 @@ find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -
       steps {
         dir('terraform') {
           sh '''
-set -euo pipefail
+set -euo
 
 [ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
 [ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
@@ -85,7 +85,7 @@ terraform init -backend-config="$BACKEND_CONFIG_PATH"
       steps {
         dir('terraform') {
           sh '''
-set -euo pipefail
+set -euo
 
 echo "[STAGE] App plan"
 terraform plan -input=false -refresh=false -var-file="$TFVARS_PATH" -target=module.jenkins_app
@@ -101,7 +101,7 @@ terraform apply -input=false -refresh=false -auto-approve -var-file="$TFVARS_PAT
       steps {
         dir('terraform') {
           sh '''
-set -euo pipefail
+set -euo
 
 echo "[STAGE] Jenkins config plan"
 terraform plan -input=false -var-file="$TFVARS_PATH"
