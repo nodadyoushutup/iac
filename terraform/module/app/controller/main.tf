@@ -15,44 +15,44 @@ resource "docker_service" "controller" {
       image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.5"
 
       env = {
-        JAVA_OPTS = "-Djenkins.install.runSetupWizard=false"
+        JAVA_OPTS           = "-Djenkins.install.runSetupWizard=false"
         CASC_JENKINS_CONFIG = "/jenkins/casc_config"
       }
 
       mounts {
         target = "/var/jenkins_home"
         source = docker_volume.controller.name
-        type = "volume"
+        type   = "volume"
       }
 
       mounts {
         target = "/dev/kvm"
         source = "/dev/kvm"
-        type = "bind"
+        type   = "bind"
       }
 
       mounts {
         target = "/var/jenkins_home/.jenkins"
         source = pathexpand("~/.jenkins")
-        type = "bind"
+        type   = "bind"
       }
 
       mounts {
         target = "/var/jenkins_home/.ssh"
         source = pathexpand("~/.ssh")
-        type = "bind"
+        type   = "bind"
       }
 
       mounts {
         target = "/var/jenkins_home/.kube"
         source = pathexpand("~/.kube")
-        type = "bind"
+        type   = "bind"
       }
 
       mounts {
         target = "/var/jenkins_home/.tfvars"
         source = pathexpand("~/.tfvars")
-        type = "bind"
+        type   = "bind"
       }
 
       configs {
@@ -101,7 +101,7 @@ resource "null_resource" "wait_for_service" {
   depends_on = [docker_service.controller]
 
   triggers = {
-    always_run  = timestamp()
+    always_run   = timestamp()
     endpoint     = var.healthcheck_endpoint
     delay        = tostring(var.healthcheck_delay_seconds)
     max_attempts = tostring(var.healthcheck_max_attempts)

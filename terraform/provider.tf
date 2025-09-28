@@ -9,14 +9,14 @@ terraform {
       version = "3.6.2"
     }
     jenkins = {
-      source = "taiidani/jenkins"
+      source  = "taiidani/jenkins"
       version = "0.11.0"
     }
   }
 }
 
 provider "docker" {
-  host = var.provider_config.docker.host
+  host     = var.provider_config.docker.host
   ssh_opts = var.provider_config.docker.ssh_opts
 }
 
