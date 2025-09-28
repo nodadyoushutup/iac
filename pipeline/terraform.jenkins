@@ -8,8 +8,9 @@ pipeline {
   stages {
     stage('Verify Terraform CLI') {
       steps {
-        // sh 'command -v terraform >/dev/null 2>&1'
-        sh 'terraform version'
+        dir('terraform') {
+          sh 'terraform version'
+        }
       }
     }
   }
