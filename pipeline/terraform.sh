@@ -61,6 +61,8 @@ terraform plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=mo
 echo "[STAGE] App apply"
 terraform apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
 
+sleep 10
+
 echo "[STAGE] Jenkins config plan"
 terraform plan -input=false -var-file="${TFVARS_PATH}"
 

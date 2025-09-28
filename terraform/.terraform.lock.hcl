@@ -61,8 +61,7 @@ provider "registry.terraform.io/kreuzwerker/docker" {
 }
 
 provider "registry.terraform.io/taiidani/jenkins" {
-  version     = "0.11.0"
-  constraints = "0.11.0"
+  version = "0.11.0"
   hashes = [
     "h1:mpEwDSeEKvxXBHhbsGG+JZbtT6uv2JUBvPAc2A8o5lk=",
     "zh:10a2407dc509220bf05c042a26c380d1dafe274c987f922d4d4db69cfbff3adf",
