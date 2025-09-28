@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 command -v terraform >/dev/null 2>&1 || { echo "[ERR] terraform not found in PATH" >&2; exit 127; }
 command -v realpath  >/dev/null 2>&1 || { echo "[ERR] realpath not found in PATH" >&2; exit 127; }

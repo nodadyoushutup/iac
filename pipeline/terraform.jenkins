@@ -33,7 +33,6 @@ pipeline {
             }
             def sanitized = quote(candidate.trim())
             def exists = sh(returnStatus: true, script: """#!/usr/bin/env bash
-set -euo pipefail
 test -f ${sanitized}
 """) == 0
             if (!exists) {
@@ -41,7 +40,6 @@ test -f ${sanitized}
               return null
             }
             sh(returnStdout: true, script: """#!/usr/bin/env bash
-set -euo pipefail
 realpath ${sanitized}
 """).trim()
           }
@@ -56,7 +54,6 @@ realpath ${sanitized}
           tfvarsCandidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars"]
 
           def discoveredTfvars = sh(returnStdout: true, script: """#!/usr/bin/env bash
-set -euo pipefail
 find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
 """).trim()
           if (discoveredTfvars) {
@@ -83,7 +80,6 @@ find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -
       steps {
         dir('terraform') {
           sh '''#!/usr/bin/env bash
-set -euo pipefail
 
 [ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
 [ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
@@ -99,7 +95,6 @@ terraform init -backend-config="$BACKEND_CONFIG_PATH"
       steps {
         dir('terraform') {
           sh '''#!/usr/bin/env bash
-set -euo pipefail
 
 echo "[STAGE] App plan"
 terraform plan -input=false -refresh=false -var-file="$TFVARS_PATH" -target=module.jenkins_app
@@ -117,7 +112,6 @@ sleep 10
       steps {
         dir('terraform') {
           sh '''#!/usr/bin/env bash
-set -euo pipefail
 
 echo "[STAGE] Jenkins config plan"
 terraform plan -input=false -var-file="$TFVARS_PATH"
