@@ -6,6 +6,11 @@ module "jenkins_controller" {
   healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
 }
 
+resource "jenkins_folder" "job_jenkins" {
+  depends_on = [module.jenkins_controller]
+  name = "jenkins"
+}
+
 module "jenkins_agent" {
   # source = "./module/app/agent"
   source = "github.com/nodadyoushutup/jenkins//terraform/module/app/agent?ref=main"
