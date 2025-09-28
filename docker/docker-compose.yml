@@ -1,0 +1,42 @@
+services:
+  jenkins:
+    image: ghcr.io/nodadyoushutup/jenkins-controller:latest
+    container_name: jenkins-controller
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      JENKINS_SECURITY_ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      JENKINS_SECURITY_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
+      CASC_JENKINS_CONFIG: "/jenkins/casc_configs"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - compose_jenkins_controller:/var/jenkins_home
+      - ~/.jenkins:/var/jenkins_home/.jenkins
+      - ~/.ssh:/var/jenkins_home/.ssh
+      - ~/.kube:/var/jenkins_home/.kube
+      - ~/.tfvars:/var/jenkins_home/.tfvars
+      - /dev/kvm:/dev/kvm
+    configs:
+      - source: casc_config
+        target: /jenkins/casc_configs/config.yaml
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/whoAmI/api/json?tree=authenticated"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 1m
+
+volumes:
+  compose_jenkins_controller:
+
+configs:
+  casc_config:
+    file: ./config.yaml
