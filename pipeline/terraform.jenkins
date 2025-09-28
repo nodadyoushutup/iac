@@ -16,7 +16,7 @@ pipeline {
           env.BACKEND_CONFIG_FILE = backendConfig
 
           def files = [
-            DOCKER_TFVARS_FILE: params.DOCKER_TFVARS_FILE,
+            TFVARS_FILE: params.TFVARS_FILE,
             APP_TFVARS_FILE   : params.APP_TFVARS_FILE
           ]
           files.each { name, path ->
@@ -28,15 +28,15 @@ pipeline {
         }
       }
     }
-    stage('Docker') {
+    stage('Terraform') {
       steps {
         script {
-          sh "terraform -chdir=docker init -input=false -backend-config='${env.BACKEND_CONFIG_FILE}'"
+          sh "terraform init -input=false -backend-config='${env.BACKEND_CONFIG_FILE}'"
           if (params.AUTO_APPROVE) {
-            sh "terraform -chdir=docker apply -input=false -auto-approve -var-file=${params.DOCKER_TFVARS_FILE}"
+            sh "terraform apply -input=false -auto-approve -var-file=${params.TFVARS_FILE}"
           } else {
-            sh "terraform -chdir=docker plan -input=false -var-file=${params.DOCKER_TFVARS_FILE}"
-            sh "terraform -chdir=docker apply -var-file=${params.DOCKER_TFVARS_FILE}"
+            sh "terraform plan -input=false -var-file=${params.TFVARS_FILE}"
+            sh "terraform apply -var-file=${params.TFVARS_FILE}"
           }
         }
       }
