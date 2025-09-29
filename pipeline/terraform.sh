@@ -1,39 +1,23 @@
 #!/usr/bin/env bash
 
-command -v terraform >/dev/null 2>&1 || { echo "[ERR] terraform not found in PATH" >&2; exit 127; }
-command -v realpath  >/dev/null 2>&1 || { echo "[ERR] realpath not found in PATH" >&2; exit 127; }
-
-PYTHON_CMD=""
-if command -v python3 >/dev/null 2>&1; then
-  PYTHON_CMD="$(command -v python3)"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_CMD="$(command -v python)"
-else
-  echo "[WARN] python3 not found; Terraform warnings will be displayed" >&2
-fi
-
-echo "Starting pipeline"
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-FILTER_SCRIPT="${SCRIPT_DIR}/terraform_output_filter.py"
-
-if [[ -n "${PYTHON_CMD}" && ! -f "${FILTER_SCRIPT}" ]]; then
-  echo "[WARN] Terraform filter helper missing at ${FILTER_SCRIPT}; warnings will be displayed" >&2
-fi
+ENV_SCRIPT="${SCRIPT_DIR}/scripts/env_check.sh"
+RESOLVE_SCRIPT="${SCRIPT_DIR}/scripts/resolve_inputs.sh"
+EXEC_SCRIPT="${SCRIPT_DIR}/scripts/terraform_exec.sh"
 
 TFVARS_ARG=""
 BACKEND_ARG=""
 
 usage() {
-  cat <<'EOF'
+  cat <<'USAGE'
 Usage: pipeline/terraform.sh [--tfvars <path>] [--backend <path>] [tfvars_path] [backend_path]
 
 Optional arguments can be provided either as flags or positional values.
 If omitted, defaults are:
   TFVARS  -> $HOME/.tfvars/jenkins.tfvars (falls back to first *.tfvars in ./terraform)
   BACKEND -> $HOME/.tfvars/minio.backend.hcl
-EOF
+USAGE
 }
 
 while [[ $# -gt 0 ]]; do
@@ -75,98 +59,76 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-resolve_tfvars_path() {
-  local provided_path="${1:-}"
-  local terraform_dir="${2:-}"
-  local candidate
+echo "Starting pipeline"
 
-  if [[ -n "${provided_path}" ]]; then
-    candidate="${provided_path}"
-    if [[ -f "${candidate}" ]]; then
-      realpath "${candidate}"
-      return 0
-    else
-      echo "[WARN] Provided TFVARS file not found: ${candidate}" >&2
-    fi
-  fi
+if [[ ! -x "${ENV_SCRIPT}" ]]; then
+  echo "[ERR] Missing helper script: ${ENV_SCRIPT}" >&2
+  exit 1
+fi
+if [[ ! -x "${RESOLVE_SCRIPT}" ]]; then
+  echo "[ERR] Missing helper script: ${RESOLVE_SCRIPT}" >&2
+  exit 1
+fi
+if [[ ! -x "${EXEC_SCRIPT}" ]]; then
+  echo "[ERR] Missing helper script: ${EXEC_SCRIPT}" >&2
+  exit 1
+fi
 
-  candidate="${HOME}/.tfvars/jenkins.tfvars"
-  if [[ -f "${candidate}" ]]; then
-    realpath "${candidate}"
-    return 0
-  fi
+PYTHON_CMD=""
+FILTER_SCRIPT=""
+FILTER_AVAILABLE="0"
 
-  if [[ -d "${terraform_dir}" ]]; then
-    candidate="$(find "${terraform_dir}" -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true)"
-    if [[ -n "${candidate}" && -f "${candidate}" ]]; then
-      realpath "${candidate}"
-      return 0
-    fi
-  fi
+ENV_OUTPUT="$(${ENV_SCRIPT})" || exit 1
+while IFS='=' read -r key value; do
+  case "$key" in
+    PYTHON_CMD) PYTHON_CMD="$value" ;;
+    FILTER_SCRIPT) FILTER_SCRIPT="$value" ;;
+    FILTER_AVAILABLE) FILTER_AVAILABLE="$value" ;;
+  esac
+done <<<"${ENV_OUTPUT}"
 
-  echo "[ERR] Unable to determine a TFVARS file" >&2
-  return 1
-}
+TFVARS_PATH=""
+BACKEND_CONFIG_PATH=""
 
-resolve_backend_path() {
-  local provided_path="${1:-}"
-  local default_path="${HOME}/.tfvars/minio.backend.hcl"
-  local candidate
+RESOLVE_OUTPUT="$(TFVARS_ARG="${TFVARS_ARG}" BACKEND_ARG="${BACKEND_ARG}" "${RESOLVE_SCRIPT}")" || exit 1
+while IFS='=' read -r key value; do
+  case "$key" in
+    TFVARS_PATH) TFVARS_PATH="$value" ;;
+    BACKEND_PATH) BACKEND_CONFIG_PATH="$value" ;;
+  esac
+done <<<"${RESOLVE_OUTPUT}"
 
-  if [[ -n "${provided_path}" ]]; then
-    candidate="${provided_path}"
-    if [[ -f "${candidate}" ]]; then
-      realpath "${candidate}"
-      return 0
-    else
-      echo "[ERR] Provided backend config not found: ${candidate}" >&2
-      return 1
-    fi
-  fi
+if [[ -z "${TFVARS_PATH}" || ! -f "${TFVARS_PATH}" ]]; then
+  echo "[ERR] Missing TFVARS file: ${TFVARS_PATH}" >&2
+  exit 1
+fi
+if [[ -z "${BACKEND_CONFIG_PATH}" || ! -f "${BACKEND_CONFIG_PATH}" ]]; then
+  echo "[ERR] Missing backend config file: ${BACKEND_CONFIG_PATH}" >&2
+  exit 1
+fi
 
-  if [[ -f "${default_path}" ]]; then
-    realpath "${default_path}"
-    return 0
-  fi
-
-  echo "[ERR] Unable to determine a backend config file" >&2
-  return 1
-}
-
-
-run_terraform() {
-  if [[ -n "${PYTHON_CMD}" && -f "${FILTER_SCRIPT}" ]]; then
-    "${PYTHON_CMD}" "${FILTER_SCRIPT}" -- "$@"
-    return
-  fi
-
-  terraform "$@"
-}
-
-
-TFVARS_PATH="$(resolve_tfvars_path "${TFVARS_ARG}" "${ROOT_DIR}/terraform")" || exit 1
-BACKEND_CONFIG_PATH="$(resolve_backend_path "${BACKEND_ARG}")" || exit 1
-
-[ -f "${TFVARS_PATH}" ] || { echo "[ERR] Missing ${TFVARS_PATH}" >&2; exit 1; }
-[ -f "${BACKEND_CONFIG_PATH}" ] || { echo "[ERR] Missing ${BACKEND_CONFIG_PATH}" >&2; exit 1; }
+echo "TFVARS file: ${TFVARS_PATH}"
+echo "Backend config: ${BACKEND_CONFIG_PATH}"
 
 cd "${ROOT_DIR}/terraform"
 
+export PYTHON_CMD FILTER_SCRIPT FILTER_AVAILABLE TFVARS_PATH BACKEND_CONFIG_PATH
+
 echo "[STEP] terraform init"
-run_terraform init -backend-config="${BACKEND_CONFIG_PATH}"
+"${EXEC_SCRIPT}" init -backend-config="${BACKEND_CONFIG_PATH}"
 
 echo "[STAGE] App plan"
-run_terraform plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+"${EXEC_SCRIPT}" plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
 
 echo "[STAGE] App apply"
-run_terraform apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+"${EXEC_SCRIPT}" apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
 
 sleep 10
 
 echo "[STAGE] Jenkins config plan"
-run_terraform plan -input=false -var-file="${TFVARS_PATH}"
+"${EXEC_SCRIPT}" plan -input=false -var-file="${TFVARS_PATH}"
 
 echo "[STAGE] Jenkins config apply"
-run_terraform apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
+"${EXEC_SCRIPT}" apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
 
 echo "[DONE] Multi-stage apply complete."
