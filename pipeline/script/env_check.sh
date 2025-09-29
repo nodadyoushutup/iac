@@ -3,7 +3,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PIPELINE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-FILTER_SCRIPT_PATH="${PIPELINE_DIR}/terraform_output_filter.py"
+FILTER_SCRIPT_PATH="${SCRIPT_DIR}/terraform_output_filter.py"
 
 command -v terraform >/dev/null 2>&1 || { echo "[ERR] terraform not found in PATH" >&2; exit 127; }
 command -v realpath  >/dev/null 2>&1 || { echo "[ERR] realpath not found in PATH" >&2; exit 127; }
@@ -31,3 +31,4 @@ fi
 echo "PYTHON_CMD=${PYTHON_CMD}"
 echo "FILTER_SCRIPT=${FILTER_SCRIPT}"
 echo "FILTER_AVAILABLE=${FILTER_AVAILABLE}"
+echo "SCRIPT_ROOT=${SCRIPT_DIR}"

@@ -20,12 +20,14 @@ pipeline {
     stage('Environment Check') {
       steps {
         script {
-          def envOutput = sh(returnStdout: true, script: 'pipeline/scripts/env_check.sh').trim()
+          def scriptRoot = env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script'
+          def envOutput = sh(returnStdout: true, script: shellEscape("${scriptRoot}/env_check.sh")).trim()
           def envData = parseAssignments(envOutput)
 
           env.PYTHON_CMD = envData.get('PYTHON_CMD') ?: ''
           env.FILTER_SCRIPT = envData.get('FILTER_SCRIPT') ?: ''
           env.FILTER_AVAILABLE = envData.get('FILTER_AVAILABLE') ?: '0'
+          env.PIPELINE_SCRIPT_ROOT = envData.get('SCRIPT_ROOT') ?: scriptRoot
 
           if ((env.PYTHON_CMD ?: '').trim()) {
             echo "Python command: ${env.PYTHON_CMD}"
@@ -46,7 +48,8 @@ pipeline {
           def tfvarsArg = params?.TFVARS_FILE ?: ''
           def backendArg = params?.BACKEND_FILE ?: ''
 
-          def resolveCmd = "TFVARS_ARG=${shellEscape(tfvarsArg)} BACKEND_ARG=${shellEscape(backendArg)} pipeline/scripts/resolve_inputs.sh"
+          def scriptRoot = env.PIPELINE_SCRIPT_ROOT ?: (env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script')
+          def resolveCmd = "TFVARS_ARG=${shellEscape(tfvarsArg)} BACKEND_ARG=${shellEscape(backendArg)} ${shellEscape("${scriptRoot}/resolve_inputs.sh")}".trim()
           def resolveOutput = sh(returnStdout: true, script: resolveCmd).trim()
           def inputs = parseAssignments(resolveOutput)
 
@@ -154,8 +157,10 @@ def terraformExec(List<String> args) {
     "FILTER_AVAILABLE=${shellEscape(env.FILTER_AVAILABLE ?: '0')}"
   ].join(' ')
 
+  String scriptRoot = env.PIPELINE_SCRIPT_ROOT ?: (env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script')
+  String execScript = shellEscape("${scriptRoot}/terraform_exec.sh")
   String command = args.collect { shellEscape(it) }.join(' ')
-  sh label: "terraform ${args[0]}", script: "${exports} pipeline/scripts/terraform_exec.sh ${command}"
+  sh label: "terraform ${args[0]}", script: "${exports} ${execScript} ${command}".trim()
 }
 
 def parseAssignments(String text) {

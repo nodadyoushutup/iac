@@ -2,9 +2,10 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-ENV_SCRIPT="${SCRIPT_DIR}/scripts/env_check.sh"
-RESOLVE_SCRIPT="${SCRIPT_DIR}/scripts/resolve_inputs.sh"
-EXEC_SCRIPT="${SCRIPT_DIR}/scripts/terraform_exec.sh"
+SCRIPT_ROOT="${SCRIPT_DIR}/script"
+ENV_SCRIPT="${SCRIPT_ROOT}/env_check.sh"
+RESOLVE_SCRIPT="${SCRIPT_ROOT}/resolve_inputs.sh"
+EXEC_SCRIPT="${SCRIPT_ROOT}/terraform_exec.sh"
 
 TFVARS_ARG=""
 BACKEND_ARG=""
