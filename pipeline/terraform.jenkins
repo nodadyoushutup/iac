@@ -1,3 +1,8 @@
+import java.io.File
+import java.io.FilenameFilter
+import java.io.IOException
+import org.jenkinsci.plugins.workflow.steps.NonCPS
+
 pipeline {
   agent any
 
@@ -6,47 +11,281 @@ pipeline {
   }
 
   parameters {
-    string(name: 'TFVARS_FILE', defaultValue: '', description: 'Optional tfvars path; leave empty to use the defaults from pipeline/terraform.sh')
-    string(name: 'BACKEND_FILE', defaultValue: '', description: 'Optional backend config path; leave empty to use the defaults from pipeline/terraform.sh')
+    string(name: 'TFVARS_FILE', defaultValue: '', description: 'Optional tfvars path; leave empty to auto-discover defaults')
+    string(name: 'BACKEND_FILE', defaultValue: '', description: 'Optional backend config path; leave empty to auto-discover defaults')
   }
 
   stages {
-    stage('Terraform Version') {
+    stage('Environment Check') {
       steps {
-        sh 'terraform version'
+        script {
+          sh 'terraform version'
+
+          if (sh(returnStatus: true, script: 'command -v realpath >/dev/null 2>&1') != 0) {
+            error 'realpath not found in PATH'
+          }
+
+          String pythonCmd = ''
+          if (sh(returnStatus: true, script: 'command -v python3 >/dev/null 2>&1') == 0) {
+            pythonCmd = sh(returnStdout: true, script: 'command -v python3').trim()
+          } else if (sh(returnStatus: true, script: 'command -v python >/dev/null 2>&1') == 0) {
+            pythonCmd = sh(returnStdout: true, script: 'command -v python').trim()
+          } else {
+            echo '[WARN] python3 not found; Terraform warnings will be displayed'
+          }
+
+          env.PYTHON_CMD = pythonCmd ?: ''
+
+          File filterFile = new File(env.WORKSPACE ?: '.', 'pipeline/terraform_output_filter.py')
+          boolean filterUsable = (pythonCmd?.trim()) && filterFile.isFile()
+          env.FILTER_SCRIPT = filterUsable ? canonicalPath(filterFile) : ''
+          env.FILTER_AVAILABLE = filterUsable ? '1' : '0'
+
+          if (env.FILTER_AVAILABLE == '1') {
+            echo "Terraform output filter enabled (${env.PYTHON_CMD})"
+          }
+        }
       }
     }
 
-    stage('Run Terraform Pipeline') {
+    stage('Resolve Inputs') {
       steps {
         script {
-          def sanitize = { value ->
-            value.replace('\\', '\\\\').replace('"', '\\"')
+          def tfvarsResult = resolveTfvarsPath(params?.TFVARS_FILE, env.WORKSPACE, env.HOME)
+          tfvarsResult.warnings.each { echo it }
+          if (tfvarsResult.error) {
+            error tfvarsResult.error
           }
+          env.TFVARS_PATH = tfvarsResult.path
+          echo "TFVARS file: ${env.TFVARS_PATH}"
 
-          def tfvars = params?.TFVARS_FILE?.trim()
-          def backend = params?.BACKEND_FILE?.trim()
-
-          def argsBlock = new StringBuilder()
-          if (tfvars) {
-            argsBlock.append("ARGS+=(\"--tfvars\" \"${sanitize(tfvars)}\")\n")
+          def backendResult = resolveBackendPath(params?.BACKEND_FILE, env.WORKSPACE, env.HOME)
+          backendResult.warnings.each { echo it }
+          if (backendResult.error) {
+            error backendResult.error
           }
-          if (backend) {
-            argsBlock.append("ARGS+=(\"--backend\" \"${sanitize(backend)}\")\n")
+          env.BACKEND_PATH = backendResult.path
+          echo "Backend config: ${env.BACKEND_PATH}"
+        }
+      }
+    }
+
+    stage('Terraform Init') {
+      steps {
+        dir('terraform') {
+          script {
+            terraformExec(['init', '-backend-config', env.BACKEND_PATH])
           }
+        }
+      }
+    }
 
-          sh """#!/usr/bin/env bash
-set -euo pipefail
+    stage('App Plan') {
+      steps {
+        dir('terraform') {
+          script {
+            terraformExec([
+              'plan',
+              '-input=false',
+              '-refresh=false',
+              '-var-file',
+              env.TFVARS_PATH,
+              '-target=module.jenkins_app'
+            ])
+          }
+        }
+      }
+    }
 
-ARGS=()
-${argsBlock.toString()}if [[ \${#ARGS[@]} -eq 0 ]]; then
-  pipeline/terraform.sh
-else
-  pipeline/terraform.sh "\${ARGS[@]}"
-fi
-"""
+    stage('App Apply') {
+      steps {
+        dir('terraform') {
+          script {
+            terraformExec([
+              'apply',
+              '-input=false',
+              '-refresh=false',
+              '-auto-approve',
+              '-var-file',
+              env.TFVARS_PATH,
+              '-target=module.jenkins_app'
+            ])
+          }
+        }
+      }
+    }
+
+    stage('Stabilize') {
+      steps {
+        sleep time: 10, unit: 'SECONDS'
+      }
+    }
+
+    stage('Config Plan') {
+      steps {
+        dir('terraform') {
+          script {
+            terraformExec([
+              'plan',
+              '-input=false',
+              '-var-file',
+              env.TFVARS_PATH
+            ])
+          }
+        }
+      }
+    }
+
+    stage('Config Apply') {
+      steps {
+        dir('terraform') {
+          script {
+            terraformExec([
+              'apply',
+              '-input=false',
+              '-auto-approve',
+              '-var-file',
+              env.TFVARS_PATH
+            ])
+          }
         }
       }
     }
   }
+}
+
+def terraformExec(List<String> args) {
+  if (!args || args.isEmpty()) {
+    error 'terraformExec requires at least one argument'
+  }
+
+  boolean filterEnabled = (env.FILTER_AVAILABLE == '1') && (env.PYTHON_CMD?.trim()) && (env.FILTER_SCRIPT?.trim())
+  String terraformCommand = 'terraform ' + args.collect { shellEscape(it) }.join(' ')
+  String command = filterEnabled
+    ? shellEscape(env.PYTHON_CMD) + ' ' + shellEscape(env.FILTER_SCRIPT) + ' -- ' + terraformCommand
+    : terraformCommand
+
+  sh label: "terraform ${args[0]}", script: command
+}
+
+@NonCPS
+Map resolveTfvarsPath(String provided, String workspace, String home) {
+  List<String> warnings = []
+  String path = null
+
+  String trimmed = provided?.trim()
+  if (trimmed) {
+    File candidate = interpretPath(trimmed, workspace, home)
+    path = canonicalIfFile(candidate)
+    if (!path) {
+      warnings << "[WARN] Provided TFVARS file not found: ${trimmed}"
+    }
+  }
+
+  if (!path && home) {
+    File defaultTfvars = new File(new File(home), '.tfvars/jenkins.tfvars')
+    path = canonicalIfFile(defaultTfvars)
+  }
+
+  if (!path && workspace) {
+    File terraformDir = new File(workspace, 'terraform')
+    if (terraformDir.isDirectory()) {
+      File[] tfvarsFiles = terraformDir.listFiles({ File dir, String name -> name.endsWith('.tfvars') } as FilenameFilter)
+      if (tfvarsFiles && tfvarsFiles.length > 0) {
+        tfvarsFiles.sort { it.name }
+        path = canonicalIfFile(tfvarsFiles[0])
+      }
+    }
+  }
+
+  Map result = [warnings: warnings]
+  if (path) {
+    result.path = path
+  } else {
+    result.error = 'Unable to determine a TFVARS file'
+  }
+  return result
+}
+
+@NonCPS
+Map resolveBackendPath(String provided, String workspace, String home) {
+  List<String> warnings = []
+  String path = null
+  String error = null
+
+  String trimmed = provided?.trim()
+  if (trimmed) {
+    File candidate = interpretPath(trimmed, workspace, home)
+    path = canonicalIfFile(candidate)
+    if (!path) {
+      error = "Provided backend config not found: ${trimmed}"
+    }
+  }
+
+  if (!path && !error && home) {
+    File defaultBackend = new File(new File(home), '.tfvars/minio.backend.hcl')
+    path = canonicalIfFile(defaultBackend)
+  }
+
+  if (!path && !error) {
+    error = 'Unable to determine a backend config file'
+  }
+
+  Map result = [warnings: warnings]
+  if (path) {
+    result.path = path
+  }
+  if (error) {
+    result.error = error
+  }
+  return result
+}
+
+@NonCPS
+File interpretPath(String rawPath, String workspace, String home) {
+  if (!rawPath) {
+    return null
+  }
+
+  String expanded = rawPath
+  if (home && rawPath.startsWith('~')) {
+    expanded = (home + rawPath.substring(1)).toString()
+  }
+
+  File candidate = new File(expanded)
+  if (!candidate.isAbsolute() && workspace) {
+    candidate = new File(workspace, expanded)
+  }
+  return candidate
+}
+
+@NonCPS
+String canonicalIfFile(File candidate) {
+  if (candidate == null || !candidate.isFile()) {
+    return null
+  }
+  try {
+    return candidate.getCanonicalPath()
+  } catch (IOException ignored) {
+    return candidate.getAbsolutePath()
+  }
+}
+
+@NonCPS
+String canonicalPath(File file) {
+  if (file == null) {
+    return ''
+  }
+  try {
+    return file.getCanonicalPath()
+  } catch (IOException ignored) {
+    return file.getAbsolutePath()
+  }
+}
+
+String shellEscape(String value) {
+  if (value == null || value.isEmpty()) {
+    return "''"
+  }
+  return "'" + value.replace("'", "'\\''") + "'"
 }
