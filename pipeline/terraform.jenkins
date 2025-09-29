@@ -11,132 +11,40 @@ pipeline {
   }
 
   stages {
-    stage('Verify Tooling') {
+    stage('Terraform Version') {
       steps {
-        sh 'command -v terraform >/dev/null 2>&1'
-        sh 'command -v realpath >/dev/null 2>&1'
         sh 'terraform version'
       }
     }
 
-    stage('Resolve Inputs') {
+    stage('Run Terraform Pipeline') {
       steps {
         script {
-          def quote = { value ->
-            "\"${value.replace('\\', '\\\\').replace('"', '\\"')}\""
+          def sanitize = { value ->
+            value.replace('\\', '\\\\').replace('"', '\\"')
           }
 
-          def fileExists = { path ->
-            sh(returnStatus: true, script: """#!/usr/bin/env bash
-test -f ${quote(path)}
-""") == 0
+          def tfvars = params?.TFVARS_FILE?.trim()
+          def backend = params?.BACKEND_FILE?.trim()
+
+          def argsBlock = new StringBuilder()
+          if (tfvars) {
+            argsBlock << "ARGS+=(\"--tfvars\" \"${sanitize(tfvars)}\")\n"
+          }
+          if (backend) {
+            argsBlock << "ARGS+=(\"--backend\" \"${sanitize(backend)}\")\n"
           }
 
-          def realPath = { path ->
-            sh(returnStdout: true, script: """#!/usr/bin/env bash
-realpath ${quote(path)}
-""").trim()
-          }
+          sh """#!/usr/bin/env bash
+set -euo pipefail
 
-          def resolveTfvars = {
-            def candidates = []
-            if (params?.TFVARS_FILE?.trim()) {
-              candidates << [label: 'Provided TFVARS', path: params.TFVARS_FILE.trim(), warnMissing: true]
-            }
-            candidates << [label: 'Default TFVARS', path: "${env.HOME}/.tfvars/jenkins.tfvars", warnMissing: true]
-
-            def workspace = pwd()
-            def terraformDir = "${workspace}/terraform"
-            def discovered = sh(returnStdout: true, script: """#!/usr/bin/env bash
-find ${quote(terraformDir)} -maxdepth 1 -type f -name '*.tfvars' | sort | head -n 1 || true
-""").trim()
-            if (discovered) {
-              candidates << [label: 'Workspace TFVARS', path: discovered, warnMissing: false]
-            }
-
-            for (candidate in candidates) {
-              if (!candidate.path) {
-                continue
-              }
-              if (fileExists(candidate.path)) {
-                return realPath(candidate.path)
-              }
-              if (candidate.warnMissing) {
-                echo "[WARN] ${candidate.label} not found at ${candidate.path}"
-              }
-            }
-
-            error '[ERR] Unable to determine a usable TFVARS file'
-          }
-
-          def resolveBackend = {
-            if (params?.BACKEND_FILE?.trim()) {
-              def provided = params.BACKEND_FILE.trim()
-              if (!fileExists(provided)) {
-                error "[ERR] Provided backend config not found: ${provided}"
-              }
-              return realPath(provided)
-            }
-
-            def defaultPath = "${env.HOME}/.tfvars/minio.backend.hcl"
-            if (fileExists(defaultPath)) {
-              return realPath(defaultPath)
-            }
-
-            error '[ERR] Unable to determine a backend config file'
-          }
-
-          env.TFVARS_PATH = resolveTfvars()
-          env.BACKEND_CONFIG_PATH = resolveBackend()
-        }
-      }
-    }
-
-    stage('Terraform Init') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-[ -f "$TFVARS_PATH" ] || { echo "[ERR] Missing $TFVARS_PATH" >&2; exit 1; }
-[ -f "$BACKEND_CONFIG_PATH" ] || { echo "[ERR] Missing $BACKEND_CONFIG_PATH" >&2; exit 1; }
-
-echo "[STEP] terraform init"
-terraform init -backend-config="$BACKEND_CONFIG_PATH"
-'''
-        }
-      }
-    }
-
-    stage('App Plan & Apply') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-echo "[STAGE] App plan"
-terraform plan -input=false -refresh=false -var-file="$TFVARS_PATH" -target=module.jenkins_app
-
-echo "[STAGE] App apply"
-terraform apply -input=false -refresh=false -auto-approve -var-file="$TFVARS_PATH" -target=module.jenkins_app
-
-sleep 10
-'''
-        }
-      }
-    }
-
-    stage('Jenkins Config Plan & Apply') {
-      steps {
-        dir('terraform') {
-          sh '''#!/usr/bin/env bash
-
-echo "[STAGE] Jenkins config plan"
-terraform plan -input=false -var-file="$TFVARS_PATH"
-
-echo "[STAGE] Jenkins config apply"
-terraform apply -input=false -auto-approve -var-file="$TFVARS_PATH"
-
-echo "[DONE] Multi-stage apply complete."
-'''
+ARGS=()
+${argsBlock.toString()}if [[ \${#ARGS[@]} -eq 0 ]]; then
+  pipeline/terraform.sh
+else
+  pipeline/terraform.sh "\${ARGS[@]}"
+fi
+"""
         }
       }
     }
