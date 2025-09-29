@@ -1,10 +1,28 @@
+locals {
+  casc_config = merge(
+    var.casc_config,
+    {
+      jenkins = merge(
+        try(var.casc_config.jenkins, {}),
+        {
+          crumbIssuer = try(var.casc_config.jenkins.crumbIssuer, {
+            standard = {
+              excludeClientIPFromCrumb = true
+            }
+          })
+        }
+      )
+    }
+  )
+}
+
 resource "docker_volume" "controller" {
   name = var.controller_name
 }
 
 resource "docker_config" "casc_config" {
   name = var.casc_config_name
-  data = base64encode(yamlencode(var.casc_config))
+  data = base64encode(yamlencode(local.casc_config))
 }
 
 resource "docker_service" "controller" {
@@ -12,7 +30,7 @@ resource "docker_service" "controller" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.5"
+      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.5@sha256:bfa7ddc0b93ec2c75fe469450f2d89764f3b61f0dad6b4adb92ef028c3e65bf9"
 
       env = {
         JAVA_OPTS           = "-Djenkins.install.runSetupWizard=false"
@@ -94,6 +112,13 @@ resource "docker_service" "controller" {
       published_port = 50000
       publish_mode   = "ingress"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      # Docker rewrites placement.platforms on apply; ignore the noise while nodes stay arm64.
+      task_spec[0].placement[0].platforms,
+    ]
   }
 }
 

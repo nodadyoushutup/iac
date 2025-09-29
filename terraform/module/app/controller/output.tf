@@ -9,5 +9,5 @@ output "wait_for_service_id" {
 }
 
 output "casc_config" {
-  value = yamlencode(var.casc_config)
+  value = yamlencode(local.casc_config)
 }
