@@ -29,10 +29,10 @@ pipeline {
 
           def argsBlock = new StringBuilder()
           if (tfvars) {
-            argsBlock << "ARGS+=(\"--tfvars\" \"${sanitize(tfvars)}\")\n"
+            argsBlock.append("ARGS+=(\"--tfvars\" \"${sanitize(tfvars)}\")\n")
           }
           if (backend) {
-            argsBlock << "ARGS+=(\"--backend\" \"${sanitize(backend)}\")\n"
+            argsBlock.append("ARGS+=(\"--backend\" \"${sanitize(backend)}\")\n")
           }
 
           sh """#!/usr/bin/env bash
