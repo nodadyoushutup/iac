@@ -100,14 +100,6 @@ resource "docker_service" "controller" {
 resource "null_resource" "wait_for_service" {
   depends_on = [docker_service.controller]
 
-  triggers = {
-    always_run   = timestamp()
-    endpoint     = var.healthcheck_endpoint
-    delay        = tostring(var.healthcheck_delay_seconds)
-    max_attempts = tostring(var.healthcheck_max_attempts)
-    script_sha1  = filesha1("${path.module}/healthcheck.sh")
-  }
-
   provisioner "local-exec" {
     command = "MAX_ATTEMPTS=${var.healthcheck_max_attempts} TIMEOUT=${var.healthcheck_timeout_seconds} bash ${path.module}/healthcheck.sh ${var.healthcheck_endpoint} ${var.healthcheck_delay_seconds}"
   }

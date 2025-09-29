@@ -3,10 +3,24 @@
 command -v terraform >/dev/null 2>&1 || { echo "[ERR] terraform not found in PATH" >&2; exit 127; }
 command -v realpath  >/dev/null 2>&1 || { echo "[ERR] realpath not found in PATH" >&2; exit 127; }
 
+PYTHON_CMD=""
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_CMD="$(command -v python3)"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_CMD="$(command -v python)"
+else
+  echo "[WARN] python3 not found; Terraform warnings will be displayed" >&2
+fi
+
 echo "Starting pipeline"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+FILTER_SCRIPT="${SCRIPT_DIR}/terraform_output_filter.py"
+
+if [[ -n "${PYTHON_CMD}" && ! -f "${FILTER_SCRIPT}" ]]; then
+  echo "[WARN] Terraform filter helper missing at ${FILTER_SCRIPT}; warnings will be displayed" >&2
+fi
 
 TFVARS_ARG=""
 BACKEND_ARG=""
@@ -119,6 +133,17 @@ resolve_backend_path() {
   return 1
 }
 
+
+run_terraform() {
+  if [[ -n "${PYTHON_CMD}" && -f "${FILTER_SCRIPT}" ]]; then
+    "${PYTHON_CMD}" "${FILTER_SCRIPT}" -- "$@"
+    return
+  fi
+
+  terraform "$@"
+}
+
+
 TFVARS_PATH="$(resolve_tfvars_path "${TFVARS_ARG}" "${ROOT_DIR}/terraform")" || exit 1
 BACKEND_CONFIG_PATH="$(resolve_backend_path "${BACKEND_ARG}")" || exit 1
 
@@ -128,20 +153,20 @@ BACKEND_CONFIG_PATH="$(resolve_backend_path "${BACKEND_ARG}")" || exit 1
 cd "${ROOT_DIR}/terraform"
 
 echo "[STEP] terraform init"
-terraform init -backend-config="${BACKEND_CONFIG_PATH}"
+run_terraform init -backend-config="${BACKEND_CONFIG_PATH}"
 
 echo "[STAGE] App plan"
-terraform plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+run_terraform plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
 
 echo "[STAGE] App apply"
-terraform apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+run_terraform apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
 
 sleep 10
 
 echo "[STAGE] Jenkins config plan"
-terraform plan -input=false -var-file="${TFVARS_PATH}"
+run_terraform plan -input=false -var-file="${TFVARS_PATH}"
 
 echo "[STAGE] Jenkins config apply"
-terraform apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
+run_terraform apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
 
 echo "[DONE] Multi-stage apply complete."
