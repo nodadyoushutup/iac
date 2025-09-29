@@ -1,7 +1,6 @@
 import java.io.File
 import java.io.FilenameFilter
 import java.io.IOException
-import org.jenkinsci.plugins.workflow.steps.NonCPS
 
 pipeline {
   agent any
@@ -168,7 +167,6 @@ def terraformExec(List<String> args) {
   sh label: "terraform ${args[0]}", script: command
 }
 
-@NonCPS
 Map resolveTfvarsPath(String provided, String workspace, String home) {
   List<String> warnings = []
   String path = null
@@ -190,7 +188,12 @@ Map resolveTfvarsPath(String provided, String workspace, String home) {
   if (!path && workspace) {
     File terraformDir = new File(workspace, 'terraform')
     if (terraformDir.isDirectory()) {
-      File[] tfvarsFiles = terraformDir.listFiles({ File dir, String name -> name.endsWith('.tfvars') } as FilenameFilter)
+      File[] tfvarsFiles = terraformDir.listFiles(new FilenameFilter() {
+        @Override
+        boolean accept(File dir, String name) {
+          return name.endsWith('.tfvars')
+        }
+      })
       if (tfvarsFiles && tfvarsFiles.length > 0) {
         tfvarsFiles.sort { it.name }
         path = canonicalIfFile(tfvarsFiles[0])
@@ -207,7 +210,6 @@ Map resolveTfvarsPath(String provided, String workspace, String home) {
   return result
 }
 
-@NonCPS
 Map resolveBackendPath(String provided, String workspace, String home) {
   List<String> warnings = []
   String path = null
@@ -241,7 +243,6 @@ Map resolveBackendPath(String provided, String workspace, String home) {
   return result
 }
 
-@NonCPS
 File interpretPath(String rawPath, String workspace, String home) {
   if (!rawPath) {
     return null
@@ -259,7 +260,6 @@ File interpretPath(String rawPath, String workspace, String home) {
   return candidate
 }
 
-@NonCPS
 String canonicalIfFile(File candidate) {
   if (candidate == null || !candidate.isFile()) {
     return null
@@ -271,7 +271,6 @@ String canonicalIfFile(File candidate) {
   }
 }
 
-@NonCPS
 String canonicalPath(File file) {
   if (file == null) {
     return ''
