@@ -14,7 +14,9 @@ usage() {
   cat <<'USAGE'
 Usage: pipeline/terraform.sh [--tfvars <path>] [--backend <path>] [tfvars_path] [backend_path]
 
-Applies only the Jenkins configuration layer (no infrastructure changes).
+Runs a multi-stage Terraform workflow:
+  1) Plans and applies the Jenkins application infrastructure (module.jenkins_app)
+  2) Plans and applies the Jenkins configuration layer
 
 Optional arguments can be provided either as flags or positional values.
 If omitted, defaults are:
@@ -118,10 +120,16 @@ export PYTHON_CMD FILTER_SCRIPT FILTER_AVAILABLE TFVARS_PATH BACKEND_CONFIG_PATH
 echo "[STEP] terraform init"
 "${EXEC_SCRIPT}" init -backend-config="${BACKEND_CONFIG_PATH}"
 
+echo "[STAGE] Jenkins app plan"
+"${EXEC_SCRIPT}" plan -input=false -refresh=false -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+
+echo "[STAGE] Jenkins app apply"
+"${EXEC_SCRIPT}" apply -input=false -refresh=false -auto-approve -var-file="${TFVARS_PATH}" -target=module.jenkins_app
+
 echo "[STAGE] Jenkins config plan"
 "${EXEC_SCRIPT}" plan -input=false -var-file="${TFVARS_PATH}"
 
 echo "[STAGE] Jenkins config apply"
 "${EXEC_SCRIPT}" apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
 
-echo "[DONE] Jenkins configuration applied."
+echo "[DONE] Jenkins app and configuration applied."
