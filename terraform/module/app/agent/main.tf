@@ -32,21 +32,12 @@ resource "docker_volume" "agent_nfs_tfvars" {
   }
 }
 
-resource "random_id" "agent_entrypoint_suffix" {
-  byte_length = 4
-}
-
-resource "docker_config" "agent_entrypoint" {
-  name = "agent-entrypoint-${var.name}-${random_id.agent_entrypoint_suffix.hex}.sh"
-  data = base64encode(file("${path.module}/agent-entrypoint.sh"))
-}
-
 resource "docker_service" "agent" {
   name = "jenkins-agent-${var.name}"
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.3@sha256:6b949dda61c5f7367fc8fd9d90e7fea3f8cc9abcddcf77a2a0485e04f0a20a73"
+      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.4"
 
       env = {
         JENKINS_URL        = var.jenkins_url
@@ -98,18 +89,9 @@ resource "docker_service" "agent" {
         }
       }
 
-      configs {
-        config_id   = docker_config.agent_entrypoint.id
-        config_name = docker_config.agent_entrypoint.name
-        file_name   = "/agent-entrypoint.sh"
-        file_mode   = 511
-      }
-
       dns_config {
         nameservers = ["1.1.1.1", "8.8.8.8"]
       }
-
-      command = ["/bin/sh", "-c", "/agent-entrypoint.sh"]
     }
 
     placement {

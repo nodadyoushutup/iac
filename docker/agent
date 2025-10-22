@@ -117,5 +117,12 @@ RUN set -eux; \
     curl -sSL "https://dl.min.io/client/mc/release/linux-${mc_arch}/mc" -o /usr/local/bin/mc; \
     chmod +x /usr/local/bin/mc
 
+# Add the custom Jenkins agent entrypoint
+COPY agent-entrypoint.sh /usr/local/bin/agent-entrypoint.sh
+RUN chmod +x /usr/local/bin/agent-entrypoint.sh
+
 # Switch back to the default (jenkins) user
 USER jenkins
+
+ENTRYPOINT ["/usr/local/bin/agent-entrypoint.sh"]
+CMD []
