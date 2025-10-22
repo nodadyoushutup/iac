@@ -66,7 +66,7 @@ resource "docker_service" "controller" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.5@sha256:bfa7ddc0b93ec2c75fe469450f2d89764f3b61f0dad6b4adb92ef028c3e65bf9"
+      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.6@sha256:2d0e2ca1bc160bfc16e3e690d77ab7bfca3f733fdef78801e4c9f2660ef082f5"
 
       env = {
         CASC_JENKINS_CONFIG = "/var/jenkins_home/jenkins.yaml"
