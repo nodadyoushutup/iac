@@ -80,7 +80,8 @@ pipeline {
               'plan',
               '-input=false',
               '-var-file',
-              env.TFVARS_PATH
+              env.TFVARS_PATH,
+              '-target=module.jenkins_config'
             ])
           }
         }
@@ -96,7 +97,8 @@ pipeline {
               '-input=false',
               '-auto-approve',
               '-var-file',
-              env.TFVARS_PATH
+              env.TFVARS_PATH,
+              '-target=module.jenkins_config'
             ])
           }
         }
