@@ -4,9 +4,9 @@
     "config:recommended"
   ],
   "dockerfile": {
-    "fileMatch": [
-      "(^|/)docker/controller$",
-      "(^|/)docker/agent$"
+    "managerFilePatterns": [
+      "/(^|/)docker/controller$/",
+      "/(^|/)docker/agent$/"
     ]
   }
 }
