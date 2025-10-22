@@ -11,7 +11,7 @@ resource "jenkins_job" "jenkins_config" {
   folder = jenkins_folder.folder_jenkins.id
 
   template = templatefile("${path.module}/templates/jenkins-config-job.xml.tmpl", {
-    description = "Terraform-managed pipeline for Jenkins configuration"
+    description = "Jenkins configuration"
     pipeline    = local.jenkins_config_pipeline
   })
 }
