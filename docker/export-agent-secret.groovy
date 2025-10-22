@@ -12,12 +12,34 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.attribute.PosixFilePermission
 import java.util.EnumSet
+import java.util.Locale
 
 
 // --- Config ---
-def casc_config_dir = System.getenv("CASC_JENKINS_CONFIG")
-final File YAML_FILE   = new File("${casc_config_dir}/config.yaml")
-final File SECRETS_DIR = new File(new File(System.getProperty("user.home")), ".jenkins")
+def resolveCascYamlFile = {
+    def cascEnv = System.getenv("CASC_JENKINS_CONFIG")?.trim()
+    if (cascEnv) {
+        def cascPath = new File(cascEnv)
+        def lower = cascEnv.toLowerCase(Locale.ROOT)
+        if (lower.endsWith(".yml") || lower.endsWith(".yaml")) {
+            return cascPath
+        }
+        return cascPath.isDirectory() || cascEnv.endsWith(File.separator) ? new File(cascPath, "jenkins.yaml") : cascPath
+    }
+    def jenkinsHome = System.getenv("JENKINS_HOME") ?: System.getProperty("JENKINS_HOME") ?: "/var/jenkins_home"
+    return new File(jenkinsHome, "jenkins.yaml")
+}
+
+def resolveSecretsDir = {
+    def envDir = System.getenv("SECRETS_DIR")?.trim()
+    if (!envDir) {
+        return null
+    }
+    return new File(envDir)
+}
+
+final File YAML_FILE   = resolveCascYamlFile()
+final File SECRETS_DIR = resolveSecretsDir()
 
 def sanitize = { String s -> (s ?: "").replaceAll(/[^A-Za-z0-9._-]/, "_") }
 
@@ -143,6 +165,10 @@ def waitForComputer = { String name, int timeoutSec = 60 ->
 }
 
 def writeSecret = { String name ->
+    if (SECRETS_DIR == null) {
+        println "[agent-init] WARN: SECRETS_DIR not configured; skipping secret export for '${name}'"
+        return
+    }
     def comp = waitForComputer(name, 60)
     if (comp == null) {
         println "[agent-init] WARN: Computer for '${name}' not available after wait; skipping secret"
@@ -193,8 +219,11 @@ def writeSecret = { String name ->
 
 println "[agent-init] Starting agent creation from ${YAML_FILE.absolutePath}"
 
-// Ensure ~/.jenkins exists before anything else
-ensureSecretsDir(SECRETS_DIR)
+if (SECRETS_DIR != null) {
+    ensureSecretsDir(SECRETS_DIR)
+} else {
+    println "[agent-init] SECRETS_DIR not set; secrets will not be exported."
+}
 
 def agents = loadAgentsFromYaml(YAML_FILE)
 if (!agents) {
@@ -205,7 +234,9 @@ if (!agents) {
 agents.each { cfg ->
     try {
         ensureNode(cfg)
-        writeSecret(cfg.name)
+        if (SECRETS_DIR != null) {
+            writeSecret(cfg.name)
+        }
     } catch (Throwable t) {
         println "[agent-init] ERROR processing '${cfg.name}': ${t.message}"
     }

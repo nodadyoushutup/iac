@@ -49,9 +49,3 @@ variable "dns_nameservers" {
   type        = list(string)
   default     = ["1.1.1.1", "8.8.8.8"]
 }
-
-variable "casc_config_name" {
-  description = "Name used for the Jenkins Configuration as Code docker config"
-  type        = string
-  default     = "casc-config.yaml"
-}

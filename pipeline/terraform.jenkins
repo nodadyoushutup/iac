@@ -72,47 +72,6 @@ pipeline {
       }
     }
 
-    stage('App Plan') {
-      steps {
-        dir('terraform') {
-          script {
-            terraformExec([
-              'plan',
-              '-input=false',
-              '-refresh=false',
-              '-var-file',
-              env.TFVARS_PATH,
-              '-target=module.jenkins_app'
-            ])
-          }
-        }
-      }
-    }
-
-    stage('App Apply') {
-      steps {
-        dir('terraform') {
-          script {
-            terraformExec([
-              'apply',
-              '-input=false',
-              '-refresh=false',
-              '-auto-approve',
-              '-var-file',
-              env.TFVARS_PATH,
-              '-target=module.jenkins_app'
-            ])
-          }
-        }
-      }
-    }
-
-    stage('Stabilize') {
-      steps {
-        sleep time: 10, unit: 'SECONDS'
-      }
-    }
-
     stage('Config Plan') {
       steps {
         dir('terraform') {

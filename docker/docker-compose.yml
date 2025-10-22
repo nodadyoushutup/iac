@@ -10,20 +10,21 @@ services:
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
       JENKINS_SECURITY_ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       JENKINS_SECURITY_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
-      CASC_JENKINS_CONFIG: "/jenkins/casc_config"
+      CASC_JENKINS_CONFIG: "/var/jenkins_home/jenkins.yaml"
+      SECRETS_DIR: "/var/jenkins_home/.jenkins"
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - compose_jenkins_controller:/var/jenkins_home
-      - ~/.jenkins:/var/jenkins_home/.jenkins
-      - ~/.ssh:/var/jenkins_home/.ssh
-      - ~/.kube:/var/jenkins_home/.kube
-      - ~/.tfvars:/var/jenkins_home/.tfvars
+      - nfs_jenkins:/var/jenkins_home/.jenkins
+      - nfs_ssh:/var/jenkins_home/.ssh
+      - nfs_kube:/var/jenkins_home/.kube
+      - nfs_tfvars:/var/jenkins_home/.tfvars
       - /dev/kvm:/dev/kvm
     configs:
       - source: casc_config
-        target: /jenkins/casc_config/config.yaml
+        target: /var/jenkins_home/jenkins.yaml
     dns:
       - 1.1.1.1
       - 1.0.0.1
@@ -36,6 +37,30 @@ services:
 
 volumes:
   compose_jenkins_controller:
+  nfs_jenkins:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      device: ":/mnt/eapp/skel/.jenkins"
+  nfs_ssh:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      device: ":/mnt/eapp/skel/.ssh"
+  nfs_kube:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      device: ":/mnt/eapp/skel/.kube"
+  nfs_tfvars:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      device: ":/mnt/eapp/skel/.tfvars"
 
 configs:
   casc_config:

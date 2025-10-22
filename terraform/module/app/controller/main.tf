@@ -1,31 +1,67 @@
 locals {
-  casc_config = merge(
-    var.casc_config,
-    {
-      jenkins = merge(
-        try(var.casc_config.jenkins, {}),
-        {
-          crumbIssuer = try(var.casc_config.jenkins.crumbIssuer, {
-            standard = {
-              excludeClientIPFromCrumb = true
-            }
-          })
-        }
-      )
-    }
-  )
+  casc_config_yaml = yamlencode(var.casc_config)
+  casc_config_sha  = sha256(local.casc_config_yaml)
+  casc_config      = var.casc_config
 }
 
 resource "docker_volume" "controller" {
   name = var.controller_name
 }
 
+resource "docker_volume" "controller_nfs_jenkins" {
+  name   = "${var.controller_name}-nfs-jenkins"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    device = ":/mnt/eapp/skel/.jenkins"
+  }
+}
+
+resource "docker_volume" "controller_nfs_ssh" {
+  name   = "${var.controller_name}-nfs-ssh"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    device = ":/mnt/eapp/skel/.ssh"
+  }
+}
+
+resource "docker_volume" "controller_nfs_kube" {
+  name   = "${var.controller_name}-nfs-kube"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    device = ":/mnt/eapp/skel/.kube"
+  }
+}
+
+resource "docker_volume" "controller_nfs_tfvars" {
+  name   = "${var.controller_name}-nfs-tfvars"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    device = ":/mnt/eapp/skel/.tfvars"
+  }
+}
+
 resource "docker_config" "casc_config" {
-  name = var.casc_config_name
-  data = base64encode(yamlencode(local.casc_config))
+  name = "jenkins.yaml"
+  data = base64encode(local.casc_config_yaml)
 }
 
 resource "docker_service" "controller" {
+  depends_on = [
+    docker_config.casc_config,
+    docker_volume.controller,
+    docker_volume.controller_nfs_jenkins,
+    docker_volume.controller_nfs_ssh,
+    docker_volume.controller_nfs_kube,
+    docker_volume.controller_nfs_tfvars,
+  ]
   name = var.controller_name
 
   task_spec {
@@ -34,7 +70,8 @@ resource "docker_service" "controller" {
 
       env = {
         JAVA_OPTS           = "-Djenkins.install.runSetupWizard=false"
-        CASC_JENKINS_CONFIG = "/jenkins/casc_configs"
+        CASC_JENKINS_CONFIG = "/var/jenkins_home/jenkins.yaml"
+        SECRETS_DIR         = "/var/jenkins_home/.jenkins"
       }
 
       mounts {
@@ -51,32 +88,32 @@ resource "docker_service" "controller" {
 
       mounts {
         target = "/var/jenkins_home/.jenkins"
-        source = pathexpand("~/.jenkins")
-        type   = "bind"
+        source = docker_volume.controller_nfs_jenkins.name
+        type   = "volume"
       }
 
       mounts {
         target = "/var/jenkins_home/.ssh"
-        source = pathexpand("~/.ssh")
-        type   = "bind"
+        source = docker_volume.controller_nfs_ssh.name
+        type   = "volume"
       }
 
-      # mounts {
-      #   target = "/var/jenkins_home/.kube"
-      #   source = pathexpand("~/.kube")
-      #   type   = "bind"
-      # }
+      mounts {
+        target = "/var/jenkins_home/.kube"
+        source = docker_volume.controller_nfs_kube.name
+        type   = "volume"
+      }
 
       mounts {
         target = "/var/jenkins_home/.tfvars"
-        source = pathexpand("~/.tfvars")
-        type   = "bind"
+        source = docker_volume.controller_nfs_tfvars.name
+        type   = "volume"
       }
 
       configs {
         config_id   = docker_config.casc_config.id
         config_name = docker_config.casc_config.name
-        file_name   = "/jenkins/casc_configs/config.yaml"
+        file_name   = "/var/jenkins_home/jenkins.yaml"
       }
 
       dns_config {
@@ -116,7 +153,6 @@ resource "docker_service" "controller" {
 
   lifecycle {
     ignore_changes = [
-      # Docker rewrites placement.platforms on apply; ignore the noise while nodes stay arm64.
       task_spec[0].placement[0].platforms,
     ]
   }
