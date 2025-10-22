@@ -7,7 +7,6 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
       JENKINS_SECURITY_ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       JENKINS_SECURITY_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
       CASC_JENKINS_CONFIG: "/var/jenkins_home/jenkins.yaml"

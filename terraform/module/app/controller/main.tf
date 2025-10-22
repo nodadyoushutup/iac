@@ -69,7 +69,6 @@ resource "docker_service" "controller" {
       image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.5@sha256:bfa7ddc0b93ec2c75fe469450f2d89764f3b61f0dad6b4adb92ef028c3e65bf9"
 
       env = {
-        JAVA_OPTS           = "-Djenkins.install.runSetupWizard=false"
         CASC_JENKINS_CONFIG = "/var/jenkins_home/jenkins.yaml"
         SECRETS_DIR         = "/var/jenkins_home/.jenkins"
       }

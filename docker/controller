@@ -1,5 +1,7 @@
 FROM jenkins/jenkins:2.533
 
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+
 # Switch to root for installing plugins and additional tools
 USER root
 
