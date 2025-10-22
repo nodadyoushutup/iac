@@ -27,7 +27,6 @@ RUN set -eux; \
       curl \
       gnupg \
       lsb-release \
-      software-properties-common \
       jq \
       python3 \
       python3-pip \
