@@ -2,6 +2,36 @@ resource "docker_volume" "agent" {
   name = "jenkins-agent-${var.name}"
 }
 
+resource "docker_volume" "agent_nfs_jenkins" {
+  name   = "jenkins-agent-${var.name}-nfs-jenkins"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
+    device = ":/mnt/eapp/skel/.jenkins"
+  }
+}
+
+resource "docker_volume" "agent_nfs_ssh" {
+  name   = "jenkins-agent-${var.name}-nfs-ssh"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
+    device = ":/mnt/eapp/skel/.ssh"
+  }
+}
+
+resource "docker_volume" "agent_nfs_tfvars" {
+  name   = "jenkins-agent-${var.name}-nfs-tfvars"
+  driver = "local"
+  driver_opts = {
+    type   = "nfs"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
+    device = ":/mnt/eapp/skel/.tfvars"
+  }
+}
+
 resource "random_id" "agent_entrypoint_suffix" {
   byte_length = 4
 }
@@ -37,14 +67,20 @@ resource "docker_service" "agent" {
 
       mounts {
         target = "/home/jenkins/.jenkins"
-        source = pathexpand("~/.jenkins")
-        type   = "bind"
+        source = docker_volume.agent_nfs_jenkins.name
+        type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       mounts {
         target = "/home/jenkins/.ssh"
-        source = pathexpand("~/.ssh")
-        type   = "bind"
+        source = docker_volume.agent_nfs_ssh.name
+        type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       # mounts {
@@ -55,8 +91,11 @@ resource "docker_service" "agent" {
 
       mounts {
         target = "/home/jenkins/.tfvars"
-        source = pathexpand("~/.tfvars")
-        type   = "bind"
+        source = docker_volume.agent_nfs_tfvars.name
+        type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       configs {

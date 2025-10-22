@@ -13,7 +13,7 @@ resource "docker_volume" "controller_nfs_jenkins" {
   driver = "local"
   driver_opts = {
     type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
     device = ":/mnt/eapp/skel/.jenkins"
   }
 }
@@ -23,7 +23,7 @@ resource "docker_volume" "controller_nfs_ssh" {
   driver = "local"
   driver_opts = {
     type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
     device = ":/mnt/eapp/skel/.ssh"
   }
 }
@@ -33,7 +33,7 @@ resource "docker_volume" "controller_nfs_kube" {
   driver = "local"
   driver_opts = {
     type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
     device = ":/mnt/eapp/skel/.kube"
   }
 }
@@ -43,7 +43,7 @@ resource "docker_volume" "controller_nfs_tfvars" {
   driver = "local"
   driver_opts = {
     type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw,_netdev"
+    o      = "addr=192.168.1.100,nolock,hard,rw"
     device = ":/mnt/eapp/skel/.tfvars"
   }
 }
@@ -89,24 +89,36 @@ resource "docker_service" "controller" {
         target = "/var/jenkins_home/.jenkins"
         source = docker_volume.controller_nfs_jenkins.name
         type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       mounts {
         target = "/var/jenkins_home/.ssh"
         source = docker_volume.controller_nfs_ssh.name
         type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       mounts {
         target = "/var/jenkins_home/.kube"
         source = docker_volume.controller_nfs_kube.name
         type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       mounts {
         target = "/var/jenkins_home/.tfvars"
         source = docker_volume.controller_nfs_tfvars.name
         type   = "volume"
+        volume_options {
+          no_copy = true
+        }
       }
 
       configs {

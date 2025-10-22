@@ -40,25 +40,25 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      o: addr=192.168.1.100,nolock,hard,rw
       device: ":/mnt/eapp/skel/.jenkins"
   nfs_ssh:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      o: addr=192.168.1.100,nolock,hard,rw
       device: ":/mnt/eapp/skel/.ssh"
   nfs_kube:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      o: addr=192.168.1.100,nolock,hard,rw
       device: ":/mnt/eapp/skel/.kube"
   nfs_tfvars:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=192.168.1.100,nolock,hard,rw,_netdev
+      o: addr=192.168.1.100,nolock,hard,rw
       device: ":/mnt/eapp/skel/.tfvars"
 
 configs:
