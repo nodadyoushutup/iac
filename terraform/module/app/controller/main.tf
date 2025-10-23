@@ -5,11 +5,11 @@ locals {
 }
 
 resource "docker_volume" "controller" {
-  name = var.controller_name
+  name = "jenkins-controller"
 }
 
 resource "docker_volume" "controller_nfs_jenkins" {
-  name   = "${var.controller_name}-nfs-jenkins"
+  name   = "jenkins-controller-nfs-jenkins"
   driver = "local"
   driver_opts = {
     type   = "nfs"
@@ -19,7 +19,7 @@ resource "docker_volume" "controller_nfs_jenkins" {
 }
 
 resource "docker_volume" "controller_nfs_ssh" {
-  name   = "${var.controller_name}-nfs-ssh"
+  name   = "jenkins-controller-nfs-ssh"
   driver = "local"
   driver_opts = {
     type   = "nfs"
@@ -29,7 +29,7 @@ resource "docker_volume" "controller_nfs_ssh" {
 }
 
 resource "docker_volume" "controller_nfs_kube" {
-  name   = "${var.controller_name}-nfs-kube"
+  name   = "jenkins-controller-nfs-kube"
   driver = "local"
   driver_opts = {
     type   = "nfs"
@@ -39,7 +39,7 @@ resource "docker_volume" "controller_nfs_kube" {
 }
 
 resource "docker_volume" "controller_nfs_tfvars" {
-  name   = "${var.controller_name}-nfs-tfvars"
+  name   = "jenkins-controller-nfs-tfvars"
   driver = "local"
   driver_opts = {
     type   = "nfs"
@@ -62,7 +62,7 @@ resource "docker_service" "controller" {
     docker_volume.controller_nfs_kube,
     docker_volume.controller_nfs_tfvars,
   ]
-  name = var.controller_name
+  name = "jenkins-controller"
 
   task_spec {
     container_spec {
@@ -125,10 +125,6 @@ resource "docker_service" "controller" {
         config_id   = docker_config.casc_config.id
         config_name = docker_config.casc_config.name
         file_name   = "/var/jenkins_home/jenkins.yaml"
-      }
-
-      dns_config {
-        nameservers = var.dns_nameservers
       }
 
       healthcheck {
