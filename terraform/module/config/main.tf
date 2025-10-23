@@ -7,10 +7,10 @@ resource "jenkins_folder" "folder_jenkins" {
 }
 
 resource "jenkins_job" "jenkins_config" {
-  name   = "jenkins-config"
+  name   = "config"
   folder = jenkins_folder.folder_jenkins.id
 
-  template = templatefile("${path.module}/templates/jenkins-config-job.xml.tmpl", {
+  template = templatefile("${path.module}/job/config.xml.tmpl", {
     description = "Jenkins configuration"
     pipeline    = local.jenkins_config_pipeline
   })
