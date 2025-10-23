@@ -2,52 +2,7 @@ locals {
   casc_config_yaml = yamlencode(var.casc_config)
   casc_config_sha  = sha256(local.casc_config_yaml)
   casc_config      = var.casc_config
-  mounts = [
-    {
-      name   = "jenkins"
-      target = "/var/jenkins_home/.jenkins"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.jenkins"
-      }
-      no_copy = true
-    },
-    {
-      name   = "ssh"
-      target = "/var/jenkins_home/.ssh"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.ssh"
-      }
-      no_copy = true
-    },
-    {
-      name   = "kube"
-      target = "/var/jenkins_home/.kube"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.kube"
-      }
-      no_copy = true
-    },
-    {
-      name   = "tfvars"
-      target = "/var/jenkins_home/.tfvars"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.tfvars"
-      }
-      no_copy = true
-    }
-  ]
+  mounts           = var.mounts
 }
 
 resource "docker_volume" "controller" {
@@ -57,7 +12,7 @@ resource "docker_volume" "controller" {
 resource "docker_volume" "controller_nfs" {
   for_each = { for mount in local.mounts : mount.name => mount }
 
-  name        = "jenkins-controller-nfs-${each.value.name}"
+  name        = each.value.name
   driver      = lookup(each.value, "driver", "local")
   driver_opts = lookup(each.value, "driver_opts", {})
 }

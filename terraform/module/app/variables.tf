@@ -12,3 +12,14 @@ variable "jenkins_url" {
   description = "URL of the Jenkins controller"
   type        = string
 }
+
+variable "mounts" {
+  description = "Mount definitions for Jenkins controller volumes"
+  type = list(object({
+    name        = string
+    target      = string
+    driver      = string
+    driver_opts = map(string)
+    no_copy     = bool
+  }))
+}

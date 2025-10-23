@@ -25,3 +25,14 @@ variable "healthcheck_timeout_seconds" {
   type        = number
   default     = 5
 }
+
+variable "mounts" {
+  description = "Mount definitions used to provision NFS-backed volumes for the controller"
+  type = list(object({
+    name        = string
+    target      = string
+    driver      = string
+    driver_opts = map(string)
+    no_copy     = bool
+  }))
+}
