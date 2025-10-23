@@ -2,50 +2,64 @@ locals {
   casc_config_yaml = yamlencode(var.casc_config)
   casc_config_sha  = sha256(local.casc_config_yaml)
   casc_config      = var.casc_config
+  mounts = [
+    {
+      name   = "jenkins"
+      target = "/var/jenkins_home/.jenkins"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.jenkins"
+      }
+      no_copy = true
+    },
+    {
+      name   = "ssh"
+      target = "/var/jenkins_home/.ssh"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.ssh"
+      }
+      no_copy = true
+    },
+    {
+      name   = "kube"
+      target = "/var/jenkins_home/.kube"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.kube"
+      }
+      no_copy = true
+    },
+    {
+      name   = "tfvars"
+      target = "/var/jenkins_home/.tfvars"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.tfvars"
+      }
+      no_copy = true
+    }
+  ]
 }
 
 resource "docker_volume" "controller" {
   name = "jenkins-controller"
 }
 
-resource "docker_volume" "controller_nfs_jenkins" {
-  name   = "jenkins-controller-nfs-jenkins"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.jenkins"
-  }
-}
+resource "docker_volume" "controller_nfs" {
+  for_each = { for mount in local.mounts : mount.name => mount }
 
-resource "docker_volume" "controller_nfs_ssh" {
-  name   = "jenkins-controller-nfs-ssh"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.ssh"
-  }
-}
-
-resource "docker_volume" "controller_nfs_kube" {
-  name   = "jenkins-controller-nfs-kube"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.kube"
-  }
-}
-
-resource "docker_volume" "controller_nfs_tfvars" {
-  name   = "jenkins-controller-nfs-tfvars"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.tfvars"
-  }
+  name        = "jenkins-controller-nfs-${each.value.name}"
+  driver      = lookup(each.value, "driver", "local")
+  driver_opts = lookup(each.value, "driver_opts", {})
 }
 
 resource "docker_config" "casc_config" {
@@ -54,14 +68,6 @@ resource "docker_config" "casc_config" {
 }
 
 resource "docker_service" "controller" {
-  depends_on = [
-    docker_config.casc_config,
-    docker_volume.controller,
-    docker_volume.controller_nfs_jenkins,
-    docker_volume.controller_nfs_ssh,
-    docker_volume.controller_nfs_kube,
-    docker_volume.controller_nfs_tfvars,
-  ]
   name = "jenkins-controller"
 
   task_spec {
@@ -85,39 +91,16 @@ resource "docker_service" "controller" {
         type   = "bind"
       }
 
-      mounts {
-        target = "/var/jenkins_home/.jenkins"
-        source = docker_volume.controller_nfs_jenkins.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
-        }
-      }
+      dynamic "mounts" {
+        for_each = { for mount in local.mounts : mount.name => mount }
+        content {
+          target = mounts.value.target
+          source = docker_volume.controller_nfs[mounts.value.name].name
+          type   = "volume"
 
-      mounts {
-        target = "/var/jenkins_home/.ssh"
-        source = docker_volume.controller_nfs_ssh.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
-        }
-      }
-
-      mounts {
-        target = "/var/jenkins_home/.kube"
-        source = docker_volume.controller_nfs_kube.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
-        }
-      }
-
-      mounts {
-        target = "/var/jenkins_home/.tfvars"
-        source = docker_volume.controller_nfs_tfvars.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
+          volume_options {
+            no_copy = lookup(mounts.value, "no_copy", false)
+          }
         }
       }
 
