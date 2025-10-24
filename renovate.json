@@ -5,8 +5,8 @@
   ],
   "dockerfile": {
     "managerFilePatterns": [
-      "/(^|/)docker/controller$/",
-      "/(^|/)docker/agent$/"
+      "/(^|/)docker/jenkins/controller/Dockerfile$/",
+      "/(^|/)docker/jenkins/agent/Dockerfile$/"
     ]
   }
 }

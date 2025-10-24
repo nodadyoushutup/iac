@@ -60,8 +60,8 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            --tag ghcr.io/${{ github.repository }}-agent:${{ steps.version.outputs.version }} \
-            --tag ghcr.io/${{ github.repository }}-agent:latest \
+            --tag ghcr.io/jenkins-agent:${{ steps.version.outputs.version }} \
+            --tag ghcr.io/jenkins-agent:latest \
             --push \
-            --file docker/agent \
+            --file docker/jenkins/agent/Dockerfile \
             docker

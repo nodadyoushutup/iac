@@ -1,19 +1,7 @@
-FROM jenkins/jenkins:2.533
+FROM jenkins/inbound-agent:3283.v92c105e0f819-7
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false" \
-    CASC_JENKINS_CONFIG="/home/jenkins/jenkins.yaml"
-
-# Switch to root for installing plugins and additional tools
+# Switch to root to install additional packages
 USER root
-
-# Copy the plugins file and install plugins. Both the CI workflow and the local
-# docker compose definition build from the `docker/` directory, so the files are
-# addressed relative to that context.
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt --verbose
-
-# Copy the agent exporter
-COPY export-agent-secret.groovy /usr/share/jenkins/ref/init.groovy.d/export-agent-secret.groovy
 
 # TARGETARCH is provided automatically when building with BuildKit. Fallback to
 # the runtime architecture when building without it.
@@ -129,13 +117,20 @@ RUN set -eux; \
     curl -sSL "https://dl.min.io/client/mc/release/linux-${mc_arch}/mc" -o /usr/local/bin/mc; \
     chmod +x /usr/local/bin/mc
 
-# Prepare a writable Jenkins home for the runtime user. This ensures that when
-# the Docker named volume is initialised, ownership is copied correctly and the
-# controller can start without permission errors.
+# Add the custom Jenkins agent entrypoint
+COPY jenkins/agent/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Ensure the Jenkins home directory exists with the correct ownership so that
+# named volumes inherit the right permissions when initialised.
 RUN mkdir -p /home/jenkins && chown -R jenkins:jenkins /home/jenkins
 
-ENV JENKINS_HOME=/home/jenkins \
+ENV JENKINS_AGENT_HOME=/home/jenkins \
+    JENKINS_HOME=/home/jenkins \
     HOME=/home/jenkins
 
 # Switch back to the default (jenkins) user
 USER jenkins
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD []
