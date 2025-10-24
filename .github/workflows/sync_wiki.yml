@@ -21,7 +21,7 @@ jobs:
 
       - name: Sync files
         run: |
-          rsync -av --delete --exclude '.nojekyll' docs/ wiki/
+          rsync -av --delete --exclude '.git/' --exclude '.nojekyll' docs/ wiki/
           cd wiki
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"
