@@ -3,7 +3,18 @@ variable "name" {
   type        = string
 }
 
-variable "jenkins_url" {
-  description = "URL of the Jenkins controller"
-  type        = string
+variable "provider_config" {
+  description = "Provider configuration shared across Jenkins resources"
+  type        = any
+}
+
+variable "mounts" {
+  description = "Mount definitions shared between the Jenkins controller and agents"
+  type = list(object({
+    name        = string
+    target      = string
+    driver      = string
+    driver_opts = map(string)
+    no_copy     = bool
+  }))
 }

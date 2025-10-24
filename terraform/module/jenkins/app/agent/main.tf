@@ -1,38 +1,8 @@
 locals {
   mounts = [
-    {
-      name   = "jenkins-agent-${var.name}-nfs-jenkins"
-      target = "/home/jenkins/.jenkins"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.jenkins"
-      }
-      no_copy = true
-    },
-    {
-      name   = "jenkins-agent-${var.name}-nfs-ssh"
-      target = "/home/jenkins/.ssh"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.ssh"
-      }
-      no_copy = true
-    },
-    {
-      name   = "jenkins-agent-${var.name}-nfs-tfvars"
-      target = "/home/jenkins/.tfvars"
-      driver = "local"
-      driver_opts = {
-        type   = "nfs"
-        o      = "addr=192.168.1.100,nolock,hard,rw"
-        device = ":/mnt/eapp/skel/.tfvars"
-      }
-      no_copy = true
-    }
+    for mount in var.mounts : merge(mount, {
+      name = startswith(mount.name, "jenkins-") ? replace(mount.name, "jenkins-", format("jenkins-agent-%s-", var.name)) : format("%s-agent-%s", mount.name, var.name)
+    })
   ]
 }
 
@@ -49,15 +19,15 @@ resource "docker_volume" "agent_nfs" {
 }
 
 resource "docker_service" "agent" {
-  name = "jenkins-agent-${var.name}"
-  depends_on = [ docker_volume.agent, docker_volume.agent_nfs ]
+  name       = "jenkins-agent-${var.name}"
+  depends_on = [docker_volume.agent, docker_volume.agent_nfs]
 
   task_spec {
     container_spec {
       image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.5@sha256:1f501a6e32e003b363b3beee05e2655064a6f82a5c534fd6df178b6ed5ca5075"
 
       env = {
-        JENKINS_URL        = var.jenkins_url
+        JENKINS_URL        = try(var.provider_config.jenkins.server_url, "")
         JENKINS_AGENT_NAME = var.name
       }
 

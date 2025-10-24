@@ -3,11 +3,6 @@ variable "casc_config" {
   type        = any
 }
 
-variable "healthcheck_endpoint" {
-  description = "Endpoint used by the local healthcheck script to verify the controller is online"
-  type        = string
-}
-
 variable "healthcheck_delay_seconds" {
   description = "Delay between healthcheck attempts"
   type        = number
@@ -35,4 +30,9 @@ variable "mounts" {
     driver_opts = map(string)
     no_copy     = bool
   }))
+}
+
+variable "provider_config" {
+  description = "Provider configuration shared across Jenkins resources"
+  type        = any
 }

@@ -1,6 +1,7 @@
 FROM jenkins/jenkins:2.533
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false" \
+    CASC_JENKINS_CONFIG="/home/jenkins/jenkins.yaml"
 
 # Switch to root for installing plugins and additional tools
 USER root

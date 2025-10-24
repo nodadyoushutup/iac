@@ -2,7 +2,12 @@ locals {
   casc_config_yaml = yamlencode(var.casc_config)
   casc_config_sha  = sha256(local.casc_config_yaml)
   casc_config      = var.casc_config
-  mounts           = var.mounts
+  mounts = [
+    for mount in var.mounts : merge(mount, {
+      name = startswith(mount.name, "jenkins-") ? replace(mount.name, "jenkins-", "jenkins-controller-") : format("%s-controller", mount.name)
+    })
+  ]
+  healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
 }
 
 resource "docker_volume" "controller" {
@@ -23,16 +28,19 @@ resource "docker_config" "casc_config" {
 }
 
 resource "docker_service" "controller" {
-  name       = "jenkins-controller"
-  depends_on = [docker_config.casc_config, docker_volume.controller, docker_volume.controller_nfs]
+  name = "jenkins-controller"
+  depends_on = [
+    docker_config.casc_config,
+    docker_volume.controller,
+    docker_volume.controller_nfs
+  ]
 
   task_spec {
     container_spec {
       image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.7@sha256:055d6ea796cb7bc04e76617732542e5ee721e6742ee7722a622f367243f68336"
 
       env = {
-        CASC_JENKINS_CONFIG = "/home/jenkins/jenkins.yaml"
-        SECRETS_DIR         = "/home/jenkins/.jenkins"
+        SECRETS_DIR = "/home/jenkins/.jenkins"
       }
 
       mounts {
@@ -51,7 +59,7 @@ resource "docker_service" "controller" {
         for_each = { for mount in local.mounts : mount.name => mount }
         content {
           target = mounts.value.target
-          source = docker_volume.controller_nfs[mounts.value.name].name
+          source = docker_volume.controller_nfs[mounts.key].name
           type   = "volume"
 
           volume_options {
@@ -107,7 +115,7 @@ resource "docker_service" "controller" {
 module "healthcheck" {
   source = "../../../healthcheck"
 
-  endpoint        = var.healthcheck_endpoint
+  endpoint        = local.healthcheck_endpoint
   delay_seconds   = var.healthcheck_delay_seconds
   max_attempts    = var.healthcheck_max_attempts
   timeout_seconds = var.healthcheck_timeout_seconds

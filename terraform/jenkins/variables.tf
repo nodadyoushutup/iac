@@ -9,7 +9,7 @@ variable "casc_config" {
 }
 
 variable "mounts" {
-  description = "Mount definitions for Jenkins controller volumes"
+  description = "Mount definitions shared between the Jenkins controller and agents"
   type = list(object({
     name        = string
     target      = string

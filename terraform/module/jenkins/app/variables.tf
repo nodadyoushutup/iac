@@ -3,18 +3,8 @@ variable "casc_config" {
   type        = any
 }
 
-variable "healthcheck_endpoint" {
-  description = "Endpoint used to verify the Jenkins controller is healthy"
-  type        = string
-}
-
-variable "jenkins_url" {
-  description = "URL of the Jenkins controller"
-  type        = string
-}
-
 variable "mounts" {
-  description = "Mount definitions for Jenkins controller volumes"
+  description = "Mount definitions shared between the Jenkins controller and agents"
   type = list(object({
     name        = string
     target      = string
@@ -22,4 +12,9 @@ variable "mounts" {
     driver_opts = map(string)
     no_copy     = bool
   }))
+}
+
+variable "provider_config" {
+  description = "Provider configuration shared across Jenkins components"
+  type        = any
 }
