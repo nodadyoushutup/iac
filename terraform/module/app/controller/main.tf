@@ -23,8 +23,8 @@ resource "docker_config" "casc_config" {
 }
 
 resource "docker_service" "controller" {
-  name = "jenkins-controller"
-  depends_on = [ docker_config.casc_config, docker_volume.controller, docker_volume.controller_nfs ]
+  name       = "jenkins-controller"
+  depends_on = [docker_config.casc_config, docker_volume.controller, docker_volume.controller_nfs]
 
   task_spec {
     container_spec {
@@ -32,7 +32,7 @@ resource "docker_service" "controller" {
 
       env = {
         CASC_JENKINS_CONFIG = "/home/jenkins/jenkins.yaml"
-        SECRETS_DIR = "/home/jenkins/.jenkins"
+        SECRETS_DIR         = "/home/jenkins/.jenkins"
       }
 
       mounts {
@@ -104,10 +104,13 @@ resource "docker_service" "controller" {
   }
 }
 
-resource "null_resource" "wait_for_service" {
-  depends_on = [docker_service.controller]
+module "healthcheck" {
+  source = "../../healthcheck"
 
-  provisioner "local-exec" {
-    command = "MAX_ATTEMPTS=${var.healthcheck_max_attempts} TIMEOUT=${var.healthcheck_timeout_seconds} bash ${path.module}/healthcheck.sh ${var.healthcheck_endpoint} ${var.healthcheck_delay_seconds}"
-  }
+  endpoint        = var.healthcheck_endpoint
+  delay_seconds   = var.healthcheck_delay_seconds
+  max_attempts    = var.healthcheck_max_attempts
+  timeout_seconds = var.healthcheck_timeout_seconds
+
+  depends_on = [docker_service.controller]
 }
