@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'docs/**'
+      - 'docs/wiki/**'
 
 permissions:
   contents: write
@@ -22,7 +22,7 @@ jobs:
 
       - name: Sync files
         run: |
-          rsync -av --delete --exclude '.git/' --exclude '.nojekyll' docs/ wiki/
+          rsync -av --delete --exclude '.git/' --exclude '.nojekyll' docs/wiki/ wiki/
           cd wiki
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "github-actions[bot]"

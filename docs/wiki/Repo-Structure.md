@@ -2,7 +2,7 @@
 
 ```
 /
-├── docs/                  # Wiki content synced to GitHub Wiki
+├── docs/wiki/             # Wiki content synced to GitHub Wiki
 ├── docker/
 │   └── jenkins/           # Dockerfiles, scripts, and compose assets
 ├── pipeline/              # Jenkins pipeline definitions
@@ -13,8 +13,8 @@
 
 ## Conventions
 
-- Place all documentation alongside the code it explains. If a new service
-  needs a runbook, create `docs/<service>.md`.
+- Place documentation alongside the code it explains. If a new service needs a
+  runbook, create `docs/wiki/<Service>.md` and link it from the sidebar.
 - Add supporting scripts under a service-specific directory (for example,
   `docker/<service>/`).
 - Infrastructure changes must be reproducible locally—include helper scripts

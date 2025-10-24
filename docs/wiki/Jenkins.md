@@ -7,17 +7,15 @@ needed to build, publish, and run the controller and agent images lives under
 ## Controller image
 
 - Path: `docker/jenkins/controller/`
-- Built and pushed by the
-  [.github/workflows/jenkins_controller_build_push.yml](../.github/workflows/jenkins_controller_build_push.yml)
-  workflow.
+- Built and pushed by
+  `.github/workflows/jenkins_controller_build_push.yml`.
 - Includes bundled plugins defined in `docker/jenkins/controller/plugins.txt`.
 
 ## Agent image
 
 - Path: `docker/jenkins/agent/`
-- Built and pushed by the
-  [.github/workflows/jenkins_agent_build_push.yml](../.github/workflows/jenkins_agent_build_push.yml)
-  workflow.
+- Built and pushed by
+  `.github/workflows/jenkins_agent_build_push.yml`.
 - Tailored for pipeline steps that need Docker, Terraform, and other DevOps
   tools.
 
@@ -25,10 +23,10 @@ needed to build, publish, and run the controller and agent images lives under
 
 1. Build the controller image: `docker/jenkins/build-controller.sh`
 2. Build the agent image: `docker/jenkins/build-agent.sh`
-3. Launch the stack with `docker-compose` (compose file coming soon).
+3. Launch the stack with Docker Compose (compose file coming soon).
 
-When you're done, run `docker/jenkins/purge.sh` to clean up dangling images and
-volumes.
+When you are done, run `docker/jenkins/purge.sh` to clean up dangling images
+and volumes.
 
 ## Next steps
 
