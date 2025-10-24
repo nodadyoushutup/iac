@@ -14,4 +14,5 @@ module "agents" {
   name            = each.value.permanent.name
   provider_config = var.provider_config
   mounts          = var.mounts
+  controller_service_id = module.controller.service_id
 }

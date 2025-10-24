@@ -18,9 +18,17 @@ resource "docker_volume" "agent_nfs" {
   driver_opts = lookup(each.value, "driver_opts", {})
 }
 
+resource "terraform_data" "controller_service" {
+  input = var.controller_service_id
+}
+
 resource "docker_service" "agent" {
   name       = "jenkins-agent-${var.name}"
-  depends_on = [docker_volume.agent, docker_volume.agent_nfs]
+  depends_on = [
+    docker_volume.agent,
+    docker_volume.agent_nfs,
+    terraform_data.controller_service
+  ]
 
   task_spec {
     container_spec {
@@ -73,6 +81,9 @@ resource "docker_service" "agent" {
     ignore_changes = [
       # Docker rewrites placement.platforms on apply; ignore the noise while nodes stay arm64.
       task_spec[0].placement[0].platforms,
+    ]
+    replace_triggered_by = [
+      terraform_data.controller_service
     ]
   }
 }

@@ -23,8 +23,12 @@ resource "docker_volume" "controller_nfs" {
 }
 
 resource "docker_config" "casc_config" {
-  name = "jenkins.yaml"
+  name = format("jenkins-%s.yaml", substr(local.casc_config_sha, 0, 12))
   data = base64encode(local.casc_config_yaml)
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "docker_service" "controller" {
@@ -34,6 +38,10 @@ resource "docker_service" "controller" {
     docker_volume.controller,
     docker_volume.controller_nfs
   ]
+
+  update_config {
+    order = "stop-first"
+  }
 
   task_spec {
     container_spec {
@@ -109,6 +117,9 @@ resource "docker_service" "controller" {
     ignore_changes = [
       task_spec[0].placement[0].platforms,
     ]
+    replace_triggered_by = [
+      docker_config.casc_config
+    ]
   }
 }
 
@@ -119,6 +130,10 @@ module "healthcheck" {
   delay_seconds   = var.healthcheck_delay_seconds
   max_attempts    = var.healthcheck_max_attempts
   timeout_seconds = var.healthcheck_timeout_seconds
+  triggers = {
+    casc_config_sha = local.casc_config_sha
+    service_id      = docker_service.controller.id
+  }
 
   depends_on = [docker_service.controller]
 }

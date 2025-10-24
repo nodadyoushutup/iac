@@ -18,3 +18,8 @@ variable "mounts" {
     no_copy     = bool
   }))
 }
+
+variable "controller_service_id" {
+  description = "Swarm service ID for the Jenkins controller; changes force agent replacement"
+  type        = string
+}
