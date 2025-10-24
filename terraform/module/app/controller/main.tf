@@ -24,18 +24,19 @@ resource "docker_config" "casc_config" {
 
 resource "docker_service" "controller" {
   name = "jenkins-controller"
+  depends_on = [ docker_config.casc_config, docker_volume.controller, docker_volume.controller_nfs ]
 
   task_spec {
     container_spec {
       image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.6@sha256:2d0e2ca1bc160bfc16e3e690d77ab7bfca3f733fdef78801e4c9f2660ef082f5"
 
       env = {
-        CASC_JENKINS_CONFIG = "/var/jenkins_home/jenkins.yaml"
-        SECRETS_DIR         = "/var/jenkins_home/.jenkins"
+        CASC_JENKINS_CONFIG = "/home/jenkins/jenkins.yaml"
+        SECRETS_DIR = "/home/jenkins/.jenkins"
       }
 
       mounts {
-        target = "/var/jenkins_home"
+        target = "/home/jenkins"
         source = docker_volume.controller.name
         type   = "volume"
       }
@@ -62,7 +63,7 @@ resource "docker_service" "controller" {
       configs {
         config_id   = docker_config.casc_config.id
         config_name = docker_config.casc_config.name
-        file_name   = "/var/jenkins_home/jenkins.yaml"
+        file_name   = "/home/jenkins/jenkins.yaml"
       }
 
       healthcheck {

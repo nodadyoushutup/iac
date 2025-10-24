@@ -121,6 +121,14 @@ RUN set -eux; \
 COPY agent-entrypoint.sh /usr/local/bin/agent-entrypoint.sh
 RUN chmod +x /usr/local/bin/agent-entrypoint.sh
 
+# Ensure the Jenkins home directory exists with the correct ownership so that
+# named volumes inherit the right permissions when initialised.
+RUN mkdir -p /home/jenkins && chown -R jenkins:jenkins /home/jenkins
+
+ENV JENKINS_AGENT_HOME=/home/jenkins \
+    JENKINS_HOME=/home/jenkins \
+    HOME=/home/jenkins
+
 # Switch back to the default (jenkins) user
 USER jenkins
 

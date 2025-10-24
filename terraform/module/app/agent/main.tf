@@ -1,39 +1,56 @@
+locals {
+  mounts = [
+    {
+      name   = "jenkins-agent-${var.name}-nfs-jenkins"
+      target = "/home/jenkins/.jenkins"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.jenkins"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-agent-${var.name}-nfs-ssh"
+      target = "/home/jenkins/.ssh"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.ssh"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-agent-${var.name}-nfs-tfvars"
+      target = "/home/jenkins/.tfvars"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = "addr=192.168.1.100,nolock,hard,rw"
+        device = ":/mnt/eapp/skel/.tfvars"
+      }
+      no_copy = true
+    }
+  ]
+}
+
 resource "docker_volume" "agent" {
   name = "jenkins-agent-${var.name}"
 }
 
-resource "docker_volume" "agent_nfs_jenkins" {
-  name   = "jenkins-agent-${var.name}-nfs-jenkins"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.jenkins"
-  }
-}
+resource "docker_volume" "agent_nfs" {
+  for_each = { for mount in local.mounts : mount.name => mount }
 
-resource "docker_volume" "agent_nfs_ssh" {
-  name   = "jenkins-agent-${var.name}-nfs-ssh"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.ssh"
-  }
-}
-
-resource "docker_volume" "agent_nfs_tfvars" {
-  name   = "jenkins-agent-${var.name}-nfs-tfvars"
-  driver = "local"
-  driver_opts = {
-    type   = "nfs"
-    o      = "addr=192.168.1.100,nolock,hard,rw"
-    device = ":/mnt/eapp/skel/.tfvars"
-  }
+  name        = each.value.name
+  driver      = lookup(each.value, "driver", "local")
+  driver_opts = lookup(each.value, "driver_opts", {})
 }
 
 resource "docker_service" "agent" {
   name = "jenkins-agent-${var.name}"
+  depends_on = [ docker_volume.agent, docker_volume.agent_nfs ]
 
   task_spec {
     container_spec {
@@ -56,36 +73,16 @@ resource "docker_service" "agent" {
         type   = "bind"
       }
 
-      mounts {
-        target = "/home/jenkins/.jenkins"
-        source = docker_volume.agent_nfs_jenkins.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
-        }
-      }
+      dynamic "mounts" {
+        for_each = { for mount in local.mounts : mount.name => mount }
+        content {
+          target = mounts.value.target
+          source = docker_volume.agent_nfs[mounts.key].name
+          type   = "volume"
 
-      mounts {
-        target = "/home/jenkins/.ssh"
-        source = docker_volume.agent_nfs_ssh.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
-        }
-      }
-
-      # mounts {
-      #   target = "/home/jenkins/.kube"
-      #   source = pathexpand("~/.kube")
-      #   type   = "bind"
-      # }
-
-      mounts {
-        target = "/home/jenkins/.tfvars"
-        source = docker_volume.agent_nfs_tfvars.name
-        type   = "volume"
-        volume_options {
-          no_copy = true
+          volume_options {
+            no_copy = lookup(mounts.value, "no_copy", false)
+          }
         }
       }
 
