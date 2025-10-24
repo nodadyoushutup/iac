@@ -1,5 +1,5 @@
 module "jenkins_app" {
-  source = "./module/app"
+  source = "../module/jenkins/app"
 
   casc_config          = var.casc_config
   healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
@@ -8,7 +8,7 @@ module "jenkins_app" {
 }
 
 module "jenkins_config" {
-  source = "./module/config"
+  source = "../module/jenkins/config"
 
   depends_on = [module.jenkins_app]
 }

@@ -1,5 +1,5 @@
 locals {
-  jenkins_config_pipeline = trimspace(file("${path.root}/../pipeline/terraform.jenkins"))
+  jenkins_config_pipeline = trimspace(file("${path.root}/../../pipeline/jenkins.jenkins"))
 }
 
 resource "jenkins_folder" "folder_jenkins" {

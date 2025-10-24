@@ -105,7 +105,7 @@ resource "docker_service" "controller" {
 }
 
 module "healthcheck" {
-  source = "../../healthcheck"
+  source = "../../../healthcheck"
 
   endpoint        = var.healthcheck_endpoint
   delay_seconds   = var.healthcheck_delay_seconds

@@ -64,7 +64,7 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        dir('terraform') {
+        dir('terraform/jenkins') {
           script {
             terraformExec(['init', '-backend-config', env.BACKEND_PATH])
           }
@@ -74,7 +74,7 @@ pipeline {
 
     stage('Config Plan') {
       steps {
-        dir('terraform') {
+        dir('terraform/jenkins') {
           script {
             terraformExec([
               'plan',
@@ -90,7 +90,7 @@ pipeline {
 
     stage('Config Apply') {
       steps {
-        dir('terraform') {
+        dir('terraform/jenkins') {
           script {
             terraformExec([
               'apply',

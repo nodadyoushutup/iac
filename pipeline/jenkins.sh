@@ -3,6 +3,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 SCRIPT_ROOT="${SCRIPT_DIR}/script"
+TERRAFORM_DIR="${ROOT_DIR}/terraform/jenkins"
 ENV_SCRIPT="${SCRIPT_ROOT}/env_check.sh"
 RESOLVE_SCRIPT="${SCRIPT_ROOT}/resolve_inputs.sh"
 EXEC_SCRIPT="${SCRIPT_ROOT}/terraform_exec.sh"
@@ -12,7 +13,7 @@ BACKEND_ARG=""
 
 usage() {
   cat <<'USAGE'
-Usage: pipeline/terraform.sh [--tfvars <path>] [--backend <path>] [tfvars_path] [backend_path]
+Usage: pipeline/jenkins.sh [--tfvars <path>] [--backend <path>] [tfvars_path] [backend_path]
 
 Runs a multi-stage Terraform workflow:
   1) Plans and applies the Jenkins application infrastructure (module.jenkins_app)
@@ -20,7 +21,7 @@ Runs a multi-stage Terraform workflow:
 
 Optional arguments can be provided either as flags or positional values.
 If omitted, defaults are:
-  TFVARS  -> $HOME/.tfvars/jenkins.tfvars (falls back to first *.tfvars in ./terraform)
+  TFVARS  -> $HOME/.tfvars/jenkins.tfvars (falls back to first *.tfvars in ./terraform/jenkins)
   BACKEND -> $HOME/.tfvars/minio.backend.hcl
 USAGE
 }
@@ -113,7 +114,7 @@ fi
 echo "TFVARS file: ${TFVARS_PATH}"
 echo "Backend config: ${BACKEND_CONFIG_PATH}"
 
-cd "${ROOT_DIR}/terraform"
+cd "${TERRAFORM_DIR}"
 
 export PYTHON_CMD FILTER_SCRIPT FILTER_AVAILABLE TFVARS_PATH BACKEND_CONFIG_PATH
 

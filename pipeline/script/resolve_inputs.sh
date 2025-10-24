@@ -71,7 +71,7 @@ resolve_backend() {
   return 1
 }
 
-TERRAFORM_DIR="${ROOT_DIR}/terraform"
+TERRAFORM_DIR="${ROOT_DIR}/terraform/jenkins"
 
 TFVARS_PATH=""
 if TFVARS_PATH="$(resolve_tfvars "${TFVARS_ARG}" "${TERRAFORM_DIR}")"; then
