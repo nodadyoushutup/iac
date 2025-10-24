@@ -1,4 +1,4 @@
-name: Controller - Build and Push Docker Image
+name: Jenkins Controller - Build and Push Docker Image
 
 on:
   workflow_dispatch:
