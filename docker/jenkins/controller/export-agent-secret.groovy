@@ -28,7 +28,7 @@ def resolveCascYamlFile = {
         }
         return cascPath.isDirectory() || cascEnv.endsWith(File.separator) ? new File(cascPath, "jenkins.yaml") : cascPath
     }
-    def jenkinsHome = System.getenv("JENKINS_HOME") ?: System.getProperty("JENKINS_HOME") ?: "/var/jenkins_home"
+    def jenkinsHome = System.getenv("JENKINS_HOME") ?: System.getProperty("JENKINS_HOME") ?: "/home/jenkins"
     return new File(jenkinsHome, "jenkins.yaml")
 }
 
