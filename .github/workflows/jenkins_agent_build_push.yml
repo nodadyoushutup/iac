@@ -52,6 +52,11 @@ jobs:
 
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
+      - name: Show build version
+        run: |
+          echo "Preparing Jenkins agent image for version ${{ steps.version.outputs.version }}"
+          echo "::notice::Target agent image version ${{ steps.version.outputs.version }}"
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -65,8 +70,8 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --file docker/jenkins/agent/Dockerfile \
             --metadata-file agent-image-metadata.json \
-            --output=type=image,name=ghcr.io/jenkins-agent:${{ steps.version.outputs.version }},push-by-digest=true \
-            --output=type=image,name=ghcr.io/jenkins-agent:latest,push-by-digest=true \
+            --output=type=image,name=ghcr.io/jenkins-agent:${{ steps.version.outputs.version }},push=true,push-by-digest=true \
+            --output=type=image,name=ghcr.io/jenkins-agent:latest,push=true,push-by-digest=true \
             docker
 
       - name: Capture image digest
