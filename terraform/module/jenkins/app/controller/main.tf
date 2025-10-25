@@ -4,7 +4,16 @@ locals {
   casc_config      = var.casc_config
   mounts = [
     for mount in var.mounts : merge(mount, {
-      name = startswith(mount.name, "jenkins-") ? replace(mount.name, "jenkins-", "jenkins-controller-") : format("%s-controller", mount.name)
+      name = format(
+        "%s-%s",
+        startswith(mount.name, "jenkins-") ? replace(mount.name, "jenkins-", "jenkins-controller-") : format("%s-controller", mount.name),
+        substr(sha256(jsonencode({
+          driver      = mount.driver
+          driver_opts = mount.driver_opts
+          target      = mount.target
+          no_copy     = mount.no_copy
+        })), 0, 8)
+      )
     })
   ]
   healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
@@ -69,7 +78,9 @@ resource "docker_service" "controller" {
           type   = "volume"
 
           volume_options {
-            no_copy = lookup(mounts.value, "no_copy", false)
+            driver_name    = mounts.value.driver
+            driver_options = mounts.value.driver_opts
+            no_copy        = mounts.value.no_copy
           }
         }
       }
@@ -94,6 +105,7 @@ resource "docker_service" "controller" {
         os           = "linux"
         architecture = "arm64"
       }
+      constraints = ["node.labels.role==cicd"]
     }
   }
 

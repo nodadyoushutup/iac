@@ -13,6 +13,8 @@ import java.nio.file.Path
 import java.nio.file.attribute.PosixFilePermission
 import java.util.EnumSet
 import java.util.Locale
+import java.util.Timer
+import java.util.TimerTask
 
 
 // --- Config ---
@@ -225,20 +227,47 @@ if (SECRETS_DIR != null) {
     println "[agent-init] SECRETS_DIR not set; secrets will not be exported."
 }
 
-def agents = loadAgentsFromYaml(YAML_FILE)
-if (!agents) {
-    println "[agent-init] No agents found in YAML. Nothing to do."
-    return
-}
-
-agents.each { cfg ->
-    try {
-        ensureNode(cfg)
-        if (SECRETS_DIR != null) {
-            writeSecret(cfg.name)
+def processAgents
+processAgents = {
+    def agents = loadAgentsFromYaml(YAML_FILE)
+    if (!agents) {
+        println "[agent-init] No agents found in YAML. Nothing to do."
+    } else {
+        agents.each { cfg ->
+            try {
+                ensureNode(cfg)
+                if (SECRETS_DIR != null) {
+                    writeSecret(cfg.name)
+                }
+            } catch (Throwable t) {
+                println "[agent-init] ERROR processing '${cfg.name}': ${t.message}"
+            }
         }
-    } catch (Throwable t) {
-        println "[agent-init] ERROR processing '${cfg.name}': ${t.message}"
+        println "[agent-init] Agent processing complete."
     }
 }
-println "[agent-init] Done."
+
+processAgents()
+
+if (SECRETS_DIR != null) {
+    try {
+        Timer timer = new Timer("agent-secret-refresh", true)
+        timer.schedule(
+            new TimerTask() {
+                @Override
+                void run() {
+                    println "[agent-init] Refresh timer triggered; re-exporting agent secrets."
+                    try {
+                        processAgents()
+                    } finally {
+                        println "[agent-init] Refresh timer completed."
+                    }
+                }
+            },
+            15000L
+        )
+        println "[agent-init] Scheduled one-time secret refresh in 15 seconds."
+    } catch (Throwable t) {
+        println "[agent-init] WARN: Unable to schedule secret refresh: ${t.message}"
+    }
+}

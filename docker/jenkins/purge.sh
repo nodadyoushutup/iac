@@ -1,55 +1,98 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 🚨 WARNING 🚨
-# This script forcefully deletes ALL Docker containers, images, volumes, services,
-# configs, secrets, and user-defined networks. It does NOT remove this node from the swarm.
-# Use with extreme caution.
+# Removes Docker assets that belong to Jenkins (services, configs, secrets,
+# containers, volumes, networks, images) without touching unrelated resources.
 
-need_cmd() { command -v "$1" >/dev/null 2>&1 || { echo "Missing command: $1" >&2; exit 1; }; }
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "Missing command: $1" >&2
+    exit 1
+  }
+}
+
 need_cmd docker
 
-echo "==> Purging EVERYTHING Docker (except swarm membership)..."
+remove_items() {
+  local description=$1
+  shift
 
-# Stop and remove all containers (swarm tasks + standalone)
-echo "==> Killing all containers..."
-docker ps -aq | xargs -r docker rm -f
+  local -a list_cmd=()
+  while (($#)); do
+    if [[ $1 == "::" ]]; then
+      shift
+      break
+    fi
+    list_cmd+=("$1")
+    shift
+  done
 
-# Remove all services (but keep swarm join state)
-echo "==> Removing swarm services..."
-docker service ls -q | xargs -r docker service rm
+  local -a remove_cmd=("$@")
 
-# Remove all stacks (best-effort; no-op if none)
-echo "==> Removing swarm stacks..."
-docker stack ls -q | xargs -r docker stack rm || true
+  if ((${#list_cmd[@]} == 0)) || ((${#remove_cmd[@]} == 0)); then
+    echo "Internal error: commands missing for ${description}" >&2
+    return 1
+  fi
 
-# Remove all swarm configs
-echo "==> Removing swarm configs..."
-docker config ls -q | xargs -r docker config rm || true
+  echo "==> Removing Jenkins ${description}..."
+  mapfile -t items < <("${list_cmd[@]}" 2>/dev/null)
 
-# Remove all secrets
-echo "==> Removing swarm secrets..."
-docker secret ls -q | xargs -r docker secret rm || true
+  if ((${#items[@]} == 0)); then
+    echo "    none found."
+    return 0
+  fi
 
-# Remove all images
-echo "==> Removing images..."
-docker images -aq | xargs -r docker rmi -f || true
+  if ! printf '%s\n' "${items[@]}" | LC_ALL=C sort -u | xargs -r "${remove_cmd[@]}"; then
+    echo "    warning: failed to remove one or more ${description}" >&2
+  fi
+}
 
-# Remove all volumes
-echo "==> Removing volumes..."
-docker volume ls -q | xargs -r docker volume rm -f || true
+echo "==> Purging Jenkins Docker assets..."
 
-# Remove all user-defined networks (skip built-in bridge/host/none)
-echo "==> Removing user-defined networks..."
-docker network ls --filter type=custom -q | xargs -r docker network rm || true
+swarm_info="$(docker info --format '{{.Swarm.LocalNodeState}} {{.Swarm.ControlAvailable}}' 2>/dev/null || echo "inactive false")"
+read -r swarm_local_state swarm_control_available <<<"${swarm_info}"
+manager_ops_available=false
 
-# Remove build cache (buildx + legacy)
-echo "==> Clearing build cache..."
-docker builder prune -af || true
-docker buildx prune -af || true
+if [[ "${swarm_local_state}" != "active" ]]; then
+  echo "==> This node is not part of an active swarm; skipping manager-only resources."
+elif [[ "${swarm_control_available}" == "true" ]]; then
+  manager_ops_available=true
+else
+  echo "==> This node is not a swarm manager; skipping manager-only resources."
+fi
 
-# System prune (final sweep, but WITHOUT networks)
-echo "==> Final system prune (keeping networks)..."
-docker system prune -af || true
+if [[ "${manager_ops_available}" == "true" ]]; then
+  remove_items "stacks" \
+    docker stack ls --filter name=jenkins --format '{{.Name}}' \
+    :: docker stack rm
 
-echo "==> Docker purge complete. Swarm membership preserved."
+  remove_items "services" \
+    docker service ls --filter name=jenkins --format '{{.ID}}' \
+    :: docker service rm
+
+  remove_items "configs" \
+    docker config ls --filter name=jenkins --format '{{.ID}}' \
+    :: docker config rm
+
+  remove_items "secrets" \
+    docker secret ls --filter name=jenkins --format '{{.ID}}' \
+    :: docker secret rm
+fi
+
+remove_items "containers" \
+  docker ps -aq --filter name=jenkins \
+  :: docker rm -f
+
+remove_items "volumes" \
+  docker volume ls --filter name=jenkins --format '{{.Name}}' \
+  :: docker volume rm -f
+
+remove_items "networks" \
+  docker network ls --filter name=jenkins --format '{{.ID}}' \
+  :: docker network rm
+
+remove_items "images" \
+  docker image ls --filter "reference=*jenkins*" --quiet \
+  :: docker image rm -f
+
+echo "==> Jenkins Docker assets purge complete."
