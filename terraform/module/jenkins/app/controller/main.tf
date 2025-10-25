@@ -69,6 +69,13 @@ resource "docker_service" "controller" {
         source = "/dev/kvm"
         type   = "bind"
       }
+      # Bind the same Jenkins data volume at /var/jenkins_home so the upstream
+      # VOLUME instruction does not create an anonymous volume.
+      mounts {
+        target = "/var/jenkins_home"
+        source = docker_volume.controller.name
+        type   = "volume"
+      }
 
       dynamic "mounts" {
         for_each = { for mount in local.mounts : mount.name => mount }
