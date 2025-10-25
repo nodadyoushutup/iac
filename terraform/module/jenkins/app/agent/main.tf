@@ -32,7 +32,7 @@ resource "docker_service" "agent" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.5@sha256:1f501a6e32e003b363b3beee05e2655064a6f82a5c534fd6df178b6ed5ca5075"
+      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.6@sha256:2107336d4738aafa59606b2b8463231fddc255965cb3983e9015b53c56e6ab0d"
 
       env = merge(
         var.env,
