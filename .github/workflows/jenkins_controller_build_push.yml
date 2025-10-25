@@ -14,6 +14,9 @@ permissions:
   contents: write
   packages: write
 
+env:
+  GHCR_NAMESPACE: ghcr.io/${{ github.repository_owner }}
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -70,8 +73,8 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --file docker/jenkins/controller/Dockerfile \
             --metadata-file controller-image-metadata.json \
-            --output=type=image,name=ghcr.io/jenkins-controller:${{ steps.version.outputs.version }},push=true,push-by-digest=true \
-            --output=type=image,name=ghcr.io/jenkins-controller:latest,push=true,push-by-digest=true \
+            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-controller:${{ steps.version.outputs.version }},push=true,push-by-digest=true \
+            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-controller:latest,push=true,push-by-digest=true \
             docker
 
       - name: Capture image digest
@@ -115,6 +118,6 @@ jobs:
           fi
 
           docker buildx imagetools create \
-            --tag ghcr.io/jenkins-controller:${version} \
-            --tag ghcr.io/jenkins-controller:latest \
-            ghcr.io/jenkins-controller:${version}@${digest}
+            --tag ${GHCR_NAMESPACE}/jenkins-controller:${version} \
+            --tag ${GHCR_NAMESPACE}/jenkins-controller:latest \
+            ${GHCR_NAMESPACE}/jenkins-controller:${version}@${digest}
