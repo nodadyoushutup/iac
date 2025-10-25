@@ -73,8 +73,7 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --file docker/jenkins/agent/Dockerfile \
             --metadata-file agent-image-metadata.json \
-            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-agent:${{ steps.version.outputs.version }},push=true,push-by-digest=true \
-            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-agent:latest,push=true,push-by-digest=true \
+            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-agent,push=true,push-by-digest=true \
             docker
 
       - name: Capture image digest

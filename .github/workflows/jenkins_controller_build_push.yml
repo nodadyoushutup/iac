@@ -73,8 +73,7 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --file docker/jenkins/controller/Dockerfile \
             --metadata-file controller-image-metadata.json \
-            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-controller:${{ steps.version.outputs.version }},push=true,push-by-digest=true \
-            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-controller:latest,push=true,push-by-digest=true \
+            --output=type=image,name=${GHCR_NAMESPACE}/jenkins-controller,push=true,push-by-digest=true \
             docker
 
       - name: Capture image digest
