@@ -49,7 +49,28 @@ pipeline {
           def backendArg = params?.BACKEND_FILE ?: ''
 
           def scriptRoot = env.PIPELINE_SCRIPT_ROOT ?: (env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script')
-          def resolveCmd = "TFVARS_ARG=${shellEscape(tfvarsArg)} BACKEND_ARG=${shellEscape(backendArg)} ${shellEscape("${scriptRoot}/resolve_inputs.sh")}".trim()
+          def terraformDir = env.WORKSPACE ? "${env.WORKSPACE}/terraform/jenkins" : 'terraform/jenkins'
+          def homeDir = env.HOME ?: ''
+
+          def exports = [
+            "TFVARS_ARG=${shellEscape(tfvarsArg)}",
+            "BACKEND_ARG=${shellEscape(backendArg)}",
+            "TERRAFORM_DIR=${shellEscape(terraformDir)}",
+            "DEFAULT_TFVARS_BASENAME=${shellEscape('jenkins')}"
+          ]
+
+          if (homeDir?.trim()) {
+            def tfvarsHome = "${homeDir}/.tfvars"
+            exports += [
+              "TFVARS_HOME_DIR=${shellEscape(tfvarsHome)}",
+              "DEFAULT_TFVARS_FILE=${shellEscape("${tfvarsHome}/jenkins.tfvars")}",
+              "DEFAULT_BACKEND_FILE=${shellEscape("${tfvarsHome}/minio.backend.hcl")}",
+            ]
+          }
+
+          exports = exports.findAll { it && it.trim() }
+
+          def resolveCmd = (exports + [shellEscape("${scriptRoot}/resolve_inputs.sh")]).join(' ').trim()
           def resolveOutput = sh(returnStdout: true, script: resolveCmd).trim()
           def inputs = parseAssignments(resolveOutput)
 
