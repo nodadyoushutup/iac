@@ -18,3 +18,9 @@ variable "provider_config" {
   description = "Provider configuration shared across Jenkins components"
   type        = any
 }
+
+variable "env" {
+  description = "Environment variables applied to the Jenkins controller and agents"
+  type        = map(string)
+  default     = {}
+}

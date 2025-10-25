@@ -18,3 +18,11 @@ variable "mounts" {
     no_copy     = bool
   }))
 }
+
+variable "env" {
+  description = "Environment variables applied to both the Jenkins controller and agents"
+  type        = map(string)
+  default = {
+    SECRETS_DIR = "/home/jenkins/.jenkins"
+  }
+}

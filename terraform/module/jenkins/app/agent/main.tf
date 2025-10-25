@@ -23,7 +23,7 @@ resource "terraform_data" "controller_service" {
 }
 
 resource "docker_service" "agent" {
-  name       = "jenkins-agent-${var.name}"
+  name = "jenkins-agent-${var.name}"
   depends_on = [
     docker_volume.agent,
     docker_volume.agent_nfs,
@@ -34,10 +34,13 @@ resource "docker_service" "agent" {
     container_spec {
       image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.5@sha256:1f501a6e32e003b363b3beee05e2655064a6f82a5c534fd6df178b6ed5ca5075"
 
-      env = {
-        JENKINS_URL        = try(var.provider_config.jenkins.server_url, "")
-        JENKINS_AGENT_NAME = var.name
-      }
+      env = merge(
+        var.env,
+        {
+          JENKINS_URL        = try(var.provider_config.jenkins.server_url, "")
+          JENKINS_AGENT_NAME = var.name
+        }
+      )
 
       mounts {
         target = "/home/jenkins"
@@ -79,7 +82,6 @@ resource "docker_service" "agent" {
 
   lifecycle {
     ignore_changes = [
-      # Docker rewrites placement.platforms on apply; ignore the noise while nodes stay arm64.
       task_spec[0].placement[0].platforms,
     ]
     replace_triggered_by = [

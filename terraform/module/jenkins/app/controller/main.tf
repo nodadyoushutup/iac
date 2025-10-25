@@ -47,9 +47,7 @@ resource "docker_service" "controller" {
     container_spec {
       image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.7@sha256:055d6ea796cb7bc04e76617732542e5ee721e6742ee7722a622f367243f68336"
 
-      env = {
-        SECRETS_DIR = "/home/jenkins/.jenkins"
-      }
+      env = var.env
 
       mounts {
         target = "/home/jenkins"
@@ -126,10 +124,7 @@ resource "docker_service" "controller" {
 module "healthcheck" {
   source = "../../../healthcheck"
 
-  endpoint        = local.healthcheck_endpoint
-  delay_seconds   = var.healthcheck_delay_seconds
-  max_attempts    = var.healthcheck_max_attempts
-  timeout_seconds = var.healthcheck_timeout_seconds
+  endpoint = local.healthcheck_endpoint
   triggers = {
     casc_config_sha = local.casc_config_sha
     service_id      = docker_service.controller.id
