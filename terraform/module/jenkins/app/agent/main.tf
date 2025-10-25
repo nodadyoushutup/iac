@@ -16,7 +16,11 @@ locals {
 }
 
 resource "docker_volume" "agent" {
-  name = "jenkins-agent-${var.name}"
+  name = format(
+    "jenkins-agent-%s-%s",
+    var.name,
+    substr(sha256(var.controller_service_id), 0, 8)
+  )
 }
 
 resource "docker_volume" "agent_nfs" {
@@ -41,7 +45,7 @@ resource "docker_service" "agent" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.6@sha256:2107336d4738aafa59606b2b8463231fddc255965cb3983e9015b53c56e6ab0d"
+      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.7@sha256:932b7568a2847b5a0545525e961b6073384ff76bcc3f40b08bd3c339c6ab9f69"
 
       env = merge(
         var.env,

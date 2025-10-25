@@ -248,26 +248,3 @@ processAgents = {
 }
 
 processAgents()
-
-if (SECRETS_DIR != null) {
-    try {
-        Timer timer = new Timer("agent-secret-refresh", true)
-        timer.schedule(
-            new TimerTask() {
-                @Override
-                void run() {
-                    println "[agent-init] Refresh timer triggered; re-exporting agent secrets."
-                    try {
-                        processAgents()
-                    } finally {
-                        println "[agent-init] Refresh timer completed."
-                    }
-                }
-            },
-            15000L
-        )
-        println "[agent-init] Scheduled one-time secret refresh in 15 seconds."
-    } catch (Throwable t) {
-        println "[agent-init] WARN: Unable to schedule secret refresh: ${t.message}"
-    }
-}

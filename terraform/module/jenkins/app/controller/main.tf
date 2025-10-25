@@ -20,7 +20,7 @@ locals {
 }
 
 resource "docker_volume" "controller" {
-  name = "jenkins-controller"
+  name = format("jenkins-controller-%s", substr(local.casc_config_sha, 0, 8))
 }
 
 resource "docker_volume" "controller_nfs" {
@@ -54,7 +54,7 @@ resource "docker_service" "controller" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.9@sha256:90cf19208b3c65ad1a89c6156deff0b2eb228a0216013090b36002c29b34a188"
+      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.10@sha256:350bc653cb3350906c4c1678ba7b535c1404116614007cad4e11d6cc49e5ecf0"
 
       env = var.env
 
