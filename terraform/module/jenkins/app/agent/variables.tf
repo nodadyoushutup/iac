@@ -24,6 +24,11 @@ variable "controller_service_id" {
   type        = string
 }
 
+variable "controller_image" {
+  description = "Container image reference for the Jenkins controller; changes force agent replacement"
+  type        = string
+}
+
 variable "env" {
   description = "Environment variables shared with each Jenkins agent container"
   type        = map(string)

@@ -17,4 +17,5 @@ module "agents" {
   mounts                = var.mounts
   env                   = var.env
   controller_service_id = module.controller.service_id
+  controller_image      = module.controller.controller_image
 }

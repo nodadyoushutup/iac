@@ -1,4 +1,5 @@
 locals {
+  agent_image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.7@sha256:932b7568a2847b5a0545525e961b6073384ff76bcc3f40b08bd3c339c6ab9f69"
   mounts = [
     for mount in var.mounts : merge(mount, {
       name = format(
@@ -35,6 +36,10 @@ resource "terraform_data" "controller_service" {
   input = var.controller_service_id
 }
 
+resource "terraform_data" "controller_image" {
+  input = var.controller_image
+}
+
 resource "docker_service" "agent" {
   name = "jenkins-agent-${var.name}"
   depends_on = [
@@ -45,7 +50,7 @@ resource "docker_service" "agent" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.7@sha256:932b7568a2847b5a0545525e961b6073384ff76bcc3f40b08bd3c339c6ab9f69"
+      image = local.agent_image
 
       env = merge(
         var.env,
@@ -97,7 +102,8 @@ resource "docker_service" "agent" {
       task_spec[0].placement[0].platforms,
     ]
     replace_triggered_by = [
-      terraform_data.controller_service
+      terraform_data.controller_service,
+      terraform_data.controller_image
     ]
   }
 }
