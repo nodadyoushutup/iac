@@ -54,7 +54,7 @@ resource "docker_service" "controller" {
 
   task_spec {
     container_spec {
-      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.12@sha256:5927c67634b96fa0a3a53b9ab782b8a69d32708966a0bbb5247e52bbebed6c0f"
+      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.13@sha256:6f2910c3ba248a995d91bdf1026b48402ea038009ec1e2cb829dd317191f8a37"
 
       env = var.env
 
