@@ -10,5 +10,5 @@ output "casc_config_sha" {
 
 output "controller_image" {
   description = "Container image (including digest) used by the Jenkins controller service"
-  value       = local.controller_image
+  value       = docker_service.controller.task_spec[0].container_spec[0].image
 }

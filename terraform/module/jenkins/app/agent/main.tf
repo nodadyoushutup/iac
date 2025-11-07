@@ -1,5 +1,4 @@
 locals {
-  agent_image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.7@sha256:932b7568a2847b5a0545525e961b6073384ff76bcc3f40b08bd3c339c6ab9f69"
   mounts = [
     for mount in var.mounts : merge(mount, {
       name = format(
@@ -50,7 +49,7 @@ resource "docker_service" "agent" {
 
   task_spec {
     container_spec {
-      image = local.agent_image
+      image = "ghcr.io/nodadyoushutup/jenkins-agent:0.0.7@sha256:932b7568a2847b5a0545525e961b6073384ff76bcc3f40b08bd3c339c6ab9f69"
 
       env = merge(
         var.env,

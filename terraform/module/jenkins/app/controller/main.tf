@@ -17,7 +17,6 @@ locals {
     })
   ]
   healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
-  controller_image     = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.12@sha256:5927c67634b96fa0a3a53b9ab782b8a69d32708966a0bbb5247e52bbebed6c0f"
 }
 
 resource "docker_volume" "controller" {
@@ -55,7 +54,7 @@ resource "docker_service" "controller" {
 
   task_spec {
     container_spec {
-      image = local.controller_image
+      image = "ghcr.io/nodadyoushutup/jenkins-controller:0.0.12@sha256:5927c67634b96fa0a3a53b9ab782b8a69d32708966a0bbb5247e52bbebed6c0f"
 
       env = var.env
 
