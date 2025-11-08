@@ -1,7 +1,7 @@
-# NoDad Infrastructure as Code (IaC)
+# NoDad Homelab
 
 Welcome to the hub for the NoDad infrastructure stack. This repository is
-evolving into a unified `iac` project that centralizes automation,
+evolving into a unified `homelab` project that centralizes automation,
 configuration, and documentation for every platform service.
 
 ## What lives here
@@ -25,7 +25,7 @@ configuration, and documentation for every platform service.
 4. Run the provided scripts or pipelines before opening PRs to prove
    reproducibility.
 
-## Roadmap toward `iac`
+## Roadmap toward `homelab`
 
 The Jenkins assets are the first milestone. Upcoming additions will include:
 
