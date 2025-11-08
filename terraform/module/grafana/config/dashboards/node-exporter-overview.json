@@ -38,7 +38,7 @@
       },
       "targets": [
         {
-          "expr": "sum(up{job=\"node_exporter\"})",
+          "expr": "sum(up{job=\"node_exporter\", instance=~\"$node\"})",
           "legendFormat": "",
           "refId": "A"
         }
@@ -53,11 +53,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "red",
+                "color": "green",
                 "value": 1
               }
             ]
@@ -83,7 +83,7 @@
     },
     {
       "id": 2,
-      "title": "Nodes Down",
+      "title": "Nodes Offline",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -97,7 +97,7 @@
       },
       "targets": [
         {
-          "expr": "sum(1 - up{job=\"node_exporter\"})",
+          "expr": "sum(1 - up{job=\"node_exporter\", instance=~\"$node\"})",
           "legendFormat": "",
           "refId": "A"
         }
@@ -156,7 +156,7 @@
       },
       "targets": [
         {
-          "expr": "avg((time() - node_boot_time_seconds) / 86400)",
+          "expr": "avg((time() - node_boot_time_seconds{instance=~\"$node\"}) / 86400)",
           "legendFormat": "",
           "refId": "A"
         }
@@ -219,7 +219,7 @@
       },
       "targets": [
         {
-          "expr": "avg(node_load5 / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\"}))",
+          "expr": "avg(node_load5{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\", instance=~\"$node\"}))",
           "legendFormat": "",
           "refId": "A"
         }
@@ -282,7 +282,7 @@
       },
       "targets": [
         {
-          "expr": "100 * sum by (instance, mode) (rate(node_cpu_seconds_total{mode!=\"idle\"}[5m])) / on(instance) group_left sum by (instance) (rate(node_cpu_seconds_total[5m]))",
+          "expr": "100 * sum by (instance, mode) (rate(node_cpu_seconds_total{mode!=\"idle\", instance=~\"$node\"}[5m])) / on(instance) group_left sum by (instance) (rate(node_cpu_seconds_total{instance=~\"$node\"}[5m]))",
           "legendFormat": "{{instance}} {{mode}}",
           "refId": "A"
         }
@@ -326,17 +326,17 @@
       },
       "targets": [
         {
-          "expr": "node_load1 / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\"})",
+          "expr": "node_load1{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\", instance=~\"$node\"})",
           "legendFormat": "{{instance}} load1",
           "refId": "A"
         },
         {
-          "expr": "node_load5 / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\"})",
+          "expr": "node_load5{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\", instance=~\"$node\"})",
           "legendFormat": "{{instance}} load5",
           "refId": "B"
         },
         {
-          "expr": "node_load15 / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\"})",
+          "expr": "node_load15{instance=~\"$node\"} / on(instance) count by (instance) (node_cpu_seconds_total{mode=\"system\", instance=~\"$node\"})",
           "legendFormat": "{{instance}} load15",
           "refId": "C"
         }
@@ -376,12 +376,12 @@
       },
       "targets": [
         {
-          "expr": "rate(node_context_switches_total[5m])",
+          "expr": "rate(node_context_switches_total{instance=~\"$node\"}[5m])",
           "legendFormat": "{{instance}} ctx switches/s",
           "refId": "A"
         },
         {
-          "expr": "rate(node_interrupts_total[5m])",
+          "expr": "rate(node_interrupts_total{instance=~\"$node\"}[5m])",
           "legendFormat": "{{instance}} interrupts/s",
           "refId": "B"
         }
@@ -421,7 +421,7 @@
       },
       "targets": [
         {
-          "expr": "100 * (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)",
+          "expr": "100 * (1 - node_memory_MemAvailable_bytes{instance=~\"$node\"} / node_memory_MemTotal_bytes{instance=~\"$node\"})",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -461,7 +461,7 @@
       },
       "targets": [
         {
-          "expr": "100 * (1 - node_memory_SwapFree_bytes / clamp_min(node_memory_SwapTotal_bytes, 1))",
+          "expr": "100 * (1 - node_memory_SwapFree_bytes{instance=~\"$node\"} / clamp_min(node_memory_SwapTotal_bytes{instance=~\"$node\"}, 1))",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -501,17 +501,17 @@
       },
       "targets": [
         {
-          "expr": "node_memory_Cached_bytes",
+          "expr": "node_memory_Cached_bytes{instance=~\"$node\"}",
           "legendFormat": "{{instance}} cached",
           "refId": "A"
         },
         {
-          "expr": "node_memory_Buffers_bytes",
+          "expr": "node_memory_Buffers_bytes{instance=~\"$node\"}",
           "legendFormat": "{{instance}} buffers",
           "refId": "B"
         },
         {
-          "expr": "node_memory_Slab_bytes",
+          "expr": "node_memory_Slab_bytes{instance=~\"$node\"}",
           "legendFormat": "{{instance}} slab",
           "refId": "C"
         }
@@ -555,7 +555,7 @@
       },
       "targets": [
         {
-          "expr": "100 * (1 - node_filesystem_avail_bytes{fstype!~\"tmpfs|overlay\",mountpoint!~\"/run.*|/sys.*|/proc.*|/boot.*|/snap.*\"} / node_filesystem_size_bytes{fstype!~\"tmpfs|overlay\",mountpoint!~\"/run.*|/sys.*|/proc.*|/boot.*|/snap.*\"})",
+          "expr": "100 * (1 - node_filesystem_avail_bytes{instance=~\"$node\", fstype!~\"tmpfs|overlay\", mountpoint!~\"/run.*|/sys.*|/proc.*|/boot.*|/snap.*\"} / node_filesystem_size_bytes{instance=~\"$node\", fstype!~\"tmpfs|overlay\", mountpoint!~\"/run.*|/sys.*|/proc.*|/boot.*|/snap.*\"})",
           "legendFormat": "{{instance}} {{mountpoint}}",
           "refId": "A"
         }
@@ -613,12 +613,12 @@
       },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_disk_read_bytes_total{device!~\"loop.*|dm-.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_disk_read_bytes_total{instance=~\"$node\", device!~\"loop.*|dm-.*\"}[5m]))",
           "legendFormat": "{{instance}} read",
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (rate(node_disk_written_bytes_total{device!~\"loop.*|dm-.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_disk_written_bytes_total{instance=~\"$node\", device!~\"loop.*|dm-.*\"}[5m]))",
           "legendFormat": "{{instance}} write",
           "refId": "B"
         }
@@ -658,7 +658,7 @@
       },
       "targets": [
         {
-          "expr": "100 * sum by (instance) (rate(node_disk_io_time_seconds_total{device!~\"loop.*|dm-.*\"}[5m]))",
+          "expr": "100 * sum by (instance) (rate(node_disk_io_time_seconds_total{instance=~\"$node\", device!~\"loop.*|dm-.*\"}[5m]))",
           "legendFormat": "{{instance}}",
           "refId": "A"
         }
@@ -698,12 +698,12 @@
       },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_receive_bytes_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} rx",
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_transmit_bytes_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} tx",
           "refId": "B"
         }
@@ -743,22 +743,22 @@
       },
       "targets": [
         {
-          "expr": "sum by (instance) (rate(node_network_receive_errs_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_receive_errs_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} rx errors",
           "refId": "A"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_errs_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_transmit_errs_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} tx errors",
           "refId": "B"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_receive_drop_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_receive_drop_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} rx drops",
           "refId": "C"
         },
         {
-          "expr": "sum by (instance) (rate(node_network_transmit_drop_total{device!~\"lo|docker.*|veth.*\"}[5m]))",
+          "expr": "sum by (instance) (rate(node_network_transmit_drop_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]))",
           "legendFormat": "{{instance}} tx drops",
           "refId": "D"
         }
@@ -798,12 +798,12 @@
       },
       "targets": [
         {
-          "expr": "node_procs_running",
+          "expr": "node_procs_running{instance=~\"$node\"}",
           "legendFormat": "{{instance}} running",
           "refId": "A"
         },
         {
-          "expr": "node_procs_blocked",
+          "expr": "node_procs_blocked{instance=~\"$node\"}",
           "legendFormat": "{{instance}} blocked",
           "refId": "B"
         }
@@ -843,12 +843,12 @@
       },
       "targets": [
         {
-          "expr": "node_filefd_allocated",
+          "expr": "node_filefd_allocated{instance=~\"$node\"}",
           "legendFormat": "{{instance}} allocated",
           "refId": "A"
         },
         {
-          "expr": "node_filefd_maximum",
+          "expr": "node_filefd_maximum{instance=~\"$node\"}",
           "legendFormat": "{{instance}} max",
           "refId": "B"
         }
@@ -888,7 +888,7 @@
       },
       "targets": [
         {
-          "expr": "node_entropy_available_bits",
+          "expr": "node_entropy_available_bits{instance=~\"$node\"}",
           "legendFormat": "{{instance}} entropy",
           "refId": "A"
         }
@@ -928,7 +928,7 @@
       },
       "targets": [
         {
-          "expr": "clamp_max(node_hwmon_temp_celsius, 200)",
+          "expr": "clamp_max(node_hwmon_temp_celsius{instance=~\"$node\"}, 200)",
           "legendFormat": "{{instance}} {{chip}} {{sensor}}",
           "refId": "A"
         }
@@ -960,7 +960,33 @@
     "observability"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "node",
+        "label": "Node exporter",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "definition": "label_values(up{job=\"node_exporter\"}, instance)",
+        "query": "label_values(up{job=\"node_exporter\"}, instance)",
+        "includeAll": true,
+        "allValue": ".*",
+        "multi": true,
+        "refresh": 2,
+        "sort": 1,
+        "options": [],
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "regex": "",
+        "hide": 0,
+        "skipUrlSync": false
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
