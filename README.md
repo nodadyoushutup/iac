@@ -40,7 +40,7 @@ This repo is the single source of truth for networking, compute, storage, automa
 
 ### Swarm application pattern
 
-Each Docker Swarm app (currently Dozzle and Node Exporter) follows the same layout to keep review diffs minimal:
+Each Docker Swarm app (currently Dozzle, Node Exporter, and Prometheus) follows the same layout to keep review diffs minimal:
 
 - `terraform/module/<app>` defines the reusable service module (network + `docker_service`).
 - `terraform/<app>` is the stack entrypoint that configures the backend, provider, and references the module.
@@ -57,6 +57,7 @@ Helper scripts look in `~/.tfvars` for stack-specific variable files unless a pa
 | Jenkins        | `~/.tfvars/jenkins.tfvars`         | `~/.tfvars/minio.backend.hcl`        |
 | Dozzle         | `~/.tfvars/dozzle.tfvars`          | `~/.tfvars/minio.backend.hcl`        |
 | Node Exporter  | `~/.tfvars/node_exporter.tfvars`   | `~/.tfvars/minio.backend.hcl`        |
+| Prometheus     | `~/.tfvars/prometheus.tfvars`      | `~/.tfvars/minio.backend.hcl`        |
 
 New stacks should add their TFVARS filename to this table (and follow the same naming scheme) so pipeline defaults stay obvious.
 

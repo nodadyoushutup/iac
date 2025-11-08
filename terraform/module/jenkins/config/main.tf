@@ -2,6 +2,7 @@ locals {
   jenkins_config_pipeline = trimspace(file("${path.root}/../../pipeline/jenkins.jenkins"))
   dozzle_pipeline         = trimspace(file("${path.root}/../../pipeline/dozzle.jenkins"))
   node_exporter_pipeline  = trimspace(file("${path.root}/../../pipeline/node_exporter.jenkins"))
+  prometheus_pipeline     = trimspace(file("${path.root}/../../pipeline/prometheus.jenkins"))
 }
 
 resource "jenkins_folder" "folder_jenkins" {
@@ -33,5 +34,14 @@ resource "jenkins_job" "node_exporter" {
   template = templatefile("${path.module}/job/node_exporter.xml.tmpl", {
     description = "Node Exporter configuration"
     pipeline    = local.node_exporter_pipeline
+  })
+}
+
+resource "jenkins_job" "prometheus" {
+  name = "prometheus"
+
+  template = templatefile("${path.module}/job/prometheus.xml.tmpl", {
+    description = "Prometheus configuration"
+    pipeline    = local.prometheus_pipeline
   })
 }
