@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/img/avatar.png" alt="NoDad Homelab avatar" width="140" />
+  <img src="docs/img/avatar.png" alt="NoDad Homelab avatar" width="400" />
   <h1>NoDad Homelab</h1>
   <p><strong>All of the infrastructure-as-code that powers the NoDad homelab—codified, versioned, and reproducible.</strong></p>
   <p>
