@@ -20,7 +20,7 @@ resource "jenkins_job" "jenkins_config" {
 }
 
 resource "jenkins_job" "dozzle" {
-  name   = "dozzle"
+  name = "dozzle"
 
   template = templatefile("${path.module}/job/dozzle.xml.tmpl", {
     description = "Dozzle configuration"
