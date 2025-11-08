@@ -129,13 +129,54 @@ cd "${TERRAFORM_DIR}"
 
 export PYTHON_CMD FILTER_SCRIPT FILTER_AVAILABLE TFVARS_PATH BACKEND_CONFIG_PATH
 
+run_terraform_init() {
+  local init_args=("$@")
+  local init_log
+  init_log="$(mktemp -t terraform-init-XXXXXX)"
+
+  if "${EXEC_SCRIPT}" init "${init_args[@]}" \
+    > >(tee "${init_log}") \
+    2> >(tee -a "${init_log}" >&2); then
+    rm -f "${init_log}"
+    return 0
+  fi
+
+  if grep -q "Backend configuration changed" "${init_log}"; then
+    if [[ -f ".terraform/terraform.tfstate" ]]; then
+      echo "[WARN] Backend change detected; attempting automatic state migration"
+      if "${EXEC_SCRIPT}" init -force-copy -migrate-state "${init_args[@]}"; then
+        rm -f "${init_log}"
+        return 0
+      fi
+    fi
+
+    echo "[WARN] Backend change detected; re-running terraform init with -reconfigure"
+    if "${EXEC_SCRIPT}" init -reconfigure "${init_args[@]}"; then
+      rm -f "${init_log}"
+      return 0
+    fi
+  fi
+
+  rm -f "${init_log}"
+  return 1
+}
+
 echo "[STEP] terraform init"
-"${EXEC_SCRIPT}" init -backend-config="${BACKEND_CONFIG_PATH}"
+if ! run_terraform_init -backend-config="${BACKEND_CONFIG_PATH}"; then
+  echo "[ERR] terraform init failed" >&2
+  exit 1
+fi
 
 echo "[STAGE] dozzle plan"
-"${EXEC_SCRIPT}" plan -input=false -var-file="${TFVARS_PATH}"
+if ! "${EXEC_SCRIPT}" plan -input=false -var-file="${TFVARS_PATH}"; then
+  echo "[ERR] terraform plan failed" >&2
+  exit 1
+fi
 
 echo "[STAGE] dozzle apply"
-"${EXEC_SCRIPT}" apply -input=false -auto-approve -var-file="${TFVARS_PATH}"
+if ! "${EXEC_SCRIPT}" apply -input=false -auto-approve -var-file="${TFVARS_PATH}"; then
+  echo "[ERR] terraform apply failed" >&2
+  exit 1
+fi
 
 echo "[DONE] dozzle app and configuration applied."
