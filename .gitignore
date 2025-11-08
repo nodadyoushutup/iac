@@ -45,3 +45,6 @@ docker/config.yaml
 
 # Planning
 planning/
+
+# Environment
+*.env
