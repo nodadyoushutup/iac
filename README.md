@@ -1,14 +1,20 @@
-<div align="center">
-  <img src="docs/img/avatar.png" alt="NoDad Homelab avatar" width="400" />
-  <h1>NoDad Homelab</h1>
-  <p><strong>All of the infrastructure-as-code that powers the NoDad homelab—codified, versioned, and reproducible.</strong></p>
-  <p>
-    <a href="https://github.com/NoDadYouShutUp/homelab/wiki">📘 Full Wiki</a> ·
-    <a href="docs">🗂 Docs Folder</a> ·
-    <a href="terraform">🔧 Terraform</a> ·
-    <a href="pipeline">🚀 CI/CD</a>
-  </p>
-</div>
+<table align="center">
+  <tr>
+    <td valign="middle">
+      <img src="docs/img/avatar.png" alt="NoDad Homelab avatar" width="180" />
+    </td>
+    <td valign="middle" style="padding-left: 18px;">
+      <h1>NoDad Homelab</h1>
+      <p><strong>All of the infrastructure-as-code that powers the NoDad homelab—codified, versioned, and reproducible.</strong></p>
+      <p>
+        <a href="https://github.com/NoDadYouShutUp/homelab/wiki">📘 Full Wiki</a> ·
+        <a href="docs">🗂 Docs Folder</a> ·
+        <a href="terraform">🔧 Terraform</a> ·
+        <a href="pipeline">🚀 CI/CD</a>
+      </p>
+    </td>
+  </tr>
+</table>
 
 ## Overview
 
