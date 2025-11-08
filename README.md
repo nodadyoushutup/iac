@@ -32,10 +32,10 @@ This repo is the single source of truth for networking, compute, storage, automa
 ```text
 .
 ├─ terraform/          # Core IaC modules, workspaces, and tfvars references
+│  └─ remove-terraform-dirs.sh  # Cleanup helper for local state directories
 ├─ docker/             # Container builds and supporting assets
 ├─ pipeline/           # Jenkins and CI/CD definitions
-├─ docs/               # Visuals, diagrams, and supplemental notes
-└─ remove-terraform-dirs.sh  # Cleanup helper for local state directories
+└─ docs/               # Visuals, diagrams, and supplemental notes
 ```
 
 ## Getting Started
