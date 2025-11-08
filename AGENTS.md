@@ -3,6 +3,7 @@
 ## Secrets & variable locations
 - Jenkins agent secrets configuration directory: `~/.jenkins`
 - Terraform variable files live under `~/.tfvars`; current files include `argocd.tfvars`, `docker_swarm.tfvars`, `dozzle.tfvars`, `jenkins.tfvars`, `minio.backend.hcl`, `node_exporter.tfvars`, `prometheus.tfvars`, `proxmox.tfvars`, and `talos.tfvars`. Reference these when wiring provider blocks or pipelines.
+- When adding a new Terraform service, create a dedicated tfvars file under `~/.tfvars` if one doesn’t already exist, mirroring patterns from the closest existing tfvars to keep inputs consistent.
 
 ## Application taxonomy
 - **App + config**: Services that require both infrastructure and follow-up configuration stages (for example, Jenkins controller + agent plus a config phase). Expect multi-stage pipelines and separate Terraform surfaces for app pieces and config pushes.
