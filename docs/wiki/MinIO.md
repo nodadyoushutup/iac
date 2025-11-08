@@ -1,12 +1,36 @@
-# MinIO
+# MinIO Backend
 
-> **Important:** This stack pins MinIO to `RELEASE.2025-04-22T22-12-26Z`, the last build that still ships the legacy admin console. MinIO removed those admin features in later releases, so use this setup only for internal testing/development and never expose it directly to the public internet.
+> **Important:** This stack pins MinIO to `RELEASE.2025-04-22T22-12-26Z`, the
+> last build that still ships the legacy admin console. MinIO removed those
+> admin features in later releases, so use this setup only for internal
+> testing/development and never expose it directly to the public internet.
 
-1. Ensure Docker (with Compose v2) is installed and that you can run `docker compose`.
-2. Create a `.env` file in this directory with the variables consumed by `docker-compose.yaml`. Example:
+## Why Docker Compose instead of Terraform
+
+- MinIO hosts the S3-compatible backend that Terraform itself uses for remote
+  state, so it must exist **before** the rest of the infrastructure can be
+  applied.
+- Standing it up with Docker Compose avoids circular dependencies and prevents
+  risky state migrations whenever the Terraform modules change.
+- Once MinIO is running, every other component is provisioned through
+  Terraform and simply points to this instance for backend storage.
+
+## File layout
+
+- `docker/minio/docker-compose.yaml` – defines the single-node MinIO service.
+- `docker/minio/.env` – local overrides for credentials and region settings.
+- `docker/minio/purge.sh` – helper script that tears the stack down (including
+  volumes) when you need a clean slate.
+
+## Bootstrapping MinIO
+
+1. Ensure Docker with Compose v2 is installed and that you can run
+   `docker compose`.
+2. Create a `.env` file in `docker/minio/` with the variables consumed by
+   `docker-compose.yaml`. Example:
 
    ```bash
-   cat <<'EOF' > .env
+   cat <<'EOF' > docker/minio/.env
    MINIO_ROOT_USER=admin
    MINIO_ROOT_PASSWORD=password
    MINIO_REGION_NAME=us-east-1
@@ -14,39 +38,45 @@
    EOF
    ```
 
-3. Bring MinIO up:
+3. Bring MinIO up from the repository root (or from `docker/minio/`):
 
    ```bash
-   docker compose up -d
+   docker compose -f docker/minio/docker-compose.yaml up -d
    ```
 
-   - S3 endpoint: http://localhost:9000
-   - Admin console: http://localhost:9001 (log in with `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`)
+   - S3 endpoint: <http://localhost:9000>
+   - Admin console: <http://localhost:9001> (log in using
+     `MINIO_ROOT_USER` / `MINIO_ROOT_PASSWORD`)
 
-4. Tail logs or inspect the service when needed:
+## Operations
 
-   ```bash
-   docker compose logs -f minio
-   docker compose ps
-   ```
+- Tail logs or inspect service state when needed:
 
-5. Stop the stack but keep data:
+  ```bash
+  docker compose -f docker/minio/docker-compose.yaml logs -f minio
+  docker compose -f docker/minio/docker-compose.yaml ps
+  ```
 
-   ```bash
-   docker compose down
-   ```
+- Stop the stack but keep data:
 
-6. Remove everything (containers, volumes, optional images) via the helper script:
+  ```bash
+  docker compose -f docker/minio/docker-compose.yaml down
+  ```
 
-   ```bash
-   chmod +x purge.sh
-   ./purge.sh --prompt           # asks before destroying assets
-   ./purge.sh --keep-images      # skip image removal
-   ```
+- Remove everything (containers, volumes, optional images) via the helper
+  script:
 
-# Environment Variable Reference
+  ```bash
+  chmod +x docker/minio/purge.sh
+  ./docker/minio/purge.sh --prompt           # asks before destroying assets
+  ./docker/minio/purge.sh --keep-images      # skip image removal
+  ```
 
-There doesn't seem to be a well-documented list of all MinIO environment variables. Running the command below, I found a few that might serve as a starting point.
+## Environment variable reference
+
+There isn't a single official list of all MinIO environment variables. The
+command below scrapes them from the binary and can help discover tuning
+options:
 
 ```bash
 grep -r "Env.*=.*\"MINIO_" . | sed 's/.*"\(MINIO_[^"]*\)".*/\1/' | sort

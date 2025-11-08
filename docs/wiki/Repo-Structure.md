@@ -4,7 +4,8 @@
 /
 ├── docs/wiki/             # Wiki content synced to GitHub Wiki
 ├── docker/
-│   └── jenkins/           # Dockerfiles, scripts, and compose assets
+│   ├── jenkins/           # Jenkins Dockerfiles, scripts, and compose assets
+│   └── minio/             # Docker Compose stack that hosts the Terraform S3 backend
 ├── pipeline/              # Jenkins pipeline definitions
 ├── terraform/             # Terraform modules (coming soon)
 ├── AGENTS.md              # Jenkins agent catalog

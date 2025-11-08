@@ -8,6 +8,9 @@ configuration, and documentation for every platform service.
 
 - **Jenkins automation** – Dockerfiles, pipelines, and helper scripts for the
   controller and agent images. See [[Jenkins]] for the full tour.
+- **MinIO backend** – A Docker Compose stack that must exist before Terraform
+  runs so the rest of the platform can reuse its S3-compatible state store.
+  See [[MinIO]] for bootstrap and operations details.
 - **Shared docs** – Authoritative notes for operations and design decisions.
   Each service lands in its own page under this wiki.
 - **Runbooks & references** – Quick pointers for onboarding, incident response,
