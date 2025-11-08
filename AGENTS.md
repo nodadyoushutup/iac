@@ -31,4 +31,16 @@
 - **Stage 3 – Jenkins integration & configs**: If the service is **app + config**, split the plan into app deployment and config application (for example, Jenkins controller, Jenkins agent, configuration job). For **app only** or inline config services (Dozzle, Prometheus), this stage just wires Jenkins jobs and tfvars secrets.
 - **Stage 4 – Validation & docs**: Run the bash pipeline (optionally Jenkins) and capture results in the plan. Update `docs/wiki` or relevant READMEs with runbooks and note any deferred follow-ups.
 
+## Resource links
+- **Terraform providers**
+  - [`kreuzwerker/docker`](https://registry.terraform.io/providers/kreuzwerker/docker/latest/docs) – used by every Swarm stack under `terraform/swarm/*` and the corresponding modules.
+  - [`taiidani/jenkins`](https://registry.terraform.io/providers/taiidani/jenkins/latest/docs) – powers `terraform/module/jenkins/config` (folder/job management) and any stack that provisions Jenkins resources.
+- **Container images**
+  - [`amir20/dozzle`](https://github.com/amir20/dozzle) – referenced in `terraform/module/dozzle`.
+  - [`prom/node-exporter`](https://hub.docker.com/r/prom/node-exporter) – referenced in `terraform/module/node_exporter`.
+  - [`prom/prometheus`](https://hub.docker.com/r/prom/prometheus) – referenced in `terraform/module/prometheus`.
+  - [`minio/minio`](https://min.io/docs/minio/container/index.html) – defined via `docker/minio/docker-compose.yaml` for the Terraform backend.
+  - [`ghcr.io/nodadyoushutup/jenkins-controller`](docker/jenkins/controller) – custom controller image built from `docker/jenkins/controller/`.
+  - [`ghcr.io/nodadyoushutup/jenkins-agent`](docker/jenkins/agent) – custom agent image built from `docker/jenkins/agent/`.
+
 > Always finish the Swarm stages before merging: the checklist in the plan document is the single source of truth for readiness.
