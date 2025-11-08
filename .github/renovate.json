@@ -8,5 +8,16 @@
       "/(^|/)docker/jenkins/controller/Dockerfile$/",
       "/(^|/)docker/jenkins/agent/Dockerfile$/"
     ]
-  }
+  },
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "minio/minio"
+      ],
+      "enabled": false
+    }
+  ]
 }
