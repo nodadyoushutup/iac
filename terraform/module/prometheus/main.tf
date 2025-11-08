@@ -46,7 +46,7 @@ resource "docker_service" "prometheus" {
     }
 
     container_spec {
-      image = "docker.io/prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+      image = "prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
 
       args = [
         "--config.file=/etc/prometheus/prometheus.yml",
@@ -89,6 +89,15 @@ resource "docker_service" "prometheus" {
       published_port = 9090
       publish_mode   = "ingress"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      task_spec[0].placement[0].platforms,
+    ]
+    replace_triggered_by = [
+      docker_config.prometheus
+    ]
   }
 }
 
