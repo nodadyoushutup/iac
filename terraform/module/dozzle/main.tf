@@ -54,4 +54,10 @@ resource "docker_service" "dozzle" {
       publish_mode   = "ingress"
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      task_spec[0].placement[0].platforms,
+    ]
+  }
 }

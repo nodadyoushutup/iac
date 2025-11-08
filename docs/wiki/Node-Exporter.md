@@ -29,7 +29,7 @@ cd /path/to/homelab
 
 What happens:
 1. Helper scripts verify Terraform/python availability and resolve tfvars/backend paths.
-2. Terraform initializes the `terraform/node_exporter` stack, planning + applying the `module.node_exporter_app`.
+2. Terraform initializes the `terraform/swarm/node_exporter` stack, planning + applying the `module.node_exporter_app`.
 3. A `node-exporter` overlay network plus a global `docker_service` is created; each node binds `/proc`, `/sys`, `/` read-only and exposes `:9100`.
 
 ### Validation checklist

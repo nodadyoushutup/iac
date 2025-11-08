@@ -49,7 +49,7 @@ pipeline {
           def backendArg = params?.BACKEND_FILE ?: ''
 
           def scriptRoot = env.PIPELINE_SCRIPT_ROOT ?: (env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script')
-          def terraformDir = env.WORKSPACE ? "${env.WORKSPACE}/terraform/node_exporter" : 'terraform/node_exporter'
+          def terraformDir = env.WORKSPACE ? "${env.WORKSPACE}/terraform/swarm/node_exporter" : 'terraform/swarm/node_exporter'
           def homeDir = env.HOME ?: ''
 
           def exports = [
@@ -85,7 +85,7 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        dir('terraform/node_exporter') {
+        dir('terraform/swarm/node_exporter') {
           script {
             terraformExec(['init', '-backend-config', env.BACKEND_PATH])
           }
@@ -95,7 +95,7 @@ pipeline {
 
     stage('Node Exporter Plan') {
       steps {
-        dir('terraform/node_exporter') {
+        dir('terraform/swarm/node_exporter') {
           script {
             terraformExec([
               'plan',
@@ -110,7 +110,7 @@ pipeline {
 
     stage('Node Exporter Apply') {
       steps {
-        dir('terraform/node_exporter') {
+        dir('terraform/swarm/node_exporter') {
           script {
             terraformExec([
               'apply',

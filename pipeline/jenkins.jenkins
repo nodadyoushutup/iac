@@ -49,7 +49,7 @@ pipeline {
           def backendArg = params?.BACKEND_FILE ?: ''
 
           def scriptRoot = env.PIPELINE_SCRIPT_ROOT ?: (env.WORKSPACE ? "${env.WORKSPACE}/pipeline/script" : 'pipeline/script')
-          def terraformDir = env.WORKSPACE ? "${env.WORKSPACE}/terraform/jenkins" : 'terraform/jenkins'
+          def terraformDir = env.WORKSPACE ? "${env.WORKSPACE}/terraform/swarm/jenkins" : 'terraform/swarm/jenkins'
           def homeDir = env.HOME ?: ''
 
           def exports = [
@@ -85,7 +85,7 @@ pipeline {
 
     stage('Terraform Init') {
       steps {
-        dir('terraform/jenkins') {
+        dir('terraform/swarm/jenkins') {
           script {
             terraformExec(['init', '-backend-config', env.BACKEND_PATH])
           }
@@ -95,7 +95,7 @@ pipeline {
 
     stage('Config Plan') {
       steps {
-        dir('terraform/jenkins') {
+        dir('terraform/swarm/jenkins') {
           script {
             terraformExec([
               'plan',
@@ -111,7 +111,7 @@ pipeline {
 
     stage('Config Apply') {
       steps {
-        dir('terraform/jenkins') {
+        dir('terraform/swarm/jenkins') {
           script {
             terraformExec([
               'apply',

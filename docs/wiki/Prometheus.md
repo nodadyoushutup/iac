@@ -54,7 +54,7 @@ cd /path/to/homelab
 
 Pipeline stages:
 1. Environment + input resolution via shared helper scripts.
-2. `terraform init/plan/apply` within `terraform/prometheus`.
+2. `terraform init/plan/apply` within `terraform/swarm/prometheus`.
 3. Docker creates the `prometheus` overlay network, TSDB volume, config, and service pinned to nodes with `role=monitoring`, publishing `:9090`.
 
 ### Validation checklist
