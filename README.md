@@ -40,10 +40,10 @@ This repo is the single source of truth for networking, compute, storage, automa
 
 ### Swarm application pattern
 
-Each Docker Swarm app (currently Dozzle, Node Exporter, and Prometheus) follows the same layout to keep review diffs minimal:
+Each Docker Swarm app (currently Dozzle, Node Exporter, Prometheus, and Grafana) follows the same layout to keep review diffs minimal:
 
 - `terraform/module/<app>` defines the reusable service module (network + `docker_service`).
-- `terraform/<app>` is the stack entrypoint that configures the backend, provider, and references the module.
+- `terraform/<app>` is the stack entrypoint that configures the backend, provider, and references the module. Grafana’s stack also wires in the Grafana Terraform provider so dashboards/data sources deploy right after the Docker service is healthy.
 - Matching pipelines live under `pipeline/` (bash + Jenkins) so both services inherit identical tooling and helper scripts.
 
 When introducing the next app, copy one of the existing stacks wholesale and only change the service-specific pieces. This keeps Terraform state keys, provider wiring, and pipeline ergonomics predictable.
@@ -58,8 +58,21 @@ Helper scripts look in `~/.tfvars` for stack-specific variable files unless a pa
 | Dozzle         | `~/.tfvars/dozzle.tfvars`          | `~/.tfvars/minio.backend.hcl`        |
 | Node Exporter  | `~/.tfvars/node_exporter.tfvars`   | `~/.tfvars/minio.backend.hcl`        |
 | Prometheus     | `~/.tfvars/prometheus.tfvars`      | `~/.tfvars/minio.backend.hcl`        |
+| Grafana        | `~/.tfvars/grafana.tfvars`         | `~/.tfvars/minio.backend.hcl`        |
 
 New stacks should add their TFVARS filename to this table (and follow the same naming scheme) so pipeline defaults stay obvious.
+
+### Pipeline entrypoints
+
+Each stack ships with both a bash helper (for local or ad-hoc execution) and a Jenkins job (wired via `terraform/module/jenkins/config`). Use whichever medium matches your access level; both paths source the same helper scripts and tfvars defaults.
+
+| Stack         | Bash pipeline command        | Jenkins job name |
+|---------------|------------------------------|------------------|
+| Jenkins       | `./pipeline/jenkins.sh`      | `config` (under folder `jenkins/`) |
+| Dozzle        | `./pipeline/dozzle.sh`       | `dozzle` |
+| Node Exporter | `./pipeline/node_exporter.sh`| `node_exporter` |
+| Prometheus    | `./pipeline/prometheus.sh`   | `prometheus` |
+| Grafana       | `./pipeline/grafana.sh`      | `grafana` |
 
 ## Getting Started
 
