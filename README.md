@@ -38,6 +38,28 @@ This repo is the single source of truth for networking, compute, storage, automa
 └─ docs/               # Visuals, diagrams, and supplemental notes
 ```
 
+### Swarm application pattern
+
+Each Docker Swarm app (currently Dozzle and Node Exporter) follows the same layout to keep review diffs minimal:
+
+- `terraform/module/<app>` defines the reusable service module (network + `docker_service`).
+- `terraform/<app>` is the stack entrypoint that configures the backend, provider, and references the module.
+- Matching pipelines live under `pipeline/` (bash + Jenkins) so both services inherit identical tooling and helper scripts.
+
+When introducing the next app, copy one of the existing stacks wholesale and only change the service-specific pieces. This keeps Terraform state keys, provider wiring, and pipeline ergonomics predictable.
+
+### TFVARS defaults
+
+Helper scripts look in `~/.tfvars` for stack-specific variable files unless a path is provided. Keep these files in sync with their keyed Terraform backends:
+
+| Stack          | Default TFVARS path                | Backend config (default)             |
+|----------------|------------------------------------|--------------------------------------|
+| Jenkins        | `~/.tfvars/jenkins.tfvars`         | `~/.tfvars/minio.backend.hcl`        |
+| Dozzle         | `~/.tfvars/dozzle.tfvars`          | `~/.tfvars/minio.backend.hcl`        |
+| Node Exporter  | `~/.tfvars/node_exporter.tfvars`   | `~/.tfvars/minio.backend.hcl`        |
+
+New stacks should add their TFVARS filename to this table (and follow the same naming scheme) so pipeline defaults stay obvious.
+
 ## Getting Started
 
 1. Install the baseline tooling: Terraform, Docker, and a shell with `bash` available.
