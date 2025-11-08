@@ -38,10 +38,10 @@
    EOF
    ```
 
-3. Bring MinIO up from the repository root (or from `docker/minio/`):
+3. Bring MinIO up from `docker/minio/`:
 
    ```bash
-   docker compose -f docker/minio/docker-compose.yaml up -d
+   (cd docker/minio && docker compose up -d)
    ```
 
    - S3 endpoint: <http://localhost:9000>
@@ -50,17 +50,17 @@
 
 ## Operations
 
-- Tail logs or inspect service state when needed:
+- Tail logs or inspect service state from `docker/minio/`:
 
   ```bash
-  docker compose -f docker/minio/docker-compose.yaml logs -f minio
-  docker compose -f docker/minio/docker-compose.yaml ps
+  (cd docker/minio && docker compose logs -f minio)
+  (cd docker/minio && docker compose ps)
   ```
 
 - Stop the stack but keep data:
 
   ```bash
-  docker compose -f docker/minio/docker-compose.yaml down
+  (cd docker/minio && docker compose down)
   ```
 
 - Remove everything (containers, volumes, optional images) via the helper
