@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    key = "jenkins.tfstate"
+    key = "jenkins-controller.tfstate"
   }
 
   required_providers {

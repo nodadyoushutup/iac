@@ -43,19 +43,33 @@ prometheus_config = {
 
 Add more jobs/targets to `prometheus_config` as needed; Terraform serializes the entire structure into a Docker config.
 
-## Deploy via bash pipeline
+## Bash pipelines
+
+Pick the stage that matches the change in flight—most rollouts run the app stage first (to deploy/update the container) and the config stage when `prometheus_config` changes.
+
+### App stage (`pipeline/prometheus/app.sh`)
 
 ```bash
 cd /path/to/homelab
-./pipeline/prometheus.sh \
+./pipeline/prometheus/app.sh \
   --tfvars ~/.tfvars/prometheus.tfvars \
   --backend ~/.tfvars/minio.backend.hcl
 ```
 
-Pipeline stages:
-1. Environment + input resolution via shared helper scripts.
-2. `terraform init/plan/apply` within `terraform/swarm/prometheus`.
-3. Docker creates the `prometheus` overlay network, TSDB volume, config, and service pinned to nodes with `role=monitoring`, publishing `:9090`.
+- Shared helpers verify Terraform availability and resolve input paths.
+- `terraform init/plan/apply` runs against `terraform/swarm/prometheus`, updating the service, network, and volume definitions.
+
+### Config stage (`pipeline/prometheus/config.sh`)
+
+```bash
+cd /path/to/homelab
+./pipeline/prometheus/config.sh \
+  --tfvars ~/.tfvars/prometheus.tfvars \
+  --backend ~/.tfvars/minio.backend.hcl
+```
+
+- Reuses the helper workflow from the app stage.
+- `terraform plan/apply -target=docker_config.prometheus` refreshes only the rendered `prometheus.yml` Docker config so you can push scrape/config changes without recycling the container.
 
 ### Validation checklist
 
@@ -64,11 +78,11 @@ Pipeline stages:
 - `curl http://swarm-cp-0.internal:9090/targets` (or via ingress IP) lists all Node Exporter targets as `UP`.
 - `curl -X POST http://swarm-cp-0.internal:9090/-/reload` reloads config without redeploying (thanks to `--web.enable-lifecycle`).
 
-## Deploy via Jenkins
+## Jenkins pipelines
 
-1. Open the `prometheus` job (sibling to `dozzle` / `node_exporter`).
-2. Optionally override `TFVARS_FILE` or `BACKEND_FILE`; otherwise defaults mirror the bash script.
-3. Trigger a build; stages (Env Check → Resolve Inputs → Init → Plan → Apply) match the CLI pipeline and reuse the same helper scripts.
+1. Run `prometheus/app` for Swarm-level changes or `prometheus/config` for config-only updates (both jobs live under the `prometheus` folder).
+2. Override `TFVARS_FILE` / `BACKEND_FILE` only if the defaults differ; the jobs point at `pipeline/prometheus/app.jenkins` and `pipeline/prometheus/config.jenkins` respectively.
+3. Trigger the build; the Jenkins templates mirror the bash stages (Env Check → Resolve Inputs → Init → Plan → Apply) and emit identical Terraform logs.
 
 ## Editing scrape configs
 

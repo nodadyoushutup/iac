@@ -66,13 +66,18 @@ New stacks should add their TFVARS filename to this table (and follow the same n
 
 Each stack ships with both a bash helper (for local or ad-hoc execution) and a Jenkins job (wired via `terraform/module/jenkins/config`). Use whichever medium matches your access level; both paths source the same helper scripts and tfvars defaults.
 
-| Stack         | Bash pipeline command        | Jenkins job name |
-|---------------|------------------------------|------------------|
-| Jenkins       | `./pipeline/jenkins.sh`      | `config` (under folder `jenkins/`) |
-| Dozzle        | `./pipeline/dozzle.sh`       | `dozzle` |
-| Node Exporter | `./pipeline/node_exporter.sh`| `node_exporter` |
-| Prometheus    | `./pipeline/prometheus.sh`   | `prometheus` |
-| Grafana       | `./pipeline/grafana.sh`      | `grafana` |
+| Stack / Stage        | Bash pipeline command                   | Jenkins job name |
+|----------------------|-----------------------------------------|------------------|
+| Jenkins – Controller | `./pipeline/jenkins/controller.sh`      | `jenkins/controller` |
+| Jenkins – Agents     | `./pipeline/jenkins/agent.sh`           | `jenkins/agent` |
+| Jenkins – Config     | `./pipeline/jenkins/config.sh`          | `jenkins/config` |
+| Dozzle               | `./pipeline/dozzle/deploy.sh`           | `dozzle` |
+| Node Exporter        | `./pipeline/node_exporter/deploy.sh`    | `node_exporter` |
+| Prometheus – App     | `./pipeline/prometheus/app.sh`          | `prometheus/app` |
+| Prometheus – Config  | `./pipeline/prometheus/config.sh`       | `prometheus/config` |
+| Grafana – App        | `./pipeline/grafana/app.sh`             | `grafana/app` |
+| Grafana – Config     | `./pipeline/grafana/config.sh`          | `grafana/config` |
+| Graphite             | `./pipeline/graphite/deploy.sh`         | `graphite` |
 
 ## Getting Started
 

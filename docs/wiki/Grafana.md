@@ -6,7 +6,7 @@ End-to-end runbook for the Grafana Swarm stack that ships with both infrastructu
 
 - **Service type:** App + config (Docker Swarm service + Grafana Terraform provider).
 - **Purpose:** Visualize metrics scraped by Prometheus and emitted via Graphite (TrueNAS) or Prometheus (Node Exporter), shipping both the Node Exporter and TrueNAS folders of per-category dashboards alongside their managed data sources.
-- **Key paths:** `terraform/module/grafana`, `terraform/module/grafana/config`, `terraform/swarm/grafana`, `pipeline/grafana.{sh,jenkins}`.
+- **Key paths:** `terraform/module/grafana`, `terraform/module/grafana/config`, `terraform/swarm/grafana`, `pipeline/grafana/app.{sh,jenkins}`, `pipeline/grafana/config.{sh,jenkins}`.
 
 ## Prerequisites
 
@@ -62,28 +62,41 @@ grafana_config_inputs = {
 
 > Store sensitive values (passwords, API tokens, backend credentials) outside Git. The tfvars file stays local per the guidance in `AGENTS.md`.
 
-## Bash pipeline (`pipeline/grafana.sh`)
+## Bash pipelines
+
+Run whichever stage matches the change you’re rolling out—the app stage handles the Swarm resources, while the config stage manages Grafana provider resources once the container is healthy.
+
+### App stage (`pipeline/grafana/app.sh`)
 
 ```bash
-./pipeline/grafana.sh \
+./pipeline/grafana/app.sh \
   --tfvars ~/.tfvars/grafana.tfvars \
   --backend ~/.tfvars/minio.backend.hcl
 ```
 
-Stages:
-1. `terraform init` (handles backend migrations automatically).
-2. **Grafana app plan/app** (`-target=module.grafana_app`, `-refresh=false`) – deploys the Swarm service, network, volume, secret.
-3. **Grafana stack plan/app** – applies the entire stack so the Grafana provider provisions data sources/dashboards after the app is healthy.
+- Shared helpers validate the environment and resolve tfvars/backend paths.
+- `terraform init` migrates the backend as needed.
+- `terraform plan/apply` runs with `-refresh=false -target=module.grafana_app` to roll out the Swarm service, overlay network, volume, and secret without touching the Grafana provider.
 
-Environment variables: inherits the helper scripts in `pipeline/script/*`, including optional Terraform output filtering and tfvars auto-discovery.
+### Config stage (`pipeline/grafana/config.sh`)
 
-## Jenkins pipeline
+```bash
+./pipeline/grafana/config.sh \
+  --tfvars ~/.tfvars/grafana.tfvars \
+  --backend ~/.tfvars/minio.backend.hcl
+```
 
-- Job name: `grafana`
-- Script path: `pipeline/grafana.jenkins`
-- Parameters: `TFVARS_FILE`, `BACKEND_FILE` (both optional).
+- Reuses the same helper flow for env/input checks.
+- `terraform init` matches the app stage backend configuration.
+- `terraform plan/apply -target=module.grafana_config` provisions Grafana data sources, folders, and dashboards once the app endpoint is ready.
 
-Trigger via the Jenkins UI once the tfvars/backend files exist on the agent (typically mounted via the shared NFS). The stage layout mirrors the bash script, so terraform logs look identical regardless of entrypoint.
+## Jenkins pipelines
+
+- Job names: `grafana/app` and `grafana/config` (under the `grafana` folder).
+- Script paths: `pipeline/grafana/app.jenkins` and `pipeline/grafana/config.jenkins`.
+- Parameters: `TFVARS_FILE`, `BACKEND_FILE` (optional overrides).
+
+Trigger the stage you need via Jenkins once tfvars/backend files are available on the agent. The job templates mirror the bash stages, so Terraform logs and helper output stay consistent regardless of entrypoint.
 
 ## Updating dashboards or data sources
 
@@ -131,7 +144,7 @@ Trigger via the Jenkins UI once the tfvars/backend files exist on the agent (typ
 - Extending the folder:
   1. Generate the latest metric inventory (see below) to spot new namespaces.
   2. Add/edit the relevant JSON(s) using `aliasByNode`/`aliasSub` and reuse the variables above.
-  3. If you introduce a brand new dashboard, add it to `default_dashboard_inputs` (or the tfvars `grafana_config_inputs.dashboards` override) with the `TrueNAS` folder reference, then re-run `pipeline/grafana.sh`.
+  3. If you introduce a brand new dashboard, add it to `default_dashboard_inputs` (or the tfvars `grafana_config_inputs.dashboards` override) with the `TrueNAS` folder reference, then re-run `pipeline/grafana/config.sh`.
 
 ### Graphite inventory helper
 

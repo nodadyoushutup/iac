@@ -22,7 +22,7 @@ provider_config = {
 
 ```bash
 cd /path/to/homelab
-./pipeline/node_exporter.sh \
+./pipeline/node_exporter/deploy.sh \
   --tfvars ~/.tfvars/node_exporter.tfvars \
   --backend ~/.tfvars/minio.backend.hcl
 ```
@@ -40,7 +40,7 @@ What happens:
 
 ## Deploy via Jenkins
 
-1. In Jenkins, navigate to the `node_exporter` job (sibling to `dozzle` under the default folder defined by Terraform).
+1. In Jenkins, navigate to the `node_exporter` job (script path `pipeline/node_exporter/deploy.jenkins`).
 2. Kick off a build; optionally override `TFVARS_FILE` or `BACKEND_FILE` parameters to point at non-default locations.
 3. The pipeline stages mirror the bash script (Env Check → Resolve Inputs → Init → Plan → Apply) and emit the same Terraform logs.
 

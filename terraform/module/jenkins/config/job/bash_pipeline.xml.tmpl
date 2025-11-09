@@ -11,7 +11,7 @@
       <options/>
     </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
   </actions>
-  <description>Node Exporter configuration</description>
+  <description>${description}</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
@@ -28,7 +28,7 @@
     </org.jenkinsci.plugins.workflow.job.properties.DisableConcurrentBuildsJobProperty>
     <org.jenkinsci.plugins.workflow.job.properties.DisableResumeJobProperty/>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.45.0">
-      <projectUrl>https://github.com/nodadyoushutup/homelab/</projectUrl>
+      <projectUrl>${repo_url}</projectUrl>
       <displayName/>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <hudson.model.ParametersDefinitionProperty>
@@ -51,7 +51,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/nodadyoushutup/homelab</url>
+          <url>${repo_url}</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
@@ -63,7 +63,7 @@
       <submoduleCfg class="empty-list"/>
       <extensions/>
     </scm>
-    <scriptPath>pipeline/node_exporter.jenkins</scriptPath>
+    <scriptPath>${script_path}</scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers/>
