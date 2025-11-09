@@ -29,18 +29,6 @@ locals {
         }
       }
     }
-    prometheus = {
-      jobs = {
-        app = {
-          description = "Prometheus application deployment"
-          script_path = "pipeline/prometheus/app.jenkins"
-        }
-        config = {
-          description = "Prometheus configuration (config-only target)"
-          script_path = "pipeline/prometheus/config.jenkins"
-        }
-      }
-    }
   }
 
   single_stage_jobs = {
@@ -55,6 +43,10 @@ locals {
     graphite = {
       description = "Graphite Swarm deployment"
       script_path = "pipeline/graphite/deploy.jenkins"
+    }
+    prometheus = {
+      description = "Prometheus Swarm deployment"
+      script_path = "pipeline/prometheus/app.jenkins"
     }
   }
 

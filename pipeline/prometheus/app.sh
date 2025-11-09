@@ -6,7 +6,7 @@ ROOT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 PIPELINE_SCRIPT_ROOT="${ROOT_DIR}/pipeline/script"
 
 SERVICE_NAME="prometheus"
-STAGE_NAME="Prometheus app"
+STAGE_NAME="Prometheus deployment"
 ENTRYPOINT_RELATIVE="pipeline/prometheus/app.sh"
 
 PLAN_ARGS_EXTRA=()

@@ -73,8 +73,7 @@ Each stack ships with both a bash helper (for local or ad-hoc execution) and a J
 | Jenkins – Config     | `./pipeline/jenkins/config.sh`          | `jenkins/config` |
 | Dozzle               | `./pipeline/dozzle/deploy.sh`           | `dozzle` |
 | Node Exporter        | `./pipeline/node_exporter/deploy.sh`    | `node_exporter` |
-| Prometheus – App     | `./pipeline/prometheus/app.sh`          | `prometheus/app` |
-| Prometheus – Config  | `./pipeline/prometheus/config.sh`       | `prometheus/config` |
+| Prometheus           | `./pipeline/prometheus/app.sh`          | `prometheus` |
 | Grafana – App        | `./pipeline/grafana/app.sh`             | `grafana/app` |
 | Grafana – Config     | `./pipeline/grafana/config.sh`          | `grafana/config` |
 | Graphite             | `./pipeline/graphite/deploy.sh`         | `graphite` |
