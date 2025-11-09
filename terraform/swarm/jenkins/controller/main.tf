@@ -1,5 +1,5 @@
 module "controller" {
-  source = "../../../module/jenkins/app/controller"
+  source = "../../../module/jenkins/controller"
 
   casc_config     = var.casc_config
   provider_config = var.provider_config

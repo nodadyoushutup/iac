@@ -1,5 +1,5 @@
 module "agents" {
-  source = "../../../module/jenkins/app/agent"
+  source = "../../../module/jenkins/agent"
 
   for_each = { for node in try(var.casc_config.jenkins.nodes, []) : node.permanent.name => node }
 

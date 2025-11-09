@@ -141,7 +141,7 @@ resource "docker_service" "controller" {
 }
 
 module "healthcheck" {
-  source = "../../../healthcheck"
+  source = "../../healthcheck"
 
   endpoint = local.healthcheck_endpoint
   triggers = {

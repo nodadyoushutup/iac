@@ -22,7 +22,7 @@
 The planning document’s checklist remains the readiness gate for Swarm work—finish it before merging.
 
 ## Repository surfaces per Swarm service
-- **Modules (`terraform/module/<service>`)** – contain the actual Docker resources. Multi-stage services split into `module/<service>/app` and `module/<service>/config` (Grafana) or further granularity (`module/jenkins/app/{controller,agent}` plus `module/jenkins/config`). Modules hold all static defaults (image digests, labels, networks, health checks) expressed via locals so tfvars stay minimal.
+- **Modules (`terraform/module/<service>`)** – contain the actual Docker resources. Multi-stage services split into `module/<service>/app` and `module/<service>/config` (Grafana) or further granularity (`module/jenkins/{controller,agent}` plus `module/jenkins/config`). Modules hold all static defaults (image digests, labels, networks, health checks) expressed via locals so tfvars stay minimal.
 - **Stack entrypoints (`terraform/swarm/<service>`)** – wire Terraform backends, providers, and module invocations. Single-state services (Dozzle, Grafana, Prometheus, Graphite, Node Exporter) live directly under `terraform/swarm/<service>`. Jenkins keeps separate Terraform states per stage at `terraform/swarm/jenkins/{controller,agent,config}` so controller outputs can feed agents.
 - **Pipelines (`pipeline/<service>/<stage>.sh`)** – bash entrypoints that set `SERVICE_NAME`, `STAGE_NAME`, and any overrides (for example, `PLAN_ARGS_EXTRA` to `-target` a module or custom `TERRAFORM_DIR`) before sourcing `pipeline/script/swarm_pipeline.sh`. One directory per service keeps app/config/deploy scripts co-located.
 - **Jenkins wrappers (`pipeline/<service>/<stage>.jenkins`)** – declarative pipelines that parameterize and call the matching bash script through `runShellPipeline`. Every bash script must have a Jenkins counterpart so CI/CD and local workflows stay in sync.
@@ -40,7 +40,7 @@ The planning document’s checklist remains the readiness gate for Swarm work—
 ## Docker Swarm module conventions
 - Keep resources prefixed with the service name (`grafana`, `prometheus`, `jenkins-controller`, etc.) and always set `com.docker.stack.namespace` + `com.docker.service` labels so Swarm dashboards stay coherent.
 - Encode all static defaults directly in the module via locals: container images/digests, environment defaults, health checks, published ports, placement constraints, and external network attachments (`module/grafana/app` shows the Prometheus network attach pattern).
-- Split multi-phase services into explicit modules: `module/grafana/{app,config}`, `module/jenkins/app/{controller,agent}` + `module/jenkins/config`. Single-phase services keep a single `main.tf`.
+- Split multi-phase services into explicit modules: `module/grafana/{app,config}`, `module/jenkins/{controller,agent}` + `module/jenkins/config`. Single-phase services keep a single `main.tf`.
 - When an app consumes YAML or JSON config (Prometheus scrape config, Grafana dashboards/datasources, Jenkins CASC), accept structured maps in tfvars and render them inside the module with `yamlencode`/`jsonencode` + `docker_config` resources.
 - Reuse support modules such as `module/healthcheck` instead of re-implementing polling logic whenever an HTTP health probe is needed outside the container.
 
