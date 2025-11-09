@@ -15,8 +15,8 @@ resource "docker_service" "dozzle" {
     }
 
     networks_advanced {
-      name = docker_network.dozzle.id
-      aliases = []
+      name        = docker_network.dozzle.id
+      aliases     = []
       driver_opts = []
     }
 
