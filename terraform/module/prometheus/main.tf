@@ -46,7 +46,7 @@ resource "docker_service" "prometheus" {
     }
 
     container_spec {
-      image = "prom/prometheus:v2.55.1@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+      image = "prom/prometheus:v3.7.3@sha256:49214755b6153f90a597adcbff0252cc61069f8ab69ce8411285cd4a560e8038"
 
       args = [
         "--config.file=/etc/prometheus/prometheus.yml",
