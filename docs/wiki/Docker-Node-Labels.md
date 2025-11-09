@@ -15,7 +15,8 @@
 - **Placement**: Add the label to nodes with fast storage and close network proximity to the registry/MinIO backends.
 - **Usage**:
   ```bash
-  docker node update --label-add role=cicd cicd-node-01
+  docker node update --label-add role=cicd swarm-wk-0
+  docker node update --label-rm role swarm-wk-0
   docker service create --name my-ci-runner --constraint 'node.labels.role==cicd' alpine:3.20 sleep 1d
   ```
 
@@ -24,7 +25,8 @@
 - **Placement**: Apply to nodes that already run Swarm stacks like Grafana and Prometheus or have extra RAM/CPU for scraping.
 - **Usage**:
   ```bash
-  docker node update --label-add role=monitoring mon-node-01
+  docker node update --label-add role=monitoring swarm-wk-2
+  docker node update --label-rm role swarm-wk-2
   docker service create --name prom --constraint 'node.labels.role==monitoring' prom/prometheus
   ```
 
@@ -33,7 +35,8 @@
 - **Placement**: Restrict database services to these nodes and avoid co-locating noisy neighbors.
 - **Usage**:
   ```bash
-  docker node update --label-add role=database db-node-01
+  docker node update --label-add role=database swarm-wk-3
+  docker node update --label-rm role swarm-wk-3
   docker service create --name pg --constraint 'node.labels.role==database' postgres:16
   ```
 
@@ -45,7 +48,7 @@
 | `swarm-wk-0`| worker     | active       | `role=cicd`    | Hosts Jenkins controller/agents and related CI services. |
 | `swarm-wk-1`| worker     | active       | _none yet_     | Candidate for `role=database` once storage is ready. |
 | `swarm-wk-2`| worker     | active       | `role=monitoring` | Runs Prometheus/Grafana/Alertmanager stacks. |
-| `swarm-wk-3`| worker     | active       | _none yet_     | Second database-capable target or general purpose node. |
+| `swarm-wk-3`| worker     | active       | `role=database`| Primary database node (Postgres/MinIO) with durable storage. |
 
 > Keep this table updated as nodes change roles. Label the manager if you ever need to pin control-plane services (for example, `role=control-plane`).
 
@@ -54,13 +57,20 @@
 # ensure existing labels stay present
 docker node update --label-add role=cicd swarm-wk-0
 docker node update --label-add role=monitoring swarm-wk-2
-
-# promote database nodes (pick one or both workers with SSD/NVMe)
-docker node update --label-add role=database swarm-wk-1
 docker node update --label-add role=database swarm-wk-3
+
+# promote additional database nodes (pick workers with SSD/NVMe)
+docker node update --label-add role=database swarm-wk-1
+
+# quick removals when shifting roles
+docker node update --label-rm role swarm-wk-0
+docker node update --label-rm role swarm-wk-2
+docker node update --label-rm role swarm-wk-1
+docker node update --label-rm role swarm-wk-3
 
 # optional: label the controller if you need manager-only workloads
 docker node update --label-add role=control-plane swarm-cp-0
+docker node update --label-rm role swarm-cp-0             # drop control-plane label when opening scheduling
 ```
 
 ## 1) See your Docker nodes

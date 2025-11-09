@@ -6,5 +6,4 @@
 * [[Prometheus]]
 * [[Grafana]]
 * [[Graphite]]
-* Notes
-  * [[Notes/Docker-Node-Labels|Docker Node Labels]]
+* [[Docker-Node-Labels|Docker Node Labels]]
