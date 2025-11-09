@@ -8,9 +8,13 @@ PIPELINE_SCRIPT_ROOT="${ROOT_DIR}/pipeline/script"
 SERVICE_NAME="grafana"
 STAGE_NAME="Grafana config"
 ENTRYPOINT_RELATIVE="pipeline/grafana/config.sh"
+TERRAFORM_DIR="${ROOT_DIR}/terraform/swarm/grafana/config"
 
-PLAN_ARGS_EXTRA=(-target=module.grafana_config)
-APPLY_ARGS_EXTRA=(-target=module.grafana_config)
+TFVARS_HOME_DIR="${TFVARS_HOME_DIR:-${HOME}/.tfvars}"
+DEFAULT_TFVARS_FILE="${DEFAULT_TFVARS_FILE:-${TFVARS_HOME_DIR}/grafana/config.tfvars}"
+
+PLAN_ARGS_EXTRA=()
+APPLY_ARGS_EXTRA=()
 
 PIPELINE_ARGS=("$@")
 

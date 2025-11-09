@@ -10,7 +10,11 @@ locals {
     }
   ]
 
-  folder_inputs = concat(local.default_folder_inputs, try(var.grafana_config_inputs.folders, []))
+  folder_inputs = concat(
+    local.default_folder_inputs,
+    try(var.grafana_config_inputs.folders, []),
+    var.folders
+  )
   folders = [
     for folder in local.folder_inputs : {
       name = folder.name
@@ -20,8 +24,13 @@ locals {
 
   folder_map = { for folder in local.folders : folder.name => folder }
 
+  datasource_inputs = concat(
+    try(var.grafana_config_inputs.datasources, []),
+    var.datasources
+  )
+
   datasources = [
-    for ds in try(var.grafana_config_inputs.datasources, []) : {
+    for ds in local.datasource_inputs : {
       name                     = ds.name
       type                     = try(ds.type, "prometheus")
       url                      = ds.url
@@ -146,7 +155,11 @@ locals {
     }
   ]
 
-  dashboard_inputs           = concat(local.default_dashboard_inputs, try(var.grafana_config_inputs.dashboards, []))
+  dashboard_inputs = concat(
+    local.default_dashboard_inputs,
+    try(var.grafana_config_inputs.dashboards, []),
+    var.dashboards
+  )
   legacy_dashboard_basenames = ["graphite-truenas-overview.json"]
   filtered_dashboard_inputs = [
     for dash in local.dashboard_inputs : dash

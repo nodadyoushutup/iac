@@ -58,7 +58,7 @@ Helper scripts look in `~/.tfvars` for stack-specific variable files unless a pa
 | Dozzle         | `~/.tfvars/dozzle.tfvars`          | `~/.tfvars/minio.backend.hcl`        |
 | Node Exporter  | `~/.tfvars/node_exporter.tfvars`   | `~/.tfvars/minio.backend.hcl`        |
 | Prometheus     | `~/.tfvars/prometheus.tfvars`      | `~/.tfvars/minio.backend.hcl`        |
-| Grafana        | `~/.tfvars/grafana.tfvars`         | `~/.tfvars/minio.backend.hcl`        |
+| Grafana        | `~/.tfvars/grafana/app.tfvars` (app)<br>`~/.tfvars/grafana/config.tfvars` (config) | `~/.tfvars/minio.backend.hcl`        |
 
 New stacks should add their TFVARS filename to this table (and follow the same naming scheme) so pipeline defaults stay obvious.
 

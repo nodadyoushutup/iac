@@ -6,20 +6,20 @@ End-to-end runbook for the Grafana Swarm stack that ships with both infrastructu
 
 - **Service type:** App + config (Docker Swarm service + Grafana Terraform provider).
 - **Purpose:** Visualize metrics scraped by Prometheus and emitted via Graphite (TrueNAS) or Prometheus (Node Exporter), shipping both the Node Exporter and TrueNAS folders of per-category dashboards alongside their managed data sources.
-- **Key paths:** `terraform/module/grafana`, `terraform/module/grafana/config`, `terraform/swarm/grafana`, `pipeline/grafana/app.{sh,jenkins}`, `pipeline/grafana/config.{sh,jenkins}`.
+- **Key paths:** `terraform/module/grafana`, `terraform/module/grafana/config`, `terraform/swarm/grafana/{app,config}`, `pipeline/grafana/app.{sh,jenkins}`, `pipeline/grafana/config.{sh,jenkins}`.
 
 ## Prerequisites
 
 1. Access to the Swarm manager over SSH (matches other apps—see `provider_config.docker`).
 2. Remote backend credentials in `~/.tfvars/minio.backend.hcl`.
-3. A populated `~/.tfvars/grafana.tfvars` that includes:
-   - `provider_config` → `docker` (host + ssh options) and `grafana` (URL, username, password). The service pulls the admin password directly from this block.
-  - `grafana_config_inputs` → datasource definitions (the Node Exporter + TrueNAS folders and their dashboards now ship as Terraform defaults; append more entries only when you need to extend them).
+3. A populated `~/.tfvars/grafana/` directory with stage-specific tfvars files:
+   - `app.tfvars` → `provider_config` containing both the Docker host (SSH URI + opts) and Grafana admin credentials. The Swarm service reads these values to configure secrets/env vars.
+   - `config.tfvars` → `provider_config` (Grafana credentials/API token) plus top-level `datasources`, `dashboards`, and optional `folders` lists that feed the Grafana provider module. Split the structured inputs here instead of using the legacy `grafana_config_inputs` map.
 4. Prometheus Swarm service reachable on the overlay network (defaults to `prometheus:9090`).
 
 ## TFVARS structure
 
-Example (trimmed) from `~/.tfvars/grafana.tfvars`:
+`~/.tfvars/grafana/app.tfvars` (trimmed):
 
 ```hcl
 provider_config = {
@@ -33,31 +33,51 @@ provider_config = {
     password = "GrafanaAdminPass!"
   }
 }
+```
 
-grafana_config_inputs = {
-  datasources = [
-    {
-      name       = "Prometheus"
-      uid        = "prometheus"
-      type       = "prometheus"
-      url        = "http://prometheus:9090"
-      is_default = true
-      json_data  = { httpMethod = "POST" }
-    },
-    {
-      name        = "Graphite"
-      uid         = "graphite"
-      type        = "graphite"
-      url         = "http://swarm-cp-0.internal:8081"
-      access_mode = "proxy"
-      json_data = {
-        graphiteVersion   = "1.1"
-        tlsAuth           = false
-        tlsAuthWithCACert = false
-      }
-    }
-  ]
+`~/.tfvars/grafana/config.tfvars` (trimmed):
+
+```hcl
+provider_config = {
+  grafana = {
+    url      = "http://grafana.internal:3000"
+    username = "admin"
+    password = "GrafanaAdminPass!"
+  }
 }
+
+datasources = [
+  {
+    name       = "Prometheus"
+    uid        = "prometheus"
+    type       = "prometheus"
+    url        = "http://prometheus:9090"
+    is_default = true
+    json_data  = { httpMethod = "POST" }
+  },
+  {
+    name        = "Graphite"
+    uid         = "graphite"
+    type        = "graphite"
+    url         = "http://swarm-cp-0.internal:8081"
+    access_mode = "proxy"
+    json_data = {
+      graphiteVersion   = "1.1"
+      tlsAuth           = false
+      tlsAuthWithCACert = false
+    }
+  }
+]
+
+dashboards = [
+  {
+    name      = "TrueNAS Services & Network (override example)"
+    file      = "truenas-services-network.json"
+    folder    = "TrueNAS"
+    uid       = "truenas-svc-net-override"
+    overwrite = true
+  }
+]
 ```
 
 > Store sensitive values (passwords, API tokens, backend credentials) outside Git. The tfvars file stays local per the guidance in `AGENTS.md`.
@@ -70,25 +90,25 @@ Run whichever stage matches the change you’re rolling out—the app stage hand
 
 ```bash
 ./pipeline/grafana/app.sh \
-  --tfvars ~/.tfvars/grafana.tfvars \
+  --tfvars ~/.tfvars/grafana/app.tfvars \
   --backend ~/.tfvars/minio.backend.hcl
 ```
 
 - Shared helpers validate the environment and resolve tfvars/backend paths.
 - `terraform init` migrates the backend as needed.
-- `terraform plan/apply` runs with `-refresh=false -target=module.grafana_app` to roll out the Swarm service, overlay network, volume, and secret without touching the Grafana provider.
+- The stage runs from `terraform/swarm/grafana/app`, so the Terraform state only contains Swarm resources—no targeting needed.
 
 ### Config stage (`pipeline/grafana/config.sh`)
 
 ```bash
 ./pipeline/grafana/config.sh \
-  --tfvars ~/.tfvars/grafana.tfvars \
+  --tfvars ~/.tfvars/grafana/config.tfvars \
   --backend ~/.tfvars/minio.backend.hcl
 ```
 
 - Reuses the same helper flow for env/input checks.
 - `terraform init` matches the app stage backend configuration.
-- `terraform plan/apply -target=module.grafana_config` provisions Grafana data sources, folders, and dashboards once the app endpoint is ready.
+- The dedicated `terraform/swarm/grafana/config` directory keeps Grafana provider resources in their own state file, so the stage plans/applies normally without manual targeting.
 
 ## Jenkins pipelines
 
@@ -100,10 +120,11 @@ Trigger the stage you need via Jenkins once tfvars/backend files are available o
 
 ## Updating dashboards or data sources
 
-1. Add or edit entries under `grafana_config_inputs` in `~/.tfvars/grafana.tfvars`.
-  - Most deployments just tweak datasources; Terraform already seeds the Node Exporter + TrueNAS folders (with all default dashboards). To add more, append to the `folders`/`dashboards` arrays and re-run the pipeline.
-2. Rerun the pipeline (bash or Jenkins). Terraform will detect diffs and update Grafana via the provider.
-3. For ad-hoc testing, you can run `terraform plan -target=module.grafana_config` inside `terraform/swarm/grafana`, but stick to the pipelines for consistency.
+1. Edit `~/.tfvars/grafana/config.tfvars`:
+  - Adjust the `datasources` list to add/remove Prometheus, Graphite, or future integrations.
+  - Append new dashboard objects to the `dashboards` list (or `folders` if you need extra folders). The module still honors the legacy `grafana_config_inputs` map, but new work should stick to the dedicated lists.
+2. Rerun the config pipeline (bash or Jenkins). Terraform will detect diffs and update Grafana via the provider.
+3. For ad-hoc testing, run `terraform plan` inside `terraform/swarm/grafana/config`, but stick to the pipelines for consistency.
 
 ## Node Exporter dashboard folder
 
@@ -140,11 +161,11 @@ Trigger the stage you need via Jenkins once tfvars/backend files are available o
   - `k3s_pod` – multi-select for pod IDs under `k3s_stats.k3s_pod_stats.*` (K3s dashboard).
   - `diagnostic_target` – optional multi-select defaulting to `netdata.*` for the diagnostics panel.
 - The former `graphite-truenas-overview` dashboard has been removed; update any tfvars to reference the specific `truenas-*` dashboards listed above.
-- Terraform now ignores (and logs via plan output) any `grafana_config_inputs.dashboards` entries that still point at `graphite-truenas-overview.json`, so applies won’t fail while you clean up—just delete the legacy entry when convenient.
+- Terraform now ignores (and logs via plan output) any tfvars `dashboards` (or legacy `grafana_config_inputs.dashboards`) entries that still point at `graphite-truenas-overview.json`, so applies won’t fail while you clean up—just delete the legacy entry when convenient.
 - Extending the folder:
   1. Generate the latest metric inventory (see below) to spot new namespaces.
   2. Add/edit the relevant JSON(s) using `aliasByNode`/`aliasSub` and reuse the variables above.
-  3. If you introduce a brand new dashboard, add it to `default_dashboard_inputs` (or the tfvars `grafana_config_inputs.dashboards` override) with the `TrueNAS` folder reference, then re-run `pipeline/grafana/config.sh`.
+  3. If you introduce a brand new dashboard, add it to `default_dashboard_inputs` (or append it to the tfvars `dashboards` list) with the `TrueNAS` folder reference, then re-run `pipeline/grafana/config.sh`.
 
 ### Graphite inventory helper
 
@@ -160,7 +181,7 @@ Trigger the stage you need via Jenkins once tfvars/backend files are available o
 
 After each apply:
 
-1. Verify the Swarm service is healthy:
+1. Verify the Swarm service is healthy (using the Docker host from `app.tfvars`):
    ```bash
    docker --host "${provider_config.docker.host}" service ps grafana --no-trunc
    ```
@@ -174,18 +195,24 @@ After each apply:
    - Both `Node Exporter` and `TrueNAS` folders exist with their respective dashboards (overview + per-category splits).
 4. Confirm users/dashboards survive restarts (volume mount `grafana-data` should persist on the Swarm node).
 
-If anything fails, re-run the app-only stage with `terraform apply -target=module.grafana_app` to remediate container-level issues before touching config.
+If anything fails, re-run the app stage from `terraform/swarm/grafana/app` (or via `pipeline/grafana/app.sh`) to remediate container-level issues before touching config.
 
 ## Rollback / destroy
 
 To remove Grafana entirely, run a targeted destroy from the stack directory:
 
-```bash
-cd terraform/swarm/grafana
-terraform destroy -var-file ~/.tfvars/grafana.tfvars
-```
+1. Destroy the Grafana provider resources so dashboards/data sources are cleaned up while the app is still reachable:
+   ```bash
+   cd terraform/swarm/grafana/config
+   terraform destroy -var-file ~/.tfvars/grafana/config.tfvars
+   ```
+2. Destroy the Swarm resources:
+   ```bash
+   cd terraform/swarm/grafana/app
+   terraform destroy -var-file ~/.tfvars/grafana/app.tfvars
+   ```
 
-Destroy will delete the Swarm service, overlay, volume, secrets, data sources, and dashboards. Export dashboards before destroying if you need to retain history.
+Destroying both states removes the Swarm service, overlay, volume, secrets, data sources, and dashboards. Export dashboards before destroying if you need to retain history.
 
 ## Troubleshooting
 
