@@ -42,3 +42,11 @@ resource "jenkins_job" "grafana" {
     description = "Grafana application and configuration pipeline"
   })
 }
+
+resource "jenkins_job" "graphite" {
+  name = "graphite"
+
+  template = templatefile("${path.module}/job/graphite.xml.tmpl", {
+    description = "Graphite Swarm pipeline"
+  })
+}
