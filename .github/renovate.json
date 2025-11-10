@@ -17,8 +17,8 @@
         "/(^|/)terraform/module/nginx_proxy_manager/app/main\\.tf$/"
       ],
       "matchStrings": [
-        "locals\\s*\\{[\\s\\S]*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"[\\s\\S]*?\\n\\}",
-        "locals\\s*\\{[\\s\\S]*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\"[\\s\\S]*?\\n\\}"
+        "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
+        "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\""
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
