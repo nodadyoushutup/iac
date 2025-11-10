@@ -25,7 +25,7 @@ output "letsencrypt_volume_name" {
 
 output "image_reference" {
   description = "Container image (tag + digest) deployed for this service"
-  value       = local.image
+  value       = docker_service.nginx_proxy_manager.task_spec[0].container_spec[0].image
 }
 
 output "published_ports" {
