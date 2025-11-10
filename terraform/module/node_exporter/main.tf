@@ -58,6 +58,14 @@ resource "docker_service" "node_exporter" {
         "--collector.filesystem.ignored-fs-types=^(autofs|proc|sysfs|tmpfs|devtmpfs|devpts|overlay|aufs)$",
       ]
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target    = "/host/proc"
         source    = "/proc"

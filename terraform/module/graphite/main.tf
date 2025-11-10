@@ -45,6 +45,14 @@ resource "docker_service" "graphite" {
     container_spec {
       image = "graphiteapp/graphite-statsd:1.1.10-5@sha256:ceb163a8f237ea1a5d2839589f6b5b7aef05153b12b05ed9fe3cec12fe10cf43"
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/opt/graphite/storage"
         source = docker_volume.graphite_data.name

@@ -1,6 +1,6 @@
 locals {
   stack_name = "nginx-proxy-manager"
-  image      = "docker.io/jc21/nginx-proxy-manager:2.12.6"
+  image      = "jc21/nginx-proxy-manager:2.12.6"
   allowed_platforms = [
     {
       os           = "linux"
@@ -99,6 +99,14 @@ resource "docker_service" "nginx_proxy_manager" {
     container_spec {
       image = local.image
       env   = local.env
+
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
 
       mounts {
         type   = "volume"

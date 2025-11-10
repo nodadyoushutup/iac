@@ -44,6 +44,14 @@ resource "docker_service" "dozzle" {
         DOZZLE_MODE = "swarm"
       }
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/var/run/docker.sock"
         source = "/var/run/docker.sock"

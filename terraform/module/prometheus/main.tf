@@ -69,6 +69,14 @@ resource "docker_service" "prometheus" {
         "--web.enable-lifecycle",
       ]
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/prometheus"
         source = docker_volume.prometheus_data.name

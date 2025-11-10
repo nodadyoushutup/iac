@@ -69,6 +69,14 @@ resource "docker_service" "agent" {
         }
       )
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/home/jenkins"
         source = docker_volume.agent.name

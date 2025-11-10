@@ -68,6 +68,14 @@ resource "docker_service" "controller" {
 
       env = var.env
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/home/jenkins"
         source = docker_volume.controller.name

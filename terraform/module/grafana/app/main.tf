@@ -91,6 +91,14 @@ resource "docker_service" "grafana" {
         GF_INSTALL_PLUGINS               = "grafana-clock-panel,grafana-piechart-panel"
       }
 
+      dns_config {
+        nameservers = [
+          "192.168.1.1",
+          "1.1.1.1",
+          "8.8.8.8",
+        ]
+      }
+
       mounts {
         target = "/var/lib/grafana"
         source = docker_volume.grafana_data.name
