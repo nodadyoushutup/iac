@@ -9,12 +9,11 @@
       "/(^|/)docker/jenkins/agent/Dockerfile$/"
     ]
   },
-  "customManagers": [
+  "regexManagers": [
     {
-      "customType": "regex",
       "description": "Fallback matcher for Docker images pinned inside Terraform locals blocks",
-      "managerFilePatterns": [
-        "/terraform/module/.+\\.tf$/"
+      "fileMatch": [
+        "terraform/module/.+\\.tf$"
       ],
       "matchStrings": [
         "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
@@ -33,6 +32,19 @@
         "minio/minio"
       ],
       "enabled": false
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "jc21/nginx-proxy-manager"
+      ],
+      "ignoreVersions": [
+        "2.13.0",
+        "2.13.1",
+        "2.13.2"
+      ]
     }
   ]
 }
