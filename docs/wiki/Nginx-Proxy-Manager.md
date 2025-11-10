@@ -22,8 +22,8 @@ Reverse proxy automation for edge HTTP/S workloads. The stack follows the **App 
 
 | File | Purpose | Notes |
 |------|---------|-------|
-| `~/.tfvars/nginx-proxy-manager/app.tfvars` | Docker host SSH details (`provider_config.docker`) and bootstrap secrets (`secrets` map for admin email/password/API token, ACME email, JWT secret). Only secrets live here; networks/ports/node labels are fixed in locals. |
-| `~/.tfvars/nginx-proxy-manager/config.tfvars` | `provider_config.nginx_proxy_manager` (URL + credentials) and declarative `config` payload for certificates, proxy hosts, access lists, streams, and redirections. |
+| `~/.tfvars/nginx-proxy-manager/app.tfvars` | Docker host SSH details (`provider_config.docker`) plus the bootstrap credentials under `provider_config.nginx_proxy_manager.{username,password}`. Those values hydrate the container’s `INITIAL_ADMIN_*` variables so the first login skips the setup wizard. Leave everything else (ports, node labels) in Terraform locals. |
+| `~/.tfvars/nginx-proxy-manager/config.tfvars` | `provider_config.nginx_proxy_manager` (URL + credentials) plus the declarative `config` payload. Use `config.default_certificate_email` for the ACME contact and `config.default_dns_challenge` (enabled/provider/credentials/propagation_seconds) so every Let’s Encrypt cert shares the same DNS challenge defaults unless a specific certificate overrides them. |
 | `~/.tfvars/minio.backend.hcl` | Shared backend definition. The config pipeline parses this file to export `TF_VAR_remote_state_backend` (JSON) so Terraform can read the app state. Override with `--backend` if you use a different file. |
 
 Verify the structure with:
@@ -60,7 +60,8 @@ Both shell stages accept `--tfvars` and `--backend` overrides. The config wrappe
 
 - **Deploy/Update** – run the app pipeline first (`--plan` or Jenkins job) to roll out image changes or placement tweaks. Once the service is healthy (`docker service ps nginx-proxy-manager --no-trunc`), run the config pipeline to apply certificates/hosts.
 - **Adding proxy hosts** – extend the `config.tfvars` `proxy_hosts` list; use `certificate` to reference a named certificate in the same tfvars file. Access lists can be referenced by ID or by name (the module maps names to IDs automatically).
-- **Rotating admin secrets** – update the `secrets` map in `app.tfvars` and re-run the app pipeline. The module rewrites the container env vars; follow up in config tfvars if API credentials changed.
+- **Updating ACME contact / DNS challenge** – change `config.default_certificate_email` for the ACME mailbox and `config.default_dns_challenge` for shared DNS settings (for example, Cloudflare tokens). Individual certificates can still override `dns_challenge`, `dns_provider`, and `dns_provider_credentials` if needed.
+- **Rotating admin secrets** – update `provider_config.nginx_proxy_manager` (username/password) inside `app.tfvars` and re-run the app pipeline. The module rewrites the container env vars; follow up in config tfvars if API credentials changed.
 - **Troubleshooting**:
   - `terraform plan` fails in config stage: confirm `TF_VAR_remote_state_backend` is set (script logs the derived JSON) and that the app pipeline has been applied.
   - Jenkins job missing: run `pipeline/jenkins/config.sh --plan` or `terraform -chdir=terraform/swarm/jenkins/config plan -var-file ~/.tfvars/jenkins/config.tfvars` to add the multi-stage folder/jobs.

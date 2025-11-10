@@ -23,16 +23,6 @@ output "letsencrypt_volume_name" {
   value       = module.nginx_proxy_manager_app.letsencrypt_volume_name
 }
 
-output "admin_email" {
-  description = "Admin email configured for the initial user"
-  value       = module.nginx_proxy_manager_app.admin_email
-}
-
-output "letsencrypt_email" {
-  description = "Let's Encrypt contact email propagated to config stage"
-  value       = module.nginx_proxy_manager_app.letsencrypt_email
-}
-
 output "image_reference" {
   description = "Image digest deployed"
   value       = module.nginx_proxy_manager_app.image_reference

@@ -45,7 +45,7 @@
 - **Placement**: Label DMZ-capable workers that sit closest to the router/firewall; keep noisy/stateful apps off these nodes so reverse proxies stay responsive.
 - **Usage**:
   ```bash
-  docker node update --label-add role=edge swarm-wk-1
+  docker node update --label-add role=edge swarm-wk-2
   docker node update --label-rm role swarm-wk-1
   docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.11.4
   ```

@@ -20,6 +20,15 @@ locals {
     try(var.app_state.stack_name, null),
     "nginx-proxy-manager",
   )
+
+  default_certificate_email = try(var.config.default_certificate_email, null)
+
+  default_dns_challenge = {
+    enabled = try(var.config.default_dns_challenge.enabled, null)
+    provider = try(var.config.default_dns_challenge.provider, null)
+    credentials = try(var.config.default_dns_challenge.credentials, null)
+    propagation_seconds = try(var.config.default_dns_challenge.propagation_seconds, null)
+  }
 }
 
 provider "nginxproxymanager" {
@@ -59,14 +68,33 @@ resource "nginxproxymanager_certificate_letsencrypt" "this" {
   domain_names = toset(each.value.domain_names)
   letsencrypt_email = coalesce(
     try(each.value.email_address, null),
-    local.npm_provider.email,
+    local.default_certificate_email,
   )
   letsencrypt_agree = true
 
-  dns_challenge            = try(each.value.dns_challenge, false)
-  dns_provider             = try(each.value.dns_provider, null)
-  dns_provider_credentials = try(each.value.dns_provider_credentials, null)
-  propagation_seconds      = try(each.value.propagation_seconds, null)
+  dns_challenge = coalesce(
+    try(each.value.dns_challenge, null),
+    local.default_dns_challenge.enabled,
+    false,
+  )
+
+  dns_provider = (
+    try(each.value.dns_provider, null) != null
+    ? each.value.dns_provider
+    : local.default_dns_challenge.provider
+  )
+
+  dns_provider_credentials = (
+    try(each.value.dns_provider_credentials, null) != null
+    ? each.value.dns_provider_credentials
+    : local.default_dns_challenge.credentials
+  )
+
+  propagation_seconds = (
+    try(each.value.propagation_seconds, null) != null
+    ? each.value.propagation_seconds
+    : local.default_dns_challenge.propagation_seconds
+  )
 }
 
 locals {
@@ -96,15 +124,19 @@ resource "nginxproxymanager_proxy_host" "this" {
   hsts_subdomains         = try(each.value.hsts_subdomains, false)
   advanced_config         = try(each.value.advanced_config, null)
 
-  access_list_id = coalesce(
-    try(each.value.access_list_id, null),
-    try(local.access_list_ids[try(each.value.access_list, "__missing__")], null),
-    null,
+  access_list_id = (
+    try(each.value.access_list_id, null) != null
+    ? each.value.access_list_id
+    : (
+      try(each.value.access_list, null) != null
+      ? lookup(local.access_list_ids, each.value.access_list, null)
+      : null
+    )
   )
 
   certificate_id = (
-    contains(keys(local.certificate_ids), try(each.value.certificate, ""))
-    ? local.certificate_ids[each.value.certificate]
+    try(each.value.certificate, null) != null
+    ? lookup(local.certificate_ids, each.value.certificate, null)
     : null
   )
 

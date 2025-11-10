@@ -13,6 +13,13 @@ variable "provider_config" {
 variable "config" {
   description = "Declarative configuration for certificates, proxy hosts, and related resources"
   type = object({
+    default_certificate_email = optional(string)
+    default_dns_challenge = optional(object({
+      enabled             = optional(bool)
+      provider            = optional(string)
+      credentials         = optional(string)
+      propagation_seconds = optional(number)
+    }))
     certificates = optional(list(object({
       name                     = string
       domain_names             = list(string)
@@ -66,11 +73,24 @@ variable "config" {
   })
 
   default = {
+    default_certificate_email = null
+    default_dns_challenge = null
     certificates = []
     proxy_hosts  = []
     access_lists = []
     streams      = []
     redirections = []
+  }
+
+  validation {
+    condition = (
+      var.config.default_certificate_email != null ||
+      alltrue([
+        for cert in coalesce(var.config.certificates, []) :
+        (!try(cert.request_le, true)) || cert.email_address != null
+      ])
+    )
+    error_message = "Set config.default_certificate_email or provide email_address for every Let's Encrypt certificate."
   }
 }
 

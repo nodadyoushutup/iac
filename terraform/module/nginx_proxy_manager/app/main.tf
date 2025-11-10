@@ -1,6 +1,6 @@
 locals {
   stack_name = "nginx-proxy-manager"
-  image      = "docker.io/jc21/nginx-proxy-manager:2.13.2@sha256:342e8cfaa072e5dcdf26030279cbcd7e993b7926cb49018f4872e8cc72e87288"
+  image      = "docker.io/jc21/nginx-proxy-manager:2.12.6"
   allowed_platforms = [
     {
       os           = "linux"
@@ -33,14 +33,19 @@ locals {
     admin = 81
   }
 
+  initial_admin_email = coalesce(
+    try(var.provider_config.nginx_proxy_manager.username, null),
+    "admin@example.com",
+  )
+
+  initial_admin_password = coalesce(
+    try(var.provider_config.nginx_proxy_manager.password, null),
+    "changeme",
+  )
+
   env = {
-    TZ                     = local.timezone
-    PUID                   = local.puid
-    PGID                   = local.pgid
-    DB_SQLITE_FILE         = "/data/database.sqlite"
-    INITIAL_ADMIN_EMAIL    = var.secrets.admin_email
-    INITIAL_ADMIN_PASSWORD = var.secrets.admin_password
-    NODE_ENV               = "production"
+    INITIAL_ADMIN_EMAIL    = local.initial_admin_email
+    INITIAL_ADMIN_PASSWORD = local.initial_admin_password
   }
 }
 

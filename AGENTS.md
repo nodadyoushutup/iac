@@ -8,6 +8,9 @@
 - `.env` in the repo root stores baseline environment hints for local automation. Treat these values as the default “dev” coordinates unless a plan says otherwise:
   - `DOCKER_SWARM_CP=swarm-cp-0.internal` – prefer `ssh://swarm-cp-0.internal` whenever you need a Docker provider host (pipelines still accept overrides, but use this unless a stack documents a different gateway).
   - `NPM_USERNAME=admin@example.com` / `NPM_PASSWORD=changeme` – default bootstrap credentials for Nginx Proxy Manager. Use these when stubbing tfvars, but call out in the planning doc if production credentials differ.
+- Every Swarm-backed service must include a `/docker/<service>` directory with helper assets. At minimum:
+  - A `purge.sh` script that tears down the service’s networks/volumes/configs/secrets so operators can clean up cruft without touching unrelated stacks. See `docker/jenkins/purge.sh` for the pattern.
+  - Document the purge script in the service’s planning doc/wiki entry so reviewers know how to invoke it. When adding a new service, Stage 1 should explicitly mention the `docker/<service>` folder creation alongside Terraform modules.
 
 ## Application taxonomy & pipeline expectations
 - **App + config** – services that deploy infrastructure and then push additional configuration once the app is reachable (Jenkins controller/agents + config, Grafana app + provider-driven dashboards). These require multiple Terraform surfaces (usually `module/<service>/app` + `module/<service>/config`) and at least two pipelines (`pipeline/<service>/app.*`, `pipeline/<service>/config.*`). Jenkins is the special case with three stages (controller, agent, config) because agents depend on controller outputs.

@@ -8,16 +8,10 @@ variable "provider_config" {
     timezone = optional(string)
     puid     = optional(string)
     pgid     = optional(string)
-  })
-}
-
-variable "secrets" {
-  description = "Per-environment secrets for bootstrapping Nginx Proxy Manager"
-  type = object({
-    admin_email       = string
-    admin_password    = string
-    admin_api_token   = string
-    letsencrypt_email = string
-    jwt_secret        = string
+    nginx_proxy_manager = optional(object({
+      username = string
+      password = string
+      url       = optional(string)
+    }))
   })
 }

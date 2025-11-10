@@ -23,16 +23,6 @@ output "letsencrypt_volume_name" {
   value       = docker_volume.nginx_proxy_manager_letsencrypt.name
 }
 
-output "admin_email" {
-  description = "Bootstrap administrator email injected via INITIAL_ADMIN_EMAIL"
-  value       = var.secrets.admin_email
-}
-
-output "letsencrypt_email" {
-  description = "Primary Let's Encrypt contact email (forwarded to config stage)"
-  value       = var.secrets.letsencrypt_email
-}
-
 output "image_reference" {
   description = "Container image (tag + digest) deployed for this service"
   value       = local.image
