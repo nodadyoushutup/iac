@@ -9,11 +9,12 @@
       "/(^|/)docker/jenkins/agent/Dockerfile$/"
     ]
   },
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "description": "Fallback matcher for Docker images pinned inside Terraform locals blocks",
-      "fileMatch": [
-        "terraform/module/.+\\.tf$"
+      "managerFilePatterns": [
+        "/terraform/module/.+\\.tf$/"
       ],
       "matchStrings": [
         "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
