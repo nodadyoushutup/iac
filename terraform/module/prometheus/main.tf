@@ -1,6 +1,16 @@
 locals {
   prometheus_config_yaml = yamlencode(var.prometheus_config)
   prometheus_config_sha  = sha256(local.prometheus_config_yaml)
+  allowed_platforms = [
+    {
+      os           = "linux"
+      architecture = "arm64"
+    },
+    {
+      os           = "linux"
+      architecture = "aarch64"
+    }
+  ]
 }
 
 resource "docker_network" "prometheus" {
@@ -32,9 +42,13 @@ resource "docker_service" "prometheus" {
 
   task_spec {
     placement {
-      platforms {
-        os           = "linux"
-        architecture = "arm64"
+      dynamic "platforms" {
+        for_each = local.allowed_platforms
+
+        content {
+          os           = platforms.value.os
+          architecture = platforms.value.architecture
+        }
       }
       constraints = ["node.labels.role==monitoring"]
     }

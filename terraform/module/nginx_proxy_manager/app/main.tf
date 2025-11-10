@@ -1,0 +1,154 @@
+locals {
+  stack_name = "nginx-proxy-manager"
+  image      = "docker.io/jc21/nginx-proxy-manager:2.13.2@sha256:342e8cfaa072e5dcdf26030279cbcd7e993b7926cb49018f4872e8cc72e87288"
+  allowed_platforms = [
+    {
+      os           = "linux"
+      architecture = "arm64"
+    },
+    {
+      os           = "linux"
+      architecture = "aarch64"
+    }
+  ]
+
+  timezone = coalesce(
+    try(var.provider_config.timezone, null),
+    "UTC",
+  )
+
+  puid = coalesce(
+    try(var.provider_config.puid, null),
+    "1000",
+  )
+
+  pgid = coalesce(
+    try(var.provider_config.pgid, null),
+    "1000",
+  )
+
+  published_ports = {
+    http  = 80
+    https = 443
+    admin = 81
+  }
+
+  env = {
+    TZ                     = local.timezone
+    PUID                   = local.puid
+    PGID                   = local.pgid
+    DB_SQLITE_FILE         = "/data/database.sqlite"
+    INITIAL_ADMIN_EMAIL    = var.secrets.admin_email
+    INITIAL_ADMIN_PASSWORD = var.secrets.admin_password
+    NODE_ENV               = "production"
+  }
+}
+
+resource "docker_network" "nginx_proxy_manager" {
+  name   = local.stack_name
+  driver = "overlay"
+}
+
+resource "docker_volume" "nginx_proxy_manager_data" {
+  name   = "${local.stack_name}-data"
+  driver = "local"
+}
+
+resource "docker_volume" "nginx_proxy_manager_letsencrypt" {
+  name   = "${local.stack_name}-letsencrypt"
+  driver = "local"
+}
+
+resource "docker_service" "nginx_proxy_manager" {
+  name = local.stack_name
+
+  labels {
+    label = "com.docker.stack.namespace"
+    value = local.stack_name
+  }
+
+  labels {
+    label = "com.docker.service"
+    value = local.stack_name
+  }
+
+  task_spec {
+    placement {
+      constraints = ["node.labels.role==edge"]
+
+      dynamic "platforms" {
+        for_each = local.allowed_platforms
+
+        content {
+          os           = platforms.value.os
+          architecture = platforms.value.architecture
+        }
+      }
+    }
+
+    networks_advanced {
+      name    = docker_network.nginx_proxy_manager.id
+      aliases = ["nginx-proxy-manager", "npm"]
+    }
+
+    container_spec {
+      image = local.image
+      env   = local.env
+
+      mounts {
+        type   = "volume"
+        source = docker_volume.nginx_proxy_manager_data.name
+        target = "/data"
+      }
+
+      mounts {
+        type   = "volume"
+        source = docker_volume.nginx_proxy_manager_letsencrypt.name
+        target = "/etc/letsencrypt"
+      }
+
+      healthcheck {
+        test         = ["CMD", "/usr/bin/check-health"]
+        interval     = "15s"
+        timeout      = "5s"
+        retries      = 5
+        start_period = "30s"
+      }
+    }
+  }
+
+  mode {
+    replicated {
+      replicas = 1
+    }
+  }
+
+  endpoint_spec {
+    ports {
+      target_port    = local.published_ports.http
+      published_port = local.published_ports.http
+      protocol       = "tcp"
+      publish_mode   = "ingress"
+    }
+
+    ports {
+      target_port    = local.published_ports.https
+      published_port = local.published_ports.https
+      protocol       = "tcp"
+      publish_mode   = "ingress"
+    }
+
+    ports {
+      target_port    = local.published_ports.admin
+      published_port = local.published_ports.admin
+      protocol       = "tcp"
+      publish_mode   = "ingress"
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      task_spec[0].placement[0].platforms,
+    ]
+  }
+}

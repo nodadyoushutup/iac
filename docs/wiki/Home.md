@@ -15,6 +15,8 @@ configuration, and documentation for every platform service.
   Each service lands in its own page under this wiki.
 - **Runbooks & references** – Quick pointers for onboarding, incident response,
   and maintenance as the platform grows.
+- **Nginx Proxy Manager** – Edge reverse proxy automation (app + config Terraform
+  stages, Jenkins pipelines, tfvars guidance). See [[Nginx-Proxy-Manager]].
 
 ## Getting started
 

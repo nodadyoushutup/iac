@@ -29,6 +29,18 @@ locals {
         }
       }
     }
+    nginx_proxy_manager = {
+      jobs = {
+        app = {
+          description = "Nginx Proxy Manager application deployment"
+          script_path = "pipeline/nginx_proxy_manager/app.jenkins"
+        }
+        config = {
+          description = "Nginx Proxy Manager configuration apply"
+          script_path = "pipeline/nginx_proxy_manager/config.jenkins"
+        }
+      }
+    }
   }
 
   single_stage_jobs = {

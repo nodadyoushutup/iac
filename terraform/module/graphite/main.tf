@@ -1,3 +1,16 @@
+locals {
+  allowed_platforms = [
+    {
+      os           = "linux"
+      architecture = "arm64"
+    },
+    {
+      os           = "linux"
+      architecture = "aarch64"
+    }
+  ]
+}
+
 resource "docker_network" "graphite" {
   name   = "graphite-net"
   driver = "overlay"
@@ -12,9 +25,13 @@ resource "docker_service" "graphite" {
 
   task_spec {
     placement {
-      platforms {
-        os           = "linux"
-        architecture = "arm64"
+      dynamic "platforms" {
+        for_each = local.allowed_platforms
+
+        content {
+          os           = platforms.value.os
+          architecture = platforms.value.architecture
+        }
       }
 
       constraints = ["node.labels.role==monitoring"]

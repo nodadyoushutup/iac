@@ -6,4 +6,5 @@
 * [[Prometheus]]
 * [[Grafana]]
 * [[Graphite]]
+* [[Nginx-Proxy-Manager]]
 * [[Docker-Node-Labels|Docker Node Labels]]

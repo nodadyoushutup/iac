@@ -1,6 +1,16 @@
 locals {
   admin_password   = tostring(var.provider_config.grafana.password)
   grafana_ini_path = "${path.module}/grafana.ini"
+  allowed_platforms = [
+    {
+      os           = "linux"
+      architecture = "arm64"
+    },
+    {
+      os           = "linux"
+      architecture = "aarch64"
+    }
+  ]
 }
 
 data "docker_network" "external" {
@@ -43,9 +53,13 @@ resource "docker_service" "grafana" {
 
   task_spec {
     placement {
-      platforms {
-        os           = "linux"
-        architecture = "arm64"
+      dynamic "platforms" {
+        for_each = local.allowed_platforms
+
+        content {
+          os           = platforms.value.os
+          architecture = platforms.value.architecture
+        }
       }
 
       constraints = ["node.labels.role==monitoring"]

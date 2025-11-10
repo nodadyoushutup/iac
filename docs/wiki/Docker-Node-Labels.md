@@ -40,13 +40,23 @@
   docker service create --name pg --constraint 'node.labels.role==database' postgres:16
   ```
 
+### `role=edge`
+- **Intent**: Host perimeter workloads that terminate TLS and face the public internet (Nginx Proxy Manager, future WAF/ACME helpers) so the rest of the cluster stays interior-only.
+- **Placement**: Label DMZ-capable workers that sit closest to the router/firewall; keep noisy/stateful apps off these nodes so reverse proxies stay responsive.
+- **Usage**:
+  ```bash
+  docker node update --label-add role=edge swarm-wk-1
+  docker node update --label-rm role swarm-wk-1
+  docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.11.4
+  ```
+
 ## Current homelab node map
 
 | Node        | Swarm role | Availability | Labels         | Notes                                  |
 |-------------|------------|--------------|----------------|----------------------------------------|
 | `swarm-cp-0`| manager    | active       | _none yet_     | Controller/leader, safe place for infra control planes but avoid heavy workloads. |
 | `swarm-wk-0`| worker     | active       | `role=cicd`    | Hosts Jenkins controller/agents and related CI services. |
-| `swarm-wk-1`| worker     | active       | _none yet_     | Candidate for `role=database` once storage is ready. |
+| `swarm-wk-1`| worker     | active       | `role=edge`    | Dedicated perimeter node for Nginx Proxy Manager / TLS termination. |
 | `swarm-wk-2`| worker     | active       | `role=monitoring` | Runs Prometheus/Grafana/Alertmanager stacks. |
 | `swarm-wk-3`| worker     | active       | `role=database`| Primary database node (Postgres/MinIO) with durable storage. |
 
@@ -58,9 +68,10 @@
 docker node update --label-add role=cicd swarm-wk-0
 docker node update --label-add role=monitoring swarm-wk-2
 docker node update --label-add role=database swarm-wk-3
+docker node update --label-add role=edge swarm-wk-1
 
 # promote additional database nodes (pick workers with SSD/NVMe)
-docker node update --label-add role=database swarm-wk-1
+docker node update --label-add role=database NODE_WITH_FAST_DISKS   # replace placeholder with the target worker
 
 # quick removals when shifting roles
 docker node update --label-rm role swarm-wk-0
@@ -150,3 +161,6 @@ docker service ps my-ci-runner --no-trunc
 # or for stacks
 docker stack ps mystack --no-trunc
 ```
+  docker node update --label-rm role swarm-wk-1
+  docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.11.4
+  ```
