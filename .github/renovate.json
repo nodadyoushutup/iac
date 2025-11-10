@@ -17,8 +17,8 @@
         "/(^|/)terraform/module/.+\\.tf$/"
       ],
       "matchStrings": [
-        "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
-        "image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\""
+        "(?s)locals\\s*\\{(?:(?!\\n\\}).)*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
+        "(?s)locals\\s*\\{(?:(?!\\n\\}).)*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\""
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
