@@ -33,15 +33,6 @@
         "minio/minio"
       ],
       "enabled": false
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchPackageNames": [
-        "jc21/nginx-proxy-manager"
-      ],
-      "allowedVersions": "<2.13.0 || >2.13.2"
     }
   ]
 }
