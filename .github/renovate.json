@@ -14,11 +14,11 @@
       "customType": "regex",
       "description": "Fallback matcher for Docker images pinned inside Terraform locals blocks",
       "managerFilePatterns": [
-        "/(^|/)terraform/module/.+\\.tf$/"
+        "/(^|/)terraform/module/nginx_proxy_manager/app/main\\.tf$/"
       ],
       "matchStrings": [
-        "(?s)locals\\s*\\{(?:(?!\\n\\}).)*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"",
-        "(?s)locals\\s*\\{(?:(?!\\n\\}).)*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\""
+        "locals\\s*\\{[\\s\\S]*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)\"[\\s\\S]*?\\n\\}",
+        "locals\\s*\\{[\\s\\S]*?image\\s*=\\s*\"(?<depName>[-./+\\w]+):(?<currentValue>[^\"@\\s]+)@sha256:(?<currentDigest>[A-Fa-f0-9]{64})\"[\\s\\S]*?\\n\\}"
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "docker"
