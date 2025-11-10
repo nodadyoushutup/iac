@@ -47,7 +47,7 @@ The planning document’s checklist remains the readiness gate for Swarm work—
 
 ## Docker Swarm module conventions
 - Keep resources prefixed with the service name (`grafana`, `prometheus`, `jenkins-controller`, etc.) and always set `com.docker.stack.namespace` + `com.docker.service` labels so Swarm dashboards stay coherent.
-- Encode all static defaults directly in the module via locals: container images/digests, environment defaults, health checks, published ports, placement constraints, and external network attachments (`module/grafana/app` shows the Prometheus network attach pattern).
+- Encode all static defaults directly in the module via locals (environment defaults, health checks, published ports, placement constraints, external network attachments), but **always** hardcode container images (tag + optional digest) directly inside the `task_spec.container_spec` block. Renovate only parses literal `image = "repo:tag"` assignments in the resource, so never compute image strings in locals, vars, or helpers.
 - Split multi-phase services into explicit modules: `module/grafana/{app,config}`, `module/jenkins/{controller,agent}` + `module/jenkins/config`. Single-phase services keep a single `main.tf`.
 - When an app consumes YAML or JSON config (Prometheus scrape config, Grafana dashboards/datasources, Jenkins CASC), accept structured maps in tfvars and render them inside the module with `yamlencode`/`jsonencode` + `docker_config` resources.
 - Reuse support modules such as `module/healthcheck` instead of re-implementing polling logic whenever an HTTP health probe is needed outside the container.
