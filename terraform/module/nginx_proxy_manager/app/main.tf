@@ -96,7 +96,7 @@ resource "docker_service" "nginx_proxy_manager" {
     }
 
     container_spec {
-      image = "jc21/nginx-proxy-manager:2.12.6@sha256:6ab097814f54b1362d5fd3c5884a01ddd5878aaae9992ffd218439180f0f92f3"
+      image = "jc21/nginx-proxy-manager:2.13.5@sha256:cd9eba29ca132cb006729f2cb2660126453f84818c2f7d75963ad7b61ef696bd"
       env   = local.env
 
       dns_config {
