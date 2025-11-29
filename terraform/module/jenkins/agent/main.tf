@@ -137,6 +137,12 @@ resource "docker_service" "agent" {
         type   = "bind"
       }
       mounts {
+        target    = "/home/jenkins/.ssh"
+        source    = pathexpand("~/.ssh")
+        type      = "bind"
+        read_only = true
+      }
+      mounts {
         target    = "/etc/ssh/ssh_known_hosts"
         source    = "/etc/ssh/ssh_known_hosts"
         type      = "bind"

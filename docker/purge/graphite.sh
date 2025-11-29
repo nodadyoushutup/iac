@@ -13,5 +13,6 @@ if ! declare -f purge_main >/dev/null 2>&1; then
 fi
 
 APP_NAME="graphite"
+NETWORK_FILTER="graphite-net"
 
 purge_main "$@"
