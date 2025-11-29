@@ -29,6 +29,35 @@ locals {
     credentials = try(var.config.default_dns_challenge.credentials, null)
     propagation_seconds = try(var.config.default_dns_challenge.propagation_seconds, null)
   }
+
+  certificate_dns_settings = {
+    for name, cert in local.certificates : name => {
+      provider = (
+        try(cert.dns_provider, null) != null
+        ? cert.dns_provider
+        : local.default_dns_challenge.provider
+      )
+      credentials = (
+        try(cert.dns_provider_credentials, null) != null
+        ? cert.dns_provider_credentials
+        : local.default_dns_challenge.credentials
+      )
+    }
+  }
+
+  normalized_dns_credentials = {
+    for name, settings in local.certificate_dns_settings : name => (
+      settings.credentials == null
+      ? null
+      : (
+        settings.provider != null &&
+        can(regex("cloudflare", lower(settings.provider))) &&
+        !can(regex("=", settings.credentials))
+        ? format("dns_cloudflare_api_token = %s", settings.credentials)
+        : settings.credentials
+      )
+    )
+  }
 }
 
 provider "nginxproxymanager" {
@@ -84,11 +113,7 @@ resource "nginxproxymanager_certificate_letsencrypt" "this" {
     : local.default_dns_challenge.provider
   )
 
-  dns_provider_credentials = (
-    try(each.value.dns_provider_credentials, null) != null
-    ? each.value.dns_provider_credentials
-    : local.default_dns_challenge.credentials
-  )
+  dns_provider_credentials = local.normalized_dns_credentials[each.key]
 
   propagation_seconds = (
     try(each.value.propagation_seconds, null) != null

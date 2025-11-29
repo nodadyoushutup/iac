@@ -6,6 +6,7 @@ provider "registry.terraform.io/sander0542/nginxproxymanager" {
   constraints = "1.2.2"
   hashes = [
     "h1:2czB+6vKxc1GuaCPzLggknQz/5yqCMBmD+Nvhc+tGp0=",
+    "h1:THZguApIEbP7rTHNIy7kycNN561DlNRjFFKM5ohTid4=",
     "zh:06ec668b1ffcfcf4fbfb8c936aa10b664dce64c9af8e35cd8c1a2efd611c9832",
     "zh:23d9ca1e7ca63b9920aca7c71d9fc1df0c7be4216312f6c435e23f911e25c90e",
     "zh:31b8504f9ebe0e984910374f8cfbd5066df4e9a64647e6259345923565a4ad13",
