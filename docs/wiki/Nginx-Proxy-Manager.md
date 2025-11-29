@@ -6,7 +6,7 @@ Reverse proxy automation for edge HTTP/S workloads. The stack follows the **App 
 
 - **App stage** – `terraform/module/nginx_proxy_manager/app` provisions the Swarm service, overlay network, and persistent volumes. It pins `jc21/nginx-proxy-manager:2.13.2@sha256:342e8cfa…` and constrains placement to nodes labeled `role=edge` (see [[Docker Node Labels]]) so perimeter services stay isolated.
 - **Config stage** – `terraform/module/nginx_proxy_manager/config` uses the [`Sander0542/nginxproxymanager`](https://registry.terraform.io/providers/Sander0542/nginxproxymanager/latest/docs) provider to manage certificates, proxy hosts, and access lists. It consumes the app stage’s remote state to reference stack metadata but writes all runtime config through the API.
-- **State storage** – both stages use the shared MinIO backend defined in `~/.tfvars/minio.backend.hcl`. The config stage exports `TF_VAR_remote_state_backend` (parsed from that file) so `data "terraform_remote_state"` can fetch `nginx-proxy-manager-app.tfstate` without copy/pasting credentials.
+- **State storage** – both stages use the shared MinIO backend defined in `~/.tfvars/minio.backend.hcl` (use `endpoints = { s3 = "http://..." }` instead of the deprecated `endpoint` key). The config stage exports `TF_VAR_remote_state_backend` (parsed from that file) so `data "terraform_remote_state"` can fetch `nginx-proxy-manager-app.tfstate` without copy/pasting credentials.
 - **Pipelines/Jenkins** – `pipeline/nginx_proxy_manager/{app,config}.{sh,jenkins}` run through `pipeline/script/swarm_pipeline.sh`. Jenkins jobs live under the `nginx_proxy_manager` folder once `terraform/module/jenkins/config` is applied.
 
 ## Terraform surfaces

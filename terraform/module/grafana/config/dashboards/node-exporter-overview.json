@@ -20,7 +20,7 @@
   "graphTooltip": 0,
   "links": [],
   "liveNow": false,
-  "refresh": "30s",
+  "refresh": "10s",
   "schemaVersion": 39,
   "timezone": "",
   "weekStart": "",
@@ -30,7 +30,7 @@
     "node-exporter"
   ],
   "time": {
-    "from": "now-24h",
+    "from": "now-10m",
     "to": "now"
   },
   "timepicker": {

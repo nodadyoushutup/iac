@@ -24,9 +24,9 @@ locals {
   default_certificate_email = try(var.config.default_certificate_email, null)
 
   default_dns_challenge = {
-    enabled = try(var.config.default_dns_challenge.enabled, null)
-    provider = try(var.config.default_dns_challenge.provider, null)
-    credentials = try(var.config.default_dns_challenge.credentials, null)
+    enabled             = try(var.config.default_dns_challenge.enabled, null)
+    provider            = try(var.config.default_dns_challenge.provider, null)
+    credentials         = try(var.config.default_dns_challenge.credentials, null)
     propagation_seconds = try(var.config.default_dns_challenge.propagation_seconds, null)
   }
 

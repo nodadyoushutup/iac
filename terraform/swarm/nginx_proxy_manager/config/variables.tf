@@ -2,9 +2,9 @@ variable "provider_config" {
   description = "Provider/auth configuration for the nginxproxymanager provider"
   type = object({
     nginx_proxy_manager = object({
-      url       = string
-      username  = string
-      password  = optional(string)
+      url          = string
+      username     = string
+      password     = optional(string)
       validate_tls = optional(bool)
     })
   })
@@ -75,11 +75,11 @@ variable "config" {
   default = {
     default_certificate_email = null
     default_dns_challenge     = null
-    certificates = []
-    proxy_hosts  = []
-    access_lists = []
-    streams      = []
-    redirections = []
+    certificates              = []
+    proxy_hosts               = []
+    access_lists              = []
+    streams                   = []
+    redirections              = []
   }
 
   validation {

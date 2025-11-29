@@ -180,11 +180,20 @@ locals {
     }
   ]
 
+  dashboard_defaults = {
+    refresh = "10s"
+    time = {
+      from = "now-10m"
+      to   = "now"
+    }
+  }
+
   dashboards_with_payload = [
     for dash in local.dashboards : merge(dash, {
       content = jsonencode(merge(
         jsondecode(file(dash.file_path)),
-        dash.uid == null ? {} : { uid = dash.uid }
+        dash.uid == null ? {} : { uid = dash.uid },
+        local.dashboard_defaults
       ))
     })
   ]

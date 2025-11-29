@@ -11,7 +11,7 @@ variable "provider_config" {
     nginx_proxy_manager = optional(object({
       username = string
       password = string
-      url       = optional(string)
+      url      = optional(string)
     }))
   })
 }
