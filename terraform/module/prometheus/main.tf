@@ -50,7 +50,7 @@ resource "docker_service" "prometheus" {
           architecture = platforms.value.architecture
         }
       }
-      constraints = ["node.labels.role==monitoring"]
+      constraints = ["node.labels.role==controller"]
     }
 
     networks_advanced {

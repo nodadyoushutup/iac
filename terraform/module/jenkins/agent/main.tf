@@ -1,5 +1,5 @@
 locals {
-  eapp_nfs_options = "addr=192.168.1.100,nfsvers=4.2,proto=tcp,rsize=1048576,wsize=1048576,hard,intr,noatime,actimeo=1,nconnect=4,_netdev"
+  eapp_nfs_options = "addr=192.168.1.100,nfsvers=4.1,proto=tcp,rsize=1048576,wsize=1048576,hard,noatime,actimeo=1"
   default_mounts = [
     {
       name   = "jenkins-eapp-code"
@@ -42,17 +42,6 @@ locals {
         type   = "nfs"
         o      = local.eapp_nfs_options
         device = ":/mnt/eapp/home/.jenkins"
-      }
-      no_copy = true
-    },
-    {
-      name   = "jenkins-ssh-known-hosts"
-      target = "/etc/ssh/ssh_known_hosts"
-      driver = "local"
-      driver_opts = {
-        type   = "none"
-        device = "/etc/ssh/ssh_known_hosts"
-        o      = "bind,ro"
       }
       no_copy = true
     }
@@ -147,6 +136,12 @@ resource "docker_service" "agent" {
         source = "/dev/kvm"
         type   = "bind"
       }
+      mounts {
+        target    = "/etc/ssh/ssh_known_hosts"
+        source    = "/etc/ssh/ssh_known_hosts"
+        type      = "bind"
+        read_only = true
+      }
 
       dynamic "mounts" {
         for_each = { for mount in local.mounts : mount.name => mount }
@@ -173,7 +168,7 @@ resource "docker_service" "agent" {
           architecture = platforms.value.architecture
         }
       }
-      constraints = ["node.labels.role==cicd"]
+      constraints = ["node.labels.role==controller"]
     }
   }
 

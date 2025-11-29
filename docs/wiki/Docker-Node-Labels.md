@@ -17,7 +17,7 @@
   ```bash
   docker node update --label-add role=cicd swarm-wk-0
   docker node update --label-rm role swarm-wk-0
-  docker service create --name my-ci-runner --constraint 'node.labels.role==cicd' alpine:3.20 sleep 1d
+  docker service create --name my-ci-runner --constraint 'node.labels.role==controller' alpine:3.20 sleep 1d
   ```
 
 ### `role=monitoring`
@@ -27,7 +27,7 @@
   ```bash
   docker node update --label-add role=monitoring swarm-wk-2
   docker node update --label-rm role swarm-wk-2
-  docker service create --name prom --constraint 'node.labels.role==monitoring' prom/prometheus
+  docker service create --name prom --constraint 'node.labels.role==controller' prom/prometheus
   ```
 
 ### `role=database`
@@ -37,7 +37,7 @@
   ```bash
   docker node update --label-add role=database swarm-wk-3
   docker node update --label-rm role swarm-wk-3
-  docker service create --name pg --constraint 'node.labels.role==database' postgres:16
+  docker service create --name pg --constraint 'node.labels.role==controller' postgres:16
   ```
 
 ### `role=edge`
@@ -47,7 +47,7 @@
   ```bash
   docker node update --label-add role=edge swarm-wk-2
   docker node update --label-rm role swarm-wk-1
-  docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.11.4
+  docker service create --name npm --constraint 'node.labels.role==controller' jc21/nginx-proxy-manager:2.11.4
   ```
 
 ## Current homelab node map
@@ -122,7 +122,7 @@ docker node inspect NODE --format '{{ json .Spec.Labels }}'
 
 ### A) With `docker service create`
 ```bash
-docker service create   --name my-ci-runner   --constraint 'node.labels.role==cicd'   alpine:3.20 sleep 1d
+docker service create   --name my-ci-runner   --constraint 'node.labels.role==controller'   alpine:3.20 sleep 1d
 ```
 
 ### B) In a Compose/Stack file (`docker stack deploy`)
@@ -136,7 +136,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.role==cicd
+          - node.labels.role==controller
 ```
 ```bash
 docker stack deploy -c docker-compose.yml mystack
@@ -147,7 +147,7 @@ docker stack deploy -c docker-compose.yml mystack
 {
   "deploy": {
     "placement": {
-      "constraints": ["node.labels.role==cicd"]
+      "constraints": ["node.labels.role==controller"]
     }
   }
 }
@@ -162,5 +162,5 @@ docker service ps my-ci-runner --no-trunc
 docker stack ps mystack --no-trunc
 ```
   docker node update --label-rm role swarm-wk-1
-  docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.11.4
+  docker service create --name npm --constraint 'node.labels.role==controller' jc21/nginx-proxy-manager:2.11.4
   ```

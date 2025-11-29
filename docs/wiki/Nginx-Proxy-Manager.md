@@ -72,7 +72,7 @@ Both shell stages accept `--tfvars` and `--backend` overrides. The config wrappe
 | Persona | Test | Status | Notes |
 |---------|------|--------|-------|
 | Agent | `TF_LOG=INFO pipeline/nginx_proxy_manager/app.sh --plan` (auto apply) | ✅ | `terraform` init/plan/apply completed; outputs under `/tmp/npm_app_plan.log`. |
-| Agent | `docker service ls` / `docker service ps nginx-proxy-manager --no-trunc` | ⚠️ | Swarm reports `0/1` replicas – no node currently satisfies `node.labels.role==edge`. Label `swarm-wk-1` (or another edge node) before rerunning config stage. |
+| Agent | `docker service ls` / `docker service ps nginx-proxy-manager --no-trunc` | ⚠️ | Swarm reports `0/1` replicas – no node currently satisfies `node.labels.role==controller`. Label `swarm-wk-1` (or another edge node) before rerunning config stage. |
 | Agent | `TF_LOG=INFO pipeline/nginx_proxy_manager/config.sh --plan` | ⚠️ | Plan fails with `lookup npm.example.com: no such host`; replace placeholder URL in `~/.tfvars/nginx-proxy-manager/config.tfvars` with a reachable NPM endpoint before retrying. |
 | Human | Run Jenkins jobs `nginx_proxy_manager-app` / `nginx_proxy_manager-config` | ⏳ | Pending – requires Jenkins credentials once pipelines are wired into CI. |
 | Human | Hit `https://<npm-domain>:81` and verify proxy hosts | ⏳ | Perform after config plan succeeds and Swarm exposes the service on an edge-labeled node. Document screenshots or curl output in the planning doc. |

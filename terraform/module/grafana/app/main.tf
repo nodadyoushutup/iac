@@ -62,7 +62,7 @@ resource "docker_service" "grafana" {
         }
       }
 
-      constraints = ["node.labels.role==monitoring"]
+      constraints = ["node.labels.role==controller"]
     }
 
     networks_advanced {
