@@ -8,9 +8,9 @@ FAIL="[X]"
 issues=0
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-keys_dir="$repo_root/.keys"
-cd "$repo_root"
+ssh_ca_root="$(cd "$script_dir/.." && pwd)"
+keys_dir="$ssh_ca_root/.keys"
+cd "$ssh_ca_root"
 
 status_line() {
   # status_line <0|1> <message> [detail]
@@ -90,7 +90,7 @@ check_private_permissions() {
 }
 
 echo "SSH CA host preflight"
-echo "Repo root: $repo_root"
+echo "SSH CA root: $ssh_ca_root"
 echo "Keys dir:  $keys_dir"
 echo
 

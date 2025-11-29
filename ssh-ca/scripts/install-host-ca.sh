@@ -4,8 +4,9 @@
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-ca_pub="$repo_root/.keys/host_ca.pub"
+ssh_ca_root="$(cd "$script_dir/.." && pwd)"
+default_ca_pub="$ssh_ca_root/.keys/host_ca.pub"
+ca_pub="$default_ca_pub"
 known_hosts="/etc/ssh/ssh_known_hosts"
 pattern="*"
 
@@ -14,7 +15,7 @@ usage() {
 Usage: sudo $(basename "$0") [-s /path/to/host_ca.pub] [-d /etc/ssh/ssh_known_hosts] [-p host-pattern]
 
 Options:
-  -s  Path to host CA public key (default: ./.keys/host_ca.pub)
+  -s  Path to host CA public key (default: ${default_ca_pub})
   -d  ssh_known_hosts file to modify (default: /etc/ssh/ssh_known_hosts)
   -p  Host pattern to trust (default: *)
 EOF

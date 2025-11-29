@@ -4,7 +4,7 @@ variable "casc_config" {
 }
 
 variable "mounts" {
-  description = "Mount definitions used to provision NFS-backed volumes for the controller"
+  description = "Additional mount definitions appended to the baked Jenkins controller mounts"
   type = list(object({
     name        = string
     target      = string
@@ -12,6 +12,7 @@ variable "mounts" {
     driver_opts = map(string)
     no_copy     = bool
   }))
+  default = []
 }
 
 variable "provider_config" {

@@ -4,8 +4,9 @@
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-ca_pub="$repo_root/.keys/user_ca.pub"
+ssh_ca_root="$(cd "$script_dir/.." && pwd)"
+default_ca_pub="$ssh_ca_root/.keys/user_ca.pub"
+ca_pub="$default_ca_pub"
 dest="/etc/ssh/user_ca.pub"
 sshd_config="/etc/ssh/sshd_config"
 
@@ -14,7 +15,7 @@ usage() {
 Usage: sudo $(basename "$0") [-s /path/to/user_ca.pub] [-d /etc/ssh/user_ca.pub] [-c /etc/ssh/sshd_config]
 
 Options:
-  -s  Path to user CA public key (default: ./.keys/user_ca.pub)
+  -s  Path to user CA public key (default: ${default_ca_pub})
   -d  Destination path to install the CA public key (default: /etc/ssh/user_ca.pub)
   -c  sshd_config path to update (default: /etc/ssh/sshd_config)
 EOF

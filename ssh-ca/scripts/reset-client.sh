@@ -4,9 +4,9 @@
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-
-ca_pub="$repo_root/host_ca.pub"
+ssh_ca_root="$(cd "$script_dir/.." && pwd)"
+default_ca_pub="$ssh_ca_root/.keys/host_ca.pub"
+ca_pub="$default_ca_pub"
 known_hosts="/etc/ssh/ssh_known_hosts"
 
 usage() {
@@ -15,7 +15,7 @@ Usage: sudo $(basename "$0") [-d /etc/ssh/ssh_known_hosts] [-s /path/to/host_ca.
 
 Options:
   -d  ssh_known_hosts file to clean (default: /etc/ssh/ssh_known_hosts)
-  -s  CA public key used for matching (default: ./host_ca.pub if present)
+  -s  CA public key used for matching (default: ${default_ca_pub} if present)
 EOF
   exit 1
 }

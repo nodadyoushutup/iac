@@ -4,8 +4,8 @@
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-keys_dir="$repo_root/.keys"
+ssh_ca_root="$(cd "$script_dir/.." && pwd)"
+keys_dir="$ssh_ca_root/.keys"
 
 mkdir -p "$keys_dir"
 

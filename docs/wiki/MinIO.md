@@ -19,7 +19,7 @@
 
 - `docker/minio/docker-compose.yaml` – defines the single-node MinIO service.
 - `docker/minio/.env` – local overrides for credentials and region settings.
-- `docker/minio/purge.sh` – helper script that tears the stack down (including
+- `docker/purge/minio.sh` – helper script that tears the stack down (including
   volumes) when you need a clean slate.
 
 ## Bootstrapping MinIO
@@ -67,9 +67,9 @@
   script:
 
   ```bash
-  chmod +x docker/minio/purge.sh
-  ./docker/minio/purge.sh --prompt           # asks before destroying assets
-  ./docker/minio/purge.sh --keep-images      # skip image removal
+  chmod +x docker/purge/minio.sh
+  ./docker/purge/minio.sh --prompt           # asks before destroying assets
+  ./docker/purge/minio.sh --keep-images      # skip image removal
   ```
 
 ## Environment variable reference

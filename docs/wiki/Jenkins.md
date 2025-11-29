@@ -25,7 +25,7 @@ needed to build, publish, and run the controller and agent images lives under
 2. Build the agent image: `docker/jenkins/build-agent.sh`
 3. Launch the stack with Docker Compose (compose file coming soon).
 
-When you are done, run `docker/jenkins/purge.sh` to clean up dangling images
+When you are done, run `docker/purge/jenkins.sh` to clean up dangling images
 and volumes.
 
 ## Next steps

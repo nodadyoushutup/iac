@@ -3,9 +3,6 @@
 
 set -euo pipefail
 
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-repo_root="$(cd "$script_dir/.." && pwd)"
-
 ca_dest="/etc/ssh/user_ca.pub"
 sshd_config="/etc/ssh/sshd_config"
 

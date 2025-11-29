@@ -1,6 +1,65 @@
 locals {
+  eapp_nfs_options = "addr=192.168.1.100,nfsvers=4.2,proto=tcp,rsize=1048576,wsize=1048576,hard,intr,noatime,actimeo=1,nconnect=4,_netdev"
+  default_mounts = [
+    {
+      name   = "jenkins-eapp-code"
+      target = "/home/jenkins/code"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = local.eapp_nfs_options
+        device = ":/mnt/eapp/home/code"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-eapp-tfvars"
+      target = "/home/jenkins/.tfvars"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = local.eapp_nfs_options
+        device = ":/mnt/eapp/home/.tfvars"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-eapp-kube"
+      target = "/home/jenkins/.kube"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = local.eapp_nfs_options
+        device = ":/mnt/eapp/home/.kube"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-eapp-jenkins"
+      target = "/home/jenkins/.jenkins"
+      driver = "local"
+      driver_opts = {
+        type   = "nfs"
+        o      = local.eapp_nfs_options
+        device = ":/mnt/eapp/home/.jenkins"
+      }
+      no_copy = true
+    },
+    {
+      name   = "jenkins-ssh-known-hosts"
+      target = "/etc/ssh/ssh_known_hosts"
+      driver = "local"
+      driver_opts = {
+        type   = "none"
+        device = "/etc/ssh/ssh_known_hosts"
+        o      = "bind,ro"
+      }
+      no_copy = true
+    }
+  ]
+  effective_mounts = concat(local.default_mounts, var.mounts)
   mounts = [
-    for mount in var.mounts : merge(mount, {
+    for mount in local.effective_mounts : merge(mount, {
       name = format(
         "%s-%s",
         startswith(mount.name, "jenkins-") ? replace(mount.name, "jenkins-", format("jenkins-agent-%s-", var.name)) : format("%s-agent-%s", mount.name, var.name),

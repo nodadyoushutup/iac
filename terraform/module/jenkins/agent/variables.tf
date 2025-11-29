@@ -9,7 +9,7 @@ variable "provider_config" {
 }
 
 variable "mounts" {
-  description = "Mount definitions shared between the Jenkins controller and agents"
+  description = "Additional mount definitions appended to the baked Jenkins agent mounts"
   type = list(object({
     name        = string
     target      = string
@@ -17,6 +17,7 @@ variable "mounts" {
     driver_opts = map(string)
     no_copy     = bool
   }))
+  default = []
 }
 
 variable "controller_service_id" {
