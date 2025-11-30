@@ -2,7 +2,7 @@
 * [[Machines]]
 * [[Secrets]]
 * [[Docker-Swarm|Docker Swarm]]
-* [[SSH-CA]]
+* [[Swarm-Node-Onboarding|Swarm Node Onboarding]]
 * [[Repo Structure]]
 * [[Jenkins]]
 * [[MinIO]]
