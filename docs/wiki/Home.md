@@ -22,133 +22,138 @@ configuration, and documentation for every platform service.
 ## Table of contents
 
 - On this page
-  - [What lives here](#what-lives-here)
-  - [Getting started](#getting-started)
-  - [Table of contents](#table-of-contents)
-  - [Roadmap toward homelab](#roadmap-toward-homelab)
-  - [Need something?](#need-something)
+- [What lives here](#what-lives-here)
+- [Getting started](#getting-started)
+- [Table of contents](#table-of-contents)
+- [Roadmap toward homelab](#roadmap-toward-homelab)
+- [Need something?](#need-something)
 
 - Wiki pages
-  - [[Machines]]
-    - [[Machines#machine-map|Machine map]]
-    - [[Machines#agent-guidance-see-agentsmd|Agent guidance (see AGENTS.md)]]
-    - [[Machines#operational-notes|Operational notes]]
-  - [[Secrets]]
-    - [[Secrets#locations|Locations]]
-    - [[Secrets#handling-guidance|Handling guidance]]
-  - [[SSH-CA|SSH CA (Machine Onboarding)]]
-    - [[SSH-CA#ca-materials-one-time|CA materials (one-time)]]
-    - [[SSH-CA#onboard-a-machine-to-the-ca|Onboard a machine to the CA]]
-    - [[SSH-CA#notes|Notes]]
-  - [[SSH-CA-Cleanup|SSH CA Cleanup]]
-    - [[SSH-CA-Cleanup#expected-state|Expected state]]
-    - [[SSH-CA-Cleanup#steps-verify-correct-if-needed|Steps (verify → correct if needed)]]
-  - [[Docker-Swarm|Docker Swarm]]
-    - [[Docker-Swarm#control-endpoints-state|Control endpoints & state]]
-    - [[Docker-Swarm#application-taxonomy-provider-expectations|Application taxonomy & provider expectations]]
-    - [[Docker-Swarm#major-feature-workflow|Major feature workflow]]
-    - [[Docker-Swarm#repository-surfaces-per-swarm-service|Repository surfaces per Swarm service]]
-    - [[Docker-Swarm#tfvars-providerconfig-and-backend-contract|TFVARS, provider_config, and backend contract]]
-    - [[Docker-Swarm#docker-swarm-module-conventions|Docker Swarm module conventions]]
-    - [[Docker-Swarm#pipeline-implementation-details|Pipeline implementation details]]
-    - [[Docker-Swarm#jenkins-job-automation|Jenkins job automation]]
-    - [[Docker-Swarm#docker-swarm-service-workflow|Docker Swarm service workflow]]
-    - [[Docker-Swarm#resource-links|Resource links]]
-  - [[Swarm-Node-Onboarding|Swarm Node Onboarding]]
-    - [[Swarm-Node-Onboarding#prerequisites|Prerequisites]]
-    - [[Swarm-Node-Onboarding#manual-join-procedure|Manual join procedure]]
-  - [[Docker-Node-Labels|Docker Node Labels]]
-    - [[Docker-Node-Labels#docker-swarm-nodes-labels-and-constraints-quick-guide|Docker Swarm: nodes, labels, and constraints (quick guide)]]
-    - [[Docker-Node-Labels#label-strategy-overview|Label strategy overview]]
-    - [[Docker-Node-Labels#known-labels-in-this-swarm|Known labels in this swarm]]
-    - [[Docker-Node-Labels#rolecicd|`role=cicd`]]
-    - [[Docker-Node-Labels#rolemonitoring|`role=monitoring`]]
-    - [[Docker-Node-Labels#roledatabase|`role=database`]]
-    - [[Docker-Node-Labels#roleedge|`role=edge`]]
-    - [[Docker-Node-Labels#current-homelab-node-map|Current homelab node map]]
-    - [[Docker-Node-Labels#fast-label-commands-for-this-cluster|Fast label commands for this cluster]]
-    - [[Docker-Node-Labels#ensure-existing-labels-stay-present|Ensure existing labels stay present]]
-    - [[Docker-Node-Labels#promote-additional-database-nodes-pick-workers-with-ssdnvme|Promote additional database nodes (pick workers with SSD/NVMe)]]
-    - [[Docker-Node-Labels#quick-removals-when-shifting-roles|Quick removals when shifting roles]]
-    - [[Docker-Node-Labels#optional-label-the-controller-if-you-need-manager-only-workloads|Optional: label the controller if you need manager-only workloads]]
-    - [[Docker-Node-Labels#1-see-your-docker-nodes|1) See your Docker nodes]]
-    - [[Docker-Node-Labels#list-all-nodes-in-the-swarm|List all nodes in the Swarm]]
-    - [[Docker-Node-Labels#optional-quick-view-with-hostname-availability-labels|Quick view with hostname + availability + labels]]
-    - [[Docker-Node-Labels#2-see-what-labels-a-node-has|2) See what labels a node has]]
-    - [[Docker-Node-Labels#show-labels-for-one-node-replace-node-with-id-or-hostname-from-docker-node-ls|Show labels for one node]]
-    - [[Docker-Node-Labels#pretty-print-labels-requires-jq|Pretty-print labels (requires jq)]]
-    - [[Docker-Node-Labels#full-human-readable-inspect-labels-included-near-the-top|Full human-readable inspect]]
-    - [[Docker-Node-Labels#3-add-or-change-a-label-eg-rolecicd|3) Add (or change) a label (e.g., role=cicd)]]
-    - [[Docker-Node-Labels#addupdate-label-rolecicd-on-a-node|Add/update label role=cicd on a node]]
-    - [[Docker-Node-Labels#verify|Verify]]
-    - [[Docker-Node-Labels#4-use-the-label-in-placement-constraints|4) Use the label in placement constraints]]
-    - [[Docker-Node-Labels#a-with-docker-service-create|A) With docker service create]]
-    - [[Docker-Node-Labels#b-in-a-composestack-file-docker-stack-deploy|B) In a Compose/Stack file (docker stack deploy)]]
-    - [[Docker-Node-Labels#docker-composeyml|docker-compose.yml]]
-    - [[Docker-Node-Labels#c-in-code-array-style-eg-pulumiterraformsdks|C) In code (array style), e.g. Pulumi/Terraform/SDKs]]
-    - [[Docker-Node-Labels#5-confirm-the-constraint-is-working|5) Confirm the constraint is working]]
-    - [[Docker-Node-Labels#check-where-the-task-is-scheduled|Check where the task is scheduled]]
-    - [[Docker-Node-Labels#or-for-stacks|Or for stacks]]
-  - [[Repo-Structure|Repo Structure]]
-    - [[Repo-Structure#conventions|Conventions]]
-  - [[Jenkins]]
-    - [[Jenkins#images|Images]]
-    - [[Jenkins#deployment|Deployment]]
-    - [[Jenkins#operations|Operations]]
-  - [[MinIO]]
-    - [[MinIO#why-docker-compose-instead-of-terraform|Why Docker Compose instead of Terraform]]
-    - [[MinIO#file-layout|File layout]]
-    - [[MinIO#bootstrapping-minio|Bootstrapping MinIO]]
-    - [[MinIO#operations|Operations]]
-    - [[MinIO#environment-variable-reference|Environment variable reference]]
-  - [[Nginx-Proxy-Manager|Nginx Proxy Manager]]
-    - [[Nginx-Proxy-Manager#architecture|Architecture]]
-    - [[Nginx-Proxy-Manager#terraform-surfaces|Terraform surfaces]]
-    - [[Nginx-Proxy-Manager#tfvars-secrets|Tfvars & secrets]]
-    - [[Nginx-Proxy-Manager#pipelines-jenkins-jobs|Pipelines & Jenkins jobs]]
-    - [[Nginx-Proxy-Manager#operations-runbook|Operations & runbook]]
-    - [[Nginx-Proxy-Manager#validation-matrix|Validation matrix]]
-    - [[Nginx-Proxy-Manager#reference-links|Reference links]]
-  - [[Prometheus]]
-    - [[Prometheus#prerequisites|Prerequisites]]
-    - [[Prometheus#pipelines|Pipelines]]
-    - [[Prometheus#bash-deployment-pipelineprometheusappsh|Bash deployment (pipeline/prometheus/app.sh)]]
-    - [[Prometheus#jenkins-deployment-prometheus|Jenkins deployment (prometheus)]]
-    - [[Prometheus#validation-checklist|Validation checklist]]
-    - [[Prometheus#editing-scrape-configs|Editing scrape configs]]
-    - [[Prometheus#changing-ports-or-persistence|Changing ports or persistence]]
-    - [[Prometheus#follow-up-ideas|Follow-up ideas]]
-  - [[Grafana]]
-    - [[Grafana#overview|Overview]]
-    - [[Grafana#prerequisites|Prerequisites]]
-    - [[Grafana#tfvars-structure|TFVARS structure]]
-    - [[Grafana#bash-pipelines|Bash pipelines]]
-    - [[Grafana#app-stage-pipelinegrafanaappsh|App stage (pipeline/grafana/app.sh)]]
-    - [[Grafana#config-stage-pipelinegrafanaconfigsh|Config stage (pipeline/grafana/config.sh)]]
-    - [[Grafana#jenkins-pipelines|Jenkins pipelines]]
-    - [[Grafana#updating-dashboards-or-data-sources|Updating dashboards or data sources]]
-    - [[Grafana#node-exporter-dashboard-folder|Node Exporter dashboard folder]]
-    - [[Grafana#truenas-dashboard-folder|TrueNAS dashboard folder]]
-    - [[Grafana#graphite-inventory-helper|Graphite inventory helper]]
-    - [[Grafana#validation-checklist|Validation checklist]]
-    - [[Grafana#rollback-destroy|Rollback / destroy]]
-    - [[Grafana#troubleshooting|Troubleshooting]]
-    - [[Grafana#references|References]]
-  - [[Graphite]]
-    - [[Graphite#prerequisites|Prerequisites]]
-    - [[Graphite#deploy-via-bash-pipeline|Deploy via bash pipeline]]
-    - [[Graphite#deploy-via-jenkins|Deploy via Jenkins]]
-    - [[Graphite#managing-configuration|Managing configuration]]
-    - [[Graphite#validation-checklist|Validation checklist]]
-    - [[Graphite#troubleshooting|Troubleshooting]]
-  - [[Node-Exporter|Node Exporter]]
-    - [[Node-Exporter#prerequisites|Prerequisites]]
-    - [[Node-Exporter#deploy-via-bash-pipeline|Deploy via bash pipeline]]
-    - [[Node-Exporter#validation-checklist|Validation checklist]]
-    - [[Node-Exporter#deploy-via-jenkins|Deploy via Jenkins]]
-    - [[Node-Exporter#prometheus-scraping|Prometheus scraping]]
-    - [[Node-Exporter#changing-the-published-port|Changing the published port]]
-    - [[Node-Exporter#follow-up-ideas|Follow-up ideas]]
+  - [Docker Swarm: nodes, labels, and constraints (quick guide)](Docker-Node-Labels)
+    - [Label strategy overview](Docker-Node-Labels#label-strategy-overview)
+    - [Known labels in this swarm](Docker-Node-Labels#known-labels-in-this-swarm)
+      - [`role=cicd`](Docker-Node-Labels#rolecicd)
+      - [`role=monitoring`](Docker-Node-Labels#rolemonitoring)
+      - [`role=database`](Docker-Node-Labels#roledatabase)
+      - [`role=edge`](Docker-Node-Labels#roleedge)
+    - [Current homelab node map](Docker-Node-Labels#current-homelab-node-map)
+    - [Fast label commands for this cluster](Docker-Node-Labels#fast-label-commands-for-this-cluster)
+    - [ensure existing labels stay present](Docker-Node-Labels#ensure-existing-labels-stay-present)
+    - [promote additional database nodes (pick workers with SSD/NVMe)](Docker-Node-Labels#promote-additional-database-nodes-pick-workers-with-ssdnvme)
+    - [quick removals when shifting roles](Docker-Node-Labels#quick-removals-when-shifting-roles)
+    - [optional: label the controller if you need manager-only workloads](Docker-Node-Labels#optional-label-the-controller-if-you-need-manager-only-workloads)
+    - [1) See your Docker nodes](Docker-Node-Labels#1-see-your-docker-nodes)
+    - [list all nodes in the Swarm](Docker-Node-Labels#list-all-nodes-in-the-swarm)
+    - [(optional) quick view with hostname + availability + labels](Docker-Node-Labels#optional-quick-view-with-hostname-availability-labels)
+    - [2) See what labels a node has](Docker-Node-Labels#2-see-what-labels-a-node-has)
+    - [show labels for ONE node (replace NODE with ID or hostname from `docker node ls`)](Docker-Node-Labels#show-labels-for-one-node-replace-node-with-id-or-hostname-from-docker-node-ls)
+    - [pretty-print labels (requires jq)](Docker-Node-Labels#pretty-print-labels-requires-jq)
+    - [full human-readable inspect (labels included near the top)](Docker-Node-Labels#full-human-readable-inspect-labels-included-near-the-top)
+    - [3) Add (or change) a label (e.g., role=cicd)](Docker-Node-Labels#3-add-or-change-a-label-eg-rolecicd)
+    - [add/update label "role=cicd" on a node](Docker-Node-Labels#addupdate-label-rolecicd-on-a-node)
+    - [verify](Docker-Node-Labels#verify)
+    - [4) Use the label in placement constraints](Docker-Node-Labels#4-use-the-label-in-placement-constraints)
+      - [A) With `docker service create`](Docker-Node-Labels#a-with-docker-service-create)
+      - [B) In a Compose/Stack file (`docker stack deploy`)](Docker-Node-Labels#b-in-a-composestack-file-docker-stack-deploy)
+    - [docker-compose.yml](Docker-Node-Labels#docker-composeyml)
+      - [C) In code (array style), e.g. Pulumi/Terraform/SDKs](Docker-Node-Labels#c-in-code-array-style-eg-pulumiterraformsdks)
+    - [5) Confirm the constraint is working](Docker-Node-Labels#5-confirm-the-constraint-is-working)
+    - [check where the task is scheduled](Docker-Node-Labels#check-where-the-task-is-scheduled)
+    - [or for stacks](Docker-Node-Labels#or-for-stacks)
+  - [Docker Swarm](Docker-Swarm)
+    - [Control endpoints & state](Docker-Swarm#control-endpoints-state)
+    - [Application taxonomy & provider expectations](Docker-Swarm#application-taxonomy-provider-expectations)
+    - [Major feature workflow](Docker-Swarm#major-feature-workflow)
+    - [Repository surfaces per Swarm service](Docker-Swarm#repository-surfaces-per-swarm-service)
+    - [TFVARS, provider_config, and backend contract](Docker-Swarm#tfvars-providerconfig-and-backend-contract)
+    - [Docker Swarm module conventions](Docker-Swarm#docker-swarm-module-conventions)
+    - [Pipeline implementation details](Docker-Swarm#pipeline-implementation-details)
+    - [Jenkins job automation](Docker-Swarm#jenkins-job-automation)
+    - [Docker Swarm service workflow](Docker-Swarm#docker-swarm-service-workflow)
+    - [Resource links](Docker-Swarm#resource-links)
+  - [Grafana](Grafana)
+    - [Overview](Grafana#overview)
+    - [Prerequisites](Grafana#prerequisites)
+    - [TFVARS structure](Grafana#tfvars-structure)
+    - [Bash pipelines](Grafana#bash-pipelines)
+      - [App stage (`pipeline/grafana/app.sh`)](Grafana#app-stage-pipelinegrafanaappsh)
+      - [Config stage (`pipeline/grafana/config.sh`)](Grafana#config-stage-pipelinegrafanaconfigsh)
+    - [Jenkins pipelines](Grafana#jenkins-pipelines)
+    - [Updating dashboards or data sources](Grafana#updating-dashboards-or-data-sources)
+    - [Node Exporter dashboard folder](Grafana#node-exporter-dashboard-folder)
+    - [TrueNAS dashboard folder](Grafana#truenas-dashboard-folder)
+      - [Graphite inventory helper](Grafana#graphite-inventory-helper)
+    - [Validation checklist](Grafana#validation-checklist)
+    - [Rollback / destroy](Grafana#rollback-destroy)
+    - [Troubleshooting](Grafana#troubleshooting)
+    - [References](Grafana#references)
+  - [Graphite](Graphite)
+    - [Prerequisites](Graphite#prerequisites)
+    - [Deploy via bash pipeline](Graphite#deploy-via-bash-pipeline)
+    - [Deploy via Jenkins](Graphite#deploy-via-jenkins)
+    - [Managing configuration](Graphite#managing-configuration)
+    - [Validation checklist](Graphite#validation-checklist)
+    - [Troubleshooting](Graphite#troubleshooting)
+  - [NoDad Homelab](Home)
+    - [What lives here](Home#what-lives-here)
+    - [Getting started](Home#getting-started)
+    - [Table of contents](Home#table-of-contents)
+    - [Roadmap toward `homelab`](Home#roadmap-toward-homelab)
+    - [Need something?](Home#need-something)
+  - [Jenkins Overview](Jenkins)
+    - [Images](Jenkins#images)
+    - [Deployment](Jenkins#deployment)
+    - [Operations](Jenkins#operations)
+  - [Machines](Machines)
+    - [Machine map](Machines#machine-map)
+    - [Agent guidance (see AGENTS.md)](Machines#agent-guidance-see-agentsmd)
+    - [Operational notes](Machines#operational-notes)
+  - [MinIO Backend](MinIO)
+    - [Why Docker Compose instead of Terraform](MinIO#why-docker-compose-instead-of-terraform)
+    - [File layout](MinIO#file-layout)
+    - [Bootstrapping MinIO](MinIO#bootstrapping-minio)
+    - [Operations](MinIO#operations)
+    - [Environment variable reference](MinIO#environment-variable-reference)
+  - [Nginx Proxy Manager](Nginx-Proxy-Manager)
+    - [Architecture](Nginx-Proxy-Manager#architecture)
+    - [Terraform surfaces](Nginx-Proxy-Manager#terraform-surfaces)
+    - [Tfvars & secrets](Nginx-Proxy-Manager#tfvars-secrets)
+    - [Pipelines & Jenkins jobs](Nginx-Proxy-Manager#pipelines-jenkins-jobs)
+    - [Operations & runbook](Nginx-Proxy-Manager#operations-runbook)
+    - [Validation matrix](Nginx-Proxy-Manager#validation-matrix)
+    - [Reference links](Nginx-Proxy-Manager#reference-links)
+  - [Node Exporter](Node-Exporter)
+    - [Prerequisites](Node-Exporter#prerequisites)
+    - [Deploy via bash pipeline](Node-Exporter#deploy-via-bash-pipeline)
+      - [Validation checklist](Node-Exporter#validation-checklist)
+    - [Deploy via Jenkins](Node-Exporter#deploy-via-jenkins)
+    - [Prometheus scraping](Node-Exporter#prometheus-scraping)
+    - [Changing the published port](Node-Exporter#changing-the-published-port)
+    - [Follow-up ideas](Node-Exporter#follow-up-ideas)
+  - [Prometheus](Prometheus)
+    - [Prerequisites](Prometheus#prerequisites)
+    - [Pipelines](Prometheus#pipelines)
+      - [Bash deployment (`pipeline/prometheus/app.sh`)](Prometheus#bash-deployment-pipelineprometheusappsh)
+      - [Jenkins deployment (`prometheus`)](Prometheus#jenkins-deployment-prometheus)
+      - [Validation checklist](Prometheus#validation-checklist)
+    - [Editing scrape configs](Prometheus#editing-scrape-configs)
+    - [Changing ports or persistence](Prometheus#changing-ports-or-persistence)
+    - [Follow-up ideas](Prometheus#follow-up-ideas)
+  - [Repo Structure](Repo-Structure)
+    - [Conventions](Repo-Structure#conventions)
+  - [SSH CA Cleanup](SSH-CA-Cleanup)
+    - [Expected state](SSH-CA-Cleanup#expected-state)
+    - [Steps (verify → correct if needed)](SSH-CA-Cleanup#steps-verify-correct-if-needed)
+  - [SSH CA (Machine Onboarding)](SSH-CA)
+    - [CA materials (one-time)](SSH-CA#ca-materials-one-time)
+    - [Onboard a machine to the CA](SSH-CA#onboard-a-machine-to-the-ca)
+    - [Notes](SSH-CA#notes)
+  - [Secrets](Secrets)
+    - [Locations](Secrets#locations)
+    - [Handling guidance](Secrets#handling-guidance)
+  - [Swarm Node Onboarding](Swarm-Node-Onboarding)
+    - [Prerequisites](Swarm-Node-Onboarding#prerequisites)
+    - [Manual join procedure](Swarm-Node-Onboarding#manual-join-procedure)
 
 ## Roadmap toward `homelab`
 
