@@ -1,4 +1,5 @@
 * [[Home]]
+* [[Machines]]
 * [[Repo Structure]]
 * [[Jenkins]]
 * [[MinIO]]
