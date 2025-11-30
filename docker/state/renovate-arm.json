@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "platform": "github",
+  "onboarding": false,
+  "requireConfig": "ignored",
+  "repositories": [
+    "nodadyoushutup/homelab"
+  ],
+  "logLevel": "info",
+  "dryRun": false,
+  "docker": {
+    "platform": "linux/arm64"
+  }
+}

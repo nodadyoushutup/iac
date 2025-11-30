@@ -26,10 +26,7 @@
       "matchPackageNames": [
         "jc21/nginx-proxy-manager"
       ],
-      "allowedVersions": "!/^(2\\.13\\.0|2\\.13\\.1|2\\.13\\.2)$/",
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      "allowedVersions": "!/^(2\\.13\\.0|2\\.13\\.1|2\\.13\\.2)$/"
     },
     {
       "matchDatasources": [
@@ -37,10 +34,7 @@
       ],
       "matchPackageNames": [
         "grafana/grafana"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -48,10 +42,7 @@
       ],
       "matchPackageNames": [
         "amir20/dozzle"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -59,10 +50,7 @@
       ],
       "matchPackageNames": [
         "graphiteapp/graphite-statsd"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -70,10 +58,7 @@
       ],
       "matchPackageNames": [
         "prom/node-exporter"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -81,10 +66,7 @@
       ],
       "matchPackageNames": [
         "prom/prometheus"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -92,10 +74,7 @@
       ],
       "matchPackageNames": [
         "ghcr.io/nodadyoushutup/jenkins-controller"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     },
     {
       "matchDatasources": [
@@ -103,10 +82,7 @@
       ],
       "matchPackageNames": [
         "ghcr.io/nodadyoushutup/jenkins-agent"
-      ],
-      "docker": {
-        "platform": "linux/arm64"
-      }
+      ]
     }
   ]
 }

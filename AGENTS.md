@@ -89,7 +89,7 @@ The planning document’s checklist remains the readiness gate for Swarm work—
   - [`prom/prometheus`](https://hub.docker.com/r/prom/prometheus) – referenced in `terraform/module/prometheus`.
   - [`grafana/grafana`](https://hub.docker.com/r/grafana/grafana) – referenced in `terraform/module/grafana/app`.
   - [`graphiteapp/graphite-statsd`](https://hub.docker.com/r/graphiteapp/graphite-statsd) – referenced in `terraform/module/graphite`.
-  - [`minio/minio`](https://min.io/docs/minio/container/index.html) – defined via `docker/minio/docker-compose.yaml` for the Terraform backend.
+- [`minio/minio`](https://min.io/docs/minio/container/index.html) – defined via `docker/state/docker-compose.yaml` for the Terraform backend.
   - [`ghcr.io/nodadyoushutup/jenkins-controller`](docker/jenkins/controller) – custom controller image built from `docker/jenkins/controller/`.
   - [`ghcr.io/nodadyoushutup/jenkins-agent`](docker/jenkins/agent) – custom agent image built from `docker/jenkins/agent/`.
   - [`jc21/nginx-proxy-manager`](https://hub.docker.com/r/jc21/nginx-proxy-manager) – deployed by `terraform/module/nginx_proxy_manager/app` for the reverse proxy UI/API.
