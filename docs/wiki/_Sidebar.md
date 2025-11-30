@@ -1,5 +1,7 @@
 * [[Home]]
 * [[Machines]]
+* [[Secrets]]
+* [[Docker-Swarm|Docker Swarm]]
 * [[Repo Structure]]
 * [[Jenkins]]
 * [[MinIO]]
