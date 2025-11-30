@@ -28,6 +28,28 @@ Source of truth for the SSH certificate authority workflow. Every machine mounts
 4. On every client machine: `sudo scripts/install-host-ca.sh` (defaults to `@cert-authority *`). On every SSH server: `sudo scripts/install-user-ca.sh` then reload sshd.
 5. Containers/agents: mount a known_hosts containing the CA line (or `/etc/ssh/ssh_known_hosts`) read-only and expose an SSH key/agent; no extra CA steps needed inside containers.
 
+## Cluster spot-check (swarm + dev)
+Run from any host with SSH access; confirms swarm inter-node, dev -> swarm, and swarm -> dev paths:
+```bash
+SSH_OPTS='-o StrictHostKeyChecking=accept-new'
+for src in swarm-cp-0.internal swarm-wk-0.internal swarm-wk-1.internal swarm-wk-2.internal swarm-wk-3.internal; do
+  for dst in swarm-cp-0.internal swarm-wk-0.internal swarm-wk-1.internal swarm-wk-2.internal swarm-wk-3.internal; do
+    echo "Testing $src -> $dst"
+    ssh $SSH_OPTS "$src" "ssh -o StrictHostKeyChecking=accept-new $dst hostname" || echo "FAIL $src -> $dst"
+  done
+done
+echo "Testing dev nodadyoushutup.internal -> swarm nodes"
+for dst in swarm-cp-0.internal swarm-wk-0.internal swarm-wk-1.internal swarm-wk-2.internal swarm-wk-3.internal; do
+  echo "Testing dev -> $dst"
+  ssh $SSH_OPTS "$dst" hostname || echo "FAIL dev -> $dst"
+done
+echo "Testing swarm nodes -> dev nodadyoushutup.internal"
+for src in swarm-cp-0.internal swarm-wk-0.internal swarm-wk-1.internal swarm-wk-2.internal swarm-wk-3.internal; do
+  echo "Testing $src -> dev"
+  ssh $SSH_OPTS "$src" "ssh -o StrictHostKeyChecking=accept-new nodadyoushutup.internal hostname" || echo "FAIL $src -> dev"
+done
+```
+
 ## Cleanup guidance
 
 - Keep: CA private/public keys (`.keys/host_ca*`, `.keys/user_ca*`), installed trust files (`/etc/ssh/ssh_known_hosts` CA line, `/etc/ssh/user_ca.pub`, `TrustedUserCAKeys` entry), server host certs/keys under `/etc/ssh/`.
@@ -47,3 +69,4 @@ Source of truth for the SSH certificate authority workflow. Every machine mounts
 - Machines/paths: see [[Machines]] for host list, NFS mount (`~/code/homelab`), and `ssh` connectivity expectations.
 - Secrets/tfvars/env: see [[Secrets]]; CA keys stay outside git under `ssh-ca/.keys`.
 - Swarm/containers: see [[Docker Swarm]] for pipeline patterns and how to mount trust into services.
+- NFS root_squash: executing helper scripts directly with `sudo` from the NFS mount can fail with “Permission denied”; pipe via `sudo bash -s < ssh-ca/scripts/<script>.sh` or copy to `/tmp` before running.

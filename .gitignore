@@ -44,7 +44,7 @@ terraform.rc
 docker/config.yaml
 
 # Planning
-/planning/
+planning/**
 
 # Environment
 *.env
