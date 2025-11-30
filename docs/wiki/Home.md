@@ -23,6 +23,7 @@ configuration, and documentation for every platform service.
 - [[Machines]] – host inventory, access, NFS.
 - [[Secrets]] – tfvars/backends, kube configs, env files.
 - [[Docker Swarm]] – workflows, pipelines, tfvars/backends, Jenkins job patterns.
+- [[SSH-CA]] – host/user CA workflow, trust, cleanup, and container usage.
 - [[Repo Structure]] – layout and conventions.
 - [[Jenkins]] – CI/CD images and deployment via Terraform/pipelines.
 - [[MinIO]] – Terraform backend via Docker Compose.
