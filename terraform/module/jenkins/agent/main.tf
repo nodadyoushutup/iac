@@ -61,14 +61,15 @@ locals {
       )
     })
   ]
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -97,12 +98,17 @@ resource "terraform_data" "controller_image" {
   input = var.controller_image
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "agent" {
   name = "jenkins-agent-${var.name}"
   depends_on = [
     docker_volume.agent,
     docker_volume.agent_nfs,
-    terraform_data.controller_service
+    terraform_data.controller_service,
+    terraform_data.platforms,
   ]
 
   task_spec {
@@ -184,7 +190,8 @@ resource "docker_service" "agent" {
     ]
     replace_triggered_by = [
       terraform_data.controller_service,
-      terraform_data.controller_image
+      terraform_data.controller_image,
+      terraform_data.platforms,
     ]
   }
 }

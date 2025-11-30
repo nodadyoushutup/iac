@@ -1,14 +1,15 @@
 locals {
   admin_password   = tostring(var.provider_config.grafana.password)
   grafana_ini_path = "${path.module}/grafana.ini"
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to prevent perpetual plan diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -28,6 +29,10 @@ resource "docker_volume" "grafana_data" {
   driver = "local"
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_secret" "grafana_admin_password" {
   name = "grafana-admin-password"
   data = base64encode(local.admin_password)
@@ -40,6 +45,7 @@ resource "docker_config" "grafana_ini" {
 
 resource "docker_service" "grafana" {
   name = "grafana"
+  depends_on = [terraform_data.platforms]
 
   labels {
     label = "com.docker.stack.namespace"
@@ -80,7 +86,7 @@ resource "docker_service" "grafana" {
     }
 
     container_spec {
-      image = "grafana/grafana:12.3.0@sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8"
+      image = "grafana/grafana:12.3.0@sha256:fb238b17317d9dc532b5dd9008862e3a5c1a248da2c27f420446d3e068a79c46"
       env = {
         GF_SECURITY_ADMIN_USER           = "admin"
         GF_SECURITY_ADMIN_PASSWORD__FILE = "/run/secrets/grafana-admin-password"
@@ -150,6 +156,7 @@ resource "docker_service" "grafana" {
     replace_triggered_by = [
       docker_secret.grafana_admin_password,
       docker_config.grafana_ini,
+      terraform_data.platforms,
     ]
   }
 }

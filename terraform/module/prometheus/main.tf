@@ -1,14 +1,15 @@
 locals {
   prometheus_config_yaml = yamlencode(var.prometheus_config)
   prometheus_config_sha  = sha256(local.prometheus_config_yaml)
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -27,8 +28,15 @@ resource "docker_config" "prometheus" {
   data = base64encode(local.prometheus_config_yaml)
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "prometheus" {
   name = "prometheus"
+  depends_on = [
+    terraform_data.platforms
+  ]
 
   labels {
     label = "com.docker.stack.namespace"
@@ -118,7 +126,8 @@ resource "docker_service" "prometheus" {
       task_spec[0].placement[0].platforms,
     ]
     replace_triggered_by = [
-      docker_config.prometheus
+      docker_config.prometheus,
+      terraform_data.platforms,
     ]
   }
 }

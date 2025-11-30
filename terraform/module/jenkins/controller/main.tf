@@ -54,14 +54,15 @@ locals {
     })
   ]
   healthcheck_endpoint = format("%s/whoAmI/api/json?tree=authenticated", var.provider_config.jenkins.server_url)
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -87,12 +88,17 @@ resource "docker_config" "casc_config" {
   }
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "controller" {
   name = "jenkins-controller"
   depends_on = [
     docker_config.casc_config,
     docker_volume.controller,
-    docker_volume.controller_nfs
+    docker_volume.controller_nfs,
+    terraform_data.platforms,
   ]
 
   update_config {
@@ -206,7 +212,8 @@ resource "docker_service" "controller" {
       task_spec[0].placement[0].platforms,
     ]
     replace_triggered_by = [
-      docker_config.casc_config
+      docker_config.casc_config,
+      terraform_data.platforms,
     ]
   }
 }

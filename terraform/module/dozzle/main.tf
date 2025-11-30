@@ -1,12 +1,13 @@
 locals {
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -16,8 +17,13 @@ resource "docker_network" "dozzle" {
   driver = "overlay"
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "dozzle" {
   name = "dozzle"
+  depends_on = [terraform_data.platforms]
 
   task_spec {
     placement {
@@ -83,6 +89,9 @@ resource "docker_service" "dozzle" {
   lifecycle {
     ignore_changes = [
       task_spec[0].placement[0].platforms,
+    ]
+    replace_triggered_by = [
+      terraform_data.platforms,
     ]
   }
 }

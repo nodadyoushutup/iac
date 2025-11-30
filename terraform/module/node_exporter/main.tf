@@ -1,12 +1,13 @@
 locals {
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 }
@@ -16,8 +17,13 @@ resource "docker_network" "node_exporter" {
   driver = "overlay"
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "node_exporter" {
   name = "node-exporter"
+  depends_on = [terraform_data.platforms]
 
   labels {
     label = "com.docker.stack.namespace"
@@ -111,6 +117,9 @@ resource "docker_service" "node_exporter" {
   lifecycle {
     ignore_changes = [
       task_spec[0].placement[0].platforms,
+    ]
+    replace_triggered_by = [
+      terraform_data.platforms,
     ]
   }
 }

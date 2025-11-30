@@ -1,13 +1,14 @@
 locals {
   stack_name = "nginx-proxy-manager"
+  # Order matches Swarm's platform reporting (aarch64 then arm64) to avoid churny platform diffs.
   allowed_platforms = [
     {
       os           = "linux"
-      architecture = "arm64"
+      architecture = "aarch64"
     },
     {
       os           = "linux"
-      architecture = "aarch64"
+      architecture = "arm64"
     }
   ]
 
@@ -63,8 +64,13 @@ resource "docker_volume" "nginx_proxy_manager_letsencrypt" {
   driver = "local"
 }
 
+resource "terraform_data" "platforms" {
+  input = local.allowed_platforms
+}
+
 resource "docker_service" "nginx_proxy_manager" {
   name = local.stack_name
+  depends_on = [terraform_data.platforms]
 
   labels {
     label = "com.docker.stack.namespace"
@@ -161,6 +167,9 @@ resource "docker_service" "nginx_proxy_manager" {
   lifecycle {
     ignore_changes = [
       task_spec[0].placement[0].platforms,
+    ]
+    replace_triggered_by = [
+      terraform_data.platforms,
     ]
   }
 }

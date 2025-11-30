@@ -26,7 +26,65 @@
       "matchPackageNames": [
         "jc21/nginx-proxy-manager"
       ],
-      "allowedVersions": "!/^(2\\.13\\.0|2\\.13\\.1|2\\.13\\.2)$/"
+      "allowedVersions": "!/^(2\\.13\\.0|2\\.13\\.1|2\\.13\\.2)$/",
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "grafana/grafana"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "amir20/dozzle"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "graphiteapp/graphite-statsd"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "prom/node-exporter"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "prom/prometheus"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
     }
   ]
 }
