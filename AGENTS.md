@@ -4,6 +4,7 @@ Use this as a directory to the source-of-truth docs agents need.
 
 - Machine inventory (hosts, IPs, OS/arch, Docker versions, access/NFS notes): `docs/wiki/Machines.md`.
 - Secrets, tfvars/backends, kube configs, env files: `docs/wiki/Secrets.md`.
+- SSH CA machine onboarding (host/user cert trust, manual install): `docs/wiki/SSH-CA.md`.
 - Docker Swarm workflow (taxonomy, planning stages, pipelines/Jenkins, tfvars/backends, purge scripts, resource links): `docs/wiki/Docker-Swarm.md`.
 - Swarm node onboarding (manual worker/manager add, prerequisites, labels, validation): `docs/wiki/Swarm-Node-Onboarding.md`.
 - Planning docs for active changes: `docs/planning/<service>-plan.md` (complete before merging).

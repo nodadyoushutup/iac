@@ -1,9 +1,10 @@
 # Swarm Node Onboarding
 
-Manual runbook for adding new Swarm nodes without relying on the old SSH CA scripts or scp. Copy/paste config and commands directly on the target host instead of trying to automate the flow.
+Manual runbook for adding new Swarm nodes after the machine is onboarded to the SSH CA (see [[SSH-CA]]). Copy/paste config and commands directly on the target host—no automation or scp.
 
 ## Prerequisites
 
+- Finish SSH CA onboarding from [[SSH-CA]] so the node already has host/user CA trust and certs.
 - Networking: static IP + DNS entry (`<name>.internal`) reachable from all swarm nodes and the dev box. Add/update the entry in [[Machines]] once assigned.
 - Access: `nodadyoushutup` user present with sudo, `~/.ssh/authorized_keys` populated (paste the key manually) and `chmod 600 ~/.ssh/authorized_keys`. Verify with `ssh <host> hostname` from the dev box.
 - Packages: `sudo apt update && sudo apt install -y curl ca-certificates gnupg nfs-common`; set the hostname before joining (`sudo hostnamectl set-hostname <name>`).
@@ -11,10 +12,7 @@ Manual runbook for adding new Swarm nodes without relying on the old SSH CA scri
   ```bash
   sudo install -d /home/nodadyoushutup/{code,.tfvars,.kube,.jenkins}
   cat <<'EOF' | sudo tee -a /etc/fstab
-  truenas.internal:/mnt/eapp/home/code    /home/nodadyoushutup/code    nfs defaults 0 0
-  truenas.internal:/mnt/eapp/home/.tfvars /home/nodadyoushutup/.tfvars nfs defaults 0 0
-  truenas.internal:/mnt/eapp/home/.kube   /home/nodadyoushutup/.kube   nfs defaults 0 0
-  truenas.internal:/mnt/eapp/home/.jenkins /home/nodadyoushutup/.jenkins nfs defaults 0 0
+  192.168.1.100:/mnt/eapp/home/code        /home/nodadyoushutup/code  nfs  nfsvers=4.2,proto=tcp,rsize=1048576,wsize=1048576,hard,intr,noatime,actimeo=1,nconnect=4,_netdev  0 0
   EOF
   sudo mount -a
   ```

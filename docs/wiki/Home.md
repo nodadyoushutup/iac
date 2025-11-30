@@ -7,6 +7,7 @@ configuration, and documentation for every platform service.
 ## What lives here
 
 - **Machines & secrets** – Inventory, access, and credential locations. See [[Machines]] and [[Secrets]].
+- **Access & trust** – SSH CA onboarding so hosts trust each other everywhere. See [[SSH-CA]].
 - **Swarm workflows** – Taxonomy, pipelines, tfvars/backends, Jenkins job patterns. See [[Docker Swarm]] and [[Swarm-Node-Onboarding|Swarm Node Onboarding]].
 - **Core stacks** – Jenkins, MinIO, Nginx Proxy Manager, Prometheus, Grafana, Graphite, Node Exporter. See their pages for Terraform/pipeline docs.
 - **Runbooks & references** – Operational notes (labels, repo structure, planning docs).
@@ -22,6 +23,7 @@ configuration, and documentation for every platform service.
 
 - [[Machines]] – host inventory, access, NFS.
 - [[Secrets]] – tfvars/backends, kube configs, env files.
+- [[SSH-CA]] – machine onboarding for host/user CA trust.
 - [[Docker Swarm]] – workflows, pipelines, tfvars/backends, Jenkins job patterns.
 - [[Swarm-Node-Onboarding|Swarm Node Onboarding]] – manual checklist to add Swarm nodes without automation.
 - [[Repo Structure]] – layout and conventions.
