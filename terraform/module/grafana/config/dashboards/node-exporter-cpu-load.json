@@ -30,7 +30,7 @@
     "node-exporter"
   ],
   "time": {
-    "from": "now-10m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -44,8 +44,8 @@
   "id": null,
   "panels": [
     {
-      "id": 4,
-      "title": "Avg 5m Load / CPU",
+      "id": 23,
+      "title": "Overall CPU Usage",
       "type": "stat",
       "datasource": {
         "type": "prometheus",
@@ -54,7 +54,74 @@
       "gridPos": {
         "h": 5,
         "w": 6,
-        "x": 18,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "100 * sum(rate(node_cpu_seconds_total{mode!=\"idle\", instance=~\"$node\"}[5m])) / sum(rate(node_cpu_seconds_total{instance=~\"$node\"}[5m]))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "title": "Load per CPU (5m)",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "targets": [
@@ -93,7 +160,7 @@
       },
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "center",
         "orientation": "horizontal",
         "reduceOptions": {
@@ -103,19 +170,157 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 25,
+      "title": "Average CPU Wait Pressure",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg(rate(node_pressure_cpu_waiting_seconds_total{instance=~\"$node\"}[5m]) * 100)",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 26,
+      "title": "Average CPU Frequency",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg(node_cpu_scaling_frequency_hertz{instance=~\"$node\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1500000000.0
+              },
+              {
+                "color": "red",
+                "value": 2100000000.0
+              }
+            ]
+          },
+          "unit": "hertz"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
       }
     },
     {
       "id": 5,
-      "title": "CPU Busy (%)",
+      "title": "CPU Usage by Node",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
         "x": 0,
         "y": 5
@@ -151,8 +356,49 @@
       }
     },
     {
+      "id": 24,
+      "title": "CPU Usage by Core",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 5
+      },
+      "targets": [
+        {
+          "expr": "100 * sum by (instance, cpu) (rate(node_cpu_seconds_total{mode!=\"idle\", instance=~\"$node\"}[5m]))",
+          "legendFormat": "{{instance}} cpu{{cpu}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 1,
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
       "id": 6,
-      "title": "Normalized Load Averages",
+      "title": "Load Averages by Node",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -160,9 +406,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 12,
-        "y": 5
+        "w": 12,
+        "x": 0,
+        "y": 14
       },
       "targets": [
         {
@@ -201,6 +447,46 @@
       }
     },
     {
+      "id": 19,
+      "title": "CPU Temperatures",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
+      },
+      "targets": [
+        {
+          "expr": "clamp_max(node_hwmon_temp_celsius{instance=~\"$node\"}, 200)",
+          "legendFormat": "{{instance}} {{chip}} {{sensor}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
       "id": 7,
       "title": "Context Switches vs Interrupts",
       "type": "timeseries",
@@ -210,9 +496,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 5
+        "w": 8,
+        "x": 0,
+        "y": 22
       },
       "targets": [
         {
@@ -246,8 +532,8 @@
       }
     },
     {
-      "id": 19,
-      "title": "Hardware Temperatures",
+      "id": 22,
+      "title": "CPU Wait Pressure",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -255,20 +541,20 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 37
+        "w": 8,
+        "x": 8,
+        "y": 22
       },
       "targets": [
         {
-          "expr": "clamp_max(node_hwmon_temp_celsius{instance=~\"$node\"}, 200)",
-          "legendFormat": "{{instance}} {{chip}} {{sensor}}",
+          "expr": "100 * rate(node_pressure_cpu_waiting_seconds_total{instance=~\"$node\"}[5m])",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "celsius"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -295,9 +581,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 45
+        "w": 8,
+        "x": 16,
+        "y": 22
       },
       "targets": [
         {
@@ -329,105 +615,11 @@
           "sort": "desc"
         }
       }
-    },
-    {
-      "id": 21,
-      "title": "CPU Scaling Governor",
-      "type": "bargauge",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 45
-      },
-      "targets": [
-        {
-          "expr": "max by (instance, governor) (node_cpu_scaling_governor{instance=~\"$node\"})",
-          "legendFormat": "{{instance}} {{governor}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "min": 0,
-          "max": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        }
-      }
-    },
-    {
-      "id": 22,
-      "title": "CPU Pressure (wait)",
-      "type": "timeseries",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 53
-      },
-      "targets": [
-        {
-          "expr": "100 * rate(node_pressure_cpu_waiting_seconds_total{instance=~\"$node\"}[5m])",
-          "legendFormat": "{{instance}}",
-          "refId": "A"
-        }
-      ],
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "options": {
-        "legend": {
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true,
-          "calcs": []
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      }
     }
   ],
-  "title": "Node Exporter \u2013 CPU & Load",
+  "title": "Node Exporter \u2013 CPU",
   "uid": "node-exp-cpu",
-  "version": 1,
+  "version": 17,
   "templating": {
     "list": [
       {

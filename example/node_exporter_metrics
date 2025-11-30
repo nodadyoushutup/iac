@@ -1,104 +1,110 @@
-# HELP go_gc_duration_seconds A summary of the pause duration of garbage collection cycles.
+# HELP go_gc_duration_seconds A summary of the wall-time pause (stop-the-world) duration in garbage collection cycles.
 # TYPE go_gc_duration_seconds summary
-go_gc_duration_seconds{quantile="0"} 4.7225e-05
-go_gc_duration_seconds{quantile="0.25"} 5.9355e-05
-go_gc_duration_seconds{quantile="0.5"} 6.0707e-05
-go_gc_duration_seconds{quantile="0.75"} 6.3444e-05
-go_gc_duration_seconds{quantile="1"} 0.000118136
-go_gc_duration_seconds_sum 0.047381575
-go_gc_duration_seconds_count 763
+go_gc_duration_seconds{quantile="0"} 5.4347e-05
+go_gc_duration_seconds{quantile="0.25"} 6.2636e-05
+go_gc_duration_seconds{quantile="0.5"} 6.6619e-05
+go_gc_duration_seconds{quantile="0.75"} 7.0816e-05
+go_gc_duration_seconds{quantile="1"} 0.000115645
+go_gc_duration_seconds_sum 0.018451731
+go_gc_duration_seconds_count 273
+# HELP go_gc_gogc_percent Heap size target percentage configured by the user, otherwise 100. This value is set by the GOGC environment variable, and the runtime/debug.SetGCPercent function. Sourced from /gc/gogc:percent.
+# TYPE go_gc_gogc_percent gauge
+go_gc_gogc_percent 100
+# HELP go_gc_gomemlimit_bytes Go runtime memory limit configured by the user, otherwise math.MaxInt64. This value is set by the GOMEMLIMIT environment variable, and the runtime/debug.SetMemoryLimit function. Sourced from /gc/gomemlimit:bytes.
+# TYPE go_gc_gomemlimit_bytes gauge
+go_gc_gomemlimit_bytes 9.223372036854776e+18
 # HELP go_goroutines Number of goroutines that currently exist.
 # TYPE go_goroutines gauge
-go_goroutines 9
+go_goroutines 8
 # HELP go_info Information about the Go environment.
 # TYPE go_info gauge
-go_info{version="go1.21.4"} 1
-# HELP go_memstats_alloc_bytes Number of bytes allocated and still in use.
+go_info{version="go1.25.3"} 1
+# HELP go_memstats_alloc_bytes Number of bytes allocated in heap and currently in use. Equals to /memory/classes/heap/objects:bytes.
 # TYPE go_memstats_alloc_bytes gauge
-go_memstats_alloc_bytes 2.139176e+06
-# HELP go_memstats_alloc_bytes_total Total number of bytes allocated, even if freed.
+go_memstats_alloc_bytes 2.731224e+06
+# HELP go_memstats_alloc_bytes_total Total number of bytes allocated in heap until now, even if released already. Equals to /gc/heap/allocs:bytes.
 # TYPE go_memstats_alloc_bytes_total counter
-go_memstats_alloc_bytes_total 1.300676328e+09
-# HELP go_memstats_buck_hash_sys_bytes Number of bytes used by the profiling bucket hash table.
+go_memstats_alloc_bytes_total 4.62192096e+08
+# HELP go_memstats_buck_hash_sys_bytes Number of bytes used by the profiling bucket hash table. Equals to /memory/classes/profiling/buckets:bytes.
 # TYPE go_memstats_buck_hash_sys_bytes gauge
-go_memstats_buck_hash_sys_bytes 1.625652e+06
-# HELP go_memstats_frees_total Total number of frees.
+go_memstats_buck_hash_sys_bytes 1.539065e+06
+# HELP go_memstats_frees_total Total number of heap objects frees. Equals to /gc/heap/frees:objects + /gc/heap/tiny/allocs:objects.
 # TYPE go_memstats_frees_total counter
-go_memstats_frees_total 1.7734201e+07
-# HELP go_memstats_gc_sys_bytes Number of bytes used for garbage collection system metadata.
+go_memstats_frees_total 4.62477e+06
+# HELP go_memstats_gc_sys_bytes Number of bytes used for garbage collection system metadata. Equals to /memory/classes/metadata/other:bytes.
 # TYPE go_memstats_gc_sys_bytes gauge
-go_memstats_gc_sys_bytes 4.187432e+06
-# HELP go_memstats_heap_alloc_bytes Number of heap bytes allocated and still in use.
+go_memstats_gc_sys_bytes 3.245328e+06
+# HELP go_memstats_heap_alloc_bytes Number of heap bytes allocated and currently in use, same as go_memstats_alloc_bytes. Equals to /memory/classes/heap/objects:bytes.
 # TYPE go_memstats_heap_alloc_bytes gauge
-go_memstats_heap_alloc_bytes 2.139176e+06
-# HELP go_memstats_heap_idle_bytes Number of heap bytes waiting to be used.
+go_memstats_heap_alloc_bytes 2.731224e+06
+# HELP go_memstats_heap_idle_bytes Number of heap bytes waiting to be used. Equals to /memory/classes/heap/released:bytes + /memory/classes/heap/free:bytes.
 # TYPE go_memstats_heap_idle_bytes gauge
-go_memstats_heap_idle_bytes 4.005888e+06
-# HELP go_memstats_heap_inuse_bytes Number of heap bytes that are in use.
+go_memstats_heap_idle_bytes 3.653632e+06
+# HELP go_memstats_heap_inuse_bytes Number of heap bytes that are in use. Equals to /memory/classes/heap/objects:bytes + /memory/classes/heap/unused:bytes
 # TYPE go_memstats_heap_inuse_bytes gauge
-go_memstats_heap_inuse_bytes 3.858432e+06
-# HELP go_memstats_heap_objects Number of allocated objects.
+go_memstats_heap_inuse_bytes 4.01408e+06
+# HELP go_memstats_heap_objects Number of currently allocated objects. Equals to /gc/heap/objects:objects.
 # TYPE go_memstats_heap_objects gauge
-go_memstats_heap_objects 14120
-# HELP go_memstats_heap_released_bytes Number of heap bytes released to OS.
+go_memstats_heap_objects 21527
+# HELP go_memstats_heap_released_bytes Number of heap bytes released to OS. Equals to /memory/classes/heap/released:bytes.
 # TYPE go_memstats_heap_released_bytes gauge
-go_memstats_heap_released_bytes 3.006464e+06
-# HELP go_memstats_heap_sys_bytes Number of heap bytes obtained from system.
+go_memstats_heap_released_bytes 3.31776e+06
+# HELP go_memstats_heap_sys_bytes Number of heap bytes obtained from system. Equals to /memory/classes/heap/objects:bytes + /memory/classes/heap/unused:bytes + /memory/classes/heap/released:bytes + /memory/classes/heap/free:bytes.
 # TYPE go_memstats_heap_sys_bytes gauge
-go_memstats_heap_sys_bytes 7.86432e+06
+go_memstats_heap_sys_bytes 7.667712e+06
 # HELP go_memstats_last_gc_time_seconds Number of seconds since 1970 of last garbage collection.
 # TYPE go_memstats_last_gc_time_seconds gauge
-go_memstats_last_gc_time_seconds 1.7626410959286475e+09
-# HELP go_memstats_lookups_total Total number of pointer lookups.
-# TYPE go_memstats_lookups_total counter
-go_memstats_lookups_total 0
-# HELP go_memstats_mallocs_total Total number of mallocs.
+go_memstats_last_gc_time_seconds 1.7644623295642643e+09
+# HELP go_memstats_mallocs_total Total number of heap objects allocated, both live and gc-ed. Semantically a counter version for go_memstats_heap_objects gauge. Equals to /gc/heap/allocs:objects + /gc/heap/tiny/allocs:objects.
 # TYPE go_memstats_mallocs_total counter
-go_memstats_mallocs_total 1.7748321e+07
-# HELP go_memstats_mcache_inuse_bytes Number of bytes in use by mcache structures.
+go_memstats_mallocs_total 4.646297e+06
+# HELP go_memstats_mcache_inuse_bytes Number of bytes in use by mcache structures. Equals to /memory/classes/metadata/mcache/inuse:bytes.
 # TYPE go_memstats_mcache_inuse_bytes gauge
-go_memstats_mcache_inuse_bytes 1200
-# HELP go_memstats_mcache_sys_bytes Number of bytes used for mcache structures obtained from system.
+go_memstats_mcache_inuse_bytes 1208
+# HELP go_memstats_mcache_sys_bytes Number of bytes used for mcache structures obtained from system. Equals to /memory/classes/metadata/mcache/inuse:bytes + /memory/classes/metadata/mcache/free:bytes.
 # TYPE go_memstats_mcache_sys_bytes gauge
-go_memstats_mcache_sys_bytes 15600
-# HELP go_memstats_mspan_inuse_bytes Number of bytes in use by mspan structures.
+go_memstats_mcache_sys_bytes 15704
+# HELP go_memstats_mspan_inuse_bytes Number of bytes in use by mspan structures. Equals to /memory/classes/metadata/mspan/inuse:bytes.
 # TYPE go_memstats_mspan_inuse_bytes gauge
-go_memstats_mspan_inuse_bytes 66696
-# HELP go_memstats_mspan_sys_bytes Number of bytes used for mspan structures obtained from system.
+go_memstats_mspan_inuse_bytes 59360
+# HELP go_memstats_mspan_sys_bytes Number of bytes used for mspan structures obtained from system. Equals to /memory/classes/metadata/mspan/inuse:bytes + /memory/classes/metadata/mspan/free:bytes.
 # TYPE go_memstats_mspan_sys_bytes gauge
-go_memstats_mspan_sys_bytes 81480
-# HELP go_memstats_next_gc_bytes Number of heap bytes when next garbage collection will take place.
+go_memstats_mspan_sys_bytes 81600
+# HELP go_memstats_next_gc_bytes Number of heap bytes when next garbage collection will take place. Equals to /gc/heap/goal:bytes.
 # TYPE go_memstats_next_gc_bytes gauge
-go_memstats_next_gc_bytes 4.376808e+06
-# HELP go_memstats_other_sys_bytes Number of bytes used for other system allocations.
+go_memstats_next_gc_bytes 4.227498e+06
+# HELP go_memstats_other_sys_bytes Number of bytes used for other system allocations. Equals to /memory/classes/other:bytes.
 # TYPE go_memstats_other_sys_bytes gauge
-go_memstats_other_sys_bytes 484980
-# HELP go_memstats_stack_inuse_bytes Number of bytes in use by the stack allocator.
+go_memstats_other_sys_bytes 973799
+# HELP go_memstats_stack_inuse_bytes Number of bytes obtained from system for stack allocator in non-CGO environments. Equals to /memory/classes/heap/stacks:bytes.
 # TYPE go_memstats_stack_inuse_bytes gauge
-go_memstats_stack_inuse_bytes 524288
-# HELP go_memstats_stack_sys_bytes Number of bytes obtained from system for stack allocator.
+go_memstats_stack_inuse_bytes 720896
+# HELP go_memstats_stack_sys_bytes Number of bytes obtained from system for stack allocator. Equals to /memory/classes/heap/stacks:bytes + /memory/classes/os-stacks:bytes.
 # TYPE go_memstats_stack_sys_bytes gauge
-go_memstats_stack_sys_bytes 524288
-# HELP go_memstats_sys_bytes Number of bytes obtained from system.
+go_memstats_stack_sys_bytes 720896
+# HELP go_memstats_sys_bytes Number of bytes obtained from system. Equals to /memory/classes/total:byte.
 # TYPE go_memstats_sys_bytes gauge
-go_memstats_sys_bytes 1.4783752e+07
+go_memstats_sys_bytes 1.4244104e+07
+# HELP go_sched_gomaxprocs_threads The current runtime.GOMAXPROCS setting, or the number of operating system threads that can execute user-level Go code simultaneously. Sourced from /sched/gomaxprocs:threads.
+# TYPE go_sched_gomaxprocs_threads gauge
+go_sched_gomaxprocs_threads 1
 # HELP go_threads Number of OS threads created.
 # TYPE go_threads gauge
-go_threads 5
+go_threads 6
 # HELP node_arp_entries ARP entries by device
 # TYPE node_arp_entries gauge
-node_arp_entries{device="eth0"} 3
+node_arp_entries{device="eth1"} 1
 # HELP node_boot_time_seconds Node boot time, in unixtime.
 # TYPE node_boot_time_seconds gauge
-node_boot_time_seconds 1.760132312e+09
+node_boot_time_seconds 1.764456518e+09
 # HELP node_context_switches_total Total number of context switches.
 # TYPE node_context_switches_total counter
-node_context_switches_total 1.074188752e+09
+node_context_switches_total 6.077218e+06
 # HELP node_cooling_device_cur_state Current throttle state of the cooling device
 # TYPE node_cooling_device_cur_state gauge
 node_cooling_device_cur_state{name="0",type="PCIe_Port_Link_Speed_0001:00:00.0"} 0
 node_cooling_device_cur_state{name="1",type="PCIe_Port_Link_Speed_0002:00:00.0"} 0
-node_cooling_device_cur_state{name="2",type="pwm-fan"} 1
+node_cooling_device_cur_state{name="2",type="pwm-fan"} 0
 # HELP node_cooling_device_max_state Maximum throttle state of the cooling device
 # TYPE node_cooling_device_max_state gauge
 node_cooling_device_max_state{name="0",type="PCIe_Port_Link_Speed_0001:00:00.0"} 1
@@ -172,92 +178,92 @@ node_cpu_scaling_governor{cpu="3",governor="schedutil"} 0
 node_cpu_scaling_governor{cpu="3",governor="userspace"} 0
 # HELP node_cpu_seconds_total Seconds the CPUs spent in each mode.
 # TYPE node_cpu_seconds_total counter
-node_cpu_seconds_total{cpu="0",mode="idle"} 2.49495886e+06
-node_cpu_seconds_total{cpu="0",mode="iowait"} 2730.09
+node_cpu_seconds_total{cpu="0",mode="idle"} 5736.1
+node_cpu_seconds_total{cpu="0",mode="iowait"} 9.01
 node_cpu_seconds_total{cpu="0",mode="irq"} 0
-node_cpu_seconds_total{cpu="0",mode="nice"} 68.6
-node_cpu_seconds_total{cpu="0",mode="softirq"} 15.65
+node_cpu_seconds_total{cpu="0",mode="nice"} 0
+node_cpu_seconds_total{cpu="0",mode="softirq"} 0.15
 node_cpu_seconds_total{cpu="0",mode="steal"} 0
-node_cpu_seconds_total{cpu="0",mode="system"} 4419.62
-node_cpu_seconds_total{cpu="0",mode="user"} 4145.26
-node_cpu_seconds_total{cpu="1",mode="idle"} 2.49473514e+06
-node_cpu_seconds_total{cpu="1",mode="iowait"} 2798.63
+node_cpu_seconds_total{cpu="0",mode="system"} 25.71
+node_cpu_seconds_total{cpu="0",mode="user"} 35.24
+node_cpu_seconds_total{cpu="1",mode="idle"} 5557.06
+node_cpu_seconds_total{cpu="1",mode="iowait"} 9.06
 node_cpu_seconds_total{cpu="1",mode="irq"} 0
-node_cpu_seconds_total{cpu="1",mode="nice"} 90.15
-node_cpu_seconds_total{cpu="1",mode="softirq"} 38.53
+node_cpu_seconds_total{cpu="1",mode="nice"} 0
+node_cpu_seconds_total{cpu="1",mode="softirq"} 0.26
 node_cpu_seconds_total{cpu="1",mode="steal"} 0
-node_cpu_seconds_total{cpu="1",mode="system"} 4356.29
-node_cpu_seconds_total{cpu="1",mode="user"} 4506.47
-node_cpu_seconds_total{cpu="2",mode="idle"} 2.49478446e+06
-node_cpu_seconds_total{cpu="2",mode="iowait"} 2817.71
+node_cpu_seconds_total{cpu="1",mode="system"} 26.58
+node_cpu_seconds_total{cpu="1",mode="user"} 214.65
+node_cpu_seconds_total{cpu="2",mode="idle"} 5705.43
+node_cpu_seconds_total{cpu="2",mode="iowait"} 8.83
 node_cpu_seconds_total{cpu="2",mode="irq"} 0
-node_cpu_seconds_total{cpu="2",mode="nice"} 99.25
-node_cpu_seconds_total{cpu="2",mode="softirq"} 40
+node_cpu_seconds_total{cpu="2",mode="nice"} 0
+node_cpu_seconds_total{cpu="2",mode="softirq"} 0.26
 node_cpu_seconds_total{cpu="2",mode="steal"} 0
-node_cpu_seconds_total{cpu="2",mode="system"} 4372.23
-node_cpu_seconds_total{cpu="2",mode="user"} 4431.98
-node_cpu_seconds_total{cpu="3",mode="idle"} 2.49524613e+06
-node_cpu_seconds_total{cpu="3",mode="iowait"} 2816.68
+node_cpu_seconds_total{cpu="2",mode="system"} 25.07
+node_cpu_seconds_total{cpu="2",mode="user"} 65.69
+node_cpu_seconds_total{cpu="3",mode="idle"} 5638.47
+node_cpu_seconds_total{cpu="3",mode="iowait"} 8
 node_cpu_seconds_total{cpu="3",mode="irq"} 0
-node_cpu_seconds_total{cpu="3",mode="nice"} 66.74
-node_cpu_seconds_total{cpu="3",mode="softirq"} 47.39
+node_cpu_seconds_total{cpu="3",mode="nice"} 0
+node_cpu_seconds_total{cpu="3",mode="softirq"} 0.37
 node_cpu_seconds_total{cpu="3",mode="steal"} 0
-node_cpu_seconds_total{cpu="3",mode="system"} 4393.01
-node_cpu_seconds_total{cpu="3",mode="user"} 4007.51
+node_cpu_seconds_total{cpu="3",mode="system"} 25.91
+node_cpu_seconds_total{cpu="3",mode="user"} 134.29
 # HELP node_disk_discard_time_seconds_total This is the total number of seconds spent by all discards.
 # TYPE node_disk_discard_time_seconds_total counter
-node_disk_discard_time_seconds_total{device="nvme0n1"} 39.068
+node_disk_discard_time_seconds_total{device="nvme0n1"} 0
 # HELP node_disk_discarded_sectors_total The total number of sectors discarded successfully.
 # TYPE node_disk_discarded_sectors_total counter
-node_disk_discarded_sectors_total{device="nvme0n1"} 4.64599771e+08
+node_disk_discarded_sectors_total{device="nvme0n1"} 0
 # HELP node_disk_discards_completed_total The total number of discards completed successfully.
 # TYPE node_disk_discards_completed_total counter
-node_disk_discards_completed_total{device="nvme0n1"} 31609
+node_disk_discards_completed_total{device="nvme0n1"} 0
 # HELP node_disk_discards_merged_total The total number of discards merged.
 # TYPE node_disk_discards_merged_total counter
 node_disk_discards_merged_total{device="nvme0n1"} 0
 # HELP node_disk_flush_requests_time_seconds_total This is the total number of seconds spent by all flush requests.
 # TYPE node_disk_flush_requests_time_seconds_total counter
-node_disk_flush_requests_time_seconds_total{device="nvme0n1"} 1588.58
+node_disk_flush_requests_time_seconds_total{device="nvme0n1"} 1.913
 # HELP node_disk_flush_requests_total The total number of flush requests completed successfully
 # TYPE node_disk_flush_requests_total counter
-node_disk_flush_requests_total{device="nvme0n1"} 1.070486e+06
+node_disk_flush_requests_total{device="nvme0n1"} 2051
 # HELP node_disk_info Info of /sys/block/<block_device>.
 # TYPE node_disk_info gauge
-node_disk_info{device="nvme0n1",major="259",minor="0",model="",path="",revision="",serial="",wwn=""} 1
+node_disk_info{device="nvme0n1",major="259",minor="0",model="",path="",revision="",rotational="0",serial="",wwn=""} 1
 # HELP node_disk_io_now The number of I/Os currently in progress.
 # TYPE node_disk_io_now gauge
 node_disk_io_now{device="nvme0n1"} 0
 # HELP node_disk_io_time_seconds_total Total seconds spent doing I/Os.
 # TYPE node_disk_io_time_seconds_total counter
-node_disk_io_time_seconds_total{device="nvme0n1"} 11083.061
+node_disk_io_time_seconds_total{device="nvme0n1"} 21.294
 # HELP node_disk_io_time_weighted_seconds_total The weighted # of seconds spent doing I/Os.
 # TYPE node_disk_io_time_weighted_seconds_total counter
-node_disk_io_time_weighted_seconds_total{device="nvme0n1"} 53986.534
+node_disk_io_time_weighted_seconds_total{device="nvme0n1"} 76.72
 # HELP node_disk_read_bytes_total The total number of bytes read successfully.
 # TYPE node_disk_read_bytes_total counter
-node_disk_read_bytes_total{device="nvme0n1"} 1.354412544e+09
+node_disk_read_bytes_total{device="nvme0n1"} 8.39668224e+08
 # HELP node_disk_read_time_seconds_total The total number of seconds spent by all reads.
 # TYPE node_disk_read_time_seconds_total counter
-node_disk_read_time_seconds_total{device="nvme0n1"} 16.284
+node_disk_read_time_seconds_total{device="nvme0n1"} 5.4910000000000005
 # HELP node_disk_reads_completed_total The total number of reads completed successfully.
 # TYPE node_disk_reads_completed_total counter
-node_disk_reads_completed_total{device="nvme0n1"} 30544
+node_disk_reads_completed_total{device="nvme0n1"} 11338
 # HELP node_disk_reads_merged_total The total number of reads merged.
 # TYPE node_disk_reads_merged_total counter
-node_disk_reads_merged_total{device="nvme0n1"} 5714
+node_disk_reads_merged_total{device="nvme0n1"} 11565
 # HELP node_disk_write_time_seconds_total This is the total number of seconds spent by all writes.
 # TYPE node_disk_write_time_seconds_total counter
-node_disk_write_time_seconds_total{device="nvme0n1"} 52342.601
+node_disk_write_time_seconds_total{device="nvme0n1"} 69.315
 # HELP node_disk_writes_completed_total The total number of writes completed successfully.
 # TYPE node_disk_writes_completed_total counter
-node_disk_writes_completed_total{device="nvme0n1"} 3.4048326e+07
+node_disk_writes_completed_total{device="nvme0n1"} 44993
 # HELP node_disk_writes_merged_total The number of writes merged.
 # TYPE node_disk_writes_merged_total counter
-node_disk_writes_merged_total{device="nvme0n1"} 8.611414e+06
+node_disk_writes_merged_total{device="nvme0n1"} 25827
 # HELP node_disk_written_bytes_total The total number of bytes written successfully.
 # TYPE node_disk_written_bytes_total counter
-node_disk_written_bytes_total{device="nvme0n1"} 1.98200939008e+11
+node_disk_written_bytes_total{device="nvme0n1"} 5.10201856e+08
 # HELP node_entropy_available_bits Bits of available entropy.
 # TYPE node_entropy_available_bits gauge
 node_entropy_available_bits 256
@@ -266,7 +272,7 @@ node_entropy_available_bits 256
 node_entropy_pool_size_bits 256
 # HELP node_exporter_build_info A metric with a constant '1' value labeled by version, revision, branch, goversion from which node_exporter was built, and the goos and goarch for the build.
 # TYPE node_exporter_build_info gauge
-node_exporter_build_info{branch="HEAD",goarch="arm64",goos="linux",goversion="go1.21.4",revision="7333465abf9efba81876303bb57e6fadb946041b",tags="netgo osusergo static_build",version="1.7.0"} 1
+node_exporter_build_info{branch="HEAD",goarch="arm64",goos="linux",goversion="go1.25.3",revision="654f19dee6a0c41de78a8d6d870e8c742cdb43b9",tags="unknown",version="1.10.2"} 1
 # HELP node_filefd_allocated File descriptor statistics: allocated.
 # TYPE node_filefd_allocated gauge
 node_filefd_allocated 1504
@@ -275,72 +281,86 @@ node_filefd_allocated 1504
 node_filefd_maximum 9.223372036854776e+18
 # HELP node_filesystem_avail_bytes Filesystem space available to non-root users in bytes.
 # TYPE node_filesystem_avail_bytes gauge
-node_filesystem_avail_bytes{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
-node_filesystem_avail_bytes{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
-node_filesystem_avail_bytes{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 2.97453056e+08
-node_filesystem_avail_bytes{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 2.162018304e+11
-node_filesystem_avail_bytes{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_avail_bytes{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_avail_bytes{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_avail_bytes{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 2.97453568e+08
+node_filesystem_avail_bytes{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 2.16266838016e+11
+node_filesystem_avail_bytes{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_device_error Whether an error occurred while getting statistics for the given device.
 # TYPE node_filesystem_device_error gauge
-node_filesystem_device_error{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
-node_filesystem_device_error{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
-node_filesystem_device_error{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 0
-node_filesystem_device_error{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 0
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-mindt1v762"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-piyqn7petd"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-secjwy8opf"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1ca5a5852b7a"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/e44954ddfc07"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/ingress_sbox"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/lb_piyqn7pet"} 1
-node_filesystem_device_error{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/lb_secjwy8op"} 1
-node_filesystem_device_error{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_device_error{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_device_error{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_device_error{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 0
+node_filesystem_device_error{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 0
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-mindt1v762"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-q48pr07pe1"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-u3ijrjpx6a"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/24e56e793cf2"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/6614ff8a83f7"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/ingress_sbox"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/lb_q48pr07pe"} 1
+node_filesystem_device_error{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/lb_u3ijrjpx6"} 1
+node_filesystem_device_error{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_files Filesystem total file nodes.
 # TYPE node_filesystem_files gauge
-node_filesystem_files{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 620
-node_filesystem_files{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 621
-node_filesystem_files{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 0
-node_filesystem_files{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 1.5414784e+07
-node_filesystem_files{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_files{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 620
+node_filesystem_files{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 621
+node_filesystem_files{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 0
+node_filesystem_files{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 1.5414784e+07
+node_filesystem_files{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_files_free Filesystem total free file nodes.
 # TYPE node_filesystem_files_free gauge
-node_filesystem_files_free{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
-node_filesystem_files_free{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
-node_filesystem_files_free{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 0
-node_filesystem_files_free{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 1.4758337e+07
-node_filesystem_files_free{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_files_free{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_files_free{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_files_free{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 0
+node_filesystem_files_free{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 1.4756897e+07
+node_filesystem_files_free{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_free_bytes Filesystem free space in bytes.
 # TYPE node_filesystem_free_bytes gauge
-node_filesystem_free_bytes{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
-node_filesystem_free_bytes{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
-node_filesystem_free_bytes{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 2.97453056e+08
-node_filesystem_free_bytes{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 2.26473283584e+11
-node_filesystem_free_bytes{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_free_bytes{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_free_bytes{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_free_bytes{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 2.97453568e+08
+node_filesystem_free_bytes{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 2.265382912e+11
+node_filesystem_free_bytes{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+# HELP node_filesystem_mount_info Filesystem mount information.
+# TYPE node_filesystem_mount_info gauge
+node_filesystem_mount_info{device="/dev/loop0",major="7",minor="0",mountpoint="/snap/snapd/25205"} 1
+node_filesystem_mount_info{device="/dev/loop1",major="7",minor="1",mountpoint="/snap/snapd/25585"} 1
+node_filesystem_mount_info{device="/dev/nvme0n1p1",major="259",minor="1",mountpoint="/boot/firmware"} 1
+node_filesystem_mount_info{device="/dev/nvme0n1p2",major="259",minor="2",mountpoint="/"} 1
+node_filesystem_mount_info{device="sunrpc",major="0",minor="50",mountpoint="/run/rpc_pipefs"} 1
+# HELP node_filesystem_purgeable_bytes Filesystem space available including purgeable space (MacOS specific).
+# TYPE node_filesystem_purgeable_bytes gauge
+node_filesystem_purgeable_bytes{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_purgeable_bytes{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_purgeable_bytes{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 0
+node_filesystem_purgeable_bytes{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 0
+node_filesystem_purgeable_bytes{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_readonly Filesystem read-only status.
 # TYPE node_filesystem_readonly gauge
-node_filesystem_readonly{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 1
-node_filesystem_readonly{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 1
-node_filesystem_readonly{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 0
-node_filesystem_readonly{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-mindt1v762"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-piyqn7petd"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1-secjwy8opf"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/1ca5a5852b7a"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/e44954ddfc07"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/ingress_sbox"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/lb_piyqn7pet"} 0
-node_filesystem_readonly{device="nsfs",fstype="nsfs",mountpoint="/run/docker/netns/lb_secjwy8op"} 0
-node_filesystem_readonly{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_readonly{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 0
+node_filesystem_readonly{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 0
+node_filesystem_readonly{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 0
+node_filesystem_readonly{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-mindt1v762"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-q48pr07pe1"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/1-u3ijrjpx6a"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/24e56e793cf2"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/6614ff8a83f7"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/ingress_sbox"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/lb_q48pr07pe"} 0
+node_filesystem_readonly{device="nsfs",device_error="permission denied",fstype="nsfs",mountpoint="/run/docker/netns/lb_u3ijrjpx6"} 0
+node_filesystem_readonly{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_filesystem_size_bytes Filesystem size in bytes.
 # TYPE node_filesystem_size_bytes gauge
-node_filesystem_size_bytes{device="/dev/loop0",fstype="squashfs",mountpoint="/snap/snapd/25205"} 4.6399488e+07
-node_filesystem_size_bytes{device="/dev/loop2",fstype="squashfs",mountpoint="/snap/snapd/25585"} 4.653056e+07
-node_filesystem_size_bytes{device="/dev/nvme0n1p1",fstype="vfat",mountpoint="/boot/firmware"} 5.28592896e+08
-node_filesystem_size_bytes{device="/dev/nvme0n1p2",fstype="ext4",mountpoint="/"} 2.5146738688e+11
-node_filesystem_size_bytes{device="sunrpc",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
+node_filesystem_size_bytes{device="/dev/loop0",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25205"} 4.6399488e+07
+node_filesystem_size_bytes{device="/dev/loop1",device_error="",fstype="squashfs",mountpoint="/snap/snapd/25585"} 4.653056e+07
+node_filesystem_size_bytes{device="/dev/nvme0n1p1",device_error="",fstype="vfat",mountpoint="/boot/firmware"} 5.28592896e+08
+node_filesystem_size_bytes{device="/dev/nvme0n1p2",device_error="",fstype="ext4",mountpoint="/"} 2.5146738688e+11
+node_filesystem_size_bytes{device="sunrpc",device_error="",fstype="rpc_pipefs",mountpoint="/run/rpc_pipefs"} 0
 # HELP node_forks_total Total number of forks.
 # TYPE node_forks_total counter
-node_forks_total 3.558404e+06
+node_forks_total 23200
 # HELP node_hwmon_chip_names Annotation metric for human-readable chip names
 # TYPE node_hwmon_chip_names gauge
 node_hwmon_chip_names{chip="1000120000_pcie_1f000c8000_adc",chip_name="rp1_adc"} 1
@@ -350,25 +370,25 @@ node_hwmon_chip_names{chip="soc_107c000000:firmware_raspberrypi_hwmon",chip_name
 node_hwmon_chip_names{chip="thermal_thermal_zone0",chip_name="cpu_thermal"} 1
 # HELP node_hwmon_fan_rpm Hardware monitor for fan revolutions per minute (input)
 # TYPE node_hwmon_fan_rpm gauge
-node_hwmon_fan_rpm{chip="platform_cooling_fan",sensor="fan1"} 3003
+node_hwmon_fan_rpm{chip="platform_cooling_fan",sensor="fan1"} 0
 # HELP node_hwmon_in_lcrit_alarm_volts Hardware monitor for voltage (lcrit_alarm)
 # TYPE node_hwmon_in_lcrit_alarm_volts gauge
-node_hwmon_in_lcrit_alarm_volts{chip="soc_107c000000:firmware_raspberrypi_hwmon",sensor="in0"} 0
+node_hwmon_in_lcrit_alarm_volts{chip="soc_107c000000:firmware_raspberrypi_hwmon",sensor="in0"} 0.001
 # HELP node_hwmon_in_raw_volts Hardware monitor for voltage (raw)
 # TYPE node_hwmon_in_raw_volts gauge
 node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in1"} 2.5100000000000002
-node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in2"} 2.928
-node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in3"} 1.472
-node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in4"} 1.473
+node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in2"} 2.872
+node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in3"} 1.602
+node_hwmon_in_raw_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in4"} 1.592
 # HELP node_hwmon_in_volts Hardware monitor for voltage (input)
 # TYPE node_hwmon_in_volts gauge
-node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in1"} 2.023
-node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in2"} 2.366
-node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in3"} 1.27
-node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in4"} 1.264
+node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in1"} 2.0220000000000002
+node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in2"} 2.312
+node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in3"} 1.415
+node_hwmon_in_volts{chip="1000120000_pcie_1f000c8000_adc",sensor="in4"} 1.3980000000000001
 # HELP node_hwmon_pwm Hardware monitor pwm element 
 # TYPE node_hwmon_pwm gauge
-node_hwmon_pwm{chip="platform_cooling_fan",sensor="pwm1"} 75
+node_hwmon_pwm{chip="platform_cooling_fan",sensor="pwm1"} 0
 # HELP node_hwmon_pwm_enable Hardware monitor pwm element enable
 # TYPE node_hwmon_pwm_enable gauge
 node_hwmon_pwm_enable{chip="platform_cooling_fan",sensor="pwm1"} 1
@@ -381,11 +401,11 @@ node_hwmon_sensor_label{chip="nvme_nvme0",label="Sensor 1",sensor="temp2"} 1
 node_hwmon_temp_alarm{chip="nvme_nvme0",sensor="temp1"} 0
 # HELP node_hwmon_temp_celsius Hardware monitor for temperature (input)
 # TYPE node_hwmon_temp_celsius gauge
-node_hwmon_temp_celsius{chip="1000120000_pcie_1f000c8000_adc",sensor="temp1"} 56.053000000000004
-node_hwmon_temp_celsius{chip="nvme_nvme0",sensor="temp1"} 38.85
-node_hwmon_temp_celsius{chip="nvme_nvme0",sensor="temp2"} 38.85
-node_hwmon_temp_celsius{chip="thermal_thermal_zone0",sensor="temp0"} 53.45
-node_hwmon_temp_celsius{chip="thermal_thermal_zone0",sensor="temp1"} 53.45
+node_hwmon_temp_celsius{chip="1000120000_pcie_1f000c8000_adc",sensor="temp1"} 51.404
+node_hwmon_temp_celsius{chip="nvme_nvme0",sensor="temp1"} 30.85
+node_hwmon_temp_celsius{chip="nvme_nvme0",sensor="temp2"} 30.85
+node_hwmon_temp_celsius{chip="thermal_thermal_zone0",sensor="temp0"} 47.4
+node_hwmon_temp_celsius{chip="thermal_thermal_zone0",sensor="temp1"} 47.4
 # HELP node_hwmon_temp_crit_celsius Hardware monitor for temperature (crit)
 # TYPE node_hwmon_temp_crit_celsius gauge
 node_hwmon_temp_crit_celsius{chip="nvme_nvme0",sensor="temp1"} 84.85000000000001
@@ -399,10 +419,10 @@ node_hwmon_temp_min_celsius{chip="nvme_nvme0",sensor="temp1"} -273.1500000000000
 node_hwmon_temp_min_celsius{chip="nvme_nvme0",sensor="temp2"} -273.15000000000003
 # HELP node_hwmon_temp_raw_celsius Hardware monitor for temperature (raw)
 # TYPE node_hwmon_temp_raw_celsius gauge
-node_hwmon_temp_raw_celsius{chip="1000120000_pcie_1f000c8000_adc",sensor="temp1"} 0.8150000000000001
+node_hwmon_temp_raw_celsius{chip="1000120000_pcie_1f000c8000_adc",sensor="temp1"} 0.8250000000000001
 # HELP node_intr_total Total number of interrupts serviced.
 # TYPE node_intr_total counter
-node_intr_total 9.74758963e+08
+node_intr_total 5.301548e+06
 # HELP node_ipvs_connections_total The total number of connections made.
 # TYPE node_ipvs_connections_total counter
 node_ipvs_connections_total 0
@@ -420,37 +440,37 @@ node_ipvs_outgoing_bytes_total 0
 node_ipvs_outgoing_packets_total 0
 # HELP node_load1 1m load average.
 # TYPE node_load1 gauge
-node_load1 0.01
+node_load1 0.12
 # HELP node_load15 15m load average.
 # TYPE node_load15 gauge
-node_load15 0
+node_load15 0.05
 # HELP node_load5 5m load average.
 # TYPE node_load5 gauge
-node_load5 0.04
+node_load5 0.12
 # HELP node_memory_Active_anon_bytes Memory information field Active_anon_bytes.
 # TYPE node_memory_Active_anon_bytes gauge
-node_memory_Active_anon_bytes 2.21728768e+08
+node_memory_Active_anon_bytes 2.11111936e+08
 # HELP node_memory_Active_bytes Memory information field Active_bytes.
 # TYPE node_memory_Active_bytes gauge
-node_memory_Active_bytes 3.556626432e+09
+node_memory_Active_bytes 8.99510272e+08
 # HELP node_memory_Active_file_bytes Memory information field Active_file_bytes.
 # TYPE node_memory_Active_file_bytes gauge
-node_memory_Active_file_bytes 3.334897664e+09
+node_memory_Active_file_bytes 6.88398336e+08
 # HELP node_memory_AnonHugePages_bytes Memory information field AnonHugePages_bytes.
 # TYPE node_memory_AnonHugePages_bytes gauge
 node_memory_AnonHugePages_bytes 0
 # HELP node_memory_AnonPages_bytes Memory information field AnonPages_bytes.
 # TYPE node_memory_AnonPages_bytes gauge
-node_memory_AnonPages_bytes 1.6152576e+08
+node_memory_AnonPages_bytes 1.50921216e+08
 # HELP node_memory_Bounce_bytes Memory information field Bounce_bytes.
 # TYPE node_memory_Bounce_bytes gauge
 node_memory_Bounce_bytes 0
 # HELP node_memory_Buffers_bytes Memory information field Buffers_bytes.
 # TYPE node_memory_Buffers_bytes gauge
-node_memory_Buffers_bytes 2.06041088e+08
+node_memory_Buffers_bytes 6.3279104e+07
 # HELP node_memory_Cached_bytes Memory information field Cached_bytes.
 # TYPE node_memory_Cached_bytes gauge
-node_memory_Cached_bytes 7.164854272e+09
+node_memory_Cached_bytes 9.64366336e+08
 # HELP node_memory_CmaFree_bytes Memory information field CmaFree_bytes.
 # TYPE node_memory_CmaFree_bytes gauge
 node_memory_CmaFree_bytes 4.9979392e+07
@@ -462,16 +482,10 @@ node_memory_CmaTotal_bytes 6.7108864e+07
 node_memory_CommitLimit_bytes 8.37382144e+09
 # HELP node_memory_Committed_AS_bytes Memory information field Committed_AS_bytes.
 # TYPE node_memory_Committed_AS_bytes gauge
-node_memory_Committed_AS_bytes 1.224769536e+09
+node_memory_Committed_AS_bytes 1.37125888e+09
 # HELP node_memory_Dirty_bytes Memory information field Dirty_bytes.
 # TYPE node_memory_Dirty_bytes gauge
-node_memory_Dirty_bytes 561152
-# HELP node_memory_FileHugePages_bytes Memory information field FileHugePages_bytes.
-# TYPE node_memory_FileHugePages_bytes gauge
-node_memory_FileHugePages_bytes 0
-# HELP node_memory_FilePmdMapped_bytes Memory information field FilePmdMapped_bytes.
-# TYPE node_memory_FilePmdMapped_bytes gauge
-node_memory_FilePmdMapped_bytes 0
+node_memory_Dirty_bytes 57344
 # HELP node_memory_HugePages_Free Memory information field HugePages_Free.
 # TYPE node_memory_HugePages_Free gauge
 node_memory_HugePages_Free 0
@@ -487,33 +501,27 @@ node_memory_HugePages_Total 0
 # HELP node_memory_Hugepagesize_bytes Memory information field Hugepagesize_bytes.
 # TYPE node_memory_Hugepagesize_bytes gauge
 node_memory_Hugepagesize_bytes 2.097152e+06
-# HELP node_memory_Hugetlb_bytes Memory information field Hugetlb_bytes.
-# TYPE node_memory_Hugetlb_bytes gauge
-node_memory_Hugetlb_bytes 0
 # HELP node_memory_Inactive_anon_bytes Memory information field Inactive_anon_bytes.
 # TYPE node_memory_Inactive_anon_bytes gauge
 node_memory_Inactive_anon_bytes 0
 # HELP node_memory_Inactive_bytes Memory information field Inactive_bytes.
 # TYPE node_memory_Inactive_bytes gauge
-node_memory_Inactive_bytes 3.975766016e+09
+node_memory_Inactive_bytes 2.79035904e+08
 # HELP node_memory_Inactive_file_bytes Memory information field Inactive_file_bytes.
 # TYPE node_memory_Inactive_file_bytes gauge
-node_memory_Inactive_file_bytes 3.975766016e+09
-# HELP node_memory_KReclaimable_bytes Memory information field KReclaimable_bytes.
-# TYPE node_memory_KReclaimable_bytes gauge
-node_memory_KReclaimable_bytes 5.54438656e+08
+node_memory_Inactive_file_bytes 2.79035904e+08
 # HELP node_memory_KernelStack_bytes Memory information field KernelStack_bytes.
 # TYPE node_memory_KernelStack_bytes gauge
-node_memory_KernelStack_bytes 4.358144e+06
+node_memory_KernelStack_bytes 4.571136e+06
 # HELP node_memory_Mapped_bytes Memory information field Mapped_bytes.
 # TYPE node_memory_Mapped_bytes gauge
-node_memory_Mapped_bytes 3.17464576e+08
+node_memory_Mapped_bytes 2.40246784e+08
 # HELP node_memory_MemAvailable_bytes Memory information field MemAvailable_bytes.
 # TYPE node_memory_MemAvailable_bytes gauge
-node_memory_MemAvailable_bytes 1.606744064e+10
+node_memory_MemAvailable_bytes 1.6134656e+10
 # HELP node_memory_MemFree_bytes Memory information field MemFree_bytes.
 # TYPE node_memory_MemFree_bytes gauge
-node_memory_MemFree_bytes 8.456708096e+09
+node_memory_MemFree_bytes 1.5339585536e+10
 # HELP node_memory_MemTotal_bytes Memory information field MemTotal_bytes.
 # TYPE node_memory_MemTotal_bytes gauge
 node_memory_MemTotal_bytes 1.674764288e+10
@@ -525,19 +533,16 @@ node_memory_Mlocked_bytes 0
 node_memory_NFS_Unstable_bytes 0
 # HELP node_memory_PageTables_bytes Memory information field PageTables_bytes.
 # TYPE node_memory_PageTables_bytes gauge
-node_memory_PageTables_bytes 4.866048e+06
+node_memory_PageTables_bytes 4.677632e+06
 # HELP node_memory_Percpu_bytes Memory information field Percpu_bytes.
 # TYPE node_memory_Percpu_bytes gauge
 node_memory_Percpu_bytes 1.14688e+06
 # HELP node_memory_SReclaimable_bytes Memory information field SReclaimable_bytes.
 # TYPE node_memory_SReclaimable_bytes gauge
-node_memory_SReclaimable_bytes 5.54438656e+08
+node_memory_SReclaimable_bytes 3.8146048e+07
 # HELP node_memory_SUnreclaim_bytes Memory information field SUnreclaim_bytes.
 # TYPE node_memory_SUnreclaim_bytes gauge
-node_memory_SUnreclaim_bytes 1.12463872e+08
-# HELP node_memory_SecPageTables_bytes Memory information field SecPageTables_bytes.
-# TYPE node_memory_SecPageTables_bytes gauge
-node_memory_SecPageTables_bytes 0
+node_memory_SUnreclaim_bytes 9.6067584e+07
 # HELP node_memory_ShmemHugePages_bytes Memory information field ShmemHugePages_bytes.
 # TYPE node_memory_ShmemHugePages_bytes gauge
 node_memory_ShmemHugePages_bytes 0
@@ -546,10 +551,10 @@ node_memory_ShmemHugePages_bytes 0
 node_memory_ShmemPmdMapped_bytes 0
 # HELP node_memory_Shmem_bytes Memory information field Shmem_bytes.
 # TYPE node_memory_Shmem_bytes gauge
-node_memory_Shmem_bytes 6.0321792e+07
+node_memory_Shmem_bytes 6.0297216e+07
 # HELP node_memory_Slab_bytes Memory information field Slab_bytes.
 # TYPE node_memory_Slab_bytes gauge
-node_memory_Slab_bytes 6.66902528e+08
+node_memory_Slab_bytes 1.34213632e+08
 # HELP node_memory_SwapCached_bytes Memory information field SwapCached_bytes.
 # TYPE node_memory_SwapCached_bytes gauge
 node_memory_SwapCached_bytes 0
@@ -570,7 +575,7 @@ node_memory_VmallocChunk_bytes 0
 node_memory_VmallocTotal_bytes 1.38535235485696e+14
 # HELP node_memory_VmallocUsed_bytes Memory information field VmallocUsed_bytes.
 # TYPE node_memory_VmallocUsed_bytes gauge
-node_memory_VmallocUsed_bytes 2.2843392e+07
+node_memory_VmallocUsed_bytes 2.2908928e+07
 # HELP node_memory_WritebackTmp_bytes Memory information field WritebackTmp_bytes.
 # TYPE node_memory_WritebackTmp_bytes gauge
 node_memory_WritebackTmp_bytes 0
@@ -580,9 +585,6 @@ node_memory_Writeback_bytes 0
 # HELP node_memory_Zswap_bytes Memory information field Zswap_bytes.
 # TYPE node_memory_Zswap_bytes gauge
 node_memory_Zswap_bytes 0
-# HELP node_memory_Zswapped_bytes Memory information field Zswapped_bytes.
-# TYPE node_memory_Zswapped_bytes gauge
-node_memory_Zswapped_bytes 0
 # HELP node_netstat_Icmp6_InErrors Statistic Icmp6InErrors.
 # TYPE node_netstat_Icmp6_InErrors untyped
 node_netstat_Icmp6_InErrors 0
@@ -603,16 +605,16 @@ node_netstat_Icmp_InMsgs 0
 node_netstat_Icmp_OutMsgs 0
 # HELP node_netstat_Ip6_InOctets Statistic Ip6InOctets.
 # TYPE node_netstat_Ip6_InOctets untyped
-node_netstat_Ip6_InOctets 2340
+node_netstat_Ip6_InOctets 2228
 # HELP node_netstat_Ip6_OutOctets Statistic Ip6OutOctets.
 # TYPE node_netstat_Ip6_OutOctets untyped
 node_netstat_Ip6_OutOctets 0
 # HELP node_netstat_IpExt_InOctets Statistic IpExtInOctets.
 # TYPE node_netstat_IpExt_InOctets untyped
-node_netstat_IpExt_InOctets 563783
+node_netstat_IpExt_InOctets 117176
 # HELP node_netstat_IpExt_OutOctets Statistic IpExtOutOctets.
 # TYPE node_netstat_IpExt_OutOctets untyped
-node_netstat_IpExt_OutOctets 1.0034165e+07
+node_netstat_IpExt_OutOctets 2.518704e+06
 # HELP node_netstat_Ip_Forwarding Statistic IpForwarding.
 # TYPE node_netstat_Ip_Forwarding untyped
 node_netstat_Ip_Forwarding 1
@@ -631,6 +633,12 @@ node_netstat_TcpExt_SyncookiesRecv 0
 # HELP node_netstat_TcpExt_SyncookiesSent Statistic TcpExtSyncookiesSent.
 # TYPE node_netstat_TcpExt_SyncookiesSent untyped
 node_netstat_TcpExt_SyncookiesSent 0
+# HELP node_netstat_TcpExt_TCPOFOQueue Statistic TcpExtTCPOFOQueue.
+# TYPE node_netstat_TcpExt_TCPOFOQueue untyped
+node_netstat_TcpExt_TCPOFOQueue 0
+# HELP node_netstat_TcpExt_TCPRcvQDrop Statistic TcpExtTCPRcvQDrop.
+# TYPE node_netstat_TcpExt_TCPRcvQDrop untyped
+node_netstat_TcpExt_TCPRcvQDrop 0
 # HELP node_netstat_TcpExt_TCPSynRetrans Statistic TcpExtTCPSynRetrans.
 # TYPE node_netstat_TcpExt_TCPSynRetrans untyped
 node_netstat_TcpExt_TCPSynRetrans 0
@@ -642,25 +650,25 @@ node_netstat_TcpExt_TCPTimeouts 0
 node_netstat_Tcp_ActiveOpens 0
 # HELP node_netstat_Tcp_CurrEstab Statistic TcpCurrEstab.
 # TYPE node_netstat_Tcp_CurrEstab untyped
-node_netstat_Tcp_CurrEstab 3
+node_netstat_Tcp_CurrEstab 2
 # HELP node_netstat_Tcp_InErrs Statistic TcpInErrs.
 # TYPE node_netstat_Tcp_InErrs untyped
 node_netstat_Tcp_InErrs 0
 # HELP node_netstat_Tcp_InSegs Statistic TcpInSegs.
 # TYPE node_netstat_Tcp_InSegs untyped
-node_netstat_Tcp_InSegs 6407
+node_netstat_Tcp_InSegs 934
 # HELP node_netstat_Tcp_OutRsts Statistic TcpOutRsts.
 # TYPE node_netstat_Tcp_OutRsts untyped
 node_netstat_Tcp_OutRsts 0
 # HELP node_netstat_Tcp_OutSegs Statistic TcpOutSegs.
 # TYPE node_netstat_Tcp_OutSegs untyped
-node_netstat_Tcp_OutSegs 8441
+node_netstat_Tcp_OutSegs 2016
 # HELP node_netstat_Tcp_PassiveOpens Statistic TcpPassiveOpens.
 # TYPE node_netstat_Tcp_PassiveOpens untyped
-node_netstat_Tcp_PassiveOpens 3
+node_netstat_Tcp_PassiveOpens 2
 # HELP node_netstat_Tcp_RetransSegs Statistic TcpRetransSegs.
 # TYPE node_netstat_Tcp_RetransSegs untyped
-node_netstat_Tcp_RetransSegs 6
+node_netstat_Tcp_RetransSegs 2
 # HELP node_netstat_Udp6_InDatagrams Statistic Udp6InDatagrams.
 # TYPE node_netstat_Udp6_InDatagrams untyped
 node_netstat_Udp6_InDatagrams 0
@@ -709,9 +717,9 @@ node_network_address_assign_type{device="docker0"} 3
 node_network_address_assign_type{device="docker_gwbridge"} 3
 node_network_address_assign_type{device="eth0"} 0
 node_network_address_assign_type{device="lo"} 0
-node_network_address_assign_type{device="veth31968d1"} 3
-node_network_address_assign_type{device="veth5e36ade"} 3
-node_network_address_assign_type{device="vetha3f1e13"} 3
+node_network_address_assign_type{device="veth022e40e"} 3
+node_network_address_assign_type{device="veth2f7a14c"} 3
+node_network_address_assign_type{device="veth36d4ae2"} 3
 node_network_address_assign_type{device="virbr0"} 3
 node_network_address_assign_type{device="wlan0"} 0
 # HELP node_network_carrier Network device property: carrier
@@ -719,42 +727,42 @@ node_network_address_assign_type{device="wlan0"} 0
 node_network_carrier{device="docker0"} 0
 node_network_carrier{device="docker_gwbridge"} 1
 node_network_carrier{device="lo"} 1
-node_network_carrier{device="veth31968d1"} 1
-node_network_carrier{device="veth5e36ade"} 1
-node_network_carrier{device="vetha3f1e13"} 1
+node_network_carrier{device="veth022e40e"} 1
+node_network_carrier{device="veth2f7a14c"} 1
+node_network_carrier{device="veth36d4ae2"} 1
 node_network_carrier{device="virbr0"} 0
 node_network_carrier{device="wlan0"} 1
 # HELP node_network_carrier_changes_total Network device property: carrier_changes_total
 # TYPE node_network_carrier_changes_total counter
-node_network_carrier_changes_total{device="docker0"} 3
+node_network_carrier_changes_total{device="docker0"} 1
 node_network_carrier_changes_total{device="docker_gwbridge"} 2
 node_network_carrier_changes_total{device="eth0"} 0
 node_network_carrier_changes_total{device="lo"} 0
-node_network_carrier_changes_total{device="veth31968d1"} 2
-node_network_carrier_changes_total{device="veth5e36ade"} 2
-node_network_carrier_changes_total{device="vetha3f1e13"} 2
+node_network_carrier_changes_total{device="veth022e40e"} 2
+node_network_carrier_changes_total{device="veth2f7a14c"} 2
+node_network_carrier_changes_total{device="veth36d4ae2"} 2
 node_network_carrier_changes_total{device="virbr0"} 1
 node_network_carrier_changes_total{device="wlan0"} 2
 # HELP node_network_carrier_down_changes_total Network device property: carrier_down_changes_total
 # TYPE node_network_carrier_down_changes_total counter
-node_network_carrier_down_changes_total{device="docker0"} 2
+node_network_carrier_down_changes_total{device="docker0"} 1
 node_network_carrier_down_changes_total{device="docker_gwbridge"} 1
 node_network_carrier_down_changes_total{device="eth0"} 0
 node_network_carrier_down_changes_total{device="lo"} 0
-node_network_carrier_down_changes_total{device="veth31968d1"} 1
-node_network_carrier_down_changes_total{device="veth5e36ade"} 1
-node_network_carrier_down_changes_total{device="vetha3f1e13"} 1
+node_network_carrier_down_changes_total{device="veth022e40e"} 1
+node_network_carrier_down_changes_total{device="veth2f7a14c"} 1
+node_network_carrier_down_changes_total{device="veth36d4ae2"} 1
 node_network_carrier_down_changes_total{device="virbr0"} 1
 node_network_carrier_down_changes_total{device="wlan0"} 1
 # HELP node_network_carrier_up_changes_total Network device property: carrier_up_changes_total
 # TYPE node_network_carrier_up_changes_total counter
-node_network_carrier_up_changes_total{device="docker0"} 1
+node_network_carrier_up_changes_total{device="docker0"} 0
 node_network_carrier_up_changes_total{device="docker_gwbridge"} 1
 node_network_carrier_up_changes_total{device="eth0"} 0
 node_network_carrier_up_changes_total{device="lo"} 0
-node_network_carrier_up_changes_total{device="veth31968d1"} 1
-node_network_carrier_up_changes_total{device="veth5e36ade"} 1
-node_network_carrier_up_changes_total{device="vetha3f1e13"} 1
+node_network_carrier_up_changes_total{device="veth022e40e"} 1
+node_network_carrier_up_changes_total{device="veth2f7a14c"} 1
+node_network_carrier_up_changes_total{device="veth36d4ae2"} 1
 node_network_carrier_up_changes_total{device="virbr0"} 0
 node_network_carrier_up_changes_total{device="wlan0"} 1
 # HELP node_network_device_id Network device property: device_id
@@ -763,9 +771,9 @@ node_network_device_id{device="docker0"} 0
 node_network_device_id{device="docker_gwbridge"} 0
 node_network_device_id{device="eth0"} 0
 node_network_device_id{device="lo"} 0
-node_network_device_id{device="veth31968d1"} 0
-node_network_device_id{device="veth5e36ade"} 0
-node_network_device_id{device="vetha3f1e13"} 0
+node_network_device_id{device="veth022e40e"} 0
+node_network_device_id{device="veth2f7a14c"} 0
+node_network_device_id{device="veth36d4ae2"} 0
 node_network_device_id{device="virbr0"} 0
 node_network_device_id{device="wlan0"} 0
 # HELP node_network_dormant Network device property: dormant
@@ -773,9 +781,9 @@ node_network_device_id{device="wlan0"} 0
 node_network_dormant{device="docker0"} 0
 node_network_dormant{device="docker_gwbridge"} 0
 node_network_dormant{device="lo"} 0
-node_network_dormant{device="veth31968d1"} 0
-node_network_dormant{device="veth5e36ade"} 0
-node_network_dormant{device="vetha3f1e13"} 0
+node_network_dormant{device="veth022e40e"} 0
+node_network_dormant{device="veth2f7a14c"} 0
+node_network_dormant{device="veth36d4ae2"} 0
 node_network_dormant{device="virbr0"} 0
 node_network_dormant{device="wlan0"} 0
 # HELP node_network_flags Network device property: flags
@@ -784,31 +792,31 @@ node_network_flags{device="docker0"} 4099
 node_network_flags{device="docker_gwbridge"} 4099
 node_network_flags{device="eth0"} 4098
 node_network_flags{device="lo"} 9
-node_network_flags{device="veth31968d1"} 4867
-node_network_flags{device="veth5e36ade"} 4867
-node_network_flags{device="vetha3f1e13"} 4867
+node_network_flags{device="veth022e40e"} 4867
+node_network_flags{device="veth2f7a14c"} 4867
+node_network_flags{device="veth36d4ae2"} 4867
 node_network_flags{device="virbr0"} 4099
 node_network_flags{device="wlan0"} 4099
 # HELP node_network_iface_id Network device property: iface_id
 # TYPE node_network_iface_id gauge
-node_network_iface_id{device="docker0"} 5
-node_network_iface_id{device="docker_gwbridge"} 6
+node_network_iface_id{device="docker0"} 6
+node_network_iface_id{device="docker_gwbridge"} 5
 node_network_iface_id{device="eth0"} 2
 node_network_iface_id{device="lo"} 1
-node_network_iface_id{device="veth31968d1"} 11
-node_network_iface_id{device="veth5e36ade"} 97
-node_network_iface_id{device="vetha3f1e13"} 84
+node_network_iface_id{device="veth022e40e"} 27
+node_network_iface_id{device="veth2f7a14c"} 11
+node_network_iface_id{device="veth36d4ae2"} 45
 node_network_iface_id{device="virbr0"} 4
 node_network_iface_id{device="wlan0"} 3
 # HELP node_network_iface_link Network device property: iface_link
 # TYPE node_network_iface_link gauge
-node_network_iface_link{device="docker0"} 5
-node_network_iface_link{device="docker_gwbridge"} 6
+node_network_iface_link{device="docker0"} 6
+node_network_iface_link{device="docker_gwbridge"} 5
 node_network_iface_link{device="eth0"} 2
 node_network_iface_link{device="lo"} 1
-node_network_iface_link{device="veth31968d1"} 10
-node_network_iface_link{device="veth5e36ade"} 96
-node_network_iface_link{device="vetha3f1e13"} 83
+node_network_iface_link{device="veth022e40e"} 26
+node_network_iface_link{device="veth2f7a14c"} 10
+node_network_iface_link{device="veth36d4ae2"} 44
 node_network_iface_link{device="virbr0"} 4
 node_network_iface_link{device="wlan0"} 3
 # HELP node_network_iface_link_mode Network device property: iface_link_mode
@@ -817,31 +825,31 @@ node_network_iface_link_mode{device="docker0"} 0
 node_network_iface_link_mode{device="docker_gwbridge"} 0
 node_network_iface_link_mode{device="eth0"} 0
 node_network_iface_link_mode{device="lo"} 0
-node_network_iface_link_mode{device="veth31968d1"} 0
-node_network_iface_link_mode{device="veth5e36ade"} 0
-node_network_iface_link_mode{device="vetha3f1e13"} 0
+node_network_iface_link_mode{device="veth022e40e"} 0
+node_network_iface_link_mode{device="veth2f7a14c"} 0
+node_network_iface_link_mode{device="veth36d4ae2"} 0
 node_network_iface_link_mode{device="virbr0"} 0
 node_network_iface_link_mode{device="wlan0"} 1
 # HELP node_network_info Non-numeric data from /sys/class/net/<iface>, value is always 1.
 # TYPE node_network_info gauge
 node_network_info{address="00:00:00:00:00:00",adminstate="up",broadcast="00:00:00:00:00:00",device="lo",duplex="",ifalias="",operstate="unknown"} 1
-node_network_info{address="52:0f:4b:3c:d2:1f",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="docker_gwbridge",duplex="unknown",ifalias="",operstate="up"} 1
 node_network_info{address="52:54:00:cc:8f:ef",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="virbr0",duplex="unknown",ifalias="",operstate="down"} 1
+node_network_info{address="7e:e9:18:a1:a2:11",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="veth2f7a14c",duplex="full",ifalias="",operstate="up"} 1
 node_network_info{address="88:a2:9e:26:67:a6",adminstate="down",broadcast="ff:ff:ff:ff:ff:ff",device="eth0",duplex="",ifalias="",operstate="down"} 1
 node_network_info{address="88:a2:9e:26:67:a7",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="wlan0",duplex="",ifalias="",operstate="up"} 1
-node_network_info{address="c2:c8:04:42:b4:51",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="vetha3f1e13",duplex="full",ifalias="",operstate="up"} 1
-node_network_info{address="e6:83:c3:00:1e:a3",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="veth5e36ade",duplex="full",ifalias="",operstate="up"} 1
-node_network_info{address="ea:fa:86:e1:87:58",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="docker0",duplex="unknown",ifalias="",operstate="down"} 1
-node_network_info{address="fa:c4:b7:e7:f5:7d",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="veth31968d1",duplex="full",ifalias="",operstate="up"} 1
+node_network_info{address="a2:aa:1e:9b:cf:c4",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="veth36d4ae2",duplex="full",ifalias="",operstate="up"} 1
+node_network_info{address="b6:f7:ee:a3:91:18",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="docker_gwbridge",duplex="unknown",ifalias="",operstate="up"} 1
+node_network_info{address="e2:61:ef:f8:6c:9d",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="veth022e40e",duplex="full",ifalias="",operstate="up"} 1
+node_network_info{address="e6:1d:6a:35:db:8c",adminstate="up",broadcast="ff:ff:ff:ff:ff:ff",device="docker0",duplex="unknown",ifalias="",operstate="down"} 1
 # HELP node_network_mtu_bytes Network device property: mtu_bytes
 # TYPE node_network_mtu_bytes gauge
 node_network_mtu_bytes{device="docker0"} 1500
 node_network_mtu_bytes{device="docker_gwbridge"} 1500
 node_network_mtu_bytes{device="eth0"} 1500
 node_network_mtu_bytes{device="lo"} 65536
-node_network_mtu_bytes{device="veth31968d1"} 1500
-node_network_mtu_bytes{device="veth5e36ade"} 1500
-node_network_mtu_bytes{device="vetha3f1e13"} 1500
+node_network_mtu_bytes{device="veth022e40e"} 1500
+node_network_mtu_bytes{device="veth2f7a14c"} 1500
+node_network_mtu_bytes{device="veth36d4ae2"} 1500
 node_network_mtu_bytes{device="virbr0"} 1500
 node_network_mtu_bytes{device="wlan0"} 1500
 # HELP node_network_name_assign_type Network device property: name_assign_type
@@ -850,9 +858,9 @@ node_network_name_assign_type{device="docker0"} 3
 node_network_name_assign_type{device="docker_gwbridge"} 3
 node_network_name_assign_type{device="eth0"} 1
 node_network_name_assign_type{device="lo"} 2
-node_network_name_assign_type{device="veth31968d1"} 3
-node_network_name_assign_type{device="veth5e36ade"} 3
-node_network_name_assign_type{device="vetha3f1e13"} 3
+node_network_name_assign_type{device="veth022e40e"} 3
+node_network_name_assign_type{device="veth2f7a14c"} 3
+node_network_name_assign_type{device="veth36d4ae2"} 3
 node_network_name_assign_type{device="virbr0"} 3
 # HELP node_network_net_dev_group Network device property: net_dev_group
 # TYPE node_network_net_dev_group gauge
@@ -860,9 +868,9 @@ node_network_net_dev_group{device="docker0"} 0
 node_network_net_dev_group{device="docker_gwbridge"} 0
 node_network_net_dev_group{device="eth0"} 0
 node_network_net_dev_group{device="lo"} 0
-node_network_net_dev_group{device="veth31968d1"} 0
-node_network_net_dev_group{device="veth5e36ade"} 0
-node_network_net_dev_group{device="vetha3f1e13"} 0
+node_network_net_dev_group{device="veth022e40e"} 0
+node_network_net_dev_group{device="veth2f7a14c"} 0
+node_network_net_dev_group{device="veth36d4ae2"} 0
 node_network_net_dev_group{device="virbr0"} 0
 node_network_net_dev_group{device="wlan0"} 0
 # HELP node_network_protocol_type Network device property: protocol_type
@@ -871,120 +879,103 @@ node_network_protocol_type{device="docker0"} 1
 node_network_protocol_type{device="docker_gwbridge"} 1
 node_network_protocol_type{device="eth0"} 1
 node_network_protocol_type{device="lo"} 772
-node_network_protocol_type{device="veth31968d1"} 1
-node_network_protocol_type{device="veth5e36ade"} 1
-node_network_protocol_type{device="vetha3f1e13"} 1
+node_network_protocol_type{device="veth022e40e"} 1
+node_network_protocol_type{device="veth2f7a14c"} 1
+node_network_protocol_type{device="veth36d4ae2"} 1
 node_network_protocol_type{device="virbr0"} 1
 node_network_protocol_type{device="wlan0"} 1
 # HELP node_network_receive_bytes_total Network device statistic receive_bytes.
 # TYPE node_network_receive_bytes_total counter
-node_network_receive_bytes_total{device="eth0"} 653975
-node_network_receive_bytes_total{device="eth1"} 2928
-node_network_receive_bytes_total{device="eth2"} 0
+node_network_receive_bytes_total{device="eth0"} 138
+node_network_receive_bytes_total{device="eth1"} 134554
 node_network_receive_bytes_total{device="lo"} 0
 # HELP node_network_receive_compressed_total Network device statistic receive_compressed.
 # TYPE node_network_receive_compressed_total counter
 node_network_receive_compressed_total{device="eth0"} 0
 node_network_receive_compressed_total{device="eth1"} 0
-node_network_receive_compressed_total{device="eth2"} 0
 node_network_receive_compressed_total{device="lo"} 0
 # HELP node_network_receive_drop_total Network device statistic receive_drop.
 # TYPE node_network_receive_drop_total counter
 node_network_receive_drop_total{device="eth0"} 0
 node_network_receive_drop_total{device="eth1"} 0
-node_network_receive_drop_total{device="eth2"} 0
 node_network_receive_drop_total{device="lo"} 0
 # HELP node_network_receive_errs_total Network device statistic receive_errs.
 # TYPE node_network_receive_errs_total counter
 node_network_receive_errs_total{device="eth0"} 0
 node_network_receive_errs_total{device="eth1"} 0
-node_network_receive_errs_total{device="eth2"} 0
 node_network_receive_errs_total{device="lo"} 0
 # HELP node_network_receive_fifo_total Network device statistic receive_fifo.
 # TYPE node_network_receive_fifo_total counter
 node_network_receive_fifo_total{device="eth0"} 0
 node_network_receive_fifo_total{device="eth1"} 0
-node_network_receive_fifo_total{device="eth2"} 0
 node_network_receive_fifo_total{device="lo"} 0
 # HELP node_network_receive_frame_total Network device statistic receive_frame.
 # TYPE node_network_receive_frame_total counter
 node_network_receive_frame_total{device="eth0"} 0
 node_network_receive_frame_total{device="eth1"} 0
-node_network_receive_frame_total{device="eth2"} 0
 node_network_receive_frame_total{device="lo"} 0
 # HELP node_network_receive_multicast_total Network device statistic receive_multicast.
 # TYPE node_network_receive_multicast_total counter
 node_network_receive_multicast_total{device="eth0"} 0
 node_network_receive_multicast_total{device="eth1"} 0
-node_network_receive_multicast_total{device="eth2"} 0
 node_network_receive_multicast_total{device="lo"} 0
 # HELP node_network_receive_nohandler_total Network device statistic receive_nohandler.
 # TYPE node_network_receive_nohandler_total counter
 node_network_receive_nohandler_total{device="eth0"} 0
 node_network_receive_nohandler_total{device="eth1"} 0
-node_network_receive_nohandler_total{device="eth2"} 0
 node_network_receive_nohandler_total{device="lo"} 0
 # HELP node_network_receive_packets_total Network device statistic receive_packets.
 # TYPE node_network_receive_packets_total counter
-node_network_receive_packets_total{device="eth0"} 6418
-node_network_receive_packets_total{device="eth1"} 30
-node_network_receive_packets_total{device="eth2"} 0
+node_network_receive_packets_total{device="eth0"} 3
+node_network_receive_packets_total{device="eth1"} 999
 node_network_receive_packets_total{device="lo"} 0
 # HELP node_network_speed_bytes Network device property: speed_bytes
 # TYPE node_network_speed_bytes gauge
 node_network_speed_bytes{device="docker0"} -125000
 node_network_speed_bytes{device="docker_gwbridge"} 1.25e+09
-node_network_speed_bytes{device="veth31968d1"} 1.25e+09
-node_network_speed_bytes{device="veth5e36ade"} 1.25e+09
-node_network_speed_bytes{device="vetha3f1e13"} 1.25e+09
+node_network_speed_bytes{device="veth022e40e"} 1.25e+09
+node_network_speed_bytes{device="veth2f7a14c"} 1.25e+09
+node_network_speed_bytes{device="veth36d4ae2"} 1.25e+09
 node_network_speed_bytes{device="virbr0"} -125000
 # HELP node_network_transmit_bytes_total Network device statistic transmit_bytes.
 # TYPE node_network_transmit_bytes_total counter
-node_network_transmit_bytes_total{device="eth0"} 1.0115295e+07
-node_network_transmit_bytes_total{device="eth1"} 126
-node_network_transmit_bytes_total{device="eth2"} 126
+node_network_transmit_bytes_total{device="eth0"} 126
+node_network_transmit_bytes_total{device="eth1"} 2.533894e+06
 node_network_transmit_bytes_total{device="lo"} 0
 # HELP node_network_transmit_carrier_total Network device statistic transmit_carrier.
 # TYPE node_network_transmit_carrier_total counter
 node_network_transmit_carrier_total{device="eth0"} 0
 node_network_transmit_carrier_total{device="eth1"} 0
-node_network_transmit_carrier_total{device="eth2"} 0
 node_network_transmit_carrier_total{device="lo"} 0
 # HELP node_network_transmit_colls_total Network device statistic transmit_colls.
 # TYPE node_network_transmit_colls_total counter
 node_network_transmit_colls_total{device="eth0"} 0
 node_network_transmit_colls_total{device="eth1"} 0
-node_network_transmit_colls_total{device="eth2"} 0
 node_network_transmit_colls_total{device="lo"} 0
 # HELP node_network_transmit_compressed_total Network device statistic transmit_compressed.
 # TYPE node_network_transmit_compressed_total counter
 node_network_transmit_compressed_total{device="eth0"} 0
 node_network_transmit_compressed_total{device="eth1"} 0
-node_network_transmit_compressed_total{device="eth2"} 0
 node_network_transmit_compressed_total{device="lo"} 0
 # HELP node_network_transmit_drop_total Network device statistic transmit_drop.
 # TYPE node_network_transmit_drop_total counter
 node_network_transmit_drop_total{device="eth0"} 0
 node_network_transmit_drop_total{device="eth1"} 0
-node_network_transmit_drop_total{device="eth2"} 0
 node_network_transmit_drop_total{device="lo"} 0
 # HELP node_network_transmit_errs_total Network device statistic transmit_errs.
 # TYPE node_network_transmit_errs_total counter
 node_network_transmit_errs_total{device="eth0"} 0
 node_network_transmit_errs_total{device="eth1"} 0
-node_network_transmit_errs_total{device="eth2"} 0
 node_network_transmit_errs_total{device="lo"} 0
 # HELP node_network_transmit_fifo_total Network device statistic transmit_fifo.
 # TYPE node_network_transmit_fifo_total counter
 node_network_transmit_fifo_total{device="eth0"} 0
 node_network_transmit_fifo_total{device="eth1"} 0
-node_network_transmit_fifo_total{device="eth2"} 0
 node_network_transmit_fifo_total{device="lo"} 0
 # HELP node_network_transmit_packets_total Network device statistic transmit_packets.
 # TYPE node_network_transmit_packets_total counter
-node_network_transmit_packets_total{device="eth0"} 5783
-node_network_transmit_packets_total{device="eth1"} 3
-node_network_transmit_packets_total{device="eth2"} 3
+node_network_transmit_packets_total{device="eth0"} 3
+node_network_transmit_packets_total{device="eth1"} 993
 node_network_transmit_packets_total{device="lo"} 0
 # HELP node_network_transmit_queue_length Network device property: transmit_queue_length
 # TYPE node_network_transmit_queue_length gauge
@@ -992,9 +983,9 @@ node_network_transmit_queue_length{device="docker0"} 0
 node_network_transmit_queue_length{device="docker_gwbridge"} 0
 node_network_transmit_queue_length{device="eth0"} 1000
 node_network_transmit_queue_length{device="lo"} 1000
-node_network_transmit_queue_length{device="veth31968d1"} 0
-node_network_transmit_queue_length{device="veth5e36ade"} 0
-node_network_transmit_queue_length{device="vetha3f1e13"} 0
+node_network_transmit_queue_length{device="veth022e40e"} 0
+node_network_transmit_queue_length{device="veth2f7a14c"} 0
+node_network_transmit_queue_length{device="veth36d4ae2"} 0
 node_network_transmit_queue_length{device="virbr0"} 1000
 node_network_transmit_queue_length{device="wlan0"} 1000
 # HELP node_network_up Value is 1 if operstate is 'up', 0 otherwise.
@@ -1003,14 +994,14 @@ node_network_up{device="docker0"} 0
 node_network_up{device="docker_gwbridge"} 1
 node_network_up{device="eth0"} 0
 node_network_up{device="lo"} 0
-node_network_up{device="veth31968d1"} 1
-node_network_up{device="veth5e36ade"} 1
-node_network_up{device="vetha3f1e13"} 1
+node_network_up{device="veth022e40e"} 1
+node_network_up{device="veth2f7a14c"} 1
+node_network_up{device="veth36d4ae2"} 1
 node_network_up{device="virbr0"} 0
 node_network_up{device="wlan0"} 1
 # HELP node_nf_conntrack_entries Number of currently allocated flow entries for connection tracking.
 # TYPE node_nf_conntrack_entries gauge
-node_nf_conntrack_entries 3
+node_nf_conntrack_entries 2
 # HELP node_nf_conntrack_entries_limit Maximum size of connection tracking table.
 # TYPE node_nf_conntrack_entries_limit gauge
 node_nf_conntrack_entries_limit 262144
@@ -1025,90 +1016,91 @@ node_os_info{build_id="",id="ubuntu",id_like="debian",image_id="",image_version=
 node_os_version{id="ubuntu",id_like="debian",name="Ubuntu"} 25.04
 # HELP node_pressure_cpu_waiting_seconds_total Total time in seconds that processes have waited for CPU time
 # TYPE node_pressure_cpu_waiting_seconds_total counter
-node_pressure_cpu_waiting_seconds_total 899.669323
+node_pressure_cpu_waiting_seconds_total 12.912282999999999
 # HELP node_pressure_io_stalled_seconds_total Total time in seconds no process could make progress due to IO congestion
 # TYPE node_pressure_io_stalled_seconds_total counter
-node_pressure_io_stalled_seconds_total 4776.351016
+node_pressure_io_stalled_seconds_total 14.394867
 # HELP node_pressure_io_waiting_seconds_total Total time in seconds that processes have waited due to IO congestion
 # TYPE node_pressure_io_waiting_seconds_total counter
-node_pressure_io_waiting_seconds_total 4963.231102
+node_pressure_io_waiting_seconds_total 15.530457
 # HELP node_pressure_memory_stalled_seconds_total Total time in seconds no process could make progress due to memory congestion
 # TYPE node_pressure_memory_stalled_seconds_total counter
-node_pressure_memory_stalled_seconds_total 0.00011899999999999999
+node_pressure_memory_stalled_seconds_total 4e-06
 # HELP node_pressure_memory_waiting_seconds_total Total time in seconds that processes have waited for memory
 # TYPE node_pressure_memory_waiting_seconds_total counter
-node_pressure_memory_waiting_seconds_total 0.00011899999999999999
+node_pressure_memory_waiting_seconds_total 4e-06
 # HELP node_procs_blocked Number of processes blocked waiting for I/O to complete.
 # TYPE node_procs_blocked gauge
-node_procs_blocked 0
+node_procs_blocked 1
 # HELP node_procs_running Number of processes in runnable state.
 # TYPE node_procs_running gauge
 node_procs_running 1
 # HELP node_schedstat_running_seconds_total Number of seconds CPU spent running a process.
 # TYPE node_schedstat_running_seconds_total counter
-node_schedstat_running_seconds_total{cpu="0"} 9959.896475619
-node_schedstat_running_seconds_total{cpu="1"} 10274.407319494
-node_schedstat_running_seconds_total{cpu="2"} 10225.746807581
-node_schedstat_running_seconds_total{cpu="3"} 9776.177056566
+node_schedstat_running_seconds_total{cpu="0"} 66.801787201
+node_schedstat_running_seconds_total{cpu="1"} 247.66841846
+node_schedstat_running_seconds_total{cpu="2"} 98.436969586
+node_schedstat_running_seconds_total{cpu="3"} 166.543613318
 # HELP node_schedstat_timeslices_total Number of timeslices executed by CPU.
 # TYPE node_schedstat_timeslices_total counter
-node_schedstat_timeslices_total{cpu="0"} 1.53424002e+08
-node_schedstat_timeslices_total{cpu="1"} 1.34444767e+08
-node_schedstat_timeslices_total{cpu="2"} 1.34110064e+08
-node_schedstat_timeslices_total{cpu="3"} 1.34547779e+08
+node_schedstat_timeslices_total{cpu="0"} 896031
+node_schedstat_timeslices_total{cpu="1"} 767546
+node_schedstat_timeslices_total{cpu="2"} 781001
+node_schedstat_timeslices_total{cpu="3"} 804289
 # HELP node_schedstat_waiting_seconds_total Number of seconds spent by processing waiting for this CPU.
 # TYPE node_schedstat_waiting_seconds_total counter
-node_schedstat_waiting_seconds_total{cpu="0"} 783.401530284
-node_schedstat_waiting_seconds_total{cpu="1"} 629.41103224
-node_schedstat_waiting_seconds_total{cpu="2"} 634.715080465
-node_schedstat_waiting_seconds_total{cpu="3"} 624.818888527
+node_schedstat_waiting_seconds_total{cpu="0"} 17.237402579
+node_schedstat_waiting_seconds_total{cpu="1"} 21.129269888
+node_schedstat_waiting_seconds_total{cpu="2"} 20.346884921
+node_schedstat_waiting_seconds_total{cpu="3"} 19.21193932
 # HELP node_scrape_collector_duration_seconds node_exporter: Duration of a collector scrape.
 # TYPE node_scrape_collector_duration_seconds gauge
-node_scrape_collector_duration_seconds{collector="arp"} 0.00031285
-node_scrape_collector_duration_seconds{collector="bcache"} 1.9162e-05
-node_scrape_collector_duration_seconds{collector="bonding"} 1.4422e-05
-node_scrape_collector_duration_seconds{collector="btrfs"} 0.000251179
-node_scrape_collector_duration_seconds{collector="conntrack"} 0.000104511
-node_scrape_collector_duration_seconds{collector="cpu"} 0.000670911
-node_scrape_collector_duration_seconds{collector="cpufreq"} 0.015374719
-node_scrape_collector_duration_seconds{collector="diskstats"} 0.000339584
-node_scrape_collector_duration_seconds{collector="dmi"} 1.61e-06
-node_scrape_collector_duration_seconds{collector="edac"} 4.9025e-05
-node_scrape_collector_duration_seconds{collector="entropy"} 0.000136152
-node_scrape_collector_duration_seconds{collector="fibrechannel"} 1.172e-05
-node_scrape_collector_duration_seconds{collector="filefd"} 4.9692e-05
-node_scrape_collector_duration_seconds{collector="filesystem"} 0.034300148
-node_scrape_collector_duration_seconds{collector="hwmon"} 0.045283954
-node_scrape_collector_duration_seconds{collector="infiniband"} 9.794e-06
-node_scrape_collector_duration_seconds{collector="ipvs"} 0.000102234
-node_scrape_collector_duration_seconds{collector="loadavg"} 4.31e-05
-node_scrape_collector_duration_seconds{collector="mdadm"} 5.1173e-05
-node_scrape_collector_duration_seconds{collector="meminfo"} 0.000271879
-node_scrape_collector_duration_seconds{collector="netclass"} 0.009072365
-node_scrape_collector_duration_seconds{collector="netdev"} 0.00048403
-node_scrape_collector_duration_seconds{collector="netstat"} 0.001249621
-node_scrape_collector_duration_seconds{collector="nfs"} 2.0958e-05
-node_scrape_collector_duration_seconds{collector="nfsd"} 4.0175e-05
-node_scrape_collector_duration_seconds{collector="nvme"} 0.000192213
-node_scrape_collector_duration_seconds{collector="os"} 4.7119e-05
-node_scrape_collector_duration_seconds{collector="powersupplyclass"} 4.3434e-05
-node_scrape_collector_duration_seconds{collector="pressure"} 0.000214022
-node_scrape_collector_duration_seconds{collector="rapl"} 3.3825e-05
-node_scrape_collector_duration_seconds{collector="schedstat"} 9.2904e-05
-node_scrape_collector_duration_seconds{collector="selinux"} 5.221e-06
-node_scrape_collector_duration_seconds{collector="sockstat"} 0.000183011
-node_scrape_collector_duration_seconds{collector="softnet"} 0.000101753
-node_scrape_collector_duration_seconds{collector="stat"} 0.000237461
-node_scrape_collector_duration_seconds{collector="tapestats"} 1.096e-05
-node_scrape_collector_duration_seconds{collector="textfile"} 1.1071e-05
-node_scrape_collector_duration_seconds{collector="thermal_zone"} 0.000471922
-node_scrape_collector_duration_seconds{collector="time"} 0.000149778
-node_scrape_collector_duration_seconds{collector="timex"} 2.2531e-05
-node_scrape_collector_duration_seconds{collector="udp_queues"} 0.000247181
-node_scrape_collector_duration_seconds{collector="uname"} 1.1127e-05
-node_scrape_collector_duration_seconds{collector="vmstat"} 0.000214374
-node_scrape_collector_duration_seconds{collector="xfs"} 1.1534e-05
-node_scrape_collector_duration_seconds{collector="zfs"} 1.4218e-05
+node_scrape_collector_duration_seconds{collector="arp"} 0.000279525
+node_scrape_collector_duration_seconds{collector="bcache"} 1.6235e-05
+node_scrape_collector_duration_seconds{collector="bonding"} 2.4713e-05
+node_scrape_collector_duration_seconds{collector="btrfs"} 0.000846794
+node_scrape_collector_duration_seconds{collector="conntrack"} 0.000109292
+node_scrape_collector_duration_seconds{collector="cpu"} 0.000738482
+node_scrape_collector_duration_seconds{collector="cpufreq"} 0.019259676
+node_scrape_collector_duration_seconds{collector="diskstats"} 0.001942549
+node_scrape_collector_duration_seconds{collector="dmi"} 5.37e-07
+node_scrape_collector_duration_seconds{collector="edac"} 5.3962e-05
+node_scrape_collector_duration_seconds{collector="entropy"} 0.000155793
+node_scrape_collector_duration_seconds{collector="fibrechannel"} 1.4569e-05
+node_scrape_collector_duration_seconds{collector="filefd"} 5.5442e-05
+node_scrape_collector_duration_seconds{collector="filesystem"} 0.027858503
+node_scrape_collector_duration_seconds{collector="hwmon"} 0.049615445
+node_scrape_collector_duration_seconds{collector="infiniband"} 1.4551e-05
+node_scrape_collector_duration_seconds{collector="ipvs"} 0.000143021
+node_scrape_collector_duration_seconds{collector="loadavg"} 4.4964e-05
+node_scrape_collector_duration_seconds{collector="mdadm"} 0.000130488
+node_scrape_collector_duration_seconds{collector="meminfo"} 0.000254997
+node_scrape_collector_duration_seconds{collector="netclass"} 0.009139753
+node_scrape_collector_duration_seconds{collector="netdev"} 0.000557624
+node_scrape_collector_duration_seconds{collector="netstat"} 0.001231463
+node_scrape_collector_duration_seconds{collector="nfs"} 2.9933e-05
+node_scrape_collector_duration_seconds{collector="nfsd"} 2.3491e-05
+node_scrape_collector_duration_seconds{collector="nvme"} 0.00020533
+node_scrape_collector_duration_seconds{collector="os"} 9.4298e-05
+node_scrape_collector_duration_seconds{collector="powersupplyclass"} 5.5312e-05
+node_scrape_collector_duration_seconds{collector="pressure"} 0.000199351
+node_scrape_collector_duration_seconds{collector="rapl"} 3.7542e-05
+node_scrape_collector_duration_seconds{collector="schedstat"} 0.000117734
+node_scrape_collector_duration_seconds{collector="selinux"} 2.295e-06
+node_scrape_collector_duration_seconds{collector="sockstat"} 0.000208459
+node_scrape_collector_duration_seconds{collector="softnet"} 0.000109126
+node_scrape_collector_duration_seconds{collector="stat"} 0.000216937
+node_scrape_collector_duration_seconds{collector="tapestats"} 1.2644e-05
+node_scrape_collector_duration_seconds{collector="textfile"} 3.8023e-05
+node_scrape_collector_duration_seconds{collector="thermal_zone"} 0.000505829
+node_scrape_collector_duration_seconds{collector="time"} 0.00017871
+node_scrape_collector_duration_seconds{collector="timex"} 2.8896e-05
+node_scrape_collector_duration_seconds{collector="udp_queues"} 0.000276767
+node_scrape_collector_duration_seconds{collector="uname"} 1.4883e-05
+node_scrape_collector_duration_seconds{collector="vmstat"} 0.000282024
+node_scrape_collector_duration_seconds{collector="watchdog"} 0.000335022
+node_scrape_collector_duration_seconds{collector="xfs"} 1.4217e-05
+node_scrape_collector_duration_seconds{collector="zfs"} 2.3251e-05
 # HELP node_scrape_collector_success node_exporter: Whether a collector succeeded.
 # TYPE node_scrape_collector_success gauge
 node_scrape_collector_success{collector="arp"} 1
@@ -1154,6 +1146,7 @@ node_scrape_collector_success{collector="timex"} 1
 node_scrape_collector_success{collector="udp_queues"} 1
 node_scrape_collector_success{collector="uname"} 1
 node_scrape_collector_success{collector="vmstat"} 1
+node_scrape_collector_success{collector="watchdog"} 1
 node_scrape_collector_success{collector="xfs"} 1
 node_scrape_collector_success{collector="zfs"} 0
 # HELP node_selinux_enabled SELinux is enabled, 1 is true, 0 is false
@@ -1179,10 +1172,10 @@ node_sockstat_RAW6_inuse 0
 node_sockstat_RAW_inuse 0
 # HELP node_sockstat_TCP6_inuse Number of TCP6 sockets in state inuse.
 # TYPE node_sockstat_TCP6_inuse gauge
-node_sockstat_TCP6_inuse 4
+node_sockstat_TCP6_inuse 2
 # HELP node_sockstat_TCP_alloc Number of TCP sockets in state alloc.
 # TYPE node_sockstat_TCP_alloc gauge
-node_sockstat_TCP_alloc 26
+node_sockstat_TCP_alloc 32
 # HELP node_sockstat_TCP_inuse Number of TCP sockets in state inuse.
 # TYPE node_sockstat_TCP_inuse gauge
 node_sockstat_TCP_inuse 1
@@ -1218,7 +1211,7 @@ node_sockstat_UDP_mem 0
 node_sockstat_UDP_mem_bytes 0
 # HELP node_sockstat_sockets_used Number of IPv4 sockets in use.
 # TYPE node_sockstat_sockets_used gauge
-node_sockstat_sockets_used 9
+node_sockstat_sockets_used 8
 # HELP node_softnet_backlog_len Softnet backlog status
 # TYPE node_softnet_backlog_len gauge
 node_softnet_backlog_len{cpu="0"} 0
@@ -1245,10 +1238,10 @@ node_softnet_flow_limit_count_total{cpu="2"} 0
 node_softnet_flow_limit_count_total{cpu="3"} 0
 # HELP node_softnet_processed_total Number of processed packets
 # TYPE node_softnet_processed_total counter
-node_softnet_processed_total{cpu="0"} 885399
-node_softnet_processed_total{cpu="1"} 2.358517e+06
-node_softnet_processed_total{cpu="2"} 2.354013e+06
-node_softnet_processed_total{cpu="3"} 2.799109e+06
+node_softnet_processed_total{cpu="0"} 7851
+node_softnet_processed_total{cpu="1"} 15474
+node_softnet_processed_total{cpu="2"} 16060
+node_softnet_processed_total{cpu="3"} 21390
 # HELP node_softnet_received_rps_total Number of times cpu woken up received_rps
 # TYPE node_softnet_received_rps_total counter
 node_softnet_received_rps_total{cpu="0"} 0
@@ -1266,7 +1259,7 @@ node_softnet_times_squeezed_total{cpu="3"} 0
 node_textfile_scrape_error 0
 # HELP node_thermal_zone_temp Zone temperature in Celsius
 # TYPE node_thermal_zone_temp gauge
-node_thermal_zone_temp{type="cpu-thermal",zone="0"} 52.9
+node_thermal_zone_temp{type="cpu-thermal",zone="0"} 47.4
 # HELP node_time_clocksource_available_info Available clocksources read from '/sys/devices/system/clocksource'.
 # TYPE node_time_clocksource_available_info gauge
 node_time_clocksource_available_info{clocksource="arch_sys_counter",device="0"} 1
@@ -1275,7 +1268,7 @@ node_time_clocksource_available_info{clocksource="arch_sys_counter",device="0"} 
 node_time_clocksource_current_info{clocksource="arch_sys_counter",device="0"} 1
 # HELP node_time_seconds System time in seconds since epoch (1970).
 # TYPE node_time_seconds gauge
-node_time_seconds 1.7626410966362245e+09
+node_time_seconds 1.7644623362176132e+09
 # HELP node_time_zone_offset_seconds System time zone offset in seconds.
 # TYPE node_time_zone_offset_seconds gauge
 node_time_zone_offset_seconds{time_zone="UTC"} 0
@@ -1284,16 +1277,16 @@ node_time_zone_offset_seconds{time_zone="UTC"} 0
 node_timex_estimated_error_seconds 0
 # HELP node_timex_frequency_adjustment_ratio Local clock frequency adjustment.
 # TYPE node_timex_frequency_adjustment_ratio gauge
-node_timex_frequency_adjustment_ratio 0.9997795204925537
+node_timex_frequency_adjustment_ratio 0.9996391623382568
 # HELP node_timex_loop_time_constant Phase-locked loop time constant.
 # TYPE node_timex_loop_time_constant gauge
 node_timex_loop_time_constant 4
 # HELP node_timex_maxerror_seconds Maximum error in seconds.
 # TYPE node_timex_maxerror_seconds gauge
-node_timex_maxerror_seconds 0.1265
+node_timex_maxerror_seconds 0.1295
 # HELP node_timex_offset_seconds Time offset in between local system and reference clock.
 # TYPE node_timex_offset_seconds gauge
-node_timex_offset_seconds -0.001446999
+node_timex_offset_seconds -0.000913005
 # HELP node_timex_pps_calibration_total Pulse per second count of calibration intervals.
 # TYPE node_timex_pps_calibration_total counter
 node_timex_pps_calibration_total 0
@@ -1338,46 +1331,70 @@ node_udp_queues{ip="v6",queue="rx"} 0
 node_udp_queues{ip="v6",queue="tx"} 0
 # HELP node_uname_info Labeled system information as provided by the uname system call.
 # TYPE node_uname_info gauge
-node_uname_info{domainname="(none)",machine="aarch64",nodename="0e6c8a383187",release="6.14.0-1014-raspi",sysname="Linux",version="#14-Ubuntu SMP PREEMPT_DYNAMIC Wed Sep  3 17:48:50 UTC 2025"} 1
+node_uname_info{domainname="(none)",machine="aarch64",nodename="fb5446606260",release="6.14.0-1017-raspi",sysname="Linux",version="#17-Ubuntu SMP PREEMPT_DYNAMIC Tue Oct 14 16:43:21 UTC 2025"} 1
 # HELP node_vmstat_oom_kill /proc/vmstat information field oom_kill.
 # TYPE node_vmstat_oom_kill untyped
 node_vmstat_oom_kill 0
 # HELP node_vmstat_pgfault /proc/vmstat information field pgfault.
 # TYPE node_vmstat_pgfault untyped
-node_vmstat_pgfault 8.4473372e+08
+node_vmstat_pgfault 4.891466e+06
 # HELP node_vmstat_pgmajfault /proc/vmstat information field pgmajfault.
 # TYPE node_vmstat_pgmajfault untyped
-node_vmstat_pgmajfault 5887
+node_vmstat_pgmajfault 3061
 # HELP node_vmstat_pgpgin /proc/vmstat information field pgpgin.
 # TYPE node_vmstat_pgpgin untyped
-node_vmstat_pgpgin 1.351474e+06
+node_vmstat_pgpgin 837489
 # HELP node_vmstat_pgpgout /proc/vmstat information field pgpgout.
 # TYPE node_vmstat_pgpgout untyped
-node_vmstat_pgpgout 1.93555604e+08
+node_vmstat_pgpgout 498244
 # HELP node_vmstat_pswpin /proc/vmstat information field pswpin.
 # TYPE node_vmstat_pswpin untyped
 node_vmstat_pswpin 0
 # HELP node_vmstat_pswpout /proc/vmstat information field pswpout.
 # TYPE node_vmstat_pswpout untyped
 node_vmstat_pswpout 0
+# HELP node_watchdog_bootstatus Value of /sys/class/watchdog/<watchdog>/bootstatus
+# TYPE node_watchdog_bootstatus gauge
+node_watchdog_bootstatus{name="watchdog0"} 0
+# HELP node_watchdog_fw_version Value of /sys/class/watchdog/<watchdog>/fw_version
+# TYPE node_watchdog_fw_version gauge
+node_watchdog_fw_version{name="watchdog0"} 0
+# HELP node_watchdog_info Info of /sys/class/watchdog/<watchdog>
+# TYPE node_watchdog_info gauge
+node_watchdog_info{identity="Broadcom BCM2835 Watchdog timer",name="watchdog0",options="0x8180",pretimeout_governor="",state="inactive",status="0x0"} 1
+# HELP node_watchdog_nowayout Value of /sys/class/watchdog/<watchdog>/nowayout
+# TYPE node_watchdog_nowayout gauge
+node_watchdog_nowayout{name="watchdog0"} 0
+# HELP node_watchdog_timeleft_seconds Value of /sys/class/watchdog/<watchdog>/timeleft
+# TYPE node_watchdog_timeleft_seconds gauge
+node_watchdog_timeleft_seconds{name="watchdog0"} 0
+# HELP node_watchdog_timeout_seconds Value of /sys/class/watchdog/<watchdog>/timeout
+# TYPE node_watchdog_timeout_seconds gauge
+node_watchdog_timeout_seconds{name="watchdog0"} 15
 # HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
 # TYPE process_cpu_seconds_total counter
-process_cpu_seconds_total 26.75
+process_cpu_seconds_total 7.8
 # HELP process_max_fds Maximum number of open file descriptors.
 # TYPE process_max_fds gauge
 process_max_fds 1.073741816e+09
+# HELP process_network_receive_bytes_total Number of bytes received by the process over the network.
+# TYPE process_network_receive_bytes_total counter
+process_network_receive_bytes_total 117176
+# HELP process_network_transmit_bytes_total Number of bytes sent by the process over the network.
+# TYPE process_network_transmit_bytes_total counter
+process_network_transmit_bytes_total 2.518704e+06
 # HELP process_open_fds Number of open file descriptors.
 # TYPE process_open_fds gauge
-process_open_fds 10
+process_open_fds 8
 # HELP process_resident_memory_bytes Resident memory size in bytes.
 # TYPE process_resident_memory_bytes gauge
-process_resident_memory_bytes 1.9996672e+07
+process_resident_memory_bytes 2.134016e+07
 # HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
 # TYPE process_start_time_seconds gauge
-process_start_time_seconds 1.76263391e+09
+process_start_time_seconds 1.76446050291e+09
 # HELP process_virtual_memory_bytes Virtual memory size in bytes.
 # TYPE process_virtual_memory_bytes gauge
-process_virtual_memory_bytes 1.270788096e+09
+process_virtual_memory_bytes 1.272102912e+09
 # HELP process_virtual_memory_max_bytes Maximum amount of virtual memory available in bytes.
 # TYPE process_virtual_memory_max_bytes gauge
 process_virtual_memory_max_bytes 1.8446744073709552e+19
@@ -1390,6 +1407,6 @@ promhttp_metric_handler_errors_total{cause="gathering"} 0
 promhttp_metric_handler_requests_in_flight 1
 # HELP promhttp_metric_handler_requests_total Total number of scrapes by HTTP status code.
 # TYPE promhttp_metric_handler_requests_total counter
-promhttp_metric_handler_requests_total{code="200"} 767
+promhttp_metric_handler_requests_total{code="200"} 183
 promhttp_metric_handler_requests_total{code="500"} 0
 promhttp_metric_handler_requests_total{code="503"} 0

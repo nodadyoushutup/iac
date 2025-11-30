@@ -56,49 +56,56 @@ locals {
       overwrite = true
     },
     {
-      name      = "Node Exporter – CPU & Load"
+      name      = "Node Exporter – CPU"
       file      = "node-exporter-cpu-load.json"
       folder    = "Node Exporter"
       uid       = "node-exp-cpu"
       overwrite = true
     },
     {
-      name      = "Node Exporter – Memory & Swap"
+      name      = "Node Exporter – Memory"
       file      = "node-exporter-memory.json"
       folder    = "Node Exporter"
       uid       = "node-exp-mem"
       overwrite = true
     },
     {
-      name      = "Node Exporter – Storage & IO"
+      name      = "Node Exporter – Disk"
       file      = "node-exporter-storage.json"
       folder    = "Node Exporter"
       uid       = "node-exp-storage"
       overwrite = true
     },
     {
-      name      = "Node Exporter – Network & Transport"
+      name      = "Node Exporter – Network"
       file      = "node-exporter-network.json"
       folder    = "Node Exporter"
       uid       = "node-exp-net"
       overwrite = true
     },
     {
-      name      = "Node Exporter – Processes & Alerts"
+      name      = "Node Exporter – Processes"
       file      = "node-exporter-processes.json"
       folder    = "Node Exporter"
       uid       = "node-exp-proc"
       overwrite = true
     },
     {
-      name      = "Node Exporter – Hardware & Sensors"
+      name      = "Node Exporter – Hardware"
       file      = "node-exporter-hardware.json"
       folder    = "Node Exporter"
       uid       = "node-exp-hw"
       overwrite = true
     },
     {
-      name      = "TrueNAS – CPU & Thermals"
+      name      = "TrueNAS – Overview"
+      file      = "truenas-overview.json"
+      folder    = "TrueNAS"
+      uid       = "truenas-overview"
+      overwrite = true
+    },
+    {
+      name      = "TrueNAS – CPU"
       file      = "truenas-cpu-thermals.json"
       folder    = "TrueNAS"
       uid       = "truenas-cpu"

@@ -30,7 +30,7 @@
     "node-exporter"
   ],
   "time": {
-    "from": "now-10m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -44,8 +44,276 @@
   "id": null,
   "panels": [
     {
+      "id": 80,
+      "title": "Average Net Throughput",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg(sum by (instance) (rate(node_network_receive_bytes_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]) + rate(node_network_transmit_bytes_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m])))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5000000.0
+              },
+              {
+                "color": "red",
+                "value": 20000000.0
+              }
+            ]
+          },
+          "unit": "bytespersec"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 81,
+      "title": "Average Errors/Drops",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg(sum by (instance) (rate(node_network_receive_errs_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]) + rate(node_network_transmit_errs_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]) + rate(node_network_receive_drop_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m]) + rate(node_network_transmit_drop_total{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}[5m])))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "eps"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 82,
+      "title": "Average TCP Retrans",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg(rate(node_netstat_Tcp_RetransSegs{instance=~\"$node\"}[5m]))",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "eps"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
+      "id": 83,
+      "title": "Conntrack Utilization",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "targets": [
+        {
+          "expr": "avg((node_nf_conntrack_entries{instance=~\"$node\"} / clamp_min(node_nf_conntrack_entries_limit{instance=~\"$node\"}, 1)) * 100)",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "text": {
+          "titleSize": "12px",
+          "valueSize": "32px"
+        }
+      }
+    },
+    {
       "id": 14,
-      "title": "Network Throughput",
+      "title": "Network Throughput by Node",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -53,9 +321,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 0
+        "y": 5
       },
       "targets": [
         {
@@ -98,9 +366,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
+        "w": 24,
+        "x": 0,
+        "y": 13
       },
       "targets": [
         {
@@ -153,9 +421,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
-        "y": 40
+        "y": 21
       },
       "targets": [
         {
@@ -203,9 +471,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 40
+        "w": 12,
+        "x": 12,
+        "y": 21
       },
       "targets": [
         {
@@ -245,7 +513,7 @@
     },
     {
       "id": 28,
-      "title": "Conntrack Utilization",
+      "title": "Conntrack Entries",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -253,9 +521,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 40
+        "w": 12,
+        "x": 0,
+        "y": 29
       },
       "targets": [
         {
@@ -299,8 +567,8 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
-        "y": 48
+        "x": 12,
+        "y": 29
       },
       "targets": [
         {
@@ -348,9 +616,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 48
+        "w": 24,
+        "x": 0,
+        "y": 37
       },
       "targets": [
         {
@@ -384,47 +652,6 @@
       }
     },
     {
-      "id": 31,
-      "title": "Netstat Overview",
-      "type": "table",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 56
-      },
-      "targets": [
-        {
-          "expr": "node_netstat_Tcp_CurrEstab{instance=~\"$node\"}",
-          "legendFormat": "{{instance}} CurrEstab",
-          "refId": "A"
-        },
-        {
-          "expr": "node_netstat_Tcp_OutSegs{instance=~\"$node\"}",
-          "legendFormat": "{{instance}} OutSegs",
-          "refId": "B"
-        },
-        {
-          "expr": "node_netstat_Tcp_InSegs{instance=~\"$node\"}",
-          "legendFormat": "{{instance}} InSegs",
-          "refId": "C"
-        }
-      ],
-      "options": {
-        "showHeader": true
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      }
-    },
-    {
       "id": 32,
       "title": "Softnet Drops vs Processed",
       "type": "timeseries",
@@ -436,7 +663,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 45
       },
       "targets": [
         {
@@ -481,7 +708,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 64
+        "y": 45
       },
       "targets": [
         {
@@ -526,7 +753,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 72
+        "y": 53
       },
       "targets": [
         {
@@ -553,49 +780,11 @@
           "sort": "desc"
         }
       }
-    },
-    {
-      "id": 35,
-      "title": "Interface Speed & Queue",
-      "type": "table",
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 80
-      },
-      "targets": [
-        {
-          "expr": "node_network_speed_bytes{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}",
-          "legendFormat": "{{instance}} {{device}} speed",
-          "refId": "A",
-          "instant": true
-        },
-        {
-          "expr": "node_network_transmit_queue_length{instance=~\"$node\", device!~\"lo|docker.*|veth.*\"}",
-          "legendFormat": "{{instance}} {{device}} tx_queue",
-          "refId": "B",
-          "instant": true
-        }
-      ],
-      "options": {
-        "showHeader": true
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short"
-        },
-        "overrides": []
-      }
     }
   ],
-  "title": "Node Exporter \u2013 Network & Transport",
+  "title": "Node Exporter \u2013 Network",
   "uid": "node-exp-net",
-  "version": 1,
+  "version": 6,
   "templating": {
     "list": [
       {
