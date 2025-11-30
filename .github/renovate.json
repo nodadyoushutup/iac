@@ -85,6 +85,28 @@
       "docker": {
         "platform": "linux/arm64"
       }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/nodadyoushutup/jenkins-controller"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
+    },
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/nodadyoushutup/jenkins-agent"
+      ],
+      "docker": {
+        "platform": "linux/arm64"
+      }
     }
   ]
 }
