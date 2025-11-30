@@ -86,7 +86,7 @@ resource "docker_service" "grafana" {
     }
 
     container_spec {
-      image = "grafana/grafana:12.3.0@sha256:fb238b17317d9dc532b5dd9008862e3a5c1a248da2c27f420446d3e068a79c46"
+      image = "grafana/grafana:12.3.0@sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8"
       env = {
         GF_SECURITY_ADMIN_USER           = "admin"
         GF_SECURITY_ADMIN_PASSWORD__FILE = "/run/secrets/grafana-admin-password"
