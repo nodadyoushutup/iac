@@ -354,8 +354,8 @@
       }
     },
     {
-      "id": 10,
-      "title": "CPU States by Core",
+      "id": 13,
+      "title": "CPU Usage by Core",
       "type": "timeseries",
       "datasource": {
         "type": "graphite",
@@ -366,6 +366,48 @@
         "w": 24,
         "x": 0,
         "y": 13
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "target": "aliasByNode(asPercent(sumSeriesWithWildcards(truenas.$host.cpu.cpu*.{user,system,iowait,irq,softirq,nice,steal,guest,guest_nice},4), sumSeriesWithWildcards(truenas.$host.cpu.cpu*.{user,system,iowait,irq,softirq,nice,steal,guest,guest_nice,idle},4)),1,3)",
+          "textEditor": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "CPU States by Core",
+      "type": "timeseries",
+      "datasource": {
+        "type": "graphite",
+        "uid": "graphite"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 29
       },
       "targets": [
         {
@@ -405,14 +447,14 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 21
+        "w": 12,
+        "x": 12,
+        "y": 29
       },
       "targets": [
         {
           "refId": "A",
-          "target": "aliasByNode(truenas.$host.cpu.*_cpuidle.*,1,3,4)",
+          "target": "aliasByNode(asPercent(truenas.$host.cpu.cpu*.idle, sumSeriesWithWildcards(truenas.$host.cpu.cpu*.{user,system,iowait,irq,softirq,nice,steal,guest,guest_nice,idle},4)),1,3)",
           "textEditor": true
         }
       ],
@@ -449,7 +491,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 21
       },
       "targets": [
         {
@@ -482,7 +524,7 @@
   ],
   "title": "TrueNAS \u2013 CPU",
   "uid": "truenas-cpu",
-  "version": 10,
+  "version": 15,
   "templating": {
     "list": [
       {
