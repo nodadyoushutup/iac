@@ -242,6 +242,8 @@ purge_remote_node() {
 
   host_allows_internal_suffix "${node_hostname}" && node_hostname="${node_hostname}.internal"
 
+  local ssh_known_hosts="${SWARM_PURGE_KNOWN_HOSTS_FILE:-${HOME}/.ssh/known_hosts}"
+  local ssh_strict="${SWARM_PURGE_STRICT_HOSTS:-no}"
   local host_candidates=(
     "${ssh_user}@${node_hostname}"
     "${ssh_user}@${node_addr}"
@@ -252,7 +254,12 @@ purge_remote_node() {
   for attempt_host in "${host_candidates[@]}"; do
     ensure_known_host "${attempt_host}" || true
 
-    if bundle_script_payload | ssh -o ConnectTimeout=5 "${attempt_host}" "SWARM_PURGE_SKIP_REMOTE=1 SWARM_PURGE_AUTO_TRUST_SSH_HOSTS=${SWARM_PURGE_AUTO_TRUST_SSH_HOSTS:-0} PURGE_PAYLOAD_B64='${PURGE_PAYLOAD_B64:-}' /bin/bash -s"; then
+    if bundle_script_payload | ssh \
+      -o "StrictHostKeyChecking=${ssh_strict}" \
+      -o "UserKnownHostsFile=${ssh_known_hosts}" \
+      -o ConnectTimeout=5 \
+      "${attempt_host}" \
+      "SWARM_PURGE_SKIP_REMOTE=1 SWARM_PURGE_AUTO_TRUST_SSH_HOSTS=${SWARM_PURGE_AUTO_TRUST_SSH_HOSTS:-0} PURGE_PAYLOAD_B64='${PURGE_PAYLOAD_B64:-}' /bin/bash -s"; then
       success_host="${attempt_host}"
       break
     fi

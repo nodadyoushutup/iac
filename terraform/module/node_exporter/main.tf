@@ -104,7 +104,7 @@ resource "docker_service" "node_exporter" {
     ports {
       target_port    = 9100
       published_port = 9100
-      publish_mode   = "ingress"
+      publish_mode   = "host"
     }
   }
 

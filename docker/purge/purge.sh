@@ -93,10 +93,12 @@ run_purge() {
     need_cmd ssh
 
     echo "==> Running ${SERVICE_NAME} purge on ${target_host} via SSH..."
+    local ssh_known_hosts="${SWARM_PURGE_KNOWN_HOSTS_FILE:-${HOME}/.ssh/known_hosts}"
+    local ssh_strict="${SWARM_PURGE_STRICT_HOSTS:-no}"
 
     # Forward relevant SWARM_PURGE_* env vars when present.
     local -a forward_env=()
-    for var in SWARM_PURGE_AUTO_TRUST_SSH_HOSTS SWARM_PURGE_KNOWN_HOSTS_FILE SWARM_PURGE_SSH_KEYSCAN_TIMEOUT SWARM_PURGE_SKIP_REMOTE SWARM_PURGE_SSH_USER; do
+    for var in SWARM_PURGE_AUTO_TRUST_SSH_HOSTS SWARM_PURGE_KNOWN_HOSTS_FILE SWARM_PURGE_SSH_KEYSCAN_TIMEOUT SWARM_PURGE_SKIP_REMOTE SWARM_PURGE_SSH_USER SWARM_PURGE_STRICT_HOSTS; do
       if [[ -n "${!var:-}" ]]; then
         forward_env+=("${var}=${!var}")
       fi
@@ -105,7 +107,12 @@ run_purge() {
       forward_env+=("PURGE_PAYLOAD_B64=${payload_b64}")
     fi
 
-    local -a cmd=(ssh "${target_host}")
+    local -a cmd=(
+      ssh
+      -o "StrictHostKeyChecking=${ssh_strict}"
+      -o "UserKnownHostsFile=${ssh_known_hosts}"
+      "${target_host}"
+    )
     if ((${#forward_env[@]})); then
       cmd+=(env "${forward_env[@]}")
     fi
