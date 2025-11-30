@@ -17,7 +17,7 @@
   ```bash
   docker node update --label-add role=cicd swarm-wk-0
   docker node update --label-rm role swarm-wk-0
-  docker service create --name my-ci-runner --constraint 'node.labels.role==controller' alpine:3.20 sleep 1d
+  docker service create --name my-ci-runner --constraint 'node.labels.role==cicd' alpine:3.20 sleep 1d
   ```
 
 ### `role=monitoring`
@@ -27,7 +27,7 @@
   ```bash
   docker node update --label-add role=monitoring swarm-wk-2
   docker node update --label-rm role swarm-wk-2
-  docker service create --name prom --constraint 'node.labels.role==controller' prom/prometheus
+  docker service create --name prom --constraint 'node.labels.role==monitoring' prom/prometheus
   ```
 
 ### `role=database`
@@ -35,9 +35,9 @@
 - **Placement**: Restrict database services to these nodes and avoid co-locating noisy neighbors.
 - **Usage**:
   ```bash
-  docker node update --label-add role=database swarm-wk-3
-  docker node update --label-rm role swarm-wk-3
-  docker service create --name pg --constraint 'node.labels.role==controller' postgres:16
+  docker node update --label-add role=database swarm-wk-1
+  docker node update --label-rm role swarm-wk-1
+  docker service create --name pg --constraint 'node.labels.role==database' postgres:16
   ```
 
 ### `role=edge`
@@ -45,20 +45,20 @@
 - **Placement**: Label DMZ-capable workers that sit closest to the router/firewall; keep noisy/stateful apps off these nodes so reverse proxies stay responsive.
 - **Usage**:
   ```bash
-  docker node update --label-add role=edge swarm-wk-2
-  docker node update --label-rm role swarm-wk-1
-  docker service create --name npm --constraint 'node.labels.role==controller' jc21/nginx-proxy-manager:2.11.4
+  docker node update --label-add role=edge swarm-wk-3
+  docker node update --label-rm role swarm-wk-3
+  docker service create --name npm --constraint 'node.labels.role==edge' jc21/nginx-proxy-manager:2.12.6
   ```
 
 ## Current homelab node map
 
-| Node        | Swarm role | Availability | Labels         | Notes                                  |
-|-------------|------------|--------------|----------------|----------------------------------------|
-| `swarm-cp-0`| manager    | active       | _none yet_     | Controller/leader, safe place for infra control planes but avoid heavy workloads. |
-| `swarm-wk-0`| worker     | active       | `role=cicd`    | Hosts Jenkins controller/agents and related CI services. |
-| `swarm-wk-1`| worker     | active       | `role=edge`    | Dedicated perimeter node for Nginx Proxy Manager / TLS termination. |
-| `swarm-wk-2`| worker     | active       | `role=monitoring` | Runs Prometheus/Grafana/Alertmanager stacks. |
-| `swarm-wk-3`| worker     | active       | `role=database`| Primary database node (Postgres/MinIO) with durable storage. |
+| Node        | Swarm role | Availability | Labels           | Notes                                                  |
+|-------------|------------|--------------|------------------|--------------------------------------------------------|
+| `swarm-cp-0`| manager    | active       | _none yet_       | Controller/leader; add labels only when needed.        |
+| `swarm-wk-0`| worker     | active       | `role=cicd`      | Hosts Jenkins controller/agents and related CI.        |
+| `swarm-wk-1`| worker     | active       | `role=database`  | Primary database node (durable storage).               |
+| `swarm-wk-2`| worker     | active       | `role=monitoring`| Runs Prometheus/Grafana/Alertmanager stacks.           |
+| `swarm-wk-3`| worker     | active       | `role=edge`      | Perimeter node for Nginx Proxy Manager / TLS handling. |
 
 > Keep this table updated as nodes change roles. Label the manager if you ever need to pin control-plane services (for example, `role=control-plane`).
 
@@ -66,17 +66,17 @@
 ```bash
 # ensure existing labels stay present
 docker node update --label-add role=cicd swarm-wk-0
+docker node update --label-add role=database swarm-wk-1
 docker node update --label-add role=monitoring swarm-wk-2
-docker node update --label-add role=database swarm-wk-3
-docker node update --label-add role=edge swarm-wk-1
+docker node update --label-add role=edge swarm-wk-3
 
 # promote additional database nodes (pick workers with SSD/NVMe)
 docker node update --label-add role=database NODE_WITH_FAST_DISKS   # replace placeholder with the target worker
 
 # quick removals when shifting roles
 docker node update --label-rm role swarm-wk-0
-docker node update --label-rm role swarm-wk-2
 docker node update --label-rm role swarm-wk-1
+docker node update --label-rm role swarm-wk-2
 docker node update --label-rm role swarm-wk-3
 
 # optional: label the controller if you need manager-only workloads
@@ -122,7 +122,7 @@ docker node inspect NODE --format '{{ json .Spec.Labels }}'
 
 ### A) With `docker service create`
 ```bash
-docker service create   --name my-ci-runner   --constraint 'node.labels.role==controller'   alpine:3.20 sleep 1d
+docker service create   --name my-ci-runner   --constraint 'node.labels.role==cicd'   alpine:3.20 sleep 1d
 ```
 
 ### B) In a Compose/Stack file (`docker stack deploy`)
@@ -136,7 +136,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.role==controller
+          - node.labels.role==cicd
 ```
 ```bash
 docker stack deploy -c docker-compose.yml mystack
@@ -147,7 +147,7 @@ docker stack deploy -c docker-compose.yml mystack
 {
   "deploy": {
     "placement": {
-      "constraints": ["node.labels.role==controller"]
+      "constraints": ["node.labels.role==cicd"]
     }
   }
 }
@@ -161,6 +161,3 @@ docker service ps my-ci-runner --no-trunc
 # or for stacks
 docker stack ps mystack --no-trunc
 ```
-  docker node update --label-rm role swarm-wk-1
-  docker service create --name npm --constraint 'node.labels.role==controller' jc21/nginx-proxy-manager:2.11.4
-  ```

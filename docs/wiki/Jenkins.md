@@ -1,38 +1,22 @@
 # Jenkins Overview
 
-The Jenkins stack provides CI/CD orchestration for the platform. Everything
-needed to build, publish, and run the controller and agent images lives under
-`docker/jenkins/`.
+The Jenkins stack provides CI/CD orchestration for the platform. Image build
+contexts live under `docker/jenkins/` and deployments are driven by Terraform +
+Swarm pipelines.
 
-## Controller image
+## Images
 
-- Path: `docker/jenkins/controller/`
-- Built and pushed by
-  `.github/workflows/jenkins_controller_build_push.yml`.
-- Includes bundled plugins defined in `docker/jenkins/controller/plugins.txt`.
+- Controller: `docker/jenkins/controller/` (plugins pinned in `plugins.txt`), built/pushed by `.github/workflows/jenkins_controller_build_push.yml`.
+- Agent: `docker/jenkins/agent/`, built/pushed by `.github/workflows/jenkins_agent_build_push.yml`.
 
-## Agent image
+## Deployment
 
-- Path: `docker/jenkins/agent/`
-- Built and pushed by
-  `.github/workflows/jenkins_agent_build_push.yml`.
-- Tailored for pipeline steps that need Docker, Terraform, and other DevOps
-  tools.
+- Terraform modules: `terraform/module/jenkins/{controller,agent,config}` with stack entrypoints under `terraform/swarm/jenkins/{controller,agent,config}`.
+- Pipelines: `pipeline/jenkins/{controller,agent,config}.{sh,jenkins}` run through the shared Swarm pipeline helper.
+- Tfvars: `~/.tfvars/jenkins/{controller.tfvars,agent.tfvars,config.tfvars}` plus shared backend `~/.tfvars/minio.backend.hcl` (see [[Secrets]]).
+- Purge: `docker/purge/jenkins.sh` tears down Jenkins Swarm artifacts when needed.
 
-## Local development
+## Operations
 
-1. Build the controller image: `docker/jenkins/build-controller.sh`
-2. Build the agent image: `docker/jenkins/build-agent.sh`
-3. Launch the stack with Docker Compose (compose file coming soon).
-
-When you are done, run `docker/purge/jenkins.sh` to clean up dangling images
-and volumes.
-
-## Next steps
-
-- Capture the production Jenkins configuration under `jenkins/` with job
-  definitions managed as code.
-- Document secrets management and credential provisioning once Vault or SSM
-  integration is in place.
-- Integrate Terraform-driven infrastructure for Jenkins itself when the repo
-  becomes the `iac` home.
+- Build/push images locally only if debugging; CI workflows are the source of truth for published tags.
+- Run the controller pipeline first, then agent, then config when rolling out changes. Use Jenkins jobs provisioned by `terraform/module/jenkins/config` for CI-triggered runs.

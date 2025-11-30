@@ -2,24 +2,25 @@
 
 ```
 /
-├── docs/wiki/             # Wiki content synced to GitHub Wiki
+├── docs/
+│   ├── wiki/              # Wiki content (Machines, Secrets, Docker Swarm, service runbooks)
+│   └── planning/          # Stage-based plans for new work
 ├── docker/
-│   ├── jenkins/           # Jenkins Dockerfiles, scripts, and compose assets
-│   └── minio/             # Docker Compose stack that hosts the Terraform S3 backend
-├── pipeline/              # Jenkins pipeline definitions
-├── terraform/             # Terraform modules (coming soon)
-├── AGENTS.md              # Jenkins agent catalog
+│   ├── jenkins/           # Jenkins controller/agent image build contexts
+│   ├── purge/             # Service-specific purge scripts (Swarm cleanup)
+│   └── state/             # Docker Compose stack for MinIO + Renovate
+├── pipeline/              # Swarm pipeline entrypoints + Jenkins wrappers per service
+├── terraform/
+│   ├── module/            # Terraform modules (services, healthcheck helpers, Jenkins jobs)
+│   └── swarm/             # Stack entrypoints per service/stage
+├── AGENTS.md              # Pointer directory to Machines/Secrets/Docker Swarm docs
+├── .github/workflows/     # CI for Jenkins images + wiki sync
 └── renovate.json          # Dependency automation configuration
 ```
 
 ## Conventions
 
-- Place documentation alongside the code it explains. If a new service needs a
-  runbook, create `docs/wiki/<Service>.md` and link it from the sidebar.
-- Add supporting scripts under a service-specific directory (for example,
-  `docker/<service>/`).
-- Infrastructure changes must be reproducible locally—include helper scripts
-  or instructions before opening a PR.
-
-As the repository transitions to `iac`, keep this file updated so the wiki stays
-accurate for new contributors.
+- Place documentation alongside the code it explains. If a new service needs a runbook, create `docs/wiki/<Service>.md` and link it from the sidebar.
+- Add supporting scripts under a service-specific directory (for example, `docker/<service>/` or `docker/purge/<service>.sh`).
+- Keep Terraform/pipeline work reproducible; document tfvars/backend expectations in planning docs and wiki pages.
+- Keep this file updated as services and directories evolve.

@@ -26,7 +26,7 @@
 
 1. Ensure Docker with Compose v2 is installed and that you can run
    `docker compose`.
-2. Create a `.env` file in `docker/minio/` with the variables consumed by
+2. Create a `.env` file in `docker/state/` with the variables consumed by
    `docker-compose.yaml`. Example:
 
    ```bash

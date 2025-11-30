@@ -4,7 +4,7 @@ Reverse proxy automation for edge HTTP/S workloads. The stack follows the **App 
 
 ## Architecture
 
-- **App stage** – `terraform/module/nginx_proxy_manager/app` provisions the Swarm service, overlay network, and persistent volumes. It pins `jc21/nginx-proxy-manager:2.13.2@sha256:342e8cfa…` and constrains placement to nodes labeled `role=edge` (see [[Docker Node Labels]]) so perimeter services stay isolated.
+- **App stage** – `terraform/module/nginx_proxy_manager/app` provisions the Swarm service, overlay network, and persistent volumes. It pins `jc21/nginx-proxy-manager:2.12.6@sha256:6ab097814f54b1362d5fd3c5884a01ddd5878aaae9992ffd218439180f0f92f3` and constrains placement to nodes labeled `role=controller` (see [[Docker Node Labels]]).
 - **Config stage** – `terraform/module/nginx_proxy_manager/config` uses the [`Sander0542/nginxproxymanager`](https://registry.terraform.io/providers/Sander0542/nginxproxymanager/latest/docs) provider to manage certificates, proxy hosts, and access lists. It consumes the app stage’s remote state to reference stack metadata but writes all runtime config through the API.
 - **State storage** – both stages use the shared MinIO backend defined in `~/.tfvars/minio.backend.hcl` (use `endpoints = { s3 = "http://..." }` instead of the deprecated `endpoint` key). The config stage exports `TF_VAR_remote_state_backend` (parsed from that file) so `data "terraform_remote_state"` can fetch `nginx-proxy-manager-app.tfstate` without copy/pasting credentials.
 - **Pipelines/Jenkins** – `pipeline/nginx_proxy_manager/{app,config}.{sh,jenkins}` run through `pipeline/script/swarm_pipeline.sh`. Jenkins jobs live under the `nginx_proxy_manager` folder once `terraform/module/jenkins/config` is applied.
@@ -72,10 +72,10 @@ Both shell stages accept `--tfvars` and `--backend` overrides. The config wrappe
 | Persona | Test | Status | Notes |
 |---------|------|--------|-------|
 | Agent | `TF_LOG=INFO pipeline/nginx_proxy_manager/app.sh --plan` (auto apply) | ✅ | `terraform` init/plan/apply completed; outputs under `/tmp/npm_app_plan.log`. |
-| Agent | `docker service ls` / `docker service ps nginx-proxy-manager --no-trunc` | ⚠️ | Swarm reports `0/1` replicas – no node currently satisfies `node.labels.role==controller`. Label `swarm-wk-1` (or another edge node) before rerunning config stage. |
+| Agent | `docker service ls` / `docker service ps nginx-proxy-manager --no-trunc` | ⚠️ | Swarm reports `0/1` replicas – no node currently satisfies `node.labels.role==controller`. Label the manager (or a target node) before rerunning config stage. |
 | Agent | `TF_LOG=INFO pipeline/nginx_proxy_manager/config.sh --plan` | ⚠️ | Plan fails with `lookup npm.example.com: no such host`; replace placeholder URL in `~/.tfvars/nginx-proxy-manager/config.tfvars` with a reachable NPM endpoint before retrying. |
 | Human | Run Jenkins jobs `nginx_proxy_manager-app` / `nginx_proxy_manager-config` | ⏳ | Pending – requires Jenkins credentials once pipelines are wired into CI. |
-| Human | Hit `https://<npm-domain>:81` and verify proxy hosts | ⏳ | Perform after config plan succeeds and Swarm exposes the service on an edge-labeled node. Document screenshots or curl output in the planning doc. |
+| Human | Hit `https://<npm-domain>:81` and verify proxy hosts | ⏳ | Perform after config plan succeeds and Swarm exposes the service on a controller-labeled node. Document screenshots or curl output in the planning doc. |
 
 ## Reference links
 

@@ -1,6 +1,6 @@
 # Prometheus
 
-Prometheus runs as a Docker Swarm service (single replica on a monitoring node) and scrapes the Node Exporter instances we deployed earlier. Terraform manages both the service definition and the rendered `prometheus.yml` so scrape targets stay version-controlled.
+Prometheus runs as a Docker Swarm service (single replica on a controller-labeled node) and scrapes the Node Exporter instances we deployed earlier. Terraform manages both the service definition and the rendered `prometheus.yml` so scrape targets stay version-controlled.
 
 ## Prerequisites
 
@@ -65,7 +65,7 @@ cd /path/to/homelab
 ### Validation checklist
 
 - `docker service ls | grep prometheus` shows `Replicated: 1/1`.
-- `docker service ps prometheus --no-trunc` confirms the task is running on a monitoring-labeled node.
+- `docker service ps prometheus --no-trunc` confirms the task is running on a controller-labeled node.
 - `curl http://swarm-cp-0.internal:9090/targets` (or via ingress IP) lists all Node Exporter targets as `UP`.
 - `curl -X POST http://swarm-cp-0.internal:9090/-/reload` reloads config without redeploying (thanks to `--web.enable-lifecycle`).
 

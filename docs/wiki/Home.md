@@ -6,35 +6,40 @@ configuration, and documentation for every platform service.
 
 ## What lives here
 
-- **Jenkins automation** – Dockerfiles, pipelines, and helper scripts for the
-  controller and agent images. See [[Jenkins]] for the full tour.
-- **MinIO backend** – A Docker Compose stack that must exist before Terraform
-  runs so the rest of the platform can reuse its S3-compatible state store.
-  See [[MinIO]] for bootstrap and operations details.
-- **Shared docs** – Authoritative notes for operations and design decisions.
-  Each service lands in its own page under this wiki.
-- **Runbooks & references** – Quick pointers for onboarding, incident response,
-  and maintenance as the platform grows.
-- **Nginx Proxy Manager** – Edge reverse proxy automation (app + config Terraform
-  stages, Jenkins pipelines, tfvars guidance). See [[Nginx-Proxy-Manager]].
+- **Machines & secrets** – Inventory, access, and credential locations. See [[Machines]] and [[Secrets]].
+- **Swarm workflows** – Taxonomy, pipelines, tfvars/backends, Jenkins job patterns. See [[Docker Swarm]].
+- **Core stacks** – Jenkins, MinIO, Nginx Proxy Manager, Prometheus, Grafana, Graphite, Node Exporter. See their pages for Terraform/pipeline docs.
+- **Runbooks & references** – Operational notes (labels, repo structure, planning docs).
 
 ## Getting started
 
-1. Clone the repo: `git clone https://github.com/nodadyoushutup/jenkins.git`
-2. Install Docker and Docker Compose (required for local Jenkins work).
-3. Review [[Repo Structure]] to learn where new infrastructure-as-code assets
-   belong.
-4. Run the provided scripts or pipelines before opening PRs to prove
-   reproducibility.
+1. Clone the repo: `git clone https://github.com/nodadyoushutup/homelab.git`
+2. Install Docker and Docker Compose (required for MinIO bootstrap and local testing).
+3. Review [[Repo Structure]] to learn where new infrastructure-as-code assets belong.
+4. Run the provided scripts or pipelines before opening PRs to prove reproducibility.
+
+## Table of contents
+
+- [[Machines]] – host inventory, access, NFS.
+- [[Secrets]] – tfvars/backends, kube configs, env files.
+- [[Docker Swarm]] – workflows, pipelines, tfvars/backends, Jenkins job patterns.
+- [[Repo Structure]] – layout and conventions.
+- [[Jenkins]] – CI/CD images and deployment via Terraform/pipelines.
+- [[MinIO]] – Terraform backend via Docker Compose.
+- [[Nginx-Proxy-Manager]] – app + config Terraform stages.
+- [[Prometheus]] – inline-config Swarm service.
+- [[Grafana]] – app + config provider stages.
+- [[Graphite]] – app-only Swarm service.
+- [[Node-Exporter]] – global Swarm exporter.
+- [[Docker-Node-Labels|Docker Node Labels]] – label strategy and commands.
 
 ## Roadmap toward `homelab`
 
-The Jenkins assets are the first milestone. Upcoming additions will include:
+Core Swarm stacks (Jenkins, Nginx Proxy Manager, Prometheus, Grafana, Graphite, Node Exporter) now ship with Terraform modules and pipelines. Continued work focuses on:
 
-- Terraform modules and environment definitions.
-- Shared CI/CD pipelines for infrastructure changes.
-- Observability tooling (dashboards, alerts, logging pipelines).
-- Documentation and runbooks for every managed service.
+- Hardening/expanding observability (dashboards, alerts, logging pipelines).
+- Tightening CI/CD around Terraform changes and Jenkins job provisioning.
+- Keeping documentation and runbooks current for every managed service.
 
 Contributions should follow an "infrastructure as product" mindset—every new
 component needs automation, documentation, and reproducible workflows.
