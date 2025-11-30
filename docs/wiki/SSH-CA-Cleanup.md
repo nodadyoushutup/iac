@@ -14,6 +14,7 @@ Runbook to scrub SSH CA remediation leftovers on any node after CA trust is full
    ```bash
    sudo grep -nE 'TrustedUserCAKeys|AuthorizedPrincipalsFile' /etc/ssh/sshd_config
    sudo grep -n '^TrustedUserCAKeys' /etc/ssh/sshd_config | wc -l   # expect 1
+   sudo grep -n '^AuthorizedPrincipalsFile' /etc/ssh/sshd_config | wc -l   # expect 1
    ```
    If count > 1 or path wrong:
    ```bash
@@ -21,6 +22,8 @@ Runbook to scrub SSH CA remediation leftovers on any node after CA trust is full
    tmp=$(mktemp)
    sudo awk 'BEGIN{c=0} /^TrustedUserCAKeys[[:space:]]/{c++; if(c>1)next} {print}' /etc/ssh/sshd_config > "$tmp" \
      && sudo mv "$tmp" /etc/ssh/sshd_config
+   sudo grep -q '^AuthorizedPrincipalsFile /etc/ssh/authorized_principals/%u$' /etc/ssh/sshd_config \
+     || echo 'AuthorizedPrincipalsFile /etc/ssh/authorized_principals/%u' | sudo tee -a /etc/ssh/sshd_config
    ```
 
 2) **Authorized principals path and perms**
@@ -49,7 +52,7 @@ Runbook to scrub SSH CA remediation leftovers on any node after CA trust is full
    ```
    If the listed backups are no longer needed:
    ```bash
-   sudo rm /etc/ssh/sshd_config.bak-* /etc/ssh/*.bak /etc/ssh/*.old /etc/ssh/*~
+   sudo rm -rf /etc/ssh/sshd_config.bak-* /etc/ssh/*.bak /etc/ssh/*.old /etc/ssh/*~
    ```
 
 5) **Client config and key inventory (per user on the node)**
